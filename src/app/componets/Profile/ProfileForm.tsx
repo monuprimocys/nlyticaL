@@ -1,0 +1,329 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import { FiPlus } from "react-icons/fi";
+import Image from "next/image";
+import "react-phone-input-2/lib/high-res.css";
+import PhoneInput from "react-phone-input-2";
+import { useUpdateProfileMutation } from "@/app/store/api/auth/ProfileUpdate";
+import Cookies from "js-cookie";
+import "./style.css";
+import { toast } from "react-hot-toast";
+import HeadingText from "./HeadingText";
+
+import phoneverifyicon from "../../../../public/assets/Image/phoneverifyicon.png";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/app/hooks/hooks";
+import { useDispatch } from "react-redux";
+
+const ProfileForm: React.FC = () => {
+  const user_id = Cookies.get("user_id");
+  const [triggerUpdateProfile, { data, isLoading }] =
+    useUpdateProfileMutation();
+  const login_type = Cookies.get("login_type");
+  const [profileData, setProfileData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    mobile: "",
+    image: "",
+    country_code: "",
+  });
+
+  console.log(
+    "fjhasdbfjsdgbfhjgbfjsdfsa0 fewrsrsrfsfdsdfds , ",
+    data?.service_id
+  );
+  Cookies.set("email", data?.userdetails.email);
+  Cookies.set("mobile", data?.userdetails.mobile);
+  Cookies.set("service_id", data?.store_id);
+
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [PhonenumberInputBox, setPhonenumberInputBox] = useState({
+    mobile: "",
+    country_code: "",
+    country: "",
+  });
+
+  const dispatch = useDispatch();
+
+  // dispatch(updateUserDetails(data));
+
+  // console.log("phone number121212", imageFile);
+
+  useEffect(() => {
+    if (user_id) {
+      triggerUpdateProfile({ user_id });
+    }
+  }, [user_id, triggerUpdateProfile]);
+
+  useEffect(() => {
+    if (data?.status) {
+      const { first_name, last_name, email, mobile, image, country_code } =
+        data.userdetails;
+
+      setProfileData({
+        first_name,
+        last_name,
+        email,
+        mobile,
+        image,
+        country_code,
+      });
+
+      // Split the country code for the PhoneInput (without the '+')
+      const countryCode = country_code.replace("+", ""); // Removing '+' from the country code
+
+      setPhonenumberInputBox({
+        mobile: mobile || "",
+        country_code: countryCode || "",
+        country: countryCode || "", // Use the country code without '+'
+      });
+
+      setImagePreview(image);
+    }
+  }, [data]);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setProfileData({
+      ...profileData,
+      [name]: value,
+    });
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Prepare the form data for submission
+    const formData = new FormData();
+    formData.append("user_id", user_id || "");
+    formData.append("first_name", profileData.first_name);
+    formData.append("last_name", profileData.last_name);
+    formData.append("email", profileData.email);
+    formData.append("mobile", PhonenumberInputBox.mobile || "");
+    formData.append("country_code", `+${PhonenumberInputBox.country_code}`);
+
+    // Append the image file if it's provided
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+
+    // Send the form data to the API
+    const response = await triggerUpdateProfile(formData);
+
+    if (response?.data?.status) {
+      setProfileData((prevData) => ({
+        ...prevData,
+        image: response.data.userdetails.image,
+      }));
+    }
+
+    toast.success(response.data?.message);
+    triggerUpdateProfile({ user_id });
+    window.location.reload();
+  };
+
+  const router = useRouter();
+
+  // console.log("file upload" ,imageFile)
+
+  return (
+    <div className="flex h-auto w-full flex-col gap-6 py-[2rem]">
+      {/* heading */}
+      <HeadingText text="Profile" text1="" /> 
+
+      {/* form */}
+      <div className="h-auto w-full">
+        <form
+          onSubmit={handleSubmit}
+          className="flex h-auto w-full flex-col items-center justify-center"
+        >
+          {/* profile Image */}
+          <div className="relative">
+            {/* Profile image section */}
+            <div
+              className="profileimageborderocolor h-[8rem] w-[8rem] cursor-pointer rounded-full" // Added cursor-pointer for click effect
+              onClick={() => document.getElementById("image").click()} // Trigger input on click
+            >
+              <Image
+                src={imagePreview || "/default-profile.jpg"}
+                alt={"Profile Image"}
+                className="profileimageborderocolor h-full w-full rounded-full object-cover"
+                width={128}
+                height={128}
+              />
+            </div>
+
+            <div
+              className="absolute right-0 top-[5rem] h-10 w-10 cursor-pointer rounded-full bg-white p-[3px]"
+              onClick={() => document.getElementById("image").click()}
+            >
+              <div className="flex h-full w-full items-center justify-center rounded-full bg-[#0046AE]">
+                <FiPlus className="font-poppins text-xl text-white" />
+              </div>
+            </div>
+
+            <div className="mt-2 cursor-pointer">
+              <label
+                htmlFor="image"
+                className="font-poppins text-lg font-medium text-black"
+              >
+                Change Profile
+              </label>
+            </div>
+
+            {/* File input */}
+            <input
+              type="file"
+              id="image"
+              name="image"
+              className="hidden"
+              onChange={handleImageChange} // Handle file change
+            />
+
+            <div
+              className="font-poppins mt-3 flex w-full cursor-pointer items-center justify-center rounded-lg bg-[#0046AE17] py-2 text-sm font-medium text-[#0046AE]"
+              onClick={() => {
+                router.push("/Subscribe");
+              }}
+            >
+              {data?.subscriptionDetails.plan_name
+                ? data.subscriptionDetails.plan_name
+                : "No plan"}
+            </div>
+          </div>
+
+          <div className="mx-auto flex h-auto w-[90%] flex-col gap-6 xl:w-[80%]">
+            {/* first name */}
+            <div className="w-full">
+              <label
+                className="text-sm font-medium text-[#000000]"
+                htmlFor="first_name"
+              >
+                First Name
+              </label>
+              <div className="relative mt-2 flex items-center">
+                <input
+                  type="text"
+                  id="first_name"
+                  name="first_name"
+                  className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
+                  placeholder="Enter First Name"
+                  value={profileData.first_name}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            {/* last name */}
+            <div className="w-full">
+              <label
+                className="text-sm font-medium text-[#000000]"
+                htmlFor="last_name"
+              >
+                Last Name
+              </label>
+              <div className="relative mt-2 flex items-center">
+                <input
+                  type="text"
+                  id="last_name"
+                  name="last_name"
+                  className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
+                  placeholder="Enter Last Name"
+                  value={profileData.last_name}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            {/* email */}
+            <div className="w-full">
+              <label
+                className="text-sm font-medium text-[#000000]"
+                htmlFor="email"
+              >
+                Email Address
+              </label>
+              <div className="relative mt-2 flex items-center">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
+                  placeholder="Enter Email Address"
+                  value={profileData.email}
+                  onChange={handleChange}
+                  disabled={login_type === "email"}
+                />
+              </div>
+            </div>
+
+            {/* phone number */}
+            <div className="">
+              <label
+                className="font-poppins text-sm font-medium text-[#000000]"
+                htmlFor="mobile"
+              >
+                Mobile Number
+              </label>
+              <div className="bg relative mt-2 w-full">
+                <PhoneInput
+                  placeholder="Enter phone number"
+                  value={data?.userdetails.mobile}
+                  onChange={(value, data) => {
+                    setPhonenumberInputBox({
+                      ...PhonenumberInputBox,
+                      country_code: data.dialCode,
+                      mobile: value,
+                      country: data.countryCode,
+                    });
+                  }}
+                  country={PhonenumberInputBox.country || "in"}
+                  enableSearch
+                  disabled={login_type === "mobile"}
+                />
+
+                {/* icon in input box  */}
+                <div className="absolute right-2 top-1/2 flex -translate-y-1/2 transform items-center justify-center text-gray-500">
+                  <Image
+                    src={phoneverifyicon}
+                    className="h-[40%] w-[40%]"
+                    alt="phoneverifyicon"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* submit btn */}
+            <div className="flex h-auto w-full items-center justify-center">
+              <button
+                type="submit"
+                className="font-poppins w-fit rounded-md border-solid border-[#0046AE] bg-[#0046AE] px-[3.5rem] py-2 text-lg font-medium text-white"
+                disabled={isLoading}
+              >
+                {isLoading ? "Updating..." : "Submit"}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default ProfileForm;

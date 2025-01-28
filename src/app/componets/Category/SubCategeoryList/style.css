@@ -1,0 +1,115 @@
+.inputboxborder {
+  border: 1.12px solid #0046ae75;
+}
+
+.inputboxborder:focus {
+  border: 1.12px solid #0046aeb9;
+}
+
+.border-color {
+  border: 1.12px solid #ececec;
+  box-shadow: 2px 4px 14.4px 0px #0000000f;
+}
+
+.border-color:focus {
+  border: 1.12px solid #0046aeb9;
+}
+
+.locationinputobrder {
+  border: 1px solid #dbdbdb;
+}
+
+.locationinputobrder:focus {
+  border: 1px solid #dbdbdb;
+}
+
+.inputboxbgcolor {
+  background: #0046ae27;
+}
+
+.btnshadow {
+  box-shadow: 0px 2.77px 13.87px 0px #0000000f;
+}
+
+.typeborder {
+  border-bottom: 1px solid #eeeeee;
+  backdrop-filter: blur(7.199999809265137px);
+  background: #00000008;
+}
+
+.typeborder:focus {
+  border-bottom: 1px solid #0046aeb9;
+}
+
+.typeborderbtn {
+  border: 1px solid #0046ae;
+}
+
+.bordercard {
+  border: 1.6px solid #0046ae4a;
+}
+
+.bordercardbtn {
+  border: 1.6px solid #0046aea1;
+}
+
+.circlbordercolor {
+  border: 1px solid #0046ae;
+}
+
+.inputboxborder {
+  border: 1.12px solid #0046ae75;
+}
+
+.inputboxborder:focus {
+  border: 1.12px solid #0046aeb9;
+}
+
+.border-color {
+  border: 1.12px solid #ececec;
+  box-shadow: 2px 4px 14.4px 0px #0000000f;
+}
+
+.border-color:focus {
+  border: 1.12px solid #0046aeb9;
+}
+
+.locationinputobrder {
+  border: 1px solid #dbdbdb;
+}
+
+.locationinputobrder:focus {
+  border: 1px solid #dbdbdb;
+}
+
+.inputboxbgcolor {
+  background: #0046ae21;
+}
+
+.btnshadow {
+  box-shadow: 0px 2.77px 13.87px 0px #0000000f;
+}
+
+.typeborder {
+  border-bottom: 1px solid #eeeeee;
+  backdrop-filter: blur(7.199999809265137px);
+  background: #00000008;
+}
+
+.typeborder:focus {
+  border-bottom: 1px solid #0046aeb9;
+}
+
+.typeborderbtn {
+  border: 1px solid #0046ae;
+}
+
+.bordercard {
+  border: 1.6px solid #0046ae4a;
+}
+
+
+.bordercardbtn{
+  border: 1.6px solid #0046AEA1
+}
+

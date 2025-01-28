@@ -1,0 +1,113 @@
+"use client"; // This is important for Next.js to handle client-side rendering
+import { useAppSelector } from "@/app/hooks/hooks";
+import { hideModal } from "@/app/store/Slice/modalSlice";
+import { Dialog, DialogPanel } from "@headlessui/react";
+import ServiceDetailScreenInputBox from "./ServiceDetailScreenInputBox";
+import arrowright from "../../../../../../public/assets/Image/arrow-right.png";
+
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { useServiceDetailApi } from "@/app/store/api/ServiceDetailScreenApi/useServiceDetailApi";
+
+function ServiceDetailScreenFiltterModal() {
+  const pathname = usePathname();
+  const dispatch = useDispatch();
+  const lastSegment = pathname.split("/").filter(Boolean).pop() || "";
+  const { data, error, isLoading, refetch } = useServiceDetailApi(lastSegment);
+
+  const storedata = data?.stores;
+  const modalData = useAppSelector(
+    (state) => state.modals.ServiceDetailScreenFiltterModal
+  );
+
+  const searchQuery = useAppSelector(
+    (state) => state.serviceDetailScreenInput.searchQuery
+  );
+
+  // Function to close the modal
+  const close = () => {
+    dispatch(hideModal("ServiceDetailScreenFiltterModal"));
+  };
+
+  // Filter stores based on search query
+  const filteredStores = storedata?.filter((store) =>
+    store.store_name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <Dialog open={modalData} onClose={close} as="div" className="z-50">
+      <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
+        <div className="flex min-h-full items-center justify-center">
+          <DialogPanel className="mx-auto h-auto w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[80%] xl:w-[70%] 2xl:w-[40%]">
+            {/* Modal Header */}
+            <div className="flex h-auto w-full items-center justify-center rounded-xl p-4 borderxcolorwithshado">
+              <h3 className="font-poppins text-lg font-medium text-black">
+                {data?.serviceDetail.service_name}
+              </h3>
+            </div>
+
+            {/* Search input box */}
+            <div className="w-full flex flex-col">
+              <div className="flex h-auto w-[70%] mx-auto items-center justify-between m-10">
+                <ServiceDetailScreenInputBox />
+              </div>
+
+              {/* Cards */}
+              <div className="w-[90%] mx-auto">
+                {filteredStores?.length > 0 ? (
+                  filteredStores.map((store, index) => (
+                    <div
+                      key={index}
+                      className="w-full h-32 rounded-xl cursor-pointer flex my-3 bordercolorcard"
+                    >
+                      {/* Left side image */}
+                      <div
+                        className="w-[25%] h-full flex items-center justify-center"
+                        style={{
+                          backgroundImage: `url(${store.store_images[0]})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          backgroundRepeat: "no-repeat",
+                        }}
+                      ></div>
+
+                      {/* Right side */}
+                      <div className="w-full flex flex-col items-center p-4 gap-4">
+                        {/* Top heading */}
+                        <div className="w-full flex justify-between items-center">
+                          <div className="text-sm font-poppins font-medium text-[#0046AE]">
+                            {store.store_name}
+                          </div>
+                          {/* Right arrow */}
+                          <Image
+                            src={arrowright}
+                            alt="right-arrow"
+                            className="w-4 h-4 object-center"
+                          />
+                        </div>
+
+                        {/* Bottom paragraph */}
+                        <div className="w-full flex justify-start items-start">
+                          <p className="text-[#535353] font-poppins line-clamp-3 text-sm">
+                            {store.store_description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center text-sm text-gray-500">
+                    No stores found.
+                  </div>
+                )}
+              </div>
+            </div>
+          </DialogPanel>
+        </div>
+      </div>
+    </Dialog>
+  );
+}
+
+export default ServiceDetailScreenFiltterModal;

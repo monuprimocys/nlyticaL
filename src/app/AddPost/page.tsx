@@ -1,0 +1,127 @@
+"use client";
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
+import { hideModal } from "@/app/store/Slice/modalSlice";
+import { Dialog, DialogPanel } from "@headlessui/react";
+import "./style.css";
+import ModalLable from "./ModalLable";
+import BusinessDetail from "./BusinessDetail/BusinessDetail";
+import ContactDetails from "./ContactDetails/ContactDetails";
+import BusinessTime from "./BusinessTime/BusinessTime";
+import AddStepCurrent from "./AddStepCurrent";
+import Cookies from "js-cookie";
+
+export default function AddPostModal() {
+  const user_id = Cookies.get("user_id");
+  const modalData = useAppSelector((state) => state.modals.AddPostModal);
+  const dispatch = useAppDispatch();
+
+  const AddPostData = useAppSelector((state) => state.AddPost);
+
+  // console.log(AddPostData.add_new_post_steps);
+
+  function close() {
+    dispatch(hideModal("AddPostModal"));
+  }
+
+  const AllAddpostData = useAppSelector((state) => state.AddPost);
+  // console.log("my all add post data 121212121", AllAddpostData);
+
+  // address data
+  const address = useAppSelector((state) => state.address);
+  const location = useAppSelector((state) => state.location);
+
+  const joinAddress =
+    `${address.house} ${address.area} ${address.landmark}`.trim();
+
+  // category values  id
+
+  const category_id = useAppSelector(
+    (state) => state.categorySelected.selectedCategory.id
+  );
+  // console.log("category_id", category_id);
+
+  // subcategory values id
+  const subcategory_id = useAppSelector(
+    (state) => state.subCategorySelected.selectedSubCategory.id
+  );
+  // console.log("subcategory_id", subcategory_id);
+
+  // year  and month
+  const getvalues = useAppSelector((state) => state.monthYear);
+  const published_month = getvalues.monthValue.format("MMMM");
+  const published_year = getvalues.yearValue.format("YYYY");
+
+  // console.log("published_month", getvalues.monthValue.format("MMMM"));
+  // console.log("published_year", getvalues.yearValue.format("YYYY"));
+
+  // selected date
+
+  const selectedDate = useAppSelector((state) => state.businessHours);
+  // console.log("selectedDate", selectedDate.unselectedDays);
+
+  // all values
+
+  const postData = {
+    address: joinAddress,
+    category_id: category_id,
+    subcategory_id: subcategory_id,
+    published_month: published_month,
+    published_year: published_year,
+    service_description: AddPostData.service_description,
+    service_email: AddPostData.service_email,
+    service_image: AddPostData.service_image,
+    service_name: AddPostData.service_name,
+    service_phone: AddPostData.service_phone,
+    service_website: AddPostData.service_website,
+    facebook_link: AddPostData.facebook_link,
+    instagram_link: AddPostData.instagram_link,
+    twitter_link: AddPostData.twitter_link,
+    whatsapp_link: AddPostData.whatsapp_link,
+    vendor_id: user_id,
+    is_featured: AddPostData.is_featured,
+    lat: location.lat,
+    lon: location.lng,
+    open_days: selectedDate.selectedDays.join(","),
+    open_time: selectedDate.startTime,
+    close_time: selectedDate.endTime,
+    closed_days: selectedDate.unselectedDays.join(","),
+    employee_strength: AddPostData.employee_strength,
+    video: "",
+    video_thumbnail: "",
+  };
+
+  // console.log("postData", postData);
+
+  // Logging all the values
+
+  return (
+    <>
+      <Dialog open={modalData} onClose={close} as="div" className="overflow-y-auto">
+        <div className="fixed inset-0 z-10 overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
+          <div className="flex min-h-full items-center justify-center overflow-y-auto">
+            <DialogPanel
+              transition
+              className="mx-auto h-auto w-[90%] overflow-y-auto rounded-2xl bg-white backdrop-blur-2xl duration-300 ease-out xl:w-[58%]"
+            >
+              {/* heading */}
+              <div className="step-container relative flex h-[5rem] w-full items-center justify-center rounded-t-3xl">
+                <ModalLable />
+              </div>
+
+              {/*  step  */}
+              <div className="flex h-[8rem] w-full flex-col items-center justify-center gap-6 bg-[#0046AE0A]">
+                <AddStepCurrent />
+              </div>
+              {/* step form */}
+              <div className="mx-auto mt-[3rem] w-[90%] xl:w-[80%] overflow-y-auto">
+                {AddPostData.add_new_post_steps === 1 && <BusinessDetail />}
+                {AddPostData.add_new_post_steps === 2 && <ContactDetails />}
+                {AddPostData.add_new_post_steps === 3 && <BusinessTime />}
+              </div>
+            </DialogPanel>
+          </div>
+        </div>
+      </Dialog>
+    </>
+  );
+}

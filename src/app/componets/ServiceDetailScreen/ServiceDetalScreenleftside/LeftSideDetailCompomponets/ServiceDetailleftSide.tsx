@@ -1,0 +1,118 @@
+"use client";
+
+import React, { useState } from "react";
+import cardimage from "../../../../../../public/assets/Image/detailscreenimage.png";
+import Image from "next/image";
+import arrowright from "../../../../../../public/assets/Image/arrow-right.png";
+import { usePathname } from "next/navigation";
+import { useServiceDetailApi } from "@/app/store/api/ServiceDetailScreenApi/useServiceDetailApi";
+import { showModal } from "@/app/store/Slice/modalSlice";
+import { useDispatch } from "react-redux";
+import video from "../../../../../../public/assets/lottie_search_anim/lottie_search_anim/Animation - 1736233762512.gif";
+
+function ServiceDetailleftSide() {
+  const pathname = usePathname();
+  const dispatch = useDispatch();
+  const lastSegment = pathname.split("/").filter(Boolean).pop() || "";
+  const { data, error, isLoading, refetch } = useServiceDetailApi(lastSegment);
+
+  const storedata = data?.stores;
+
+  const [showAll, setShowAll] = useState(false); // State to control showing all cards
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  // Slice the data to show only the first 2 cards initially
+  const displayedStores = showAll ? storedata : storedata?.slice(0, 2);
+
+  console.log(" my 1212121222", displayedStores?.length);
+
+  return (
+    <div className="w-full h-auto photoservicedetailborderandshado p-4 rounded-lg">
+      {/* Heading */}
+      <div className="text-lg font-medium items-start font-poppins">
+        Services
+      </div>
+
+      {/* Multiple cards */}
+      {displayedStores?.map((store) => (
+        <div
+          key={store.id}
+          className="w-full h-32 rounded-xl cursor-pointer flex mt-3 bordercolorcard"
+        >
+          {/* Left side image */}
+          <div
+            className="w-[25%] h-full flex items-center justify-center"
+            style={{
+              backgroundImage: `url(${store.store_images[0]})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          ></div>
+
+          {/* Right side */}
+          <div className="w-full flex flex-col  items-center p-4 gap-4">
+            {/* Top heading */}
+            <div className="w-full flex justify-between items-center">
+              <div className="text-sm font-poppins font-medium text-[#0046AE]">
+                {store.store_name}
+              </div>
+              {/* Right arrow */}
+              <Image
+                src={arrowright}
+                alt="right-arrow"
+                className="w-4 h-4 object-center"
+              />
+            </div>
+
+            {/* Bottom paragraph */}
+            <div className="w-full flex justify-start  items-start">
+              <p className="text-[#535353] font-poppins line-clamp-3 text-sm">
+                {store.store_description}
+              </p>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {/*  if service not vaillable then show no service */}
+      {displayedStores?.length == 0 && (
+        <div className="flex h-auto min-h-[20rem] w-full flex-col items-center justify-center text-center">
+          <div className="flex h-[8rem] w-[8rem] items-center justify-center">
+            <Image
+              src={video}
+              alt="Loading animation"
+              width={100}
+              height={100}
+            />
+          </div>
+          <h2 className="font-poppins font-medium text-black">No Data Found</h2>
+        </div>
+      )}
+
+      {/*  btn only show displayedStores?.length =>3  */}
+
+      {displayedStores && displayedStores.length >= 2 && (
+        <div className="w-full flex justify-center items-center mt-4">
+          <button
+            onClick={() =>
+              dispatch(showModal("ServiceDetailScreenFiltterModal"))
+            } // Last image click
+            className="text-[#0046AE] font-poppins font-medium btnbordercolor px-8 py-2 rounded-md"
+          >
+            {showAll ? "Close" : "All Services"} {/* Toggle button text */}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default ServiceDetailleftSide;

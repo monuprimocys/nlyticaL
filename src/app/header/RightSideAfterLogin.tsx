@@ -1,0 +1,137 @@
+"use client";
+
+import { FiChevronDown } from "react-icons/fi";
+import { CgProfile } from "react-icons/cg";
+import { HiOutlineLogout } from "react-icons/hi";
+import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/react";
+import Image from "next/image";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useUpdateProfileMutation } from "../store/api/auth/ProfileUpdate";
+import { ProfileUpdate } from "../types/Restypes";
+import { toast } from "react-hot-toast";
+import { showModal } from "../store/Slice/modalSlice";
+import { useAppDispatch } from "../hooks/hooks";
+
+const RightSideAfterLogin = () => {
+  const router = useRouter();
+  const user_id = Cookies.get("user_id");
+  const [isLoading, setIsLoading] = useState(true);
+  const [userProfileData, setUserProfileData] = useState<ProfileUpdate | null>(
+    null
+  );
+
+  const dispatch = useAppDispatch();
+
+  const [triggerUpdateProfile] = useUpdateProfileMutation();
+
+  useEffect(() => {
+    if (user_id) {
+      triggerUpdateProfile({ user_id })
+        .then((response) => {
+          if (response?.data) {
+            setUserProfileData(response.data);
+          }
+        })
+        .finally(() => {
+          setIsLoading(false); // Set loading to false after response
+        });
+    } else {
+      setIsLoading(false); // If no user_id, just stop loading
+    }
+  }, [user_id, triggerUpdateProfile]);
+
+  const handleProfileClick = () => {
+    router.push("/Profile");
+  };
+
+  const handleMybusinessClick = () => {
+    router.push("/Mybusiness");
+  };
+
+  const handleLogoutClick = () => {
+    toast.success("Logged out successfully!");
+    Cookies.remove("user_id");
+    Cookies.remove("is_store");
+    dispatch(showModal("LogoutModal"));
+    window.location.href = "/";
+
+    // Clear user profile data state
+    setUserProfileData(null);
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const isStore = Cookies.get("is_store");
+
+  return (
+    <div className="flex items-center gap-4 text-white">
+      <Menu>
+        <MenuButton className="inline-flex items-center gap-2 rounded-md px-3  py-1.5 text-sm/6 focus:outline-none">
+          <div className="flex items-center gap-2">
+            {/* Profile Picture */}
+            <div className="h-12 w-12 overflow-hidden rounded-full">
+              <Image
+                className="h-full w-full object-cover"
+                src={userProfileData?.userdetails?.image || ""}
+                alt="Profile Pic"
+                width={100}
+                height={100}
+              />
+            </div>
+
+            {/* Display Name and Dropdown Icon */}
+            <div className="hidden items-center gap-2 text-lg text-black lg:flex">
+              {/* <span>{userProfileData?.userdetails?.name || "User"}</span> */}
+              <FiChevronDown />
+            </div>
+          </div>
+        </MenuButton>
+
+        <MenuItems
+          transition
+          anchor="bottom end"
+          className="w-40 origin-top-right rounded-xl border border-white bg-white p-1 text-sm/6 shadow-2xl transition duration-200 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+        >
+          <MenuItem>
+            <button
+              onClick={handleProfileClick}
+              className="group flex w-full items-center gap-2 rounded-lg py-1.5 pl-6 data-[focus]:bg-dropdownOptionHover"
+            >
+              <CgProfile className="text-xl" />
+              <span>My Account</span>
+            </button>
+          </MenuItem>
+
+          {/* when   store   is then show */}
+          {isStore && (
+            <MenuItem>
+              <button
+                onClick={handleMybusinessClick}
+                className="group flex w-full items-center gap-2 rounded-lg py-1.5 pl-6 data-[focus]:bg-dropdownOptionHover"
+              >
+                <CgProfile className="text-xl" />
+                <span>My business</span>
+              </button>
+            </MenuItem>
+          )}
+
+          <MenuItem>
+            <button
+              onClick={handleLogoutClick}
+              className="group flex w-full items-center gap-2 rounded-lg py-1.5 pl-6 text-red-500 data-[focus]:bg-dropdownOptionHover"
+            >
+              <HiOutlineLogout className="text-xl" />
+              <span>Logout</span>
+            </button>
+          </MenuItem>
+        </MenuItems>
+      </Menu>
+    </div>
+  );
+};
+
+export default RightSideAfterLogin;
