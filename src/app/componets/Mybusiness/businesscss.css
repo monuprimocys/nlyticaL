@@ -16,3 +16,9 @@
 
   border-bottom: 1px solid #dbdbdb;
 }
+
+.employe {
+  box-shadow: 2px 4px 14.4px 0px #0000000f;
+
+  border: 1px solid #ececec;
+}

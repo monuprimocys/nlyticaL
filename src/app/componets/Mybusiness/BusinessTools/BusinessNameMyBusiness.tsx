@@ -9,6 +9,11 @@ import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { showModal } from "@/app/store/Slice/modalSlice";
 import { useUpdateServiceMutation } from "@/app/store/api/updateServiceApi"; // Adjust import
+import {
+  addServiceImage,
+  updateServiceField,
+} from "@/app/store/Slice/serviceSlice";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function BusinessNameMyBusiness() {
   const vendor_id = Cookies.get("user_id");
@@ -25,6 +30,8 @@ function BusinessNameMyBusiness() {
     }
   }, [vendor_id, service_id, updateService]);
 
+  console.log("jkhfnjklsdfhjksdfhksfhsdf", data?.service);
+
   // Handle the different states of the API call
   useEffect(() => {
     if (isLoading) {
@@ -37,8 +44,18 @@ function BusinessNameMyBusiness() {
 
     if (data) {
       console.log("API Response:", data);
+
+      dispatch(updateServiceField(data.service));
+      dispatch(addServiceImage(data.service_images));
     }
   }, [data, isLoading, error]);
+
+  const serviceupdatafromstore = useAppSelector((state) => state.service);
+
+  console.log(
+    " my api reponce stor ein slice 12121212",
+    serviceupdatafromstore
+  );
 
   return (
     <div
@@ -55,12 +72,12 @@ function BusinessNameMyBusiness() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="text-xl font-poppins text-black">Business Name  </div>
+        <div className="text-xl font-poppins text-black">Business Name </div>
       </div>
 
       <div className="flex gap-3 items-center">
         <p className="text-[#848484] font-normal font-poppins text-[18px]">
-          {data?.service.service_name}
+          {serviceupdatafromstore.service.service_name}
         </p>
 
         <div className="h-[2rem] w-[2rem] flex justify-center items-center">

@@ -1,12 +1,20 @@
+"use client";
+
 import React from "react";
 import "../businesscss.css";
 import tollsimage from "../../../../../public/assets/Image/supportcustomre.png";
 import Image from "next/image";
 import Arrowleftside from "../../../../../public/assets/Image/arrow-left.png";
+import { useRouter } from "next/navigation";
 
 function CustomeSupport() {
+  const router = useRouter();
+
   return (
-    <div className="mx-auto 2xl:w-[55%] xl:w-[80%] w-[90%] mt-[3rem] businesslable gap-5 rounded-lg py-8 px-12 flex justify-between items-center cursor-pointer">
+    <div
+      className="mx-auto 2xl:w-[55%] xl:w-[80%] w-[90%] mt-[3rem] businesslable gap-5 rounded-lg py-8 px-12 flex justify-between items-center cursor-pointer"
+      onClick={() => router.push("/Mybusiness/Support")}
+    >
       {/* Left Side */}
       <div className="flex justify-start items-center gap-6">
         {/* Image */}

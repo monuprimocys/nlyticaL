@@ -24,6 +24,13 @@ interface ModalState {
   BusinessNameModal: boolean;
   ContactDetailsModal: boolean;
   BusinessAddressToolsModal: boolean;
+  BusinessTimingsModal: boolean;
+  YearEstablishmentModal: boolean;
+  BusinesscategoriesModal: boolean;
+  NumberofEmployeesModal: boolean;
+  BusinessImagesModal: boolean;
+  BusinessWebsiteModal: boolean;
+  FollowSocialMediaModal: boolean;
 }
 
 const initialState: ModalState = {
@@ -50,6 +57,13 @@ const initialState: ModalState = {
   BusinessNameModal: false,
   ContactDetailsModal: false,
   BusinessAddressToolsModal: false,
+  BusinessTimingsModal: false,
+  YearEstablishmentModal: false,
+  BusinesscategoriesModal: false,
+  NumberofEmployeesModal: false,
+  BusinessImagesModal: false,
+  BusinessWebsiteModal: false,
+  FollowSocialMediaModal: false,
 };
 
 const modalSlice = createSlice({

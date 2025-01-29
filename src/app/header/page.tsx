@@ -37,6 +37,13 @@ import ServiceDetailScreenImageSubModal from "../componets/ServiceDetailScreen/S
 import BusinessNameModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/BusinessNameModal";
 import ContactDetailsModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/ContactDetailsModal";
 import BusinessAddressToolsModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/BusinessAddressToolsModal";
+import BusinessTimingsModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/BusinessTimingsModal";
+import YearEstablishmentModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/YearEstablishmentModal";
+import BusinesscategoriesModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/BusinesscategoriesModal";
+import NumberofEmployeesModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/NumberofEmployeesModal";
+import BusinessImagesModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/BusinessImagesModal";
+import BusinessWebsiteModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/BusinessWebsiteModal";
+import FollowSocialMediaModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/FollowSocialMediaModal";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -139,6 +146,34 @@ function Header() {
 
   const isBusinessAddressToolsModalVisibile = useAppSelector(
     (state) => state.modals.BusinessAddressToolsModal
+  );
+
+  const isBusinessTimingsModalVisibile = useAppSelector(
+    (state) => state.modals.BusinessTimingsModal
+  );
+
+  const isYearEstablishmentModalVisibile = useAppSelector(
+    (state) => state.modals.YearEstablishmentModal
+  );
+
+  const isBusinesscategoriesModalVisibile = useAppSelector(
+    (state) => state.modals.BusinesscategoriesModal
+  );
+
+  const isNumberofEmployeesModalVisibile = useAppSelector(
+    (state) => state.modals.NumberofEmployeesModal
+  );
+
+  const isBusinessImagesModalVisibile = useAppSelector(
+    (state) => state.modals.BusinessImagesModal
+  );
+
+  const isBusinessWebsiteModalVisibile = useAppSelector(
+    (state) => state.modals.BusinessWebsiteModal
+  );
+
+  const isFollowSocialMediaModalVisibile = useAppSelector(
+    (state) => state.modals.FollowSocialMediaModal
   );
 
   const handleMenuToggle = () => {
@@ -722,6 +757,13 @@ function Header() {
 
       {isContactDetailsModalVisibile && <ContactDetailsModal />}
       {isBusinessAddressToolsModalVisibile && <BusinessAddressToolsModal />}
+      {isBusinessTimingsModalVisibile && <BusinessTimingsModal />}
+      {isYearEstablishmentModalVisibile && <YearEstablishmentModal />}
+      {isBusinesscategoriesModalVisibile && <BusinesscategoriesModal />}
+      {isNumberofEmployeesModalVisibile && <NumberofEmployeesModal />}
+      {isBusinessImagesModalVisibile && <BusinessImagesModal />}
+      {isBusinessWebsiteModalVisibile && <BusinessWebsiteModal />}
+      {isFollowSocialMediaModalVisibile && <FollowSocialMediaModal />}
     </header>
   );
 }

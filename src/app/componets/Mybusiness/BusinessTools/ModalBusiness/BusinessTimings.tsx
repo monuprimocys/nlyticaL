@@ -1,26 +1,20 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import "../../businesscss.css";
-import handsake from "../../../../../../public/assets/Image/myaddress.png";
+import handsake from "../../../../../../public/assets/Image/time.png";
 import Image from "next/image";
 import arrow from "../../../../../../public/assets/Image/arrow-left.png";
 import { useDispatch } from "react-redux";
 import { showModal } from "@/app/store/Slice/modalSlice";
-import { useAppSelector } from "@/app/hooks/hooks";
 
-function BusinessAddressTools() {
-  
+function BusinessTimings() {
   const dispatch = useDispatch();
-   const storevalues = useAppSelector((state) => state.service.service);
-
- 
 
   return (
     <div
       className="w-full justify-between px-8 py-4 rounded-lg items-center flex businesslable cursor-pointer"
       onClick={() => {
-        dispatch(showModal("BusinessAddressToolsModal"));
+        dispatch(showModal("BusinessTimingsModal"));
       }}
     >
       <div className="flex gap-3 items-center">
@@ -31,12 +25,12 @@ function BusinessAddressTools() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="text-xl font-poppins text-black">Business Address</div>
+        <div className="text-xl font-poppins text-black">Business Timings</div>
       </div>
 
       <div className="flex gap-3 items-center">
         <p className="text-[#848484] font-normal font-poppins text-[18px]">
-          {storevalues.address}
+          Open Now
         </p>
 
         <div className="h-[2rem] w-[2rem] flex justify-center items-center">
@@ -51,4 +45,4 @@ function BusinessAddressTools() {
   );
 }
 
-export default BusinessAddressTools;
+export default BusinessTimings;

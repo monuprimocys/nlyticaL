@@ -1,13 +1,13 @@
 "use client";
 import Image from "next/image";
 import React, { useRef, useState } from "react";
-import crossicon from "../../../../../public/assets/Image/add-circle.png";
-import uploadicon from "../../../../../public/assets/Image/uploadicon.png";
+import crossicon from "../../../../../../public/assets/Image/add-circle.png";
+import uploadicon from "../../../../../../public/assets/Image/uploadicon.png";
 import { useDispatch } from "react-redux";
 import { updateServiceImages } from "@/app/store/Slice/AddPostSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 
-function UploadImageAndVideo() {
+function ImageInput() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
   const [uploadedFiles, setUploadedFilesState] = useState<File[]>([]);
@@ -16,7 +16,9 @@ function UploadImageAndVideo() {
     (state) => state.AddPost.service_image
   );
 
- console.log("##################",storesliceImage)
+  const defaultimages = useAppSelector((state) => state.service.service_images);
+
+  console.log("my service image from slice", defaultimages);
 
   const handleFileClick = () => {
     if (fileInputRef.current) {
@@ -56,7 +58,8 @@ function UploadImageAndVideo() {
     });
   };
 
-  const getFileType = (file: File) => {
+  const getFileType = (file: File | string) => {
+    if (typeof file === "string") return "url"; // Handle URL case
     if (file.type.startsWith("image")) return "image";
     if (file.type.startsWith("video")) return "video";
     return "other";
@@ -73,7 +76,7 @@ function UploadImageAndVideo() {
         </label>
 
         <div
-          className="borderinputbox font-poppins mt-2 flex h-[6rem] w-full  !border-[#6565657a] border-[1px] cursor-pointer items-center justify-center rounded-lg  bg-transparent p-3 focus:border-[#0046AE] focus:outline-none"
+          className="borderinputbox font-poppins mt-2 flex h-[6rem] w-full !border-[#6565657a] border-[1px] cursor-pointer items-center justify-center rounded-lg  bg-transparent p-3 focus:border-[#0046AE] focus:outline-none"
           onClick={handleFileClick}
         >
           <input
@@ -90,18 +93,18 @@ function UploadImageAndVideo() {
               alt="upload icon"
               className="h-6 w-6 object-cover"
             />
-            <p className="font-poppins text-[#B4B4B4]">Service Image/Video </p>
+            <p className="font-poppins text-[#B4B4B4]">Service Image/Video</p>
           </div>
         </div>
 
         {/* Display uploaded files from Redux */}
-        <div className=" w-full h-[11.8rem]  md:h-[12rem] xl:h-[11.8rem]  overflow-y-auto">
-          {storesliceImage.length > 0 && (
+        <div className="w-full h-[11.8rem] md:h-[12rem] xl:h-[11.8rem] overflow-y-auto">
+          {defaultimages.length > 0 && (
             <div
-              className={`uploadimageslide mt-2 flex flex-wrap items-start justify-start gap-4 overflow-x-auto pt-4  overflow-y-auto   `}
+              className={`uploadimageslide mt-2 flex flex-wrap items-start justify-start gap-4 overflow-x-auto pt-4 overflow-y-auto`}
             >
-              {storesliceImage.map((file, index) => {
-                const fileType = getFileType(file); // No need to find file since we have it in the array
+              {defaultimages.map((file, index) => {
+                const fileType = getFileType(file); // Determine file type
 
                 return (
                   <div
@@ -109,31 +112,49 @@ function UploadImageAndVideo() {
                     className="relative mt-[-1rem] flex items-center justify-center"
                   >
                     <div className="relative">
-                      {fileType === "image" && file && (
-                        <Image
-                          src={URL.createObjectURL(file)}
-                          alt={`Uploaded image ${index}`}
+                      {/* Handle image file preview */}
+                      {fileType === "image" &&
+                        typeof file !== "string" &&
+                        file && (
+                          <Image
+                            src={URL.createObjectURL(file)}
+                            alt={`Uploaded image ${index}`}
+                            width={80}
+                            height={80}
+                            className="uploadimageborder rounded-md object-cover"
+                          />
+                        )}
+
+                      {/* Handle URL images */}
+                      {fileType === "url" && typeof file === "string" && (
+                        <img
+                          src={file}
+                          alt={`Service image ${index}`}
                           width={80}
                           height={80}
                           className="uploadimageborder rounded-md object-cover"
                         />
                       )}
 
-                      {fileType === "video" && file && (
-                        <video
-                          width={80}
-                          height={80}
-                          className="uploadimageborder rounded-md object-cover"
-                          controls
-                        >
-                          <source
-                            src={URL.createObjectURL(file)}
-                            type={file.type}
-                          />
-                          Your browser does not support the video tag.
-                        </video>
-                      )}
+                      {/* Handle video file preview */}
+                      {fileType === "video" &&
+                        typeof file !== "string" &&
+                        file && (
+                          <video
+                            width={80}
+                            height={80}
+                            className="uploadimageborder rounded-md object-cover"
+                            controls
+                          >
+                            <source
+                              src={URL.createObjectURL(file)}
+                              type={file.type}
+                            />
+                            Your browser does not support the video tag.
+                          </video>
+                        )}
 
+                      {/* Remove file button */}
                       <button
                         className="absolute right-[-0.2rem] top-0 flex items-center justify-center text-sm text-gray-600"
                         onClick={() => handleRemoveFile(index)}
@@ -158,4 +179,4 @@ function UploadImageAndVideo() {
   );
 }
 
-export default UploadImageAndVideo;
+export default ImageInput;

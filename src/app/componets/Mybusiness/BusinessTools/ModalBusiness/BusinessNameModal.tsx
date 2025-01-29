@@ -10,20 +10,22 @@ import { TextField } from "@mui/material";
 import Cookies from "js-cookie";
 import { useUpdateServiceMutation } from "@/app/store/api/updateServiceApi";
 import { useEffect, useState } from "react";
+import { updateServiceField } from "@/app/store/Slice/serviceSlice"; // Import updateServiceField from slice
 
 function BusinessNameModal() {
   const modalOpen = useAppSelector((state) => state.modals.BusinessNameModal);
   const vendor_id = Cookies.get("user_id");
   const service_id = Cookies.get("service_id");
-  
+
+  const storevalues = useAppSelector((state) => state.service.service);
+
   // Form state for business name and description
   const [serviceName, setServiceName] = useState("");
   const [serviceDescription, setServiceDescription] = useState("");
-  
-  const [updateService, { data, isLoading, error }] = useUpdateServiceMutation();
-  
-  console.log("fsdjkifhsjkiufhsdfk@@121212######", data);
-  
+
+  const [updateService, { data, isLoading, error }] =
+    useUpdateServiceMutation();
+
   useEffect(() => {
     if (vendor_id && service_id) {
       const fetchData = async () => {
@@ -32,8 +34,6 @@ function BusinessNameModal() {
             vendor_id,
             service_id,
           }).unwrap();
-          console.log("API Response:", response);
-  
           if (response?.status) {
             setServiceName(response?.service?.service_name || "");
             setServiceDescription(response?.service?.service_description || "");
@@ -42,69 +42,55 @@ function BusinessNameModal() {
           console.error("API Error:", err);
         }
       };
-  
+
       fetchData();
     }
   }, [vendor_id, service_id, updateService]);
-  
+
   // Inside your BusinessNameModal component:
   const dispatch = useAppDispatch();
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // Prepare the data to be sent for updating
+
     const updatedData = {
       vendor_id,
       service_id,
       service_name: serviceName,
       service_description: serviceDescription,
     };
-  
+
     try {
-      // Send update request to the API
       const response = await updateService(updatedData).unwrap();
-  
-      // Handle the API response
+
       if (response?.status) {
         console.log("Service updated successfully:", response);
-        
-        // Refetch data after form submission to reflect the updates
-        const fetchData = async () => {
-          try {
-            const updatedResponse = await updateService({
-              vendor_id,
-              service_id,
-            }).unwrap();
-            console.log("Refetched API Response after update:", updatedResponse);
-  
-            if (updatedResponse?.status) {
-              setServiceName(updatedResponse?.service?.service_name || "");
-              setServiceDescription(updatedResponse?.service?.service_description || "");
-            }
-          } catch (err) {
-            console.error("Refetch API Error:", err);
-          }
-        };
-  
-        // Call fetchData to get the updated information
-        fetchData();
-  
-        // Dispatch action to hide the modal on successful update
+
+        // Dispatch action to update the Redux store with the updated service name and description
+        dispatch(
+          updateServiceField({
+            service_name: serviceName,
+            service_description: serviceDescription,
+          })
+        );
+
+        // Dispatch action to hide the modal
         dispatch(hideModal("BusinessNameModal"));
       } else {
         console.log("Failed to update service:", response?.message);
-        // Handle error or failed update here
       }
     } catch (err) {
       console.error("API Error:", err);
-      // Handle error
     }
   };
-  
 
   return (
-    <Dialog open={modalOpen} onClose={close} as="div" className="z-50">
+    <Dialog
+      open={modalOpen}
+      onClose={() => dispatch(hideModal("BusinessNameModal"))}
+      as="div"
+      className="z-50"
+    >
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full h-auto items-center justify-center">
           <DialogPanel className="mx-auto pb-6 h-auto w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%]">
@@ -115,17 +101,10 @@ function BusinessNameModal() {
 
               <div
                 className="cursor-pointer"
-                onClick={close}
+                onClick={() => dispatch(hideModal("BusinessNameModal"))}
                 aria-label="Close modal"
               >
-                <Image
-                  src={crossicon}
-                  className="h-8 w-8"
-                  alt="Close icon"
-                  onClick={() => {
-                    dispatch(hideModal("BusinessNameModal"));
-                  }}
-                />
+                <Image src={crossicon} className="h-8 w-8" alt="Close icon" />
               </div>
             </div>
 
@@ -162,8 +141,8 @@ function BusinessNameModal() {
                       id="service_name"
                       name="service_name"
                       placeholder="Business Name"
-                      value={serviceName} // Bind the value to the state
-                      onChange={(e) => setServiceName(e.target.value)} // Update the state on change
+                      value={serviceName}
+                      onChange={(e) => setServiceName(e.target.value)}
                       className="border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm"
                       fullWidth
                       required
@@ -184,8 +163,8 @@ function BusinessNameModal() {
                       id="service_description"
                       name="service_description"
                       placeholder="Enter Business Description"
-                      value={serviceDescription} // Bind the value to the state
-                      onChange={(e) => setServiceDescription(e.target.value)} // Update the state on change
+                      value={serviceDescription}
+                      onChange={(e) => setServiceDescription(e.target.value)}
                       className="!border-[#6565657a] border-[1px] rounded-md"
                       variant="outlined"
                       fullWidth

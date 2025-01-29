@@ -13,41 +13,33 @@ import { useUpdateServiceMutation } from "@/app/store/api/updateServiceApi";
 import { useEffect, useState } from "react";
 import "react-phone-input-2/lib/high-res.css";
 import PhoneInput from "react-phone-input-2";
+import { updateServiceField } from "@/app/store/Slice/serviceSlice";
 import { useDispatch } from "react-redux";
 
 function ContactDetailsModal() {
   const modalOpen = useAppSelector((state) => state.modals.ContactDetailsModal);
   const vendor_id = Cookies.get("user_id");
   const service_id = Cookies.get("service_id");
+  const dispatch = useDispatch();
+
   const [updateService, { data, isLoading, error }] =
     useUpdateServiceMutation();
 
-  const dispatch = useDispatch();
-
-  console.log("service_phone", data?.service?.service_phone);
-
-  // Use state to manage the form inputs locally
+  // Initialize form data
   const [formData, setFormData] = useState({
     service_phone: data?.service?.service_phone || "",
     country_code: data?.service?.service_country_code || "",
     email: data?.service?.service_email || "",
   });
 
-  console.log("fsdajkfhjklsghfgk##############", formData);
-
   // Handle phone number change and log values
   const handlePhoneChange = (value, data) => {
-    console.log("Phone Number:", value);
-    console.log("Country Code:", `+${data.dialCode}`);
-
     setFormData({
       ...formData,
       service_phone: value,
       country_code: `+${data.dialCode}`,
     });
   };
-
-  console.log("API Response Data:", data);
 
   useEffect(() => {
     if (vendor_id && service_id) {
@@ -57,10 +49,7 @@ function ContactDetailsModal() {
             vendor_id,
             service_id,
           }).unwrap();
-          console.log("API Response:", response);
-
           if (response?.status) {
-            // Handle success response, update form data
             setFormData({
               service_phone: response?.service?.service_phone || "",
               country_code: response?.service?.service_country_code || "",
@@ -71,22 +60,20 @@ function ContactDetailsModal() {
           console.error("API Error:", err);
         }
       };
-
       fetchData();
     }
   }, [vendor_id, service_id, updateService]);
 
+  // Close modal logic
   const close = () => {
-    // Close modal logic (assuming hideModal action is defined)
-    console.log("Modal Closed");
-    dispatch(hideModal("ContactDetailsModal")); // Assuming you're dispatching hideModal to close the modal
+    dispatch(hideModal("ContactDetailsModal"));
   };
 
   // Handle form submission
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
+    event.preventDefault();
 
-    // Create the payload from form data
+    // Prepare the data to update
     const payload = {
       vendor_id,
       service_id,
@@ -95,15 +82,20 @@ function ContactDetailsModal() {
       service_email: formData.email,
     };
 
-    // Call the mutation to update the service with the new data
     try {
       const response = await updateService(payload).unwrap();
       if (response?.status) {
-        console.log("Service updated successfully:", response.message);
-        // Optionally close the modal or show a success message
+        // Dispatch to update the Redux store with the new values
+        dispatch(
+          updateServiceField({
+            service_phone: formData.service_phone,
+            service_email: formData.email,
+            service_country_code: formData.country_code,
+          })
+        );
         dispatch(hideModal("ContactDetailsModal"));
       } else {
-        console.error("Failed to update service:", response.message);
+        console.error("Failed to update service:", response?.message);
       }
     } catch (err) {
       console.error("API Error:", err);

@@ -36,6 +36,7 @@ import searchInputBoxReducer from "./Slice/category/SearchInputBoxSice";
 import serviceDetailReducer from "./Slice/ServiceDetail/ServiceDetailScreenSlice";
 import serviceDetailScreenInputReducer from "./Slice/ServiceDetail/serviceDetailScreenInputSlice";
 import UpdateprofileSliceReucer from "./Slice/UpdateprofileSlice";
+import serviceReducer from "./Slice/serviceSlice";
 
 // All API File
 import { GetAllCategory } from "./api/useGetCategory";
@@ -96,6 +97,7 @@ export const store = configureStore({
     serviceDetail: serviceDetailReducer,
     serviceDetailScreenInput: serviceDetailScreenInputReducer,
     UpdateprofileSlice: UpdateprofileSliceReucer,
+    service: serviceReducer,
 
     // All Api Methods
     [GetAllCategory.reducerPath]: GetAllCategory.reducer,
