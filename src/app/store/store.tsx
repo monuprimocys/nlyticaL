@@ -37,6 +37,11 @@ import serviceDetailReducer from "./Slice/ServiceDetail/ServiceDetailScreenSlice
 import serviceDetailScreenInputReducer from "./Slice/ServiceDetail/serviceDetailScreenInputSlice";
 import UpdateprofileSliceReucer from "./Slice/UpdateprofileSlice";
 import serviceReducer from "./Slice/serviceSlice";
+import AddStoreReducer from "./Slice/AddStore";
+import UpdateStoreReducer from "./Slice/UpdateStoreSlice";
+import customerSupportSliceReducer from "./Slice/CustomreSupportSlice";
+import activeComponentReducer from "./Slice/activeComponentSlice";
+import darkModeReducer from "./Slice/darkModeSlice";
 
 // All API File
 import { GetAllCategory } from "./api/useGetCategory";
@@ -59,6 +64,7 @@ import { AddService } from "./api/AddService";
 import { filter } from "./api/filter";
 import { servicelike } from "./api/servicelike";
 import { updateService } from "./api/updateServiceApi";
+import { UpdateStoreApi } from "./api/UpdateStoreApi";
 
 export const store = configureStore({
   reducer: {
@@ -98,6 +104,11 @@ export const store = configureStore({
     serviceDetailScreenInput: serviceDetailScreenInputReducer,
     UpdateprofileSlice: UpdateprofileSliceReucer,
     service: serviceReducer,
+    AddStore: AddStoreReducer,
+    UpdateStore: UpdateStoreReducer,
+    customerSupportSlice: customerSupportSliceReducer,
+    activeComponent: activeComponentReducer,
+    darkMode: darkModeReducer,
 
     // All Api Methods
     [GetAllCategory.reducerPath]: GetAllCategory.reducer,
@@ -120,6 +131,7 @@ export const store = configureStore({
     [filter.reducerPath]: filter.reducer,
     [servicelike.reducerPath]: servicelike.reducer,
     [updateService.reducerPath]: updateService.reducer,
+    [UpdateStoreApi.reducerPath]: UpdateStoreApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -142,7 +154,8 @@ export const store = configureStore({
       .concat(AddService.middleware)
       .concat(filter.middleware)
       .concat(servicelike.middleware)
-      .concat(updateService.middleware),
+      .concat(updateService.middleware)
+      .concat(UpdateStoreApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

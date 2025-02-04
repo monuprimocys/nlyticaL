@@ -106,7 +106,7 @@ const ProfileForm: React.FC = () => {
                 htmlFor="profile_image"
                 className="font-poppins text-lg font-medium text-black"
               >
-                Change Profile
+                Change Profile 12
               </label>
             </div>
             <input

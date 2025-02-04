@@ -11,7 +11,7 @@ import pwdicon from "../../../../public/assets/Image/lockicon.png";
 import "./style.css";
 import googlelogo from "../../../../public/assets/Image/googlelogo.png";
 import call from "../../../../public/assets/Image/calliconlogin.png";
-import { toast } from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
 import Cookies from "js-cookie";
 
 import {
@@ -63,6 +63,8 @@ export default function LoginModal() {
 
       console.log(" sdjkfhjlisdbfjlsdkfsfd", userData.login_type);
       Cookies.set("login_type", userData.login_type);
+      Cookies.set("is_store", userData.is_store);
+      Cookies.set("service_id", userData.service_id);
 
       toast.success("Login successful!");
       // Optionally, hide the modal after successful login
@@ -260,6 +262,11 @@ export default function LoginModal() {
           </DialogPanel>
         </div>
       </div>
+
+      <ToastContainer 
+      position="top-right"
+      autoClose={5000}
+        />
     </Dialog>
   );
 }

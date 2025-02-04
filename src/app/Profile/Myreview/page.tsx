@@ -9,9 +9,11 @@ import Stack from "@mui/material/Stack";
 import AvatarWithSpinner from "@/app/componets/Loading/AvatarWithSpinner";
 import video from "../../../../public/assets/lottie_search_anim/lottie_search_anim/Animation - 1736233762512.gif";
 import Image from "next/image";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function Myreview() {
   const user_id = Cookies.get("user_id");
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   // State to manage current page
   const [page, setPage] = useState(1);
@@ -55,7 +57,7 @@ function Myreview() {
   // Handle the current reviews to display based on the current page
   const currentReviews = data?.reviewlist.slice(
     (page - 1) * pageSize,
-    page * pageSize,
+    page * pageSize
   );
 
   return (
@@ -76,7 +78,11 @@ function Myreview() {
             />
           </div>
           <div>
-            <h2 className="font-poppins font-medium text-black">
+            <h2
+              className={`font-poppins font-medium  ${
+                isDarkMode ? "text-white" : "text-black"
+              }`}
+            >
               No Data Found
             </h2>
           </div>

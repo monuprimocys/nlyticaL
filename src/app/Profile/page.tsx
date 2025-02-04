@@ -3,11 +3,12 @@ import React, { useState, useEffect } from "react";
 import Rightside from "./RightsideSideMenuProfile/Rightside";
 import LeftSide from "./LeftSideMenuProfile/LeftSide";
 import HeadingProfile from "../componets/Profile/HeadingProfile";
-import Header from "../componets/Category/Header";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation"; // Import useRouter for navigation
 import { showModal } from "../store/Slice/modalSlice";
-import { useAppDispatch } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import MyProfileBreadCome from "../componets/AllBreadCome/MyProfileBreadCome";
+import { useSelector } from "react-redux";
 
 function Profile() {
   const [activeComponent, setActiveComponent] = useState("ProfileForm");
@@ -22,11 +23,17 @@ function Profile() {
     }
   }, [user_id, router, dispatch]); // Ensure router and dispatch are in the dependency array
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
+  console.log(" saved mode: ", isDarkMode);
+
   return (
-    <div className="h-auto w-full">
-      {/* header for showing the current route */}
+    <div
+      className={`h-auto w-full    ${isDarkMode ? "dark:bg-[#181818]" : ""}  `}
+    >
+      {/* MyProfileBreadCome for showing the current route */}
       <div className="h-auto w-full">
-        <Header />
+        <MyProfileBreadCome />
       </div>
       <div className="mx-auto mt-[5rem] flex h-auto flex-col gap-6 w-[90%] 2xl:max-w-[60%]">
         {/* Description */}

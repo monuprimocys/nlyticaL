@@ -8,7 +8,7 @@ import video from "../../../../public/assets/lottie_search_anim/lottie_search_an
 import AvatarWithSpinner from "@/app/componets/Loading/AvatarWithSpinner";
 import { useFavouriteProperties } from "@/app/store/api/LikeService";
 import Cookies from "js-cookie";
-
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function MyFavorite() {
   // Modify API call to include pagination parameters
@@ -17,6 +17,8 @@ function MyFavorite() {
 
   // State to manage favorite properties if needed (useEffect is useful to update state after fetching)
   const [favorites, setFavorites] = useState([]);
+
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   useEffect(() => {
     if (data) {
@@ -69,7 +71,13 @@ function MyFavorite() {
               height={100}
             />
           </div>
-          <h2 className="font-poppins font-medium text-black">No Data Found</h2>
+          <h2
+            className={`font-poppins font-medium  ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
+          >
+            No Data Found
+          </h2>
         </div>
       )}
     </div>

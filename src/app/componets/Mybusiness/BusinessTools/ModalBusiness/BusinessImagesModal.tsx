@@ -6,22 +6,10 @@ import Image from "next/image";
 import crossicon from "../../../../../../public/assets/Image/crossicon.png";
 import "../../businesscss.css";
 import infocircle from "../../../../../../public/assets/Image/info-circle.png";
-import { TextField } from "@mui/material";
-import Cookies from "js-cookie";
-import { useUpdateServiceMutation } from "@/app/store/api/updateServiceApi";
-import { useEffect, useState } from "react";
-import { updateServiceField } from "@/app/store/Slice/serviceSlice"; // Import the action
 import ImageInput from "./ImageInput";
 
 function BusinessImagesModal() {
   const modalOpen = useAppSelector((state) => state.modals.BusinessImagesModal);
-  const vendor_id = Cookies.get("user_id");
-  const service_id = Cookies.get("service_id");
-
-  // Form state for business address
-
-  const [updateService, { data, isLoading, error }] =
-    useUpdateServiceMutation();
 
   const dispatch = useAppDispatch();
 
@@ -35,7 +23,7 @@ function BusinessImagesModal() {
           <DialogPanel className="mx-auto pb-6 h-auto w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%]">
             <div className="flex w-full items-center justify-between p-4 modalbordercolor font-poppins rounded-b-lg">
               <h3 className="font-poppins text-lg font-medium text-black text-center w-full">
-              Business_images
+                Business_images
               </h3>
               <div
                 className="cursor-pointer"

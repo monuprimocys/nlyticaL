@@ -14,7 +14,7 @@
 .bordercoloricon {
   border: 1px solid #0046ae;
 }
- 
+
 .bordercoloronday {
   border: 1px solid #0046ae33;
 }
@@ -71,7 +71,6 @@
   padding: 0 !important;
   margin: 10px 0 10px -1px !important;
   box-shadow: 1px 2px 10px #00000059 !important;
-  background-color: #fff !important;
   max-height: 224px !important;
   overflow-y: scroll !important;
   border-radius: 7px !important;

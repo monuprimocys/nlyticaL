@@ -6,12 +6,15 @@ import { MdOutlineStar } from "react-icons/md";
 import { IoIosStarHalf } from "react-icons/io";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import Image from "next/image";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
   const featured = favorite.is_featured;
 
   console.log(" my filter data from like api", favorite);
   const rating = favorite.totalAvgReview;
+
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   return (
     <div className="relative mb-2 flex h-[26rem] w-full flex-col overflow-hidden rounded-xl shadow-md lg:h-[30rem]">
@@ -27,7 +30,11 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
       >
         {/* Top-left button */}
         <div className="absolute left-0 top-4 h-auto w-fit rounded-r-md bg-[#0046AE] px-2 py-1">
-          <button className="font-poppins text-white">
+          <button
+            className={`font-poppins ${
+              isDarkMode ? " text-[#212121]" : "text-[#FFFFFF]"
+            }`}
+          >
             {favorite.category_name}
           </button>
         </div>
@@ -43,9 +50,13 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
       </div>
 
       {/* Content Section */}
-      <div className="relative flex h-[55%] w-full items-center justify-center rounded-xl sm:h-[50%] md:h-[55%] lg:h-[50%] xl:h-[55%]">
+      <div
+        className={`relative flex h-[55%] w-full items-center justify-center rounded-xl sm:h-[50%] md:h-[55%] lg:h-[50%] xl:h-[55%] ${
+          isDarkMode ? "text-[#FFFFFF] bg-[#212121]  " : "text-[#212121]"
+        }   `}
+      >
         {/* top right */}
-        {featured==1 && (
+        {featured == 1 && (
           <div className="absolute right-4 top-[-1rem] flex h-auto w-fit items-center justify-center rounded-lg bg-[#0046AE] px-2 py-1">
             <Image
               src={featureicon}
@@ -58,7 +69,7 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
           </div>
         )}
 
-        <div className="flex w-full flex-col gap-3 px-4 xl:px-6">
+        <div className="flex w-full flex-col gap-3 px-4 xl:px-6 ">
           {/* Avatar with detail */}
           <div className="flex items-center gap-x-2">
             <div
@@ -73,16 +84,24 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
             ></div>
 
             <div>
-              <h5 className="font-poppins text-lg font-medium text-[#636363] flex gap-1">
-                <span> {favorite.first_name}</span>
-                <span>{favorite.last_name}</span>
+              <h5
+                className={`font-poppins text-lg font-medium flex gap-1   ${
+                  isDarkMode ? "text-[#FFFFFF]" : "text-[#636363]"
+                }`}
+              >
+                <span> {favorite.first_name} 12</span>
+                <span>{favorite.last_name}12</span>
               </h5>
             </div>
           </div>
 
           {/* Heading */}
           <div>
-            <h3 className="font-poppins text-xl font-semibold text-black xl:text-[18px]">
+            <h3
+              className={`font-poppins text-xl font-semibold  xl:text-[18px   ${
+                isDarkMode ? "text-[#FFFFFF]" : "text-[#000000]"
+              }`}
+            >
               {favorite.service_name}
             </h3>
           </div>
@@ -104,7 +123,11 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
                 />
               ))}
               <div>
-                <p className="font-poppins text-[12px] text-[#5C5C5C] xl:text-sm">
+                <p
+                  className={`font-poppins text-[12px]  xl:text-sm  ${
+                    isDarkMode ? "text-[#FFFFFF]" : "text-[#5C5C5C]"
+                  }`}
+                >
                   ({favorite.totalReviewCount})
                 </p>
               </div>
@@ -127,15 +150,29 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
               />
             </div>
             <div className="w-full">
-              <p className="font-poppins line-clamp-1 text-sm font-normal text-[#636363]">
+              <p
+                className={`font-poppins line-clamp-1 text-sm font-normal ${
+                  isDarkMode ? "text-[#FFFFFF]" : "text-[#636363]"
+                } `}
+              >
                 {favorite.address}
               </p>
             </div>
           </div>
 
           {/* Button */}
-          <div className="group relative mx-auto flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border-2 border-[#0046AE] px-4 py-3">
-            <button className="font-poppins relative z-10 font-medium text-[#0046AE] group-hover:text-white">
+          <div
+            className={`group relative mx-auto flex w-full cursor-pointer items-center justify-center  overflow-hidden rounded-xl border-2 border-[#0046AE] px-4 py-3   ${
+              isDarkMode ? "text-[#FFFFFF] bg-[#0046AE2B]  " : "  "
+            }`}
+          >
+            <button
+              className={`font-poppins relative z-10 font-medium ${
+                isDarkMode
+                  ? "text-[#FFFFFF]"
+                  : "text-[#0046AE] group-hover:text-white"
+              } `}
+            >
               From {favorite.price_range}
             </button>
             <div className="absolute left-0 top-0 h-full w-full origin-left scale-x-0 transform bg-[#0046AE] transition-transform duration-500 group-hover:scale-x-100"></div>

@@ -36,12 +36,13 @@ export default function NoofEmployees() {
   console.log("my select change event employee", selectedvalues);
 
   return (
-    <div className="w-full  mt-[3rem]  b">
+    <div className="w-full   ">
       <label
         htmlFor="location"
         className="font-poppins mb-3 block text-sm font-medium capitalize text-black"
       >
         Number of Employees
+        <span className=" text-[#F21818] pl-[1px]">*</span>
       </label>
       <FormControl style={{ width: "100%" }}>
         <Select

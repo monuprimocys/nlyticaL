@@ -73,7 +73,7 @@ export default function RegisterWithMobilenumberVerifyOtpModal() {
                       dispatch(showModal("RegisterModal"));
                     }}
                   >
-                    Sign Up
+                    Sign Up 
                   </span>
                 </p>
               </div>

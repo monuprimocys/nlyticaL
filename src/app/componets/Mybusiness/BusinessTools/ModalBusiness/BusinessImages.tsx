@@ -10,9 +10,9 @@ import { useAppSelector } from "@/app/hooks/hooks";
 
 function BusinessImages() {
   const dispatch = useDispatch();
-  const storevalues = useAppSelector((state) => state.service.service_images);
-
-  console.log(" my image lenth ", storevalues);
+  const storesliceImage = useAppSelector(
+    (state) => state.service.service_images
+  );
 
   return (
     <div
@@ -34,7 +34,7 @@ function BusinessImages() {
 
       <div className="flex gap-3 items-center">
         <p className="text-[#848484] font-normal font-poppins text-[18px]">
-          {storevalues?.length}
+          {storesliceImage?.length}
         </p>
 
         <div className="h-[2rem] w-[2rem] flex justify-center items-center">

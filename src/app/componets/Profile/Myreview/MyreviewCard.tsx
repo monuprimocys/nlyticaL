@@ -1,9 +1,13 @@
 import React from "react";
 import "./style.css";
 import { IoMdStar } from "react-icons/io";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function MyreviewCard({ review }) {
   // Function to render stars based on the rating
+
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   const renderStars = (rating) => {
     const filledStars = Array.from({ length: 5 }, (_, index) => {
       return index < rating ? (
@@ -16,10 +20,17 @@ function MyreviewCard({ review }) {
   };
 
   return (
-    <div className="cardborder flex w-full cursor-pointer flex-col gap-3 rounded-lg p-3">
+    <div
+      className="cardborder flex w-full cursor-pointer flex-col gap-3 rounded-lg p-3   bg-[#FFFFFF12]
+"
+    >
       {/* heading with star */}
       <div className="flex w-full flex-row items-center justify-between">
-        <h2 className="font-poppins line-clamp-1 text-lg font-medium">
+        <h2
+          className={`font-poppins line-clamp-1 text-lg font-medium  ${
+            isDarkMode ? "text-white" : "text-black"
+          }  `}
+        >
           {review.service_name}
         </h2>
         {/* rating */}
@@ -29,14 +40,22 @@ function MyreviewCard({ review }) {
       </div>
       {/* sub heading */}
       <div className="flex w-full items-start justify-start">
-        <h4 className="font-poppins text-[16px] font-normal text-black">
+        <h4
+          className={`font-poppins text-[16px] font-normal  ${
+            isDarkMode ? "text-white" : "text-black"
+          } `}
+        >
           {review.category_name}
         </h4>
       </div>
 
       {/* paragraph */}
       <div className="flex w-full items-start justify-start">
-        <p className="font-poppins line-clamp-3 text-[#535353]">
+        <p
+          className={`font-poppins line-clamp-3 ${
+            isDarkMode ? "text-white" : "text-[#535353]"
+          } `}
+        >
           {review.review_message}
         </p>
       </div>
@@ -48,7 +67,11 @@ function MyreviewCard({ review }) {
           Delete
         </button>
         {/* edit btn */}
-        <button className="btnbordercolor font-poppins w-full rounded-md py-2 text-[#0046AE]">
+        <button
+          className={`btnbordercolor font-poppins w-full rounded-md py-2  ${
+            isDarkMode ? "text-white" : "text-[#0046AE]"
+          } `}
+        >
           Edit
         </button>
       </div>

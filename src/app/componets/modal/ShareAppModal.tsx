@@ -12,13 +12,25 @@ function ShareAppModal() {
     dispatch(hideModal("ShareAppModal"));
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <Dialog open={modalData} onClose={close} as="div" className="z-50">
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full items-center justify-center">
-          <DialogPanel className="mx-auto h-[12rem] w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%] 2xl:w-[20%]">
+          <DialogPanel
+            className={`mx-auto h-[12rem] w-[90%] rounded-2xl  shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%] 2xl:w-[20%]  ${
+              isDarkMode ? "bg-[#212121]" : "bg-[#FFFFFF]"
+            } `}
+          >
             {/* Top Heading */}
-            <div className="deleteac flex w-full items-center justify-center rounded-xl p-4">
+            <div
+              className={` flex h-auto w-full items-center justify-center rounded-xl p-4  ${
+                isDarkMode
+                  ? "text-[#FFFFFF] shadow-lg  bg-[#FFFFFF0A] "
+                  : "text-[#000000] deleteac"
+              }`}
+            >
               <h3 className="font-poppins text-lg font-medium text-black">
                 Share
               </h3>
@@ -31,7 +43,11 @@ function ShareAppModal() {
               }}
               // onClick={() => console.log("shared successfully!")}
             >
-              <button className="font-poppins flex h-full w-full items-center justify-center pb-10 text-[#0046AE]">
+              <button
+                className={`font-poppins flex h-full w-full items-center justify-center pb-10   ${
+                  isDarkMode ? "text-[#FFFFFF]  " : "text-[#0046AE] "
+                }`}
+              >
                 Share 🔗
               </button>
             </RWebShare>

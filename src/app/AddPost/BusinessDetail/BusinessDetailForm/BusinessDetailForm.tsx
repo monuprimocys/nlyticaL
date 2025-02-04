@@ -166,30 +166,30 @@ function BusinessDetailForm() {
   };
 
   return (
-    <div className="w-full overflow-y-auto">
-      <form onSubmit={handleNextStep} className="overflow-y-auto">
-        <div className="w-full pb-6">
-          <div className="grid w-full grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="w-full overflow-y-auto h-auto">
+      <form onSubmit={handleNextStep} className="overflow-y-auto h-auto">
+        <div className="w-full pb-6 h-auto">
+          <div className="grid w-full grid-cols-1 md:grid-cols-2 gap-6 h-auto">
             {/* left side part */}
-            <div className="grid min-h-fit w-full gap-6">
+            <div className="grid h-fit w-full gap-6">
               <BusinessName />
               <BusinessDescription />
               <BusinessAddress />
               <CategoryDropdown />
               <SubCategoryDropdwon />
-              <MonthYear />
             </div>
             {/* right side */}
-            <div className="grid min-h-fit w-full">
+            <div className="grid h-fit w-full  gap-10">
               <UploadCoverImage />
               <UploadImageAndVideo />
-              <div className="flex min-h-fit flex-col gap-6">
-                <FeaturedService />
+              <div className="flex h-fit flex-col gap-6">
+                {/* <FeaturedService /> */}
                 <NoofEmployees />
+                <MonthYear />
               </div>
             </div>
           </div>
-          <div className="flex w-full items-center justify-center pt-6">
+          <div className="flex w-full items-center justify-center mt-12">
             <button
               type="submit"
               className="flex w-fit items-center justify-between gap-2 rounded-lg bg-[#0046AE] px-10 py-3"

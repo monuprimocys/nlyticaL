@@ -12,7 +12,7 @@ import callicon from "../../../../public/assets/Image/callSinup.png";
 import { useRegisterAccountMutation } from "../../store/api/auth/newuser-registeraccount";
 import { setUserRegistration } from "@/app/store/Slice/RegistrationSlice";
 import { useAppDispatch } from "@/app/hooks/hooks";
-import { toast } from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
 import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
 import Cookies from "js-cookie";
 
@@ -58,8 +58,6 @@ function RegistrationForm() {
       [name]: value,
     }));
   };
-
-
 
   // Handle form submission
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -319,6 +317,10 @@ function RegistrationForm() {
           </button>
         </div>
       </form>
+
+      <div className=" w-full ">
+        <ToastContainer position="top-right" autoClose={5000} />
+      </div>
     </div>
   );
 }

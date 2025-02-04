@@ -27,7 +27,7 @@ const MonthYear: React.FC<MonthYearProps> = ({ required }) => {
   // console.log("Year Value:", getvalues.yearValue.format("YYYY"));
 
   return (
-    <div className="flex flex-col gap-2  relative  xl:bottom-[-1.8rem]">
+    <div className="flex flex-col gap-2  relative  xl:top-[2.4rem]">
       <label htmlFor="month" className="font-poppins text-black">
         {" "}
         Year of Establishment

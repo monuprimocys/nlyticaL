@@ -10,15 +10,12 @@ import { showModal } from "@/app/store/Slice/modalSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 function BusinessAddressTools() {
-  
   const dispatch = useDispatch();
-   const storevalues = useAppSelector((state) => state.service.service);
-
- 
+  const storevalues = useAppSelector((state) => state.service.service);
 
   return (
     <div
-      className="w-full justify-between px-8 py-4 rounded-lg items-center flex businesslable cursor-pointer"
+      className="w-full justify-between px-4 md:px-8 py-4 rounded-lg items-center flex businesslable cursor-pointer"
       onClick={() => {
         dispatch(showModal("BusinessAddressToolsModal"));
       }}

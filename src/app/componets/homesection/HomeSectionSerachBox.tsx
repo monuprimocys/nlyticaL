@@ -7,7 +7,7 @@ import Image from "next/image";
 function HomeSectionSerachBox() {
   return (
     <div className="relative h-auto w-full">
-      <div className="relative top-[-3rem] mx-auto h-fit w-[90%] rounded-xl bg-white p-4 shadow md:top-[-1rem] md:w-[85%] lg:top-[-2.5rem] xl:top-[-4rem] xl:p-6 2xl:w-[60%] 2xl:p-10">
+      <div className="relative top-[-7rem] mx-auto h-fit w-[90%] rounded-xl bg-white p-4 shadow md:top-[-4rem] md:w-[85%] lg:top-[-2.5rem] xl:top-[-6.8rem] xl:p-6 2xl:w-[60%] 2xl:p-10">
         <div className="mx-auto flex w-[95%] flex-col items-start justify-start gap-6">
           {/* serach  description */}
           <div>
@@ -19,7 +19,7 @@ function HomeSectionSerachBox() {
           {/* form for filttering data  */}
           <div className="flex w-full flex-col items-center justify-between gap-6 md:flex-row">
             {/* location dropdwon */}
-            <div className="relative w-full lg:w-[40%] 2xl:w-[25%]">
+            <div className="relative w-full lg:w-[40%] ">
               <label
                 className="font-poppins text-sm font-semibold text-[#000000]"
                 htmlFor="name"

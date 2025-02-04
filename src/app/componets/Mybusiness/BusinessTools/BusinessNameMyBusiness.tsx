@@ -59,7 +59,7 @@ function BusinessNameMyBusiness() {
 
   return (
     <div
-      className="w-full justify-between px-8 py-4 rounded-lg items-center flex businesslable cursor-pointer"
+      className="w-full justify-between px-4 md:px-8 py-4 rounded-lg items-center flex businesslable cursor-pointer"
       onClick={() => {
         dispatch(showModal("BusinessNameModal"));
       }}

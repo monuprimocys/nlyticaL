@@ -60,13 +60,11 @@ function UploadCoverImage() {
   };
 
   return (
-    <div className="   overflow-hidden">
+    <div className="   overflow-hidden h-fit">
       <div>
-        <label
-          className="font-poppins text-sm font-medium text-[#000000]"
-          htmlFor="cover_image"
-        >
+        <label className="text-sm font-medium text-[#000000]" htmlFor="address">
           Service Cover image
+          <span className=" text-[#F21818] pl-[1px]">*</span>
         </label>
 
         <div
@@ -94,7 +92,7 @@ function UploadCoverImage() {
         </div>
 
         {/* Display uploaded files from Redux */}
-        <div className=" w-full h-[12rem] md:h-[9rem] xl:h-[12rem]">
+        <div className=" w-full h-fit">
           {storesliceImage.length > 0 && (
             <div
               className={`uploadimageslide mt-2 flex flex-wrap items-start justify-start gap-4 pt-4  `}

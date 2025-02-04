@@ -6,12 +6,19 @@ import tollsimage from "../../../../../public/assets/Image/businesstools.png";
 import Image from "next/image";
 import Arrowleftside from "../../../../../public/assets/Image/arrow-left.png";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function Businesstools() {
   const router = useRouter();
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div
-      className="mx-auto 2xl:w-[55%] xl:w-[80%] w-[90%] mt-[3rem] businesslable gap-5 rounded-lg py-8 px-12 flex justify-between items-center cursor-pointer"
+      className={`mx-auto 2xl:w-[55%] xl:w-[80%] w-[90%] mt-[3rem]  gap-5 rounded-lg py-8 px-6 md:px-12 flex justify-between items-center cursor-pointer  ${
+        isDarkMode
+          ? "bg-[#212121] text-[#ffffff]"
+          : "bg-[#ffffff] businesslable text-[#212121]"
+      } `}
       onClick={() => router.push("/Mybusiness/BusinessTools")}
     >
       {/* Left Side */}
@@ -33,7 +40,9 @@ function Businesstools() {
       <div className="flex justify-end items-center gap-4 cursor-pointer">
         {/* Arrow left */}
         <Image
-          className="w-[2rem] h-[2rem] object-cover"
+          className={`w-[2rem] h-[2rem] object-cover    ${
+            isDarkMode ? "invert" : ""
+          }`}
           src={Arrowleftside}
           alt="Arrow left"
         />

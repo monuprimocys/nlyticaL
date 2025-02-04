@@ -31,11 +31,12 @@ const ProfileForm: React.FC = () => {
 
   console.log(
     "fjhasdbfjsdgbfhjgbfjsdfsa0 fewrsrsrfsfdsdfds , ",
-    data?.service_id
+    data?.store_approval
   );
   Cookies.set("email", data?.userdetails.email);
   Cookies.set("mobile", data?.userdetails.mobile);
   Cookies.set("service_id", data?.store_id);
+  Cookies.set("store_approval", data?.store_approval);
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -142,10 +143,12 @@ const ProfileForm: React.FC = () => {
 
   // console.log("file upload" ,imageFile)
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="flex h-auto w-full flex-col gap-6 py-[2rem]">
       {/* heading */}
-      <HeadingText text="Profile" text1="" /> 
+      <HeadingText text="Profile" text1="" />
 
       {/* form */}
       <div className="h-auto w-full">
@@ -181,7 +184,9 @@ const ProfileForm: React.FC = () => {
             <div className="mt-2 cursor-pointer">
               <label
                 htmlFor="image"
-                className="font-poppins text-lg font-medium text-black"
+                className={`font-poppins text-lg font-medium      ${
+                  isDarkMode ? "text-white" : "text-black"
+                }`}
               >
                 Change Profile
               </label>
@@ -197,7 +202,9 @@ const ProfileForm: React.FC = () => {
             />
 
             <div
-              className="font-poppins mt-3 flex w-full cursor-pointer items-center justify-center rounded-lg bg-[#0046AE17] py-2 text-sm font-medium text-[#0046AE]"
+              className={`font-poppins mt-3 flex w-full cursor-pointer items-center justify-center rounded-lg bg-[#0046AE17] py-2 text-sm font-medium   ${
+                isDarkMode ? "text-white" : "text-[#0046AE]"
+              }`}
               onClick={() => {
                 router.push("/Subscribe");
               }}
@@ -212,7 +219,9 @@ const ProfileForm: React.FC = () => {
             {/* first name */}
             <div className="w-full">
               <label
-                className="text-sm font-medium text-[#000000]"
+                className={`text-sm font-medium     ${
+                  isDarkMode ? "text-white" : "text-[#000000]"
+                }`}
                 htmlFor="first_name"
               >
                 First Name
@@ -222,7 +231,11 @@ const ProfileForm: React.FC = () => {
                   type="text"
                   id="first_name"
                   name="first_name"
-                  className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
+                  className={`font-poppins  w-full rounded-md py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]   ${
+                    isDarkMode
+                      ? "text-white  bg-[#373737]  inputboxborder"
+                      : "text-[#000000]  bg-white inputboxborder"
+                  }`}
                   placeholder="Enter First Name"
                   value={profileData.first_name}
                   onChange={handleChange}
@@ -233,7 +246,9 @@ const ProfileForm: React.FC = () => {
             {/* last name */}
             <div className="w-full">
               <label
-                className="text-sm font-medium text-[#000000]"
+                className={`text-sm font-medium     ${
+                  isDarkMode ? "text-white" : "text-[#000000]"
+                }`}
                 htmlFor="last_name"
               >
                 Last Name
@@ -243,7 +258,11 @@ const ProfileForm: React.FC = () => {
                   type="text"
                   id="last_name"
                   name="last_name"
-                  className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
+                  className={`font-poppins  w-full rounded-md py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]   ${
+                    isDarkMode
+                      ? "text-white  bg-[#373737]  inputboxborder"
+                      : "text-[#000000]  bg-white inputboxborder"
+                  }`}
                   placeholder="Enter Last Name"
                   value={profileData.last_name}
                   onChange={handleChange}
@@ -254,7 +273,9 @@ const ProfileForm: React.FC = () => {
             {/* email */}
             <div className="w-full">
               <label
-                className="text-sm font-medium text-[#000000]"
+                className={`text-sm font-medium     ${
+                  isDarkMode ? "text-white" : "text-[#000000]"
+                }`}
                 htmlFor="email"
               >
                 Email Address
@@ -264,7 +285,11 @@ const ProfileForm: React.FC = () => {
                   type="email"
                   id="email"
                   name="email"
-                  className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
+                  className={`font-poppins  w-full rounded-md py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]   ${
+                    isDarkMode
+                      ? "text-white  bg-[#373737]  inputboxborder"
+                      : "text-[#000000]  bg-white inputboxborder"
+                  }`}
                   placeholder="Enter Email Address"
                   value={profileData.email}
                   onChange={handleChange}
@@ -276,7 +301,9 @@ const ProfileForm: React.FC = () => {
             {/* phone number */}
             <div className="">
               <label
-                className="font-poppins text-sm font-medium text-[#000000]"
+                className={`text-sm font-medium     ${
+                  isDarkMode ? "text-white" : "text-[#000000]"
+                }`}
                 htmlFor="mobile"
               >
                 Mobile Number
@@ -284,6 +311,11 @@ const ProfileForm: React.FC = () => {
               <div className="bg relative mt-2 w-full">
                 <PhoneInput
                   placeholder="Enter phone number"
+                  inputStyle={{
+                    fontFamily: "Poppins",
+                    color: isDarkMode ? "#ffffff" : "#000000",
+                    backgroundColor: isDarkMode ? "#373737" : "#FFFFFF",
+                  }}
                   value={data?.userdetails.mobile}
                   onChange={(value, data) => {
                     setPhonenumberInputBox({

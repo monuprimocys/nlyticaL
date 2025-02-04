@@ -22,14 +22,8 @@ function Header() {
     >
       <div className="mx-auto 2xl:w-[60%] xl:w-[80%] w-[95%]  flex  justify-between items-center ">
         {/* Left Section */}
-        <div>
-          <h2 className="text-white text-lg font-normal font-poppins">
-            {segments}
-          </h2>
-        </div>
 
-        {/* Right Section */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2  cursor-pointer">
           {/* Breadcrumb */}
           <div className="flex items-center space-x-2">
             <h2 className="text-[#FFD428] text-lg font-normal font-poppins">
@@ -45,6 +39,13 @@ function Header() {
           </div>
 
           {/* Current Pathname */}
+          <h2 className="text-white text-lg font-normal font-poppins">
+            {segments}
+          </h2>
+        </div>
+
+        {/* Right Section */}
+        <div className=" cursor-pointer">
           <h2 className="text-white text-lg font-normal font-poppins">
             {segments}
           </h2>

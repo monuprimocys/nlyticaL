@@ -32,6 +32,7 @@
     "react-query": "^3.39.3",
     "react-redux": "^9.2.0",
     "react-slick": "^0.30.3",
+    "react-toastify": "^11.0.3",
     "react-web-share": "^2.0.2",
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.14"

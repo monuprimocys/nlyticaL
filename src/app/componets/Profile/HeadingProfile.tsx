@@ -7,19 +7,28 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 function HeadingProfile() {
-  const isStore = Cookies.get("is_store");
+  const isStore = Cookies.get("store_approval");
+  const isServiceId = Cookies.get("service_id");
 
-  // Default text is "List your Business"
-  let titleText = "List your Business";
+  console.log("my isServiceId", isServiceId); // Check the value of isServiceId
+  console.log("my isStore", isStore); // Check the value of isStore
 
-  // Update titleText based on the value of is_store
-  if (isStore === "1") {
-    titleText = "Your Business"; // Show "Your Business" when is_store is "1"
-  } else if (isStore === "0") {
-    titleText = "Pending"; // Show "Pending" when is_store is "0"
-  }
+  // Define the title based on the conditions
+  const titleText =
+    isStore === "0" && (!isServiceId || isServiceId === "undefined")
+      ? "List your Business"
+      : isStore === "0" && isServiceId
+      ? "Pending"
+      : "Your Business ";
 
   const router = useRouter();
+
+  const handleClick = () => {
+    // Only push to the route when isStore equals "1" and isServiceId is not "undefined"
+    if (isStore === "1" && isServiceId !== "undefined") {
+      router.push("/Mybusiness");
+    }
+  };
 
   return (
     <div className="w-full rounded-xl p-[6px] shadow-xl">
@@ -44,8 +53,8 @@ function HeadingProfile() {
             bottom: 0,
             borderRadius: "inherit",
           }}
-          onClick={() => router.push("/Mybusiness")}
-          className=" cursor-pointer"
+          onClick={handleClick}
+          className="cursor-pointer"
         >
           <div className="flex h-full w-full items-center justify-center gap-4">
             {/* Circle Icon */}

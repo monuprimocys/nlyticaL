@@ -1,10 +1,23 @@
+"use client";
+
 import React from "react";
 import addprofile from "../../../../../public/assets/Image/websitebusiness.png";
 import Image from "next/image";
+import { showModal } from "@/app/store/Slice/modalSlice";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function AddSocialLinks() {
+  const dispatch = useDispatch();
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
-    <div className="  flex  flex-col gap-2 cursor-pointer ">
+    <div
+      className="  flex  flex-col gap-2 cursor-pointer "
+      onClick={() => {
+        dispatch(showModal("FollowSocialMediaModal"));
+      }}
+    >
       <div className="w-[6.3rem]  h-[6.3rem]  rounded-lg  flex justify-center items-center  bg-[#B7FDF7]  ">
         <Image
           src={addprofile}
@@ -13,7 +26,11 @@ function AddSocialLinks() {
         />
       </div>
       {/*  lable  */}
-      <div className=" flex flex-col  items-center   font-poppins text-black  text-[17px] font-medium">
+      <div
+        className={`flex flex-col  items-center   font-poppins   text-[17px] font-medium  ${
+          isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
+        } `}
+      >
         <p>Add Social </p>
         <p>Links</p>
       </div>

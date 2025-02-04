@@ -12,7 +12,7 @@ import { useUpdateProfileMutation } from "../store/api/auth/ProfileUpdate";
 import { ProfileUpdate } from "../types/Restypes";
 import { toast } from "react-hot-toast";
 import { showModal } from "../store/Slice/modalSlice";
-import { useAppDispatch } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
 const RightSideAfterLogin = () => {
   const router = useRouter();
@@ -23,6 +23,7 @@ const RightSideAfterLogin = () => {
   );
 
   const dispatch = useAppDispatch();
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   const [triggerUpdateProfile] = useUpdateProfileMutation();
 
@@ -65,7 +66,7 @@ const RightSideAfterLogin = () => {
     return <div>Loading...</div>;
   }
 
-  const isStore = Cookies.get("is_store");
+  const isStore = Cookies.get("store_approval");
 
   return (
     <div className="flex items-center gap-4 text-white">
@@ -86,7 +87,9 @@ const RightSideAfterLogin = () => {
             {/* Display Name and Dropdown Icon */}
             <div className="hidden items-center gap-2 text-lg text-black lg:flex">
               {/* <span>{userProfileData?.userdetails?.name || "User"}</span> */}
-              <FiChevronDown />
+              <FiChevronDown
+                className={`  ${isDarkMode ? "text-white" : "text-black"}   `}
+              />
             </div>
           </div>
         </MenuButton>
@@ -94,7 +97,9 @@ const RightSideAfterLogin = () => {
         <MenuItems
           transition
           anchor="bottom end"
-          className="w-40 origin-top-right rounded-xl border border-white bg-white p-1 text-sm/6 shadow-2xl transition duration-200 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+          className={`w-40 origin-top-right rounded-xl border border-white  p-1 text-sm/6 shadow-2xl transition duration-200 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0    ${
+            isDarkMode ? "bg-[#212121] text-white" : "bg-white text-black"
+          } `}
         >
           <MenuItem>
             <button
@@ -106,8 +111,8 @@ const RightSideAfterLogin = () => {
             </button>
           </MenuItem>
 
-          {/* when   store   is then show */}
-          {isStore && (
+          {/* Show "My business" only if is_store is 1 */}
+          {isStore === "1" && (
             <MenuItem>
               <button
                 onClick={handleMybusinessClick}

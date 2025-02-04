@@ -2,14 +2,16 @@ import React, { useEffect } from "react";
 import { useTermAndconditionQuery } from "@/app/store/api/termAndcondition";
 import HeadingText from "@/app/componets/Profile/HeadingText";
 import AvatarWithSpinner from "@/app/componets/Loading/AvatarWithSpinner";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function TermCondition() {
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   const {
     data: termAndConditionData,
     isLoading,
     isError,
   } = useTermAndconditionQuery();
-
 
   // Handle loading and error states
   if (isLoading)
@@ -36,7 +38,9 @@ function TermCondition() {
         {/* Heading and content */}
         <div className="mx-auto flex w-[90%] flex-col items-start justify-start gap-4 xl:w-full">
           <div
-            className="font-poppins text-lg font-normal text-[#282828]"
+            className={`font-poppins text-lg font-normal   w-full    ${
+              isDarkMode ? "text-gray-200" : "text-gray-800"
+            }`}
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </div>

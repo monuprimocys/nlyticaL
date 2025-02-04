@@ -2,15 +2,16 @@ import React, { useEffect } from "react";
 import HeadingText from "@/app/componets/Profile/HeadingText";
 import { usePrivacypolicyResQuery } from "@/app/store/api/PrivacypolicyRes";
 import AvatarWithSpinner from "@/app/componets/Loading/AvatarWithSpinner";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function Privacypolicy() {
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   const {
     data: PrivacypolicyData,
     isLoading,
     isError,
   } = usePrivacypolicyResQuery();
-
-
 
   // Handle loading and error states
   if (isLoading)
@@ -38,7 +39,9 @@ function Privacypolicy() {
         {/* Heading and content */}
         <div className="flex w-[90%] mx-auto xl:w-full flex-col items-start justify-start gap-4">
           <div
-            className="font-poppins text-lg font-normal text-[#282828] w-full"
+            className={`font-poppins text-lg font-normal   w-full    ${
+              isDarkMode ? "text-gray-200" : "text-gray-800"
+            }`}
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </div>

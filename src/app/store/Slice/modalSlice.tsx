@@ -31,6 +31,12 @@ interface ModalState {
   BusinessImagesModal: boolean;
   BusinessWebsiteModal: boolean;
   FollowSocialMediaModal: boolean;
+  AddStoreModal: boolean;
+  UpdateAddStoreModal: boolean;
+  DeleteStoreModal: boolean;
+  VisitedModal: boolean;
+  SelectLocationVisite: boolean;
+  RegisterWithMobailNumberOtpVerify: boolean;
 }
 
 const initialState: ModalState = {
@@ -64,6 +70,12 @@ const initialState: ModalState = {
   BusinessImagesModal: false,
   BusinessWebsiteModal: false,
   FollowSocialMediaModal: false,
+  AddStoreModal: false,
+  UpdateAddStoreModal: false,
+  DeleteStoreModal: false,
+  VisitedModal: false,
+  SelectLocationVisite: false,
+  RegisterWithMobailNumberOtpVerify: false,
 };
 
 const modalSlice = createSlice({
@@ -80,4 +92,10 @@ const modalSlice = createSlice({
 });
 
 export const { showModal, hideModal } = modalSlice.actions;
+
+// cheack any modal opne and close
+
+export const selectAnyModalOpen = (state: { modals: ModalState }) => {
+  return Object.values(state.modals).includes(true);
+};
 export default modalSlice.reducer;

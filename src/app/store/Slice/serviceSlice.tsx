@@ -47,11 +47,9 @@ interface Service {
 interface ServiceState {
   status: boolean;
   message: string;
-  service: Service;
-  service_images: string[];
-  service_video: string;
+  service_images: File[];
+  service: Service; // Add this line to define the service property
 }
-
 const initialState: ServiceState = {
   status: true,
   message: "Service updated successfully!",
@@ -97,8 +95,7 @@ const initialState: ServiceState = {
     created_at: "",
     updated_at: "",
   },
-  service_images: [],
-  service_video: "",
+  service_images: [], // Empty initial image state
 };
 
 const serviceSlice = createSlice({
@@ -111,29 +108,20 @@ const serviceSlice = createSlice({
     },
 
     // Add a new image to the service images array
-    addServiceImage(state, action: PayloadAction<string[]>) {
-      state.service_images = action.payload;
+    addServiceImage(state, action: PayloadAction<File[]>) {
+      state.service_images = [...state.service_images, ...action.payload];
     },
 
-    // Remove an image from the service images array
-    removeServiceImage(state, action: PayloadAction<string>) {
+    // Remove an image by ID from the service images array
+    removeServiceImage(state, action: PayloadAction<number>) {
       state.service_images = state.service_images.filter(
-        (image) => image !== action.payload
+        (_, index) => index !== action.payload
       );
-    },
-
-    // Update service video URL
-    updateServiceVideo(state, action: PayloadAction<string>) {
-      state.service_video = action.payload;
     },
   },
 });
 
-export const {
-  updateServiceField,
-  addServiceImage,
-  removeServiceImage,
-  updateServiceVideo,
-} = serviceSlice.actions;
+export const { updateServiceField, addServiceImage, removeServiceImage } =
+  serviceSlice.actions;
 
 export default serviceSlice.reducer;

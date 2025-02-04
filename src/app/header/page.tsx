@@ -10,7 +10,7 @@ import dropdwonicon from "../../../public/assets/Image/dropdwonicon.png";
 import cross from "../../../public/assets/Image/cross.png";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "../store/Slice/modalSlice";
 import { useAppSelector } from "../hooks/hooks";
 import LoginModal from "../(Auth)/loginaccount/page";
@@ -44,6 +44,13 @@ import NumberofEmployeesModal from "../componets/Mybusiness/BusinessTools/ModalB
 import BusinessImagesModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/BusinessImagesModal";
 import BusinessWebsiteModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/BusinessWebsiteModal";
 import FollowSocialMediaModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/FollowSocialMediaModal";
+import AddStoreModal from "../componets/Mybusiness/BusinessService/Service/AddStore/AddStoreModal";
+import UpdateAddStoreModal from "../componets/Mybusiness/BusinessService/Service/UpdateStore/UpdateAddStoreModal";
+import { selectAnyModalOpen } from "@/app/store/Slice/modalSlice";
+import DeleteStoreModal from "../componets/Mybusiness/BusinessService/Service/UpdateStore/DeleteStoreModal";
+import VisitedModal from "../componets/modal/VisitedModal";
+import SelectLocationVisite from "../componets/modal/SelectLocationVisite";
+import RegisterWithMobailNumberOtpVerify from "../(Auth)/RegisterWithMobailNumberOtpVerify/RegisterWithMobailNumberOtpVerify";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -176,6 +183,30 @@ function Header() {
     (state) => state.modals.FollowSocialMediaModal
   );
 
+  const isAddStoreModalVisibile = useAppSelector(
+    (state) => state.modals.AddStoreModal
+  );
+
+  const isUpdateAddStoreModalVisibile = useAppSelector(
+    (state) => state.modals.UpdateAddStoreModal
+  );
+
+  const isDeleteStoreModalVisibile = useAppSelector(
+    (state) => state.modals.DeleteStoreModal
+  );
+
+  const isVisitedModalVisibile = useAppSelector(
+    (state) => state.modals.VisitedModal
+  );
+
+  const isSelectLocationVisiteVisibile = useAppSelector(
+    (state) => state.modals.SelectLocationVisite
+  );
+
+  const isRegisterWithMobailNumberOtpVerifyVisibile = useAppSelector(
+    (state) => state.modals.RegisterWithMobailNumberOtpVerify
+  );
+
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -234,13 +265,21 @@ function Header() {
     };
   }, []);
 
+  const isAnyModalOpen = useSelector(selectAnyModalOpen);
+
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <header
-      className={`w-full transition-all duration-300 ease-in-out ${
-        isSticky ? "header-area bg-black" : ""
+      className={`w-full  ${isSticky ? "header-area bg-black" : ""} ${
+        isAnyModalOpen ? " z-10" : "z-50"
       }`}
     >
-      <div className="hidden h-auto w-full bg-[#202020] xl:block">
+      <div
+        className={`hidden h-auto w-full  xl:block  ${
+          isDarkMode ? "text-white  bg-[#0145AC]" : "  bg-[#202020] "
+        }`}
+      >
         {/* Header Top Section */}
         <div className="mx-auto flex w-[90%] items-center justify-between py-2 2xl:w-[80%]">
           {/* Left side part */}
@@ -316,7 +355,11 @@ function Header() {
       </div>
 
       {/* Main Section Header */}
-      <div className="z-50 w-full bg-white shadow-lg">
+      <div
+        className={`z-50 w-full  shadow-lg  ${
+          isDarkMode ? "bg-[#222222]" : "bg-white"
+        }`}
+      >
         <div className="mx-auto flex h-[4rem] w-[95%] items-center justify-between xl:h-[5rem] 2xl:w-[80%]">
           {/* Logo */}
           <div className=" ">
@@ -327,7 +370,9 @@ function Header() {
                   alt="Logo"
                   width={200}
                   height={72}
-                  className="h-full w-full object-cover"
+                  className={`h-full w-full object-cover    ${
+                    isDarkMode ? " bg-circle-icon" : ""
+                  } `}
                 />
               </Link>
             </div>
@@ -340,7 +385,9 @@ function Header() {
                 <Link
                   href="/"
                   passHref
-                  className="font-poppins relative z-10 font-normal text-black"
+                  className={`font-poppins relative z-10 font-normal   ${
+                    isDarkMode ? "text-[#FFFFFFCC]" : "text-black"
+                  } `}
                 >
                   Home
                 </Link>
@@ -352,7 +399,9 @@ function Header() {
                 <Link
                   href="/listing"
                   passHref
-                  className="font-poppins relative z-10 font-normal text-black"
+                  className={`font-poppins relative z-10 font-normal   ${
+                    isDarkMode ? "text-[#FFFFFFCC]" : "text-black"
+                  } `}
                 >
                   Listing
                 </Link>
@@ -365,7 +414,9 @@ function Header() {
                 <Link
                   href="/about"
                   passHref
-                  className="font-poppins relative z-10 font-normal text-black"
+                  className={`font-poppins relative z-10 font-normal   ${
+                    isDarkMode ? "text-[#FFFFFFCC]" : "text-black"
+                  } `}
                 >
                   About
                 </Link>
@@ -377,7 +428,9 @@ function Header() {
                 <Link
                   href="/Subscribe"
                   passHref
-                  className="font-poppins relative z-10 font-normal text-black"
+                  className={`font-poppins relative z-10 font-normal   ${
+                    isDarkMode ? "text-[#FFFFFFCC]" : "text-black"
+                  } `}
                 >
                   Subscribe
                 </Link>
@@ -389,7 +442,9 @@ function Header() {
                 <Link
                   href="/contactus"
                   passHref
-                  className="font-poppins relative z-10 font-normal text-black"
+                  className={`font-poppins relative z-10 font-normal   ${
+                    isDarkMode ? "text-[#FFFFFFCC]" : "text-black"
+                  } `}
                 >
                   Contact Us
                 </Link>
@@ -419,6 +474,7 @@ function Header() {
                         alt="Language Icon"
                         width={24}
                         height={24}
+                        className={`   ${isDarkMode ? "bg-circle-icon" : ""}`}
                       />
                     </div>
                   </button>
@@ -430,7 +486,11 @@ function Header() {
                     onMouseLeave={() => setIsOpenLanguage(false)}
                   >
                     <div className="flex items-center justify-center gap-2">
-                      <p className="font-poppins relative z-10 text-black">
+                      <p
+                        className={`font-poppins relative z-10    ${
+                          isDarkMode ? "text-[#FFFFFFCC]" : "text-black"
+                        }`}
+                      >
                         {selectedLanguage}
                       </p>
                       <div className="h-5 w-5">
@@ -441,7 +501,12 @@ function Header() {
                           height={20}
                           className={`transform ${
                             isOpenlanguage ? "rotate-180" : ""
-                          }`}
+                          }  
+                          
+                           ${isDarkMode ? "bg-circle-icon" : "  bg-white"}
+                          
+                          
+                          `}
                         />
                       </div>
                     </div>
@@ -449,13 +514,28 @@ function Header() {
                     {/* Dropdown menu */}
                     {isOpenlanguage && (
                       <div
-                        className={`absolute left-[-3rem] right-[12rem] top-12 z-50 flex w-[10rem] -translate-y-2 transform items-center justify-center rounded border bg-white opacity-0 shadow transition-all duration-300 ease-out ${
+                        className={`absolute left-[-3rem] right-[12rem] top-12 z-50 flex w-[10rem] -translate-y-2 transform items-center justify-center rounded border  shadow transition-all duration-300 ease-out ${
                           isOpenlanguage
                             ? "pointer-events-auto translate-y-0 opacity-100"
                             : "pointer-events-none"
-                        }`}
+                        }
+
+                        ${
+                          isDarkMode
+                            ? "text-[#FFFFFFCC]  bg-[#212121]"
+                            : "  bg-white"
+                        }
+                        
+                        
+                        `}
                       >
-                        <ul className="w-full">
+                        <ul
+                          className={`  w-full  ${
+                            isDarkMode
+                              ? "text-[#FFFFFFCC]  bg-[#212121]"
+                              : "  bg-white"
+                          }`}
+                        >
                           <li
                             className="flex cursor-pointer items-center gap-3 p-3 font-normal"
                             onClick={() =>
@@ -488,7 +568,7 @@ function Header() {
 
                     {/* Bottom underline effect */}
                     <div className="absolute bottom-1 left-0 right-0">
-                      <div className="h-[2px] scale-x-0 rounded-full bg-white transition-all duration-300 group-hover:scale-x-100"></div>
+                      {/* <div className="h-[2px] scale-x-0 rounded-full bg-white transition-all duration-300 group-hover:scale-x-100"></div> */}
                     </div>
                   </div>
                 </div>
@@ -613,11 +693,22 @@ function Header() {
               </ul>
 
               <div className="mt-4 flex w-full items-center justify-between">
-                <div className="flex cursor-pointer items-center justify-center rounded-lg border-2 border-[#0046AE] px-2 py-2 hover:bg-slate-200 small:px-[5px] xl:hidden">
-                  <button className="font-poppins text-xs font-[500] text-[#0046AE]">
-                    Add Store
-                  </button>
-                </div>
+                {isServiceFormSubmit !== "1" && (
+                  <div
+                    className="flex cursor-pointer items-center justify-center rounded-lg border-2 border-[#0046AE] px-2 py-2 hover:bg-slate-200 small:px-[5px] xl:hidden"
+                    onClick={() => {
+                      if (user_id) {
+                        dispatch(showModal("AddPostModal"));
+                      } else {
+                        dispatch(showModal("loginModal"));
+                      }
+                    }}
+                  >
+                    <button className="font-poppins text-xs font-[500] text-[#0046AE]">
+                      Add Store
+                    </button>
+                  </div>
+                )}
 
                 <div
                   className="flex cursor-pointer items-center justify-center rounded-lg border-2 border-[#0046AE] px-3 py-2 hover:bg-slate-200 small:px-[9px] xl:hidden"
@@ -764,6 +855,15 @@ function Header() {
       {isBusinessImagesModalVisibile && <BusinessImagesModal />}
       {isBusinessWebsiteModalVisibile && <BusinessWebsiteModal />}
       {isFollowSocialMediaModalVisibile && <FollowSocialMediaModal />}
+      {isAddStoreModalVisibile && <AddStoreModal />}
+      {isUpdateAddStoreModalVisibile && <UpdateAddStoreModal />}
+      {isDeleteStoreModalVisibile && <DeleteStoreModal />}
+      {isVisitedModalVisibile && <VisitedModal />}
+
+      {isSelectLocationVisiteVisibile && <SelectLocationVisite />}
+      {isRegisterWithMobailNumberOtpVerifyVisibile && (
+        <RegisterWithMobailNumberOtpVerify />
+      )}
     </header>
   );
 }

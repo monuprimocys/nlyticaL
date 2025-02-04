@@ -16,7 +16,7 @@ function UploadImageAndVideo() {
     (state) => state.AddPost.service_image
   );
 
- console.log("##################",storesliceImage)
+  console.log("##################", storesliceImage);
 
   const handleFileClick = () => {
     if (fileInputRef.current) {
@@ -65,11 +65,9 @@ function UploadImageAndVideo() {
   return (
     <div>
       <div>
-        <label
-          className="font-poppins text-sm font-medium text-[#000000]"
-          htmlFor="service_image"
-        >
+        <label className="text-sm font-medium text-[#000000]" htmlFor="address">
           Service Image/Video
+          <span className=" text-[#F21818] pl-[1px]">*</span>
         </label>
 
         <div
@@ -95,7 +93,7 @@ function UploadImageAndVideo() {
         </div>
 
         {/* Display uploaded files from Redux */}
-        <div className=" w-full h-[11.8rem]  md:h-[12rem] xl:h-[11.8rem]  overflow-y-auto">
+        <div className=" w-full  h-fit  overflow-y-auto">
           {storesliceImage.length > 0 && (
             <div
               className={`uploadimageslide mt-2 flex flex-wrap items-start justify-start gap-4 overflow-x-auto pt-4  overflow-y-auto   `}

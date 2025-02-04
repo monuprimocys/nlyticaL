@@ -15,8 +15,9 @@ const Currentlocation = () => {
   const getLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition, showError);
-      console.log(navigator.geolocation.getCurrentPosition(showPosition, showError));
-       
+      console.log(
+        navigator.geolocation.getCurrentPosition(showPosition, showError)
+      );
     } else {
       dispatch(setError("Geolocation is not supported by this browser."));
     }

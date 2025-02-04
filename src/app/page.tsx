@@ -1,3 +1,5 @@
+"use client";
+
 import HomeHeroSection from "./componets/homesection/HomeHeroSection";
 import HomeSectionSerachBox from "./componets/homesection/HomeSectionSerachBox";
 import Section5 from "./componets/homesection/Section5/Section5";

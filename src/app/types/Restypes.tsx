@@ -505,3 +505,63 @@ export interface Service {
   created_at: Date;
   updated_at: Date;
 }
+
+//  remove service images
+
+export interface RemoveServiceImagesRes {
+  vendor_id: string;
+  service_id: string;
+  service_image_id: string;
+}
+
+//  store list
+
+export interface StorelistRes {
+  status: boolean;
+  message: string;
+  StoreList: StoreList[];
+}
+
+export interface StoreList {
+  id: number;
+  store_name: string;
+  store_description: string;
+  price: string;
+  store_images: Store[];
+  store_attachments: Store[];
+}
+
+export interface Store {
+  id: number;
+  url: string;
+}
+
+// ++++++++++++++++++++++++++++++++++++update store +++++++++++++++++++++++++++++++++++++
+
+export interface StoreUpdateRes {
+  status: boolean;
+  message: string;
+  store: Store;
+}
+
+export interface Store {
+  id: number;
+  service_id: string;
+  store_name: string;
+  store_description: string;
+  price: string;
+  created_at: Date;
+  updated_at: Date;
+  storeImages: StoreImage[];
+  storeAttachments: StoreAttachment[];
+}
+
+export interface StoreAttachment {
+  id: number;
+  store_attachments: string;
+}
+
+export interface StoreImage {
+  id: number;
+  store_images: string;
+}

@@ -101,7 +101,7 @@ export default function AddPostModal() {
           <div className="flex min-h-full items-center justify-center overflow-y-auto">
             <DialogPanel
               transition
-              className="mx-auto h-auto w-[90%] overflow-y-auto rounded-2xl bg-white backdrop-blur-2xl duration-300 ease-out xl:w-[58%]"
+              className="mx-auto h-auto w-[90%] overflow-y-auto rounded-2xl bg-white backdrop-blur-2xl duration-300 ease-out xl:w-[88%] 2xl:w-[58%]"
             >
               {/* heading */}
               <div className="step-container relative flex h-[5rem] w-full items-center justify-center rounded-t-3xl">
