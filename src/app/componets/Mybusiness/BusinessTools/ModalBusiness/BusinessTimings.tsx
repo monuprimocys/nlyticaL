@@ -6,13 +6,19 @@ import Image from "next/image";
 import arrow from "../../../../../../public/assets/Image/arrow-left.png";
 import { useDispatch } from "react-redux";
 import { showModal } from "@/app/store/Slice/modalSlice";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function BusinessTimings() {
   const dispatch = useDispatch();
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   return (
     <div
-      className="w-full justify-between px-8 py-4 rounded-lg items-center flex businesslable cursor-pointer"
+      className={`w-full justify-between px-4 md:px-8 py-4 rounded-lg items-center flex  cursor-pointer  ${
+        isDarkMode
+          ? "bg-[#212121] text-[#ffffff]"
+          : "bg-[#ffffff]  businesslable text-black"
+      }  `}
       onClick={() => {
         dispatch(showModal("BusinessTimingsModal"));
       }}
@@ -25,7 +31,7 @@ function BusinessTimings() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="text-xl font-poppins text-black">Business Timings</div>
+        <div className="text-xl font-poppins">Business Timings</div>
       </div>
 
       <div className="flex gap-3 items-center">
@@ -37,7 +43,9 @@ function BusinessTimings() {
           <Image
             src={arrow}
             alt="arrow"
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover  ${
+              isDarkMode? "invert" : ""
+            }`}
           />
         </div>
       </div>

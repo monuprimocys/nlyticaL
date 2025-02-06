@@ -65,6 +65,7 @@ export default function LoginModal() {
       Cookies.set("login_type", userData.login_type);
       Cookies.set("is_store", userData.is_store);
       Cookies.set("service_id", userData.service_id);
+      Cookies.set("loginuser", "user_login");
 
       toast.success("Login successful!");
       // Optionally, hide the modal after successful login
@@ -263,10 +264,7 @@ export default function LoginModal() {
         </div>
       </div>
 
-      <ToastContainer 
-      position="top-right"
-      autoClose={5000}
-        />
+      <ToastContainer position="top-right" autoClose={5000} />
     </Dialog>
   );
 }

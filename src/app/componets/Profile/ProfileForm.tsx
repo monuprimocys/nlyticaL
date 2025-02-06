@@ -50,7 +50,7 @@ const ProfileForm: React.FC = () => {
 
   // dispatch(updateUserDetails(data));
 
-  // console.log("phone number121212", imageFile);
+  console.log("phone number121212", imageFile);
 
   useEffect(() => {
     if (user_id) {
@@ -348,7 +348,7 @@ const ProfileForm: React.FC = () => {
                 className="font-poppins w-fit rounded-md border-solid border-[#0046AE] bg-[#0046AE] px-[3.5rem] py-2 text-lg font-medium text-white"
                 disabled={isLoading}
               >
-                {isLoading ? "Updating..." : "Submit"}
+                {isLoading ? "Updating..." : "Submit "}
               </button>
             </div>
           </div>

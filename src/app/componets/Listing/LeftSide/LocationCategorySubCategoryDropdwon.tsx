@@ -3,6 +3,7 @@ import CategoryDropdwonListing from "./CategoryDropdwonListing";
 import SubCategoryListingDropdwon from "./SubCategoryListingDropdwon";
 import ListingLocation from "./ListingLocation";
 import { MdKeyboardArrowRight } from "react-icons/md";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 const LocationCategorySubCategoryDropdwon: React.FC = () => {
   // State to track if components are visible (open/closed)
@@ -13,6 +14,8 @@ const LocationCategorySubCategoryDropdwon: React.FC = () => {
     setIsOpen((prevState) => !prevState);
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="w-full relative">
       {/* Right side icon */}
@@ -20,7 +23,14 @@ const LocationCategorySubCategoryDropdwon: React.FC = () => {
         <MdKeyboardArrowRight
           className={`text-2xl text-[#000000] cursor-pointer transition-transform duration-300 ${
             isOpen ? "rotate-0" : "rotate-180"
-          }`}
+          }
+
+
+          ${isDarkMode ? " text-white" : "bg-white text-black"}
+
+         
+          
+          `}
           onClick={toggleDropdown} // Toggle on click
         />
       </div>

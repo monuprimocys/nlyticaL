@@ -12,13 +12,18 @@ import { useUpdateServiceMutation } from "@/app/store/api/updateServiceApi";
 import { updateServiceField } from "@/app/store/Slice/serviceSlice";
 
 function BusinessWebsiteModal() {
-  const modalOpen = useAppSelector((state) => state.modals.BusinessWebsiteModal);
-  const service_website = useAppSelector((state) => state.service.service.service_website);
+  const modalOpen = useAppSelector(
+    (state) => state.modals.BusinessWebsiteModal
+  );
+  const service_website = useAppSelector(
+    (state) => state.service.service.service_website
+  );
   const dispatch = useAppDispatch();
   const vendor_id = Cookies.get("user_id");
   const service_id = Cookies.get("service_id");
 
-  const [updateService, { data, isLoading, error }] = useUpdateServiceMutation();
+  const [updateService, { data, isLoading, error }] =
+    useUpdateServiceMutation();
 
   // Handle modal close (dispatch action to hide modal)
   const close = () => dispatch(hideModal("BusinessWebsiteModal"));
@@ -49,13 +54,23 @@ function BusinessWebsiteModal() {
     }
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <Dialog open={modalOpen} onClose={close} as="div" className="z-50">
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full h-auto items-center justify-center">
-          <DialogPanel className="mx-auto pb-6 h-auto w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%]">
-            <div className="flex w-full items-center justify-between p-4 modalbordercolor font-poppins rounded-b-lg">
-              <h3 className="font-poppins text-lg font-medium text-black text-center w-full">
+          <DialogPanel
+            className={`mx-auto pb-6 h-auto w-[90%] rounded-2xl  shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%]  ${
+              isDarkMode ? "bg-[#212121] text-white" : "bg-white   text-black"
+            }`}
+          >
+            <div
+              className={`flex w-full items-center justify-between p-4  font-poppins rounded-b-lg   ${
+                isDarkMode ? "bg-[#FFFFFF0A]" : " modalbordercolor"
+              }`}
+            >
+              <h3 className="font-poppins text-lg font-medium  text-center w-full">
                 Business Website
               </h3>
               <div
@@ -63,7 +78,11 @@ function BusinessWebsiteModal() {
                 onClick={close}
                 aria-label="Close modal"
               >
-                <Image src={crossicon} className="h-8 w-8" alt="Close icon" />
+                <Image
+                  src={crossicon}
+                  className={`h-8 w-8   ${isDarkMode ? " invert" : ""}`}
+                  alt="Close icon"
+                />
               </div>
             </div>
 
@@ -75,7 +94,11 @@ function BusinessWebsiteModal() {
                   alt="Information icon"
                 />
               </div>
-              <p className="text-[15px] font-normal text-[#0046AE] text-center font-poppins">
+              <p
+                className={`text-[15px] font-normal  text-center font-poppins   ${
+                  isDarkMode ? " text-white" : "text-[#0046AE]"
+                }`}
+              >
                 Enter the address details that would be used by customers to
                 locate your workplace
               </p>
@@ -84,7 +107,7 @@ function BusinessWebsiteModal() {
             <div className="mx-auto w-[80%] flex justify-center items-center h-auto flex-col gap-6">
               <div className=" w-full">
                 <label
-                  className="text-sm font-medium text-[#000000]"
+                  className="text-sm font-medium "
                   htmlFor="service_website"
                 >
                   Add Business Website
@@ -96,7 +119,11 @@ function BusinessWebsiteModal() {
                     name="service_website"
                     value={service_website}
                     onChange={handleWebsiteChange}
-                    className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
+                    className={`font-poppins  w-full rounded-md border  py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]  ${
+                      isDarkMode
+                        ? "text-white  bg-[#FFFFFF0A]"
+                        : "text-black bg-white inputboxborder"
+                    }`}
                     placeholder="Website"
                   />
                 </div>

@@ -1,11 +1,14 @@
+import { useAppSelector } from "@/app/hooks/hooks";
 import bgvectoreimage from "../../../../public/assets/Image/Section9Vector.png";
 import React from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaRegCircleCheck } from "react-icons/fa6";
+
 function SubscribeCard() {
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   return (
     <div
-      className="relative h-[27.5rem] w-full cursor-pointer -z-20"
+      className="relative h-[27.5rem] w-full cursor-pointer"
       style={{
         position: "relative",
       }}
@@ -14,7 +17,7 @@ function SubscribeCard() {
       <div
         className="h-full w-full rounded-xl"
         style={{
-          content: "''",
+          content: "transparent",
           position: "absolute",
           top: 0,
           left: 0,
@@ -29,18 +32,27 @@ function SubscribeCard() {
       ></div>
 
       {/* Content (with white background color) */}
-      <div className=" h-full w-full rounded-xl bg-white shadow">
+      <div
+        className={`h-full w-full rounded-xl ${
+          isDarkMode
+            ? "bg-[#212121] border-2 border-[#FFFFFF66]"
+            : "shadow bg-white"
+        }`}
+      >
         <div className="flex w-full flex-col items-start justify-start gap-4 p-6">
           <div className="flex flex-col gap-4">
             <h2 className="font-poppins text-2xl font-medium text-[#0046AE]">
               Business Plan
             </h2>
-            <p className="font-poppins text-lg text-[#000000]">
+            <p
+              className={`font-poppins text-lg ${
+                isDarkMode ? "text-white" : "text-[#000000]"
+              }`}
+            >
               Hold in these matters this principle
             </p>
           </div>
-          {/* price detail */}
-
+          {/* Price detail */}
           <div className="flex">
             <div>
               <h2 className="font-poppins text-xl font-medium text-[#000000]">
@@ -55,7 +67,7 @@ function SubscribeCard() {
             </div>
           </div>
 
-          {/* listing */}
+          {/* Listing */}
           <div className="flex flex-col gap-2">
             <ul className="flex flex-col gap-4">
               <li className="flex items-center gap-2">
@@ -93,9 +105,9 @@ function SubscribeCard() {
             </ul>
           </div>
         </div>
-        {/* btn */}
-        <div className="w-full p-4  ">
-          <button className="font-poppins w-full rounded-lg bg-[#0046AE] py-3 text-center text-lg font-semibold text-white">
+        {/* Button */}
+        <div className="w-full p-4">
+          <button className="font-poppins w-full rounded-lg py-3 text-center text-lg font-semibold text-white bg-[#0046AE] transition duration-300 hover:bg-red-600 focus:outline-none">
             Choose Plan
           </button>
         </div>

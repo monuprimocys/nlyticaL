@@ -1,13 +1,21 @@
 import React from "react";
 import addprofile from "../../../../../public/assets/Image/videobusiness.png";
 import Image from "next/image";
-import { useAppSelector } from "@/app/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
+import { showModal } from "@/app/store/Slice/modalSlice";
 
 function AddVideo() {
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
+  const dispatch = useAppDispatch();
+
   return (
-    <div className="  flex  flex-col gap-2 cursor-pointer ">
+    <div
+      className="  flex  flex-col gap-2 cursor-pointer "
+      onClick={() => {
+        dispatch(showModal("BusinessVideoModal"));
+      }}
+    >
       <div className="w-[6.3rem]  h-[6.3rem]  rounded-lg  flex justify-center items-center  bg-[#FFE1AA]  ">
         <Image
           src={addprofile}

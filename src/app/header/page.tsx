@@ -51,6 +51,9 @@ import DeleteStoreModal from "../componets/Mybusiness/BusinessService/Service/Up
 import VisitedModal from "../componets/modal/VisitedModal";
 import SelectLocationVisite from "../componets/modal/SelectLocationVisite";
 import RegisterWithMobailNumberOtpVerify from "../(Auth)/RegisterWithMobailNumberOtpVerify/RegisterWithMobailNumberOtpVerify";
+import BusinessVideoModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/BusinessVideoModal";
+import BusinessPorfileUpdateModal from "../componets/Mybusiness/BusinessQuickLinks/BusinessPorfileUpdateModal";
+import BusinessRebiewListModal from "../componets/Mybusiness/BusinessQuickLinks/BusinessRebiewListModal";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -59,7 +62,7 @@ function Header() {
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [isSticky, setIsSticky] = useState(false);
 
-  const user_id = Cookies.get("user_id");
+  const user_id = Cookies.get("loginuser");
 
   const isServiceFormSubmit = Cookies.get("is_store");
 
@@ -205,6 +208,18 @@ function Header() {
 
   const isRegisterWithMobailNumberOtpVerifyVisibile = useAppSelector(
     (state) => state.modals.RegisterWithMobailNumberOtpVerify
+  );
+
+  const isBusinessVideoModalVisible = useAppSelector(
+    (state) => state.modals.BusinessVideoModal
+  );
+
+  const isBusinessPorfileUpdateModal = useAppSelector(
+    (state) => state.modals.BusinessPorfileUpdateModal
+  );
+
+  const isBusinessRebiewListModalVisible = useAppSelector(
+    (state) => state.modals.BusinessRebiewListModal
   );
 
   const handleMenuToggle = () => {
@@ -864,6 +879,9 @@ function Header() {
       {isRegisterWithMobailNumberOtpVerifyVisibile && (
         <RegisterWithMobailNumberOtpVerify />
       )}
+      {isBusinessVideoModalVisible && <BusinessVideoModal />}
+      {isBusinessPorfileUpdateModal && <BusinessPorfileUpdateModal />}
+      {isBusinessRebiewListModalVisible && <BusinessRebiewListModal />}
     </header>
   );
 }

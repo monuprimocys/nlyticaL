@@ -63,11 +63,15 @@ function ImageInput() {
     removeImage(imageToRemove); // Assuming image URL is used for removal
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="w-full">
       <div className="w-full">
         <label
-          className="font-poppins text-sm font-medium text-[#000000]"
+          className={`font-poppins text-sm font-medium  ${
+            isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
+          }`}
           htmlFor="service_image"
         >
           Service Image/Video
@@ -89,9 +93,17 @@ function ImageInput() {
             <Image
               src={uploadicon}
               alt="upload icon"
-              className="h-6 w-6 object-cover"
+              className={`h-6 w-6 object-cover   ${
+                isDarkMode ? " invert" : ""
+              }`}
             />
-            <p className="font-poppins text-[#B4B4B4]">Service Image/Video</p>
+            <p
+              className={`font-poppins  ${
+                isDarkMode ? "text-[#ffffff]" : "text-[#B4B4B4]"
+              }`}
+            >
+              Service Image/Video
+            </p>
           </div>
         </div>
 
@@ -127,16 +139,15 @@ function ImageInput() {
               </div>
             );
           })}
-
-          {/* Save button */}
-          <div className="w-full justify-center items-center flex">
-            <button
-              type="button"
-              className="w-fit px-[5rem] py-3 bg-[#0046AE] rounded-lg font-poppins text-white"
-            >
-              Save
-            </button>
-          </div>
+        </div>
+        {/* Save button */}
+        <div className="w-full justify-center items-center flex pt-6">
+          <button
+            type="button"
+            className="w-fit px-[5rem] py-3 bg-[#0046AE] rounded-lg font-poppins text-white"
+          >
+            Save
+          </button>
         </div>
       </div>
     </div>

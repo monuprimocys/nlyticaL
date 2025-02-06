@@ -56,7 +56,7 @@ function CardListing() {
   const filterslice = useAppSelector((state) => state.FilterListingSlice);
   const [filter, { data, error, isLoading }] = useFilterMutation();
 
- 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   // Handle view type change
   const handleGridView = () => setViewType("grid");
@@ -120,7 +120,14 @@ function CardListing() {
         <div className="flex h-[8rem] w-[8rem] items-center justify-center">
           <Image src={video} alt="Loading animation" width={100} height={100} />
         </div>
-        <h2 className="font-poppins font-medium text-black">No Data Found</h2>
+        <h2
+          className={`font-poppins font-medium   ${
+            isDarkMode ? " text-white" : "text-black"
+          } text-center text-lg sm:text-xl md:text-2xl"
+        }`}
+        >
+          No Data Found
+        </h2>
       </div>
     );
   }
@@ -128,6 +135,8 @@ function CardListing() {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = serviceFilter.slice(indexOfFirstItem, indexOfLastItem);
+
+  console.log(" my all item values found", currentItems);
 
   const totalPages = Math.ceil(serviceFilter.length / itemsPerPage);
 
@@ -140,50 +149,75 @@ function CardListing() {
   };
 
   return (
-    <div className="w-full h-auto">
+    <div className="w-full h-auto ">
       <div className="w-full justify-end items-center flex gap-3 mb-4">
         {/* View type selection */}
-        <div className="flex justify-center items-center px-6 py-2 border-2 bordercard rounded-lg gap-2 cursor-pointer hover:bg-slate-200">
+        <div
+          className={`flex justify-center items-center px-6 py-2 border-2  rounded-lg gap-2 cursor-pointer   ${
+            isDarkMode
+              ? "text-white   hover:bg-zinc-600"
+              : "text-black   hover:bg-slate-200  bordercard"
+          }`}
+        >
           <div className="w-[1rem] h-[1rem] flex justify-center items-center">
             <Image
               src={resetico}
               alt="Reset Filter"
-              className="h-full w-full object-cover"
+              className={`h-full w-full object-cover   ${
+                isDarkMode ? "bg-circle-icon" : ""
+              }`}
             />
           </div>
-          <button
-            className="font-poppins text-[#000000] font-[500]"
-            onClick={handleGridView}
-          >
+          <button className="font-poppins  font-[500]" onClick={handleGridView}>
             Reset Filter
           </button>
         </div>
         {/* Grid/List view buttons */}
         <div
-          className={`flex justify-center items-center px-2 py-2 border-2 bordercardbtn rounded-lg gap-2 cursor-pointer hover:bg-slate-200 ${
+          className={`flex justify-center items-center px-2 py-2 border-2  rounded-lg gap-2 cursor-pointer ${
             viewType === "grid" ? "bg-slate-300" : ""
-          }`}
+          }
+          
+           ${
+             isDarkMode
+               ? "text-white   hover:bg-zinc-600"
+               : "text-black   hover:bg-slate-200  bordercard"
+           }
+          
+          `}
           onClick={handleGridView}
         >
           <div className="w-[1rem] h-[1rem] flex justify-center items-center">
             <Image
               src={cardlisticon}
               alt="Grid View Icon"
-              className="h-full w-full object-cover"
+              className={`h-full w-full object-cover   ${
+                isDarkMode ? "bg-circle-icon" : ""
+              }`}
             />
           </div>
         </div>
         <div
-          className={`flex justify-center items-center px-2 py-2 border-2 bordercardbtn rounded-lg gap-2 cursor-pointer hover:bg-slate-200 ${
+          className={`flex justify-center items-center px-2 py-2 border-2  rounded-lg gap-2 cursor-pointer hover:bg-slate-200 ${
             viewType === "list" ? "bg-slate-300" : ""
-          }`}
+          }
+          ${
+            isDarkMode
+              ? "text-white   hover:bg-zinc-600"
+              : "text-black   hover:bg-slate-200  bordercard"
+          }
+          
+          
+          `}
           onClick={handleListView}
         >
           <div className="w-[1rem] h-[1rem] flex justify-center items-center">
             <Image
               src={cardlisticon2}
               alt="List View Icon"
-              className="h-full w-full object-cover"
+              className={`h-full w-full object-cover   ${
+                isDarkMode ? "bg-circle-icon" : ""
+              }`}
             />
           </div>
         </div>

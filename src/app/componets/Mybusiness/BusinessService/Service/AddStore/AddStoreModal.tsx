@@ -42,24 +42,24 @@ function AddStoreModal() {
   // Handle form submission
   const handleSave = async () => {
     const formData = new FormData();
-  
+
     // Append regular fields to the FormData
     formData.append("service_id", service_id);
     formData.append("vendor_id", vendor_id);
     formData.append("store_name", store_name);
     formData.append("store_description", store_description);
     formData.append("price", price);
-  
+
     // Append files (store_images)
     store_images.forEach((file) => {
       formData.append("store_images[]", file); // Make sure each file is appended correctly
     });
-  
+
     // Append store_attachments
     store_attachments.forEach((file) => {
       formData.append("store_attachments[]", file); // Same for attachments
     });
-  
+
     try {
       // 1. Call the API to add the store (mutate)
       await mutate({
@@ -71,7 +71,7 @@ function AddStoreModal() {
         store_images, // These should be File[] arrays
         store_attachments, // These should be File[] arrays
       });
-  
+
       // Success toast notification
       toast.success("Store added successfully!", {
         position: "top-right",
@@ -82,7 +82,7 @@ function AddStoreModal() {
         draggable: true,
         progress: undefined,
       });
-  
+
       // 2. Once the store is added, refetch the store list
       if (service_id) {
         const refetchedData = await refetch(); // Refetch the store list to update the data
@@ -91,11 +91,11 @@ function AddStoreModal() {
         }
       }
       refetch();
-  
+
       close(); // Close the modal after successful submission
     } catch (error) {
       console.error("Error saving store or fetching store list:", error);
-      
+
       // Error toast notification
       toast.error("Failed to add store. Please try again.", {
         position: "top-right",
@@ -108,14 +108,24 @@ function AddStoreModal() {
       });
     }
   };
-  
+
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <Dialog open={modalOpen} onClose={close} as="div" className="z-50">
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full h-auto items-center justify-center">
-          <DialogPanel className="mx-auto pb-6 h-auto w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%]">
-            <div className="flex w-full items-center justify-between p-4 modalbordercolor font-poppins rounded-b-lg">
-              <h3 className="font-poppins text-lg font-medium text-black text-center w-full">
+          <DialogPanel
+            className={`mx-auto pb-6 h-auto w-[90%] rounded-2xl  shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%]  ${
+              isDarkMode ? " bg-[#181818]  text-white" : "bg-white text-black"
+            }`}
+          >
+            <div
+              className={`flex w-full items-center justify-between p-4  font-poppins rounded-b-lg  ${
+                isDarkMode ? "bg-[#FFFFFF0A]" : "modalbordercolor"
+              }`}
+            >
+              <h3 className="font-poppins text-lg font-medium  text-center w-full">
                 Add Service
               </h3>
               <div
@@ -123,7 +133,11 @@ function AddStoreModal() {
                 onClick={close}
                 aria-label="Close modal"
               >
-                <Image src={crossicon} className="h-8 w-8" alt="Close icon" />
+                <Image
+                  src={crossicon}
+                  className={`h-8 w-8  ${isDarkMode ? " invert" : ""}`}
+                  alt="Close icon"
+                />
               </div>
             </div>
 

@@ -107,19 +107,24 @@ export default function SelectLabels() {
     }
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
-    <div className="w-full overflow-hidden   ">
+    <div className="w-full overflow-hidden">
       {/* Subcategory label */}
       <label
         htmlFor="location"
-        className="font-poppins mb-3 block text-sm font-medium capitalize text-black"
+        className={`font-poppins mb-3 block text-sm font-medium capitalize ${
+          isDarkMode ? "text-white" : "text-black"
+        }`}
       >
         Sub Category
-        <span className=" text-[#F21818] pl-[1px]">*</span>
+        <span className="text-[#F21818] pl-[1px]">*</span>
       </label>
       <FormControl
         style={{
           width: "100%",
+          backgroundColor: isDarkMode ? "#333333" : "#ffffff", // Darker background for dark mode
         }}
       >
         <Select
@@ -129,6 +134,9 @@ export default function SelectLabels() {
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}
           disabled={!category_id} // Disable dropdown if category_id doesn't exist
+          className={
+            isDarkMode ? "bg-[#444444] text-white" : "bg-white text-black"
+          } // Select styling
         >
           {/* Render options only if subcategory data is available */}
           {subcategory?.map((sub) => (
@@ -136,6 +144,10 @@ export default function SelectLabels() {
               key={sub.id}
               value={sub.subcategory_name}
               className="!flex !gap-2"
+              style={{
+                backgroundColor: isDarkMode ? "#444444" : "transparent", // MenuItem background
+                color: isDarkMode ? "white" : "black", // MenuItem text color
+              }}
             >
               <input
                 type="checkbox"
@@ -155,14 +167,19 @@ export default function SelectLabels() {
             key={value}
             label={value}
             onDelete={() => handleDelete(value)}
-            sx={{ margin: 0.5 }}
+            sx={{
+              margin: 0.5,
+              backgroundColor: isDarkMode ? "#555555" : "#eeeeee", // Chip background color
+              color: isDarkMode ? "#ffffff" : "#000000", // Chip text color
+              borderColor: isDarkMode ? "#666666" : "#cccccc", // Chip border color
+            }}
           />
         ))}
       </Box>
 
       {/* Display a message if category_id doesn't exist */}
       {!category_id && (
-        <Box sx={{ mt: 2, color: "gray",  }}>
+        <Box sx={{ mt: 2, color: isDarkMode ? "gray" : "black" }}>
           Please select a category to see subcategories.
         </Box>
       )}

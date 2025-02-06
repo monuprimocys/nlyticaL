@@ -6,6 +6,7 @@ import { TextField, InputAdornment } from "@mui/material";
 import search from "../../../../../public/assets/Image/search-normal.png";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchQuery } from "@/app/store/Slice/Listing/searchSlice";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 const SearchboxListing = () => {
   const dispatch = useDispatch();
@@ -22,8 +23,10 @@ const SearchboxListing = () => {
 
   console.log(" updating search", searchQuery);
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
-    <div className="w-full relative">
+    <div className="w-full relative  ">
       <TextField
         fullWidth
         variant="outlined"
@@ -46,7 +49,12 @@ const SearchboxListing = () => {
         sx={{
           "& .MuiOutlinedInput-root": {
             paddingLeft: "1rem",
-            backgroundColor: "white",
+            fontFamily: "Poppins, sans-serif",
+            fontSize: "1.125rem",
+            backgroundColor: isDarkMode ? "#212121" : "#ffffff",
+            color: isDarkMode ? "#ffffff" : "#000000",
+            border: "none",
+
             borderRadius: "8px",
             borderColor: "#B4B4B4",
             "&:focus-within": {
@@ -55,7 +63,7 @@ const SearchboxListing = () => {
             },
           },
           "& .MuiInputBase-input": {
-            color: "#000000",
+            color: isDarkMode ? "#ffffff" : "#000000",
             fontFamily: "Poppins, sans-serif",
           },
         }}

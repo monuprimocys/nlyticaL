@@ -13,10 +13,15 @@ function BusinessImages() {
   const storesliceImage = useAppSelector(
     (state) => state.service.service_images
   );
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   return (
     <div
-      className="w-full justify-between px-8 py-4 rounded-lg items-center flex businesslable cursor-pointer"
+      className={`w-full justify-between px-4 md:px-8 py-4 rounded-lg items-center flex  cursor-pointer  ${
+        isDarkMode
+          ? "bg-[#212121] text-[#ffffff]"
+          : "bg-[#ffffff]  businesslable text-black"
+      }  `}
       onClick={() => {
         dispatch(showModal("BusinessImagesModal"));
       }}
@@ -29,7 +34,7 @@ function BusinessImages() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="text-xl font-poppins text-black">Business Images</div>
+        <div className="text-xl font-poppins ">Business Images</div>
       </div>
 
       <div className="flex gap-3 items-center">
@@ -41,7 +46,9 @@ function BusinessImages() {
           <Image
             src={arrow}
             alt="arrow"
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover  ${
+              isDarkMode ? "invert" : ""
+            }`}
           />
         </div>
       </div>

@@ -68,18 +68,26 @@ function UploadStoreImage() {
     return "other";
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className=" w-full">
       <div>
         <label
-          className="font-poppins text-sm font-medium text-[#000000]"
+          className={`font-poppins text-sm font-medium   ${
+            isDarkMode ? "text-[#FFFFFF]" : "text-[#000000]"
+          }`}
           htmlFor="service_image"
         >
           Add Service Images
         </label>
 
         <div
-          className="borderinputbox font-poppins mt-2 flex h-[6rem] w-full  !border-[#6565657a] border-[1px] cursor-pointer items-center justify-center rounded-lg  bg-transparent p-3 focus:border-[#0046AE] focus:outline-none"
+          className={` font-poppins mt-2 flex h-[6rem] w-full  !border-[#6565657a] border-[1px] cursor-pointer items-center justify-center rounded-lg   p-3 focus:border-[#0046AE] focus:outline-none  ${
+            isDarkMode
+              ? "text-[#FFFFFF]  borde-2  border-[#373737]  bg-[#FFFFFF0A]"
+              : " borderinputbox"
+          }`}
           onClick={handleFileClick}
         >
           <input
@@ -94,7 +102,7 @@ function UploadStoreImage() {
             <Image
               src={uploadicon}
               alt="upload icon"
-              className="h-6 w-6 object-cover"
+              className={`h-6 w-6 object-cover  ${isDarkMode ? " invert" : ""}`}
             />
             <p className="font-poppins text-[#B4B4B4]">Service Image/Video </p>
           </div>

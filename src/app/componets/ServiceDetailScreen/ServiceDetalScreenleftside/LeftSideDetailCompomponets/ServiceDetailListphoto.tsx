@@ -20,11 +20,19 @@ const ServiceDetailListphoto: React.FC = () => {
     setSelectedImage(image); // Directly set the selected image
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
-    <div className="w-full photoservicedetailborderandshado h-auto rounded-xl p-4 flex flex-col">
+    <div
+      className={`w-full  h-auto rounded-xl p-4 flex flex-col  ${
+        isDarkMode
+          ? "text-white   bg-[#212121]"
+          : " text-black photoservicedetailborderandshado"
+      }`}
+    >
       {/* Heading */}
       <div className="text-lg font-medium items-start font-poppins">
-        Photos{" "}
+        Photos{" "} 
       </div>
 
       {/* Image grid */}

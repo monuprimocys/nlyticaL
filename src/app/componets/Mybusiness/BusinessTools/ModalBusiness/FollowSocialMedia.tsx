@@ -27,9 +27,15 @@ function FollowSocialMedia() {
     (state) => state.service.service.whatsapp_link
   );
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div
-      className="w-full justify-between px-8 py-4 rounded-lg items-center flex businesslable cursor-pointer"
+    className={`w-full justify-between px-4 md:px-8 py-4 rounded-lg items-center flex  cursor-pointer  ${
+      isDarkMode
+        ? "bg-[#212121] text-[#ffffff]"
+        : "bg-[#ffffff]  businesslable text-black"
+    }  `}
       onClick={() => {
         dispatch(showModal("FollowSocialMediaModal"));
       }}
@@ -42,7 +48,7 @@ function FollowSocialMedia() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="text-xl font-poppins text-black">
+        <div className="text-xl font-poppins">
           Follow on Social Media
         </div>
       </div>
@@ -90,7 +96,9 @@ function FollowSocialMedia() {
           <Image
             src={arrow}
             alt="arrow"
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover  ${
+              isDarkMode? "invert" : ""
+            }`}
           />
         </div>
       </div>

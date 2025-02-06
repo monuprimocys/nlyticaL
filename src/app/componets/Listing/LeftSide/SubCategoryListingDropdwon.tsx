@@ -47,6 +47,8 @@ const SubCategoryListingDropdown = () => {
     dispatch(setselectedSubCategoryListing({ id: null, subcategory_name: "" }));
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="w-full mx-auto rounded-xl  ">
       <FormControl fullWidth variant="outlined" disabled={!isCategoryValid}>
@@ -56,13 +58,20 @@ const SubCategoryListingDropdown = () => {
           value={subcategoryvalues || ""}
           onChange={handleSubCategoryChange}
           className={`text-gray-700 pl-10 ${
-            subcategoryvalues ? "hide-select-icon bg-slate-300" : ""
-          }`} // Conditionally apply hide-select-icon
+            subcategoryvalues ? "hide-select-icon " : ""
+          }
+            ${isDarkMode ? "bg-[#FFFFFF21]" : "bg-slate-300"}
+          
+          `} // Conditionally apply hide-select-icon
           displayEmpty
           renderValue={(value) => (value ? value : "Search Subcategories")}
           startAdornment={
             <InputAdornment position="start">
-              <Image src={dropdown} alt="Dropdown Icon" className="h-5 w-6 " />
+              <Image
+                src={dropdown}
+                alt="Dropdown Icon"
+                className={`h-5 w-6   ${isDarkMode ? "bg-circle-icon" : ""} `}
+              />
             </InputAdornment>
           }
           endAdornment={
@@ -78,7 +87,7 @@ const SubCategoryListingDropdown = () => {
           }
         >
           <MenuItem value="" disabled>
-            Search Subcategories 
+            Search Subcategories
           </MenuItem>
           {subcategory && subcategory.length > 0 ? (
             subcategory.map((subcategory) => (

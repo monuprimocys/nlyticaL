@@ -62,16 +62,14 @@ function RegisterWithMobilenumber() {
 
       Cookies.set("login_type", response.login_type);
 
-      Cookies.set("service_id", response.store_id);
-
       // Dispatch user registration and handle response
       dispatch(setUserRegistration(response));
       console.log("API response:", response.is_store);
-      Cookies.set("is_store", response.is_store);
 
       toast.success("OTP sent successfully!");
       dispatch(showModal("RegisterWithMobilenumberVerifyOtpModal"));
       dispatch(hideModal("RegisterModal"));
+      dispatch(hideModal("RegisterWithMobilenumber"));
     } catch (err) {
       // Handle error (e.g., show error message)
       toast.error("An error occurred. Please try again.");

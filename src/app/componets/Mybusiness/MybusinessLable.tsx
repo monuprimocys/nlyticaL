@@ -21,6 +21,17 @@ function MybusinessLable() {
 
   console.log(" my dark mode121212121@", isDarkMode);
 
+  const getBorderColor = () => {
+    if (totalPercentage >= 90) {
+      return "bordercolorfillbusiness"; // Green for completed
+    } else if (totalPercentage >= 60) {
+      return "bordercolorfillbusiness"; // Yellow for halfway
+    } else if (totalPercentage >= 30) {
+      return "bordercolorfillbusiness"; // Red for initial progress
+    }
+    return ""; // No additional border color for below 30%
+  };
+
   return (
     <div
       className={`mx-auto 2xl:w-[60%] xl:w-[80%] w-[90%] mt-[3rem]    rounded-lg gap-6  justify-items-center py-6 md:py-10 px-6 md:px-16 grid  grid-cols-1  md:grid-cols-2  items-center    ${
@@ -29,16 +40,25 @@ function MybusinessLable() {
     >
       {/* left side circle with text */}
       <div className="  flex  w-full  justify-start items-center gap-5">
-        <div className="rounded-full h-[5rem]  w-[5rem]  bg-white bordercolorbusiness flex justify-center items-center">
-          <p className=" text-[#00AE5D]  font-medium  text-lg  font-poppins">
-            {" "}
-            {totalPercentage}
-          </p>
+        <div className="relative flex justify-center items-center">
+          <div
+            className={`rounded-full h-[5rem] w-[5rem] bordercolorbusiness flex justify-center items-center`}
+          >
+            <p className="text-[#00AE5D] font-medium text-lg font-poppins">
+              {totalPercentage}
+            </p>
+          </div>
+          <div
+            className={`absolute rounded-full h-[5rem] w-[5rem] border-2 ${getBorderColor()} transition-all duration-300`}
+            style={{
+              clipPath: `inset(0 ${100 - totalPercentage}% 0 0)`, // Clip the border based on percentage
+            }}
+          />
         </div>
         {/* content  */}
         <div className=" flex gap-1 flex-col">
           <p
-            className={` text-black font-poppins text-xl  font-medium   ${
+            className={`  font-poppins text-xl  font-medium   ${
               isDarkMode
                 ? "text-[#ffffff]  font-medium"
                 : "text-[#000000]  font-medium"

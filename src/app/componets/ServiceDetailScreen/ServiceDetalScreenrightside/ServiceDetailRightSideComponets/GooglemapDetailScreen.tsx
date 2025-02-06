@@ -108,16 +108,30 @@ const GooglemapDetailScreen: React.FC = () => {
     }
   }, [googleLoaded, validLat, validLon]);
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="items-center justify-center w-full p-4 h-full rounded-lg photoservicedetailborderandshado">
       {/* Heading */}
-      <div className="text-lg font-medium items-start font-poppins text-[#3E5155]">
+      <div
+        className={`text-lg font-medium items-start font-poppins    ${
+          isDarkMode ? "text-[#ffffff]" : "text-[#3E5155]"
+        }`}
+      >
         Map
       </div>
       {/* Google map location according to lat lon */}
       <div className="w-full flex gap-2 h-full">
-        <Image src={locationicon} alt="Location Icon" className="w-6 h-6" />
-        <h1 className="text-sm font-medium text-black font-poppins pt-[2px]">
+        <Image
+          src={locationicon}
+          alt="Location Icon"
+          className={`w-6 h-6  ${isDarkMode ? "bg-circle-icon" : ""}`}
+        />
+        <h1
+          className={`text-sm font-medium  font-poppins pt-[2px]  ${
+            isDarkMode ? "text-[#ffffff]" : "text-black"
+          }`}
+        >
           {address}
         </h1>
       </div>

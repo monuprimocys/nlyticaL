@@ -17,6 +17,8 @@ function BusinessNameModal() {
   const vendor_id = Cookies.get("user_id");
   const service_id = Cookies.get("service_id");
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   const storevalues = useAppSelector((state) => state.service.service);
 
   // Form state for business name and description
@@ -93,9 +95,17 @@ function BusinessNameModal() {
     >
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full h-auto items-center justify-center">
-          <DialogPanel className="mx-auto pb-6 h-auto w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%]">
-            <div className="flex w-full items-center justify-between p-4 modalbordercolor font-poppins rounded-b-lg">
-              <h3 className="font-poppins text-lg font-medium text-black text-center w-full">
+          <DialogPanel
+            className={`mx-auto pb-6 h-auto w-[90%] rounded-2xl  shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%]  ${
+              isDarkMode ? " bg-[#212121] text-white" : "bg-white  text-black"
+            }`}
+          >
+            <div
+              className={`flex w-full items-center justify-between p-4  font-poppins rounded-b-lg  ${
+                isDarkMode ? " bg-[#FFFFFF0A]" : " modalbordercolor"
+              }`}
+            >
+              <h3 className="font-poppins text-lg font-medium  text-center w-full">
                 Business Name
               </h3>
 
@@ -104,7 +114,11 @@ function BusinessNameModal() {
                 onClick={() => dispatch(hideModal("BusinessNameModal"))}
                 aria-label="Close modal"
               >
-                <Image src={crossicon} className="h-8 w-8" alt="Close icon" />
+                <Image
+                  src={crossicon}
+                  className={`h-8 w-8  ${isDarkMode ? " invert" : ""}`}
+                  alt="Close icon"
+                />
               </div>
             </div>
 
@@ -117,7 +131,11 @@ function BusinessNameModal() {
                 />
               </div>
 
-              <p className="text-[15px] font-normal text-[#0046AE] text-center font-poppins">
+              <p
+                className={`text-[15px] font-normal text-center font-poppins   ${
+                  isDarkMode ? "text-white" : "text-[#0046AE] "
+                }`}
+              >
                 Enter your business name exactly how you would like it to look
                 to all users.
               </p>
@@ -130,7 +148,7 @@ function BusinessNameModal() {
               >
                 <div className="mb-4 w-full">
                   <label
-                    className="text-sm font-medium text-[#000000]"
+                    className="text-sm font-medium "
                     htmlFor="service_name"
                   >
                     Business Name
@@ -143,7 +161,11 @@ function BusinessNameModal() {
                       placeholder="Business Name"
                       value={serviceName}
                       onChange={(e) => setServiceName(e.target.value)}
-                      className="border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm"
+                      className={` border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm  ${
+                        isDarkMode
+                          ? "text-white  bg-[#FFFFFF0A]"
+                          : "text-[#0046AE] border-solid"
+                      }`}
                       fullWidth
                       required
                       style={{ minHeight: "3rem" }}
@@ -153,7 +175,7 @@ function BusinessNameModal() {
 
                 <div className="h-fit mb-4 w-full">
                   <label
-                    className="font-poppins text-sm font-medium text-[#000000]"
+                    className="font-poppins text-sm font-medium "
                     htmlFor="service_description"
                   >
                     Business Description
@@ -165,7 +187,12 @@ function BusinessNameModal() {
                       placeholder="Enter Business Description"
                       value={serviceDescription}
                       onChange={(e) => setServiceDescription(e.target.value)}
-                      className="!border-[#6565657a] border-[1px] rounded-md"
+                      className={`!border-[#6565657a] border-[1px] rounded-md ${
+                        isDarkMode
+                          ? "!text-white  bg-[#FFFFFF0A]"
+                          : "text-[#0046AE] border-solid"
+                      }
+                      }`}
                       variant="outlined"
                       fullWidth
                       multiline

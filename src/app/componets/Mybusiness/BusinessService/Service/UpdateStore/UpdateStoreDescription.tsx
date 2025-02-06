@@ -18,10 +18,15 @@ function UpdateStoreDescription() {
     const UpdatestorDescription = event.target.value;
     dispatch(updateStoreDescription(UpdatestorDescription)); // Dispatch action to update store name in redux
   };
+
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="h-fit w-full">
       <label
-        className="font-poppins text-sm font-medium text-[#000000]"
+        className={`font-poppins text-sm font-medium   ${
+          isDarkMode ? "text-[#FFFFFF]" : "text-[#000000]"
+        }`}
         htmlFor="store_description"
       >
         Business Description
@@ -32,7 +37,11 @@ function UpdateStoreDescription() {
           id="store_description"
           name="store_description"
           placeholder="Enter store_description"
-          className="!border-[#6565657a] border-[1px]    "
+          className={`!border-[#6565657a] border-[1px]     ${
+            isDarkMode
+              ? "bg-[#FFFFFF0A] text-[#FFFFFF]"
+              : "bg-[#ffffff] text-[#000000]"
+          }`}
           variant="outlined"
           value={UpdatestorDescription}
           onChange={handleStoreDescitptionChange}

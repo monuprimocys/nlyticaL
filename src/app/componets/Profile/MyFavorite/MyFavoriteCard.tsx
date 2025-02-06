@@ -11,7 +11,7 @@ import { useAppSelector } from "@/app/hooks/hooks";
 const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
   const featured = favorite.is_featured;
 
-  console.log(" my filter data from like api", favorite);
+  console.log(" my filter data from like api", favorite.vendor_image);
   const rating = favorite.totalAvgReview;
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
@@ -75,7 +75,7 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
             <div
               className="h-10 w-10"
               style={{
-                backgroundImage: `url(${favorite.image})`,
+                backgroundImage: `url(${favorite?.vendor_image})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
@@ -89,8 +89,8 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
                   isDarkMode ? "text-[#FFFFFF]" : "text-[#636363]"
                 }`}
               >
-                <span> {favorite.first_name} 12</span>
-                <span>{favorite.last_name}12</span>
+                <span> {favorite.vendor_first_name} </span>
+                <span>{favorite.vendor_last_name}</span>
               </h5>
             </div>
           </div>

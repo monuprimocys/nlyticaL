@@ -12,10 +12,14 @@ import { useAppSelector } from "@/app/hooks/hooks";
 function Businesscategories() {
   const dispatch = useDispatch();
   const storevalues = useAppSelector((state) => state.service.service);
-
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   return (
     <div
-      className="w-full justify-between px-8 py-4 rounded-lg items-center flex businesslable cursor-pointer"
+      className={`w-full justify-between px-4 md:px-8 py-4 rounded-lg items-center flex  cursor-pointer  ${
+        isDarkMode
+          ? "bg-[#212121] text-[#ffffff]"
+          : "bg-[#ffffff]  businesslable text-black"
+      }  `}
       onClick={() => {
         dispatch(showModal("BusinesscategoriesModal"));
       }}
@@ -28,7 +32,7 @@ function Businesscategories() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="text-xl font-poppins text-black">
+        <div className="text-xl font-poppins">
           Business categories
         </div>
       </div>
@@ -42,7 +46,9 @@ function Businesscategories() {
           <Image
             src={arrow}
             alt="arrow"
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover  ${
+              isDarkMode ? "invert" : ""
+            }`}
           />
         </div>
       </div>

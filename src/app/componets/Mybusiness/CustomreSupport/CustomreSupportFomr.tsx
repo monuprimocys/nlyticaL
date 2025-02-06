@@ -9,6 +9,7 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/high-res.css";
 import { useAddCustomerSupportMutation } from "@/app/store/api/add-customersupport";
 import { ToastContainer, toast } from "react-toastify";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function CustomreSupportFomr() {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,15 +52,21 @@ function CustomreSupportFomr() {
     }
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="mx-auto 2xl:w-[55%] rounded-b-lg xl:w-[80%] shadow-xl w-[90%] mt-[3rem] gap-5 flex justify-center flex-col items-center cursor-pointer">
       <div
-        className="w-full justify-between items-center businesslable flex h-auto p-8 rounded-xl"
+        className={`w-full justify-between items-center businesslable flex h-auto p-8 rounded-xl  ${
+          isDarkMode ? "bg-[#FFFFFF0A] text-white" : "bg-white text-black"
+        }`}
         onClick={toggleAccordion}
       >
         <div className="flex gap-4 items-center">
           <Image
-            className="w-[2rem] h-[2rem] object-contain"
+            className={`w-[2rem] h-[2rem] object-contain   ${
+              isDarkMode ? " invert" : ""
+            }`}
             src={questionImage}
             alt="question"
           />
@@ -69,7 +76,7 @@ function CustomreSupportFomr() {
           <Image
             className={`w-[1.5rem] h-[1.5rem] object-contain transition-transform ${
               isOpen ? "rotate-180" : ""
-            }`}
+            }     ${isDarkMode ? " invert" : ""}`}
             src={dropdownImage}
             alt="dropdown"
           />
@@ -77,13 +84,16 @@ function CustomreSupportFomr() {
       </div>
 
       {isOpen && (
-        <div className="w-full flex flex-col p-4 md:p-6 justify-start items-start gap-6">
+        <div
+          className={`w-full flex flex-col p-4 md:p-6 justify-start items-start gap-6    ${
+            isDarkMode
+              ? "bg-[#FFFFFF0A]  text-white  rounded-lg"
+              : "bg-white text-black"
+          }`}
+        >
           <div className="mx-auto w-[90%] grid grid-cols-2 gap-6">
             <div className="w-full">
-              <label
-                className="text-sm font-medium text-[#000000]"
-                htmlFor="name"
-              >
+              <label className="text-sm font-medium " htmlFor="name">
                 Name
                 <span className="text-[#F21818] pl-[1px]">*</span>
               </label>
@@ -92,7 +102,9 @@ function CustomreSupportFomr() {
                   id="name"
                   name="name"
                   placeholder="Name"
-                  className="border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm"
+                  className={`border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm  ${
+                    isDarkMode ? "bg-[#FFFFFF0A]   !text-white" : ""
+                  }`}
                   fullWidth
                   value={name}
                   onChange={(e) => setName(e.target.value)}
@@ -101,10 +113,7 @@ function CustomreSupportFomr() {
             </div>
 
             <div className="w-full">
-              <label
-                className="text-sm font-medium text-[#000000]"
-                htmlFor="email"
-              >
+              <label className="text-sm font-medium " htmlFor="email">
                 Email
                 <span className="text-[#F21818] pl-[1px]">*</span>
               </label>
@@ -114,7 +123,9 @@ function CustomreSupportFomr() {
                   name="email"
                   placeholder="Email"
                   type="email"
-                  className="border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm"
+                  className={`border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm  ${
+                    isDarkMode ? "bg-[#FFFFFF0A]   !text-white" : ""
+                  }`}
                   fullWidth
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -124,7 +135,7 @@ function CustomreSupportFomr() {
             </div>
             <div className="w-full">
               <label
-                className="font-poppins text-sm font-medium text-[#000000]"
+                className="font-poppins text-sm font-medium "
                 htmlFor="mobile"
               >
                 Mobile Number
@@ -136,13 +147,18 @@ function CustomreSupportFomr() {
                   enableSearch
                   value={phone}
                   onChange={setPhone}
+                  inputStyle={{
+                    fontFamily: "Poppins",
+                    color: isDarkMode ? "#ffffff" : "#000000",
+                    backgroundColor: isDarkMode ? "#373737" : "#FFFFFF",
+                  }}
                 />
               </div>
             </div>
 
             <div className="h-fit w-full">
               <label
-                className="font-poppins text-sm font-medium text-[#000000]"
+                className="font-poppins text-sm font-medium "
                 htmlFor="Message"
               >
                 Message
@@ -153,7 +169,11 @@ function CustomreSupportFomr() {
                   id="Message"
                   name="Message"
                   placeholder="Enter Message"
-                  className="!border-[#6565657a] border-[1px]"
+                  className={`!border-[#6565657a] border-[1px]    ${
+                    isDarkMode
+                      ? "text-[#FFFFFF] bg-[#FFFFFF0A]"
+                      : "text-[#000000] bg-[#F9F9F9]"
+                  }`}
                   variant="outlined"
                   fullWidth
                   multiline

@@ -102,13 +102,23 @@ function ContactDetailsModal() {
     }
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <Dialog open={modalOpen} onClose={close} as="div" className="z-50">
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full h-auto items-center justify-center">
-          <DialogPanel className="mx-auto pb-6 h-auto w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%]">
-            <div className="flex w-full items-center justify-between p-4 modalbordercolor font-poppins rounded-b-lg">
-              <h3 className="font-poppins text-lg font-medium text-black text-center w-full">
+          <DialogPanel
+            className={`mx-auto pb-6 h-auto w-[90%] rounded-2xl  shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%]  ${
+              isDarkMode ? " bg-[#212121] text-white" : "bg-white  text-black"
+            }`}
+          >
+            <div
+              className={`flex w-full items-center justify-between p-4  font-poppins rounded-b-lg  ${
+                isDarkMode ? " bg-[#FFFFFF0A]" : " modalbordercolor"
+              }`}
+            >
+              <h3 className="font-poppins text-lg font-medium  text-center w-full">
                 Contact Details
               </h3>
               <div
@@ -116,7 +126,11 @@ function ContactDetailsModal() {
                 onClick={close}
                 aria-label="Close modal"
               >
-                <Image src={crossicon} className="h-8 w-8" alt="Close icon" />
+                <Image
+                  src={crossicon}
+                  className={`h-8 w-8  ${isDarkMode ? " invert" : ""}`}
+                  alt="Close icon"
+                />
               </div>
             </div>
 
@@ -128,7 +142,11 @@ function ContactDetailsModal() {
                   alt="Information icon"
                 />
               </div>
-              <p className="text-[15px] font-normal text-[#0046AE] text-center font-poppins">
+              <p
+                className={`text-[15px] font-normal text-center font-poppins   ${
+                  isDarkMode ? "text-white" : "text-[#0046AE] "
+                }`}
+              >
                 Update your contact details to stay in touch with your customers
                 in real time
               </p>
@@ -141,7 +159,7 @@ function ContactDetailsModal() {
               >
                 <div>
                   <label
-                    className="font-poppins text-sm font-medium text-[#000000]"
+                    className="font-poppins text-sm font-medium"
                     htmlFor="mobile"
                   >
                     Mobile Number
@@ -154,14 +172,16 @@ function ContactDetailsModal() {
                       onChange={handlePhoneChange}
                       country={formData.country_code || "us"}
                       enableSearch
+                      inputStyle={{
+                        fontFamily: "Poppins",
+                        color: isDarkMode ? "#ffffff" : "#000000",
+                        backgroundColor: isDarkMode ? "#373737" : "#FFFFFF",
+                      }}
                     />
                   </div>
                 </div>
                 <div className="mb-4 w-full">
-                  <label
-                    className="text-sm font-medium text-[#000000]"
-                    htmlFor="email"
-                  >
+                  <label className="text-sm font-medium " htmlFor="email">
                     Email
                     <span className="text-[#F21818] pl-[1px]">*</span>
                   </label>
@@ -170,7 +190,11 @@ function ContactDetailsModal() {
                       id="email"
                       name="email"
                       placeholder="email"
-                      className="border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm"
+                      className={`font-poppins w-full rounded-md py-4 pl-3 pr-[3rem] placeholder-gray-500 focus:outline-none focus:ring-0 ${
+                        isDarkMode
+                          ? "text-white bg-[#373737] border-2 border-white focus:border-[#B5843F66]"
+                          : "text-[#000000] bg-white focus:border-[#B5843F66]"
+                      }`}
                       fullWidth
                       required
                       value={formData.email}
@@ -187,7 +211,7 @@ function ContactDetailsModal() {
                     className="w-fit px-[5rem] py-3 bg-[#0046AE] rounded-lg font-poppins text-white"
                     disabled={isLoading} // Disable button while loading
                   >
-                    {isLoading ? "Saving..." : "Save"}
+                    {isLoading ? "Saving..." : "Save "}
                   </button>
                 </div>
               </form>

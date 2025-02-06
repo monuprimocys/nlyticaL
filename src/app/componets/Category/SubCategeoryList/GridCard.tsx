@@ -15,6 +15,7 @@ import { toast } from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "@/app/store/Slice/modalSlice";
 import { setLikeStatus } from "@/app/store/Slice/category/likeStatusSlice";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 const GridCard = ({
   service_images,
@@ -38,7 +39,7 @@ const GridCard = ({
   const [localLikeStatus, setLocalLikeStatus] = useState(likeStatus ?? isLike);
   const [islike] = useServicelikeMutation();
 
-  console.log(" like status 121212121212", likeStatus)
+  console.log(" all avatar image", avatar);
 
   const handleLike = useCallback(
     (event) => {
@@ -69,9 +70,13 @@ const GridCard = ({
     [user_id, localLikeStatus, service_id, islike, dispatch]
   );
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div
-      className="h-[26rem] lg:h-[30rem] cursor-pointer overflow-hidden w-full relative rounded-xl flex flex-col shadow-md mb-2"
+      className={`h-[26rem] lg:h-[30rem] cursor-pointer overflow-hidden w-full relative rounded-xl flex flex-col shadow-md mb-2   ${
+        isDarkMode ? "bg-[#212121] " : "bg-[#ffffff] "
+      } `}
       onClick={onclicknavigate}
     >
       {/* Image Section */}
@@ -126,7 +131,11 @@ const GridCard = ({
               }}
             ></div>
             <div>
-              <h5 className="text-[#636363] font-poppins text-lg font-medium">
+              <h5
+                className={` font-poppins text-lg font-medium   ${
+                  isDarkMode ? "  text-white " : " text-[#636363] "
+                }`}
+              >
                 {name}
               </h5>
             </div>
@@ -134,7 +143,11 @@ const GridCard = ({
 
           {/* Service Name */}
           <div>
-            <h3 className="xl:text-[18px] text-xl font-semibold text-black font-poppins">
+            <h3
+              className={`xl:text-[18px] text-xl font-semibold  font-poppins  ${
+                isDarkMode ? " text-white " : "text-black "
+              }`}
+            >
               {service_name}
             </h3>
           </div>
@@ -156,13 +169,21 @@ const GridCard = ({
                 />
               ))}
               <div>
-                <p className="text-[#5C5C5C] font-poppins text-[12px] xl:text-sm">
+                <p
+                  className={` font-poppins text-[12px] xl:text-sm  ${
+                    isDarkMode ? "  text-white " : " text-[#5C5C5C] "
+                  }`}
+                >
                   ({reviews})
                 </p>
               </div>
             </div>
             <div>
-              <p className="font-medium font-poppins text-[#636363] text-[12px] xl:text-sm">
+              <p
+                className={`font-medium font-poppins  text-[12px] xl:text-sm  ${
+                  isDarkMode ? "  text-white " : " text-[#636363] "
+                }`}
+              >
                 {yearsInBusiness}
               </p>
             </div>
@@ -178,14 +199,22 @@ const GridCard = ({
               />
             </div>
             <div className="w-full">
-              <p className="text-[#636363] font-poppins font-normal text-sm line-clamp-2">
+              <p
+                className={` font-poppins font-normal text-sm line-clamp-2  ${
+                  isDarkMode ? "  text-white " : " text-[#636363] "
+                }`}
+              >
                 {location}
               </p>
             </div>
           </div>
 
           {/* Price Range Button */}
-          <div className="w-full mx-auto border-2 border-[#0046AE] px-4 py-3 rounded-xl flex justify-center items-center group relative overflow-hidden cursor-pointer">
+          <div
+            className={`w-full mx-auto border-2 border-[#0046AE] px-4 py-3 rounded-xl flex justify-center items-center group relative overflow-hidden cursor-pointer   ${
+              isDarkMode ? "  bg-[#0046AE2B]" : " "
+            } `}
+          >
             <button className="text-[#0046AE] font-medium font-poppins group-hover:text-white z-10 relative">
               {priceRange}
             </button>

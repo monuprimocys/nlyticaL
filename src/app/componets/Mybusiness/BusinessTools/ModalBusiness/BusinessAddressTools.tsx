@@ -12,10 +12,14 @@ import { useAppSelector } from "@/app/hooks/hooks";
 function BusinessAddressTools() {
   const dispatch = useDispatch();
   const storevalues = useAppSelector((state) => state.service.service);
-
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   return (
     <div
-      className="w-full justify-between px-4 md:px-8 py-4 rounded-lg items-center flex businesslable cursor-pointer"
+      className={`w-full justify-between px-4 md:px-8 py-4 rounded-lg items-center flex  cursor-pointer  ${
+        isDarkMode
+          ? "bg-[#212121] text-[#ffffff]"
+          : "bg-[#ffffff]  businesslable text-black"
+      }  `}
       onClick={() => {
         dispatch(showModal("BusinessAddressToolsModal"));
       }}
@@ -28,7 +32,7 @@ function BusinessAddressTools() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="text-xl font-poppins text-black">Business Address</div>
+        <div className="text-xl font-poppins ">Business Address</div>
       </div>
 
       <div className="flex gap-3 items-center">
@@ -40,7 +44,9 @@ function BusinessAddressTools() {
           <Image
             src={arrow}
             alt="arrow"
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover  ${
+              isDarkMode? "invert" : ""
+            }`}
           />
         </div>
       </div>

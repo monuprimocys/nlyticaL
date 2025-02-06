@@ -106,13 +106,6 @@ export interface AddUserRegistrationRes {
   mobile: string;
 }
 
-// RegisterModalVerifyOtp and ForgotPassword
-
-export interface RegisterModalVerifyOtpRes {
-  email: string;
-  otp: string;
-}
-
 // Resend Otp
 export interface ResendotpandForgetpwdRes {
   email: string;

@@ -25,13 +25,15 @@ const MonthYear: React.FC<MonthYearProps> = ({ required }) => {
 
   // console.log("Month Value:", getvalues.monthValue.format("MMMM"));
   // console.log("Year Value:", getvalues.yearValue.format("YYYY"));
-
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   return (
-    <div className="flex flex-col gap-2  relative  xl:top-[2.4rem]">
-      <label htmlFor="month" className="font-poppins text-black">
-        {" "}
+    <div className="flex flex-col gap-2 relative xl:top-[2.4rem]">
+      <label
+        htmlFor="month"
+        className={`font-poppins ${isDarkMode ? "text-white" : "text-black"}`}
+      >
         Year of Establishment
-        <span className=" text-[#F21818] pl-[1px]">*</span>
+        <span className="text-[#F21818] pl-[1px]">*</span>
       </label>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DemoContainer components={["DatePicker", "DatePicker"]}>
@@ -42,9 +44,16 @@ const MonthYear: React.FC<MonthYearProps> = ({ required }) => {
             onChange={(newValue) => dispatch(setMonthValue(newValue))}
             views={["month"]} // Only month view
             renderInput={(params) => (
-              <TextField {...params} required={required} /> // Add required to TextField
+              <TextField
+                {...params}
+                required={required}
+                className={`w-full cursor-pointer appearance-none rounded-lg px-4 py-4 pr-10 ${
+                  isDarkMode
+                    ? "bg-[#333333] border-[#444444] text-white focus:outline-none focus:ring-2 focus:ring-[#4A90E2]"
+                    : "bg-white border-[#d1d5db] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#4A90E2]"
+                }`} // Conditional styling based on dark mode
+              />
             )}
-            className="w-full cursor-pointer appearance-none rounded-lg border-2 border-gray-300 px-4 py-4 pr-10 text-gray-700 focus:border-[#d1d5db] focus:outline-none"
           />
 
           {/* Only Year Picker */}
@@ -54,9 +63,16 @@ const MonthYear: React.FC<MonthYearProps> = ({ required }) => {
             onChange={(newValue) => dispatch(setYearValue(newValue))}
             views={["year"]} // Only year view
             renderInput={(params) => (
-              <TextField {...params} required={required} /> // Add required to TextField
+              <TextField
+                {...params}
+                required={required}
+                className={`w-full cursor-pointer appearance-none rounded-lg px-4 py-4 pr-10 ${
+                  isDarkMode
+                    ? "bg-[#333333] border-[#444444] text-white focus:outline-none focus:ring-2 focus:ring-[#4A90E2]"
+                    : "bg-white border-[#d1d5db] text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#4A90E2]"
+                }`} // Conditional styling based on dark mode
+              />
             )}
-            className="w-full cursor-pointer appearance-none rounded-lg border-2 border-gray-300 px-4 py-4 pr-10 text-gray-700 focus:border-[#d1d5db] focus:outline-none"
           />
         </DemoContainer>
       </LocalizationProvider>

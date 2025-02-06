@@ -1,8 +1,10 @@
 import React from "react";
 import bgimage from "../../../../public/assets/Image/aboutsection3.png";
 import Heading from "../Heading/Heading";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function Section3() {
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   return (
     <div className="w-full flex justify-center items-center flex-col ">
       {/* content of heading */}
@@ -15,7 +17,9 @@ function Section3() {
 
       {/* description */}
       <div className="w-full sm:w-[80%] md:w-[60%] mx-auto flex justify-center items-center mt-4">
-        <p className="text-[#4A4A4A] font-poppins text-base sm:text-lg text-center">
+        <p className={` font-poppins text-base sm:text-lg text-center  ${
+          isDarkMode? "text-[#FFFFFFBA]" : "text-[#4A4A4A]"
+        }`}>
           We are dedicated to delivering innovative solutions that empower our
           customers and drive meaningful change.
         </p>

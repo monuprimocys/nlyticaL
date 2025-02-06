@@ -1,5 +1,6 @@
 "use client";
 
+import { useAppSelector } from "@/app/hooks/hooks";
 import { useServiceDetailApi } from "@/app/store/api/ServiceDetailScreenApi/useServiceDetailApi";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -43,10 +44,17 @@ function BusinessHoursDetail() {
     return "Closed"; // Default to closed if the day is not listed
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   return (
-    <div className="p-4 rounded-lg photoservicedetailborderandshado bg-white">
+    <div
+      className={`p-4 rounded-lg      ${
+        isDarkMode
+          ? "text-[#ffffff]    bg-[#212121]"
+          : "text-[#3E5155] bg-white photoservicedetailborderandshado"
+      } `}
+    >
       {/* Heading */}
-      <div className="text-lg font-medium font-poppins text-[#3E5155] mb-4">
+      <div className="text-lg font-medium font-poppins  mb-4">
         Business Hours
       </div>
 
@@ -59,12 +67,20 @@ function BusinessHoursDetail() {
               key={item.day}
               className="w-full justify-between flex items-center"
             >
-              <div className="text-sm font-medium font-poppins text-[#000000]">
+              <div
+                className={`text-sm font-medium font-poppins  ${
+                  isDarkMode ? "text-[#ffffff]" : "text-[#000000] "
+                }`}
+              >
                 {item.label}
               </div>
               <div
                 className={`text-sm font-medium font-poppins ${
-                  status === "Closed" ? "text-[#FF0000]" : "text-[#000000]"
+                  status === "Closed"
+                    ? "text-[#FF0000]"
+                    : isDarkMode
+                    ? "text-[#FFFFFF]" // White text for dark mode
+                    : "text-[#000000]" // Black text for light mode
                 }`}
               >
                 {status}

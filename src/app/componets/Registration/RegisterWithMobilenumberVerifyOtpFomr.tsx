@@ -1,25 +1,71 @@
-"use client";
-
 import { useAppSelector } from "@/app/hooks/hooks";
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { useRegisterModalVerifyOtpMutation } from "../../store/api/auth/RegisterModalVerifyOtp";
 import { toast } from "react-hot-toast";
-import { useRegisterAccountMutation } from "@/app/store/api/auth/newuser-registeraccount";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
-import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
+import { useRegisterAccountMutation } from "@/app/store/api/auth/newuser-registeraccount";
+
 function RegisterWithMobilenumberVerifyOtpForm() {
   const [otp, setOtp] = useState(Array(4).fill("")); // Stores OTP as an array of strings
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [isLoading, setIsLoading] = useState(false); // Loading state for the button
 
   const mobile = useAppSelector((state) => state.registration.mobile);
 
+  // Handal Resend the otp request
+  const [resendOtp] = useRegisterAccountMutation();
+
+  // Button click handler
+  const handleResendOtp = async () => {
+    if (!mobile) {
+      toast.error("Mobile is required");
+      return;
+    }
+
+    try {
+      // Call the API with the mobile
+      await resendOtp({ mobile });
+      toast.success("OTP Sent Successfully");
+    } catch (error) {
+      console.error("Error resending OTP:", error);
+    }
+  };
+
+  const [timeLeft, setTimeLeft] = useState(60);
+
+  const startCountdown = useCallback(() => {
+    // Start countdown if timeLeft is greater than 0
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    return timer;
+  }, []);
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timer = startCountdown();
+
+      // Cleanup the timer on component unmount
+      return () => clearInterval(timer);
+    }
+  }, [timeLeft, startCountdown]);
+
+  // Format the time into MM:SS format
+  const formattedTime = `${String(Math.floor(timeLeft / 60)).padStart(
+    2,
+    "0"
+  )}:${String(timeLeft % 60).padStart(2, "0")}`;
+
   const dispatch = useDispatch();
-
-  //   nagigate to home screen
-
-  // Get the mutation hook for verifying OTP
-  const [verifyOtp, { isLoading, error }] = useRegisterModalVerifyOtpMutation();
 
   // Handle OTP input change
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,82 +125,63 @@ function RegisterWithMobilenumberVerifyOtpForm() {
     setOtp(digits);
   };
 
-  // Function to handle OTP submission
-  const handleSubmit = async () => {
-    const otpString = otp.join(""); // Convert OTP array to a string
-    try {
-      // Call the API mutation with the OTP and mobile
-      const response = await verifyOtp({ mobile, otp: otpString }).unwrap();
-
-      // console.log("Response121212121212");
-
-      // Check response status
-      if (!response.status) {
-        toast.error(
-          response.message || "OTP verification failed. Please try again."
-        );
-      } else {
-        toast.success("OTP Verified Successfully");
-
-        dispatch(hideModal("RegisterWithMobilenumberVerifyOtpModal"));
-        dispatch(hideModal("RegisterWithMobilenumber"));
-        Cookies.set("user_id", response.user_id);
-      }
-    } catch (err) {
-      //   toast.error("OTP verification failed");
-    }
-  };
-
-  // Handal Resend the otp request
-  const [resendOtp] = useRegisterAccountMutation();
-
-  // Button click handler
-  const handleResendOtp = async () => {
-    if (!mobile) {
-      toast.error("mobile is required");
+  // Verify OTP function
+  const verifyOtp = async () => {
+    if (otp.join("").length !== otp.length) {
+      toast.error("Please fill in all OTP fields.");
       return;
     }
 
+    setIsLoading(true); // Set loading to true when the API is being called
+
     try {
-      // Call the API with the mobile
-      await resendOtp({ mobile });
-      toast.success("OTP Send Successfully");
+      const response = await axios.post(
+        "http://192.168.0.69:8001/api/verify-user",
+        {
+          mobile,
+          otp: otp.join(""), // Send OTP as a string
+        }
+      );
+
+      // Handle the response here
+      if (response.data.status) {
+        toast.success(response.data.message || "OTP verified successfully!");
+        Cookies.set("user_id", response.data.user_id);
+
+        console.log(
+          "API response data from verify:",
+          response?.data?.first_name
+        );
+
+        // Check if first_name exists before setting loginuser cookie
+        if (response?.data?.first_name) {
+          Cookies.set("loginuser", "user_login");
+        }
+
+        // If required, store user details in the state or session
+        dispatch(hideModal("RegisterWithMobilenumberVerifyOtpModal"));
+        dispatch(hideModal("RegisterWithMobilenumber"));
+
+        // Check if first_name exists before showing the modal
+        if (!response?.data?.first_name) {
+          dispatch(showModal("RegisterWithMobailNumberOtpVerify"));
+        }
+      } else {
+        toast.error("Invalid OTP. Please try again.");
+      }
     } catch (error) {
-      console.error("Error resending OTP:", error);
+      toast.error("An error occurred. Please try again later.");
+    } finally {
+      setIsLoading(false); // Set loading to false after the API call is completed
     }
   };
 
-  const [timeLeft, setTimeLeft] = useState(60);
-
-  const startCountdown = useCallback(() => {
-    // Start countdown if timeLeft is greater than 0
-    const timer = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 1) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prevTime - 1;
-      });
-    }, 1000);
-
-    return timer;
-  }, []);
-
+  // Trigger OTP verification automatically once all OTP fields are filled
   useEffect(() => {
-    if (timeLeft > 0) {
-      const timer = startCountdown();
-
-      // Cleanup the timer on component unmount
-      return () => clearInterval(timer);
+    if (otp.join("").length === otp.length && !isLoading) {
+      verifyOtp();
     }
-  }, [timeLeft, startCountdown]);
-
-  // Format the time into MM:SS format
-  const formattedTime = `${String(Math.floor(timeLeft / 60)).padStart(
-    2,
-    "0"
-  )}:${String(timeLeft % 60).padStart(2, "0")}`;
+  }, [otp]); // Run when the OTP state changes
 
   return (
     <div className="flex flex-col">
@@ -193,11 +220,34 @@ function RegisterWithMobilenumberVerifyOtpForm() {
       <div className="mt-6 flex items-center justify-center">
         <button
           type="button"
-          className="font-poppins w-fit rounded-xl bg-[#0046AE] px-[5.5rem] py-3 text-white transition duration-200 hover:bg-[#4184e7] focus:outline-none"
-          onClick={handleSubmit}
+          onClick={verifyOtp}
           disabled={isLoading}
+          className="font-poppins w-fit rounded-xl bg-[#0046AE] px-[5.5rem] py-3 text-white transition duration-200 hover:bg-[#4184e7] focus:outline-none"
         >
-          {isLoading ? "Verifying..." : "Verify OTP"}
+          {isLoading ? (
+            <svg
+              className="animate-spin h-5 w-5 mr-3"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 12a8 8 0 1116 0A8 8 0 014 12z"
+              />
+            </svg>
+          ) : (
+            "Verify OTP"
+          )}
         </button>
       </div>
     </div>

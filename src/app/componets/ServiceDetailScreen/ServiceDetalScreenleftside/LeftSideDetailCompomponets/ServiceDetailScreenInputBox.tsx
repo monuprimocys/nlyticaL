@@ -16,7 +16,9 @@ const ServiceDetailScreenInputBox: React.FC = () => {
     dispatch(setSearchQuery(event.target.value));
   };
 
-  console.log(" my service name is 12121212121 ",searchQuery)
+  console.log(" my service name is 12121212121 ", searchQuery);
+
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   return (
     <div className="w-full relative">
@@ -42,7 +44,8 @@ const ServiceDetailScreenInputBox: React.FC = () => {
         sx={{
           "& .MuiOutlinedInput-root": {
             paddingLeft: "1rem",
-            backgroundColor: "white",
+            backgroundColor: isDarkMode ? " #FFFFFF0A" : "",
+
             borderRadius: "8px",
             borderColor: "#B4B4B4",
             "&:focus-within": {
@@ -53,6 +56,12 @@ const ServiceDetailScreenInputBox: React.FC = () => {
           "& .MuiInputBase-input": {
             color: "#000000",
             fontFamily: "Poppins, sans-serif",
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: isDarkMode ? "#333333" : "#B4B4B4",
+          },
+          "& .MuiOutlinedInput-root:hover": {
+            borderColor: isDarkMode ? "#333333" : "#B5843F",
           },
         }}
       />

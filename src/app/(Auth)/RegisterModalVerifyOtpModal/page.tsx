@@ -50,7 +50,7 @@ export default function RegisterModalVerifyOtpModal() {
               </p>
 
               <h2 className="font-poppins font-semibold text-xl text-black">
-                Verification Code
+                Verification Code 
               </h2>
               <p className="text-center text-lg text-gray-800 sm:px-8 font-poppins">
                 We have sent the verification code to your mobile number.

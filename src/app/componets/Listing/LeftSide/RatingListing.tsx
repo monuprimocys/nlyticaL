@@ -33,13 +33,27 @@ const RatingListing: React.FC = () => {
     dispatch(setSelectedRatingListing(0));
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div>
-      <div className="btnshadow w-full flex justify-between items-center h-auto p-4 shadow-lg rounded-xl">
+      <div
+        className={`btnshadow w-full flex justify-between items-center h-auto p-4 shadow-lg rounded-xl   ${
+          isDarkMode
+            ? "bg-[#FFFFFF21] text-[#ffffff]"
+            : "bg-[#ffffff] text-[#000000]"
+        }`}
+      >
         <div className="flex items-center justify-start gap-3">
           <IoStarOutline className="text-lg" />
           <div>
-            <h6 className="font-poppins text-black font-normal">Rating</h6>
+            <h6
+              className={`font-poppins  font-normal  ${
+                isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
+              }`}
+            >
+              Rating
+            </h6>
           </div>
         </div>
 
@@ -48,7 +62,12 @@ const RatingListing: React.FC = () => {
           <MdKeyboardArrowRight
             className={`rotate-${
               rating ? "90" : "0"
-            } text-2xl text-[#000000] cursor-pointer transition-transform duration-300`}
+            } text-2xl text-[#000000] cursor-pointer transition-transform duration-300
+            
+              ${isDarkMode ? "text-[#ffffff]" : "text-[#000000]"}
+            
+            
+            `}
           />
         </div>
       </div>
@@ -89,7 +108,14 @@ const RatingListing: React.FC = () => {
                   selectedRatingFromStore === value
                     ? "font-medium"
                     : "font-normal"
-                }`}
+                }
+                ${
+                  isDarkMode
+                   ? "text-[#ffffff]"
+                    : "text-[#000000]"
+                }
+                
+                `}
               >
                 {value} Star
               </h4>
@@ -98,7 +124,9 @@ const RatingListing: React.FC = () => {
             {/* Show cross icon next to selected rating within the dropdown */}
             {selectedRatingFromStore === value && (
               <div
-                className="cursor-pointer text-[#0046AE] ml-auto"
+                className={`cursor-pointer  ml-auto   ${
+                  isDarkMode ? "text-[#ffffff]" : "text-[#0046AE]"
+                }`}
                 onClick={(e) => {
                   e.stopPropagation(); // Prevent dropdown from toggling
                   handleClearRating();

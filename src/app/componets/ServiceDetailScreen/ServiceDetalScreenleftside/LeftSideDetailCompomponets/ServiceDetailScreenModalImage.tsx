@@ -23,15 +23,25 @@ function ServiceDetailScreenModalImage() {
 
   const serviceImages = ServiceDetailData.serviceDetail.service_images;
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <Dialog open={modalData} onClose={close} as="div" className="z-50">
       {/* Modal Content */}
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full items-center justify-center">
-          <DialogPanel className="mx-auto h-auto w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[80%] xl:w-[70%] 2xl:w-[50%]">
+          <DialogPanel
+            className={`mx-auto h-auto w-[90%] rounded-2xl shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[80%] xl:w-[70%] 2xl:w-[50%]  ${
+              isDarkMode ? " bg-[#212121] text-white" : "text-black   bg-white"
+            }`}
+          >
             {/* Modal Header */}
-            <div className="flex h-auto w-full items-center justify-center rounded-xl p-4 borderxcolorwithshado">
-              <h3 className="font-poppins text-lg font-medium text-black">
+            <div
+              className={`flex h-auto w-full items-center justify-center rounded-xl p-4   ${
+                isDarkMode ? "bg-[#FFFFFF0A]" : " borderxcolorwithshado"
+              }`}
+            >
+              <h3 className="font-poppins text-lg font-medium ">
                 {ServiceDetailData.serviceDetail.service_name}
               </h3>
             </div>

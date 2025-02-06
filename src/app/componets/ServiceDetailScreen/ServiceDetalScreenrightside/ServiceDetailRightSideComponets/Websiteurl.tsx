@@ -11,12 +11,18 @@ function Websiteurl() {
 
   const websitelink = ServiceDetailData.service_website;
   const vendorEmail = ServiceDetailData.vendor_email;
-
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   return (
-    <div className="items-center justify-center w-full p-4 h-full rounded-lg photoservicedetailborderandshado">
+    <div
+      className={`items-center justify-center w-full p-4 h-full rounded-lg   ${
+        isDarkMode
+          ? "bg-[#212121] text-[#ffffff]"
+          : "bg-[#ffffff] text-[#000000] photoservicedetailborderandshado"
+      }`}
+    >
       {/* Website */}
       <div className="w-full flex justify-between items-center cursor-pointer">
-        <div className="text-[16px] font-normal items-start font-poppins text-[#000000]">
+        <div className="text-[16px] font-normal items-start font-poppins ">
           Visit Website
         </div>
         {/* Export icon with link */}
@@ -31,7 +37,7 @@ function Websiteurl() {
 
       {/* Email */}
       <div className="w-full flex justify-between items-center cursor-pointer">
-        <div className="text-[16px] font-normal  items-start font-poppins text-[#000000]">
+        <div className="text-[16px] font-normal  items-start font-poppins ">
           Email on
         </div>
         <h5 className="text-[#0046AE] font-poppins text-[16px] font-medium">

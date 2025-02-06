@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./contactstyle.css";
 import Googlemap from "../componets/Googlemap/Googlemap";
 import Contactpage from "./Contactpage";
-import { useAppDispatch } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import {
   addCustomerSupportRequest,
   addCustomerSupportSuccess,
@@ -12,6 +12,7 @@ import {
 } from "@/app/store/Slice/AddCustomerSupportSlice";
 import { useAddCustomerSupportMutation } from "@/app/store/api/add-customersupport";
 import toast from "react-hot-toast";
+import { setDarkMode } from "../store/Slice/darkModeSlice";
 
 function ContactUs() {
   // State to hold form data
@@ -78,18 +79,46 @@ function ContactUs() {
     }
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+  // Ensuring dark mode state is loaded from localStorage on initial load
+  useEffect(() => {
+    const savedMode = localStorage.getItem("darkMode") === "true";
+    if (savedMode !== isDarkMode) {
+      dispatch(setDarkMode(savedMode));
+    }
+    document.documentElement.classList.toggle("dark", savedMode);
+  }, [dispatch, isDarkMode]);
+
+  console.log("My business is:!!!!!!!!!!!!!!!!!!!!!!!!!!!!", isDarkMode);
+
   return (
-    <div className="w-full h-auto mt-[4rem]">
+    <div
+      className={`w-full h-auto pt-[4rem]    ${
+        isDarkMode ? "bg-[#181818]" : "bg-[#ffffff]"
+      }`}
+    >
       {/* Contact Page */}
-      <div className="mx-auto w-[90%] 2xl:w-[60%] xl:w-[80%] contactshadow h-auto rounded-lg grid xl:grid-cols-2 gap-8 items-center p-4 xl:p-10">
+      <div
+        className={`mx-auto w-[90%] 2xl:w-[60%] xl:w-[80%] h-auto rounded-xl grid xl:grid-cols-2 gap-8 items-center p-4 xl:p-10   ${
+          isDarkMode ? " bg-[#0046AE]" : "contactshadow "
+        }`}
+      >
         {/* Contact Form */}
         <div className="w-full flex flex-col gap-6 pt-[2rem]">
           {/* Heading */}
           <div className="w-full items-center flex flex-col gap-6 justify-center text-center">
-            <h2 className="AmericanSign text-[#0046AE] font-medium text-4xl">
+            <h2
+              className={`AmericanSign  font-medium text-4xl  ${
+                isDarkMode ? "text-[#ffffff]" : "text-[#0046AE]"
+              }`}
+            >
               Contact Us
             </h2>
-            <p className="font-poppins text-[#000000] font-normal text-xl">
+            <p
+              className={`font-poppins  font-normal text-xl  ${
+                isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
+              }`}
+            >
               Reach out to us with your questions or requests. We are here to
               assist you!
             </p>
@@ -103,7 +132,9 @@ function ContactUs() {
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="name"
-                className="font-poppins text-[#000000] items-center font-normal text-lg"
+                className={`font-poppins  items-center font-normal text-lg  ${
+                  isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
+                }`}
               >
                 Name
               </label>
@@ -113,7 +144,11 @@ function ContactUs() {
                 placeholder="Your Name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="border-2 borderinputbox w-full p-3 rounded-lg focus:outline-none bg-transparent focus:border-[#0046AE] font-poppins"
+                className={`border-2  w-full p-3 rounded-lg focus:outline-none  font-poppins  ${
+                  isDarkMode
+                    ? "text-[#000000]  border-[#FFFFFF5C] focus:border-[#FFFFFF]  border-2    bg-[#FFFFFF1A]"
+                    : "text-[#000000] borderinputbox   focus:border-[#0046AE] bg-transparent "
+                }`}
                 required
               />
             </div>
@@ -121,7 +156,9 @@ function ContactUs() {
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="email"
-                className="font-poppins text-[#000000] items-center font-normal text-lg"
+                className={`font-poppins  items-center font-normal text-lg  ${
+                  isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
+                }`}
               >
                 Email
               </label>
@@ -131,7 +168,11 @@ function ContactUs() {
                 placeholder="Enter Your Email"
                 value={formData.email}
                 onChange={handleInputChange}
-                className="border-2 borderinputbox w-full p-3 rounded-lg focus:outline-none bg-transparent focus:border-[#0046AE] font-poppins"
+                className={`border-2  w-full p-3 rounded-lg focus:outline-none  font-poppins  ${
+                  isDarkMode
+                    ? "text-[#000000]  border-[#FFFFFF5C] focus:border-[#FFFFFF]  border-2    bg-[#FFFFFF1A]"
+                    : "text-[#000000] borderinputbox   focus:border-[#0046AE] bg-transparent "
+                }`}
                 required
               />
             </div>
@@ -139,7 +180,9 @@ function ContactUs() {
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="phone"
-                className="font-poppins text-[#000000] items-center font-normal text-lg"
+                className={`font-poppins  items-center font-normal text-lg  ${
+                  isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
+                }`}
               >
                 Phone Number
               </label>
@@ -149,14 +192,20 @@ function ContactUs() {
                 placeholder="Enter Your Phone Number"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className="border-2 borderinputbox w-full p-3 rounded-lg focus:outline-none bg-transparent focus:border-[#0046AE] font-poppins"
+                className={`border-2  w-full p-3 rounded-lg focus:outline-none  font-poppins  ${
+                  isDarkMode
+                    ? "text-[#000000]  border-[#FFFFFF5C] focus:border-[#FFFFFF]  border-2    bg-[#FFFFFF1A]"
+                    : "text-[#000000] borderinputbox   focus:border-[#0046AE] bg-transparent "
+                }`}
               />
             </div>
 
             <div className="flex flex-col gap-2">
               <label
                 htmlFor="message"
-                className="font-poppins text-[#000000] items-center font-normal text-lg"
+                className={`font-poppins  items-center font-normal text-lg  ${
+                  isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
+                }`}
               >
                 Message
               </label>
@@ -165,7 +214,11 @@ function ContactUs() {
                 placeholder="Write message"
                 value={formData.message}
                 onChange={handleInputChange}
-                className="border-2 borderinputbox w-full p-3 rounded-lg focus:outline-none bg-transparent focus:border-[#0046AE] font-poppins"
+                className={`border-2  w-full p-3 rounded-lg focus:outline-none  font-poppins  ${
+                  isDarkMode
+                    ? "text-[#000000]  border-[#FFFFFF5C] focus:border-[#FFFFFF]  border-2    bg-[#FFFFFF1A]"
+                    : "text-[#000000] borderinputbox   focus:border-[#0046AE] bg-transparent "
+                }`}
                 rows={2}
                 required
               />
@@ -175,7 +228,11 @@ function ContactUs() {
             <div className="w-full flex justify-center items-center">
               <button
                 type="submit"
-                className="px-14 py-[10px] rounded-lg text-white font-poppins text-lg bg-[#0046AE] hover:bg-[#003F88] focus:outline-none"
+                className={`px-14 py-[10px] rounded-lg  font-poppins text-lg ] focus:outline-none  ${
+                  isDarkMode
+                    ? "text-[#0046AE]   bg-white"
+                    : "text-white bg-[#0046AE] hover:bg-[#003F88] "
+                }`}
                 disabled={isLoading}
               >
                 {isLoading ? "Submitting..." : "Submit"}
@@ -191,7 +248,7 @@ function ContactUs() {
       </div>
 
       {/* Contact Media */}
-      <div className="mx-auto 2xl:w-[50%] w-[90%] xl:w-[65%] mt-[4rem]">
+      <div className="mx-auto 2xl:w-[50%] w-[90%] xl:w-[65%] mt-[4rem] rounded-xl">
         <Contactpage />
       </div>
     </div>

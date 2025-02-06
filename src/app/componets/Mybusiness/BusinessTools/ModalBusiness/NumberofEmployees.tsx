@@ -11,10 +11,15 @@ import { useAppSelector } from "@/app/hooks/hooks";
 function NumberofEmployees() {
   const dispatch = useDispatch();
   const storevalues = useAppSelector((state) => state.service.service);
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   return (
     <div
-      className="w-full justify-between px-8 py-4 rounded-lg items-center flex businesslable cursor-pointer"
+    className={`w-full justify-between px-4 md:px-8 py-4 rounded-lg items-center flex  cursor-pointer  ${
+      isDarkMode
+        ? "bg-[#212121] text-[#ffffff]"
+        : "bg-[#ffffff]  businesslable text-black"
+    }  `}
       onClick={() => {
         dispatch(showModal("NumberofEmployeesModal"));
       }}
@@ -27,7 +32,7 @@ function NumberofEmployees() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="text-xl font-poppins text-black">
+        <div className="text-xl font-poppins ">
           Number of Employees
         </div>
       </div>
@@ -41,7 +46,9 @@ function NumberofEmployees() {
           <Image
             src={arrow}
             alt="arrow"
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover  ${
+              isDarkMode? "invert" : ""
+            }`}
           />
         </div>
       </div>

@@ -59,16 +59,27 @@ function UploadCoverImage() {
     return "other";
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="   overflow-hidden h-fit">
       <div>
-        <label className="text-sm font-medium text-[#000000]" htmlFor="address">
+        <label
+          className={`font-poppins text-sm font-medium   ${
+            isDarkMode ? "text-[#FFFFFF]" : "text-[#000000]"
+          }`}
+          htmlFor="address"
+        >
           Service Cover image
           <span className=" text-[#F21818] pl-[1px]">*</span>
         </label>
 
         <div
-          className=" font-poppins mt-2 flex h-[6rem] w-full cursor-pointer items-center  !border-[#6565657a]   justify-center rounded-lg border-[1px] bg-transparent p-3 focus:border-[#0046AE] focus:outline-none"
+          className={` font-poppins mt-2 flex h-[6rem] w-full  !border-[#6565657a] border-[1px] cursor-pointer items-center justify-center rounded-lg   p-3 focus:border-[#0046AE] focus:outline-none  ${
+            isDarkMode
+              ? "text-[#FFFFFF]  borde-2  border-[#373737]  bg-[#FFFFFF0A]"
+              : " borderinputbox"
+          }`}
           onClick={handleFileClick}
         >
           <input

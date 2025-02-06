@@ -12,7 +12,7 @@ function ModalLable() {
   }
 
   const AddPostDataStep = useAppSelector(
-    (state) => state.AddPost.add_new_post_steps,
+    (state) => state.AddPost.add_new_post_steps
   );
 
   // Set title based on the current step
@@ -29,14 +29,17 @@ function ModalLable() {
     }
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   return (
     <div>
-      <h4 className="font-poppins text-xl font-medium text-black">
-        {getModalTitle()}
-      </h4>
+      <h4 className="font-poppins text-xl font-medium ">{getModalTitle()}</h4>
       {/* Right side cross icon */}
       <div className="absolute right-4 top-6 cursor-pointer" onClick={close}>
-        <Image src={crossicon} className="h-8 w-8" alt="crossicon" />
+        <Image
+          src={crossicon}
+          className={`h-8 w-8  ${isDarkMode ? " invert" : ""}`}
+          alt="crossicon"
+        />
       </div>
     </div>
   );

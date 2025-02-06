@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "@/app/store/Slice/modalSlice";
 import { setLikeStatus } from "@/app/store/Slice/category/likeStatusSlice";
 import "./style.css"; // Ensure the styles are correctly applied
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function ListCard({
   service_images,
@@ -62,8 +63,14 @@ function ListCard({
     });
   }, [user_id, localLikeStatus, service_id, islike, dispatch]);
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
-    <div className="w-full h-auto rounded-lg cursor-pointer  border-color flex flex-row gap-2 md:gap-6">
+    <div
+      className={`w-full h-auto rounded-lg cursor-pointer  flex flex-row gap-2 md:gap-6   ${
+        isDarkMode ? " bg-[#212121]" : "  border-color"
+      }`}
+    >
       {/* Image Section */}
       <div className="w-[50%] md:w-[30%] md:h-[15rem] sm:h-auto relative">
         <div
@@ -119,19 +126,25 @@ function ListCard({
                 borderRadius: "50%",
               }}
             />
-            <div>
-              <h5 className="text-[#636363] pt-2 font-poppins text-sm md:text-lg font-medium">
-                {name}
-              </h5>
-            </div>
+
+            <h5
+              className={` pt-2 font-poppins text-sm md:text-lg font-medium  ${
+                isDarkMode ? "text-[#FFFFFF]" : "text-[#636363]"
+              }`}
+            >
+              {name}
+            </h5>
           </div>
 
           {/* Heading */}
-          <div>
-            <h3 className="md:text-xl text-sm font-semibold text-black font-poppins">
-              {service_name}
-            </h3>
-          </div>
+
+          <h3
+            className={`md:text-xl text-sm font-semibold font-poppins  ${
+              isDarkMode ? "text-[#FFFFFF]" : " text-black "
+            }`}
+          >
+            {service_name}
+          </h3>
 
           {/* Ratings and Business Info */}
           <div className="flex items-center justify-between w-full">
@@ -150,14 +163,22 @@ function ListCard({
                 />
               ))}
               <div>
-                <p className="text-[#5C5C5C] font-poppins text-[10px] sm:text-sm line-clamp-1">
+                <p
+                  className={` font-poppins text-[10px] sm:text-sm line-clamp-1 ${
+                    isDarkMode ? "text-[#FFFFFF]" : "text-[#5C5C5C]"
+                  }`}
+                >
                   ({reviews})
                 </p>
               </div>
             </div>
 
             <div>
-              <p className="text-[#636363] font-poppins text-[10px] sm:text-sm line-clamp-1">
+              <p
+                className={` font-poppins text-[10px] sm:text-sm line-clamp-1  ${
+                  isDarkMode ? "text-[#FFFFFF]" : "text-[#636363]"
+                }`}
+              >
                 {yearsInBusiness}
               </p>
             </div>
@@ -173,7 +194,11 @@ function ListCard({
               />
             </div>
             <div>
-              <p className="text-[#636363] font-poppins text-[12px] md:text-sm line-clamp-1">
+              <p
+                className={` font-poppins text-[12px] md:text-sm line-clamp-1  ${
+                  isDarkMode ? "text-[#FFFFFF]" : "text-[#636363]"
+                }`}
+              >
                 {location || "Location not available"}
               </p>
             </div>
@@ -182,7 +207,12 @@ function ListCard({
 
         {/* Button */}
         <div className="w-full justify-start items-start flex pt-2 md:pt-4 md:pl-7 pl-1">
-          <div className="w-fit border-2 border-[#0046AE] px-2 md:px-8 py-2 md:py-3 rounded-xl flex justify-center items-center group relative overflow-hidden cursor-pointer">
+          <div
+            className={`w-fit border-2 border-[#0046AE] px-2 md:px-8 py-2 md:py-3 rounded-xl flex justify-center items-center group relative overflow-hidden cursor-pointer   ${
+              isDarkMode ? "  bg-[#0046AE2B]" : " "
+            }
+          }`}
+          >
             <button className="text-[#0046AE] w-full font-medium font-poppins group-hover:text-white z-10 relative text-sm md:text-[16px]">
               {priceRange}
             </button>

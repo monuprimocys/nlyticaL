@@ -9,12 +9,14 @@ import { useServiceDetailApi } from "@/app/store/api/ServiceDetailScreenApi/useS
 import { showModal } from "@/app/store/Slice/modalSlice";
 import { useDispatch } from "react-redux";
 import video from "../../../../../../public/assets/lottie_search_anim/lottie_search_anim/Animation - 1736233762512.gif";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function ServiceDetailleftSide() {
   const pathname = usePathname();
   const dispatch = useDispatch();
   const lastSegment = pathname.split("/").filter(Boolean).pop() || "";
   const { data, error, isLoading, refetch } = useServiceDetailApi(lastSegment);
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   const storedata = data?.stores;
 
@@ -34,7 +36,13 @@ function ServiceDetailleftSide() {
   console.log(" my 1212121222", displayedStores?.length);
 
   return (
-    <div className="w-full h-auto photoservicedetailborderandshado p-4 rounded-lg">
+    <div
+      className={`w-full  h-auto rounded-xl p-4 flex flex-col  ${
+        isDarkMode
+          ? "text-white   bg-[#212121]"
+          : " text-black photoservicedetailborderandshado"
+      }`}
+    >
       {/* Heading */}
       <div className="text-lg font-medium items-start font-poppins">
         Services
@@ -44,7 +52,11 @@ function ServiceDetailleftSide() {
       {displayedStores?.map((store) => (
         <div
           key={store.id}
-          className="w-full h-32 rounded-xl cursor-pointer flex mt-3 bordercolorcard"
+          className={`w-full h-32 rounded-xl cursor-pointer flex mt-3   ${
+            isDarkMode
+              ? "text-white   bg-[#FFFFFF05]"
+              : " text-black bordercolorcard "
+          }`}
         >
           {/* Left side image */}
           <div
@@ -61,7 +73,11 @@ function ServiceDetailleftSide() {
           <div className="w-full flex flex-col  items-center p-4 gap-4">
             {/* Top heading */}
             <div className="w-full flex justify-between items-center">
-              <div className="text-sm font-poppins font-medium text-[#0046AE]">
+              <div
+                className={`text-sm font-poppins font-medium   ${
+                  isDarkMode ? "text-white" : "text-[#0046AE]"
+                }`}
+              >
                 {store.store_name}
               </div>
               {/* Right arrow */}
@@ -74,7 +90,11 @@ function ServiceDetailleftSide() {
 
             {/* Bottom paragraph */}
             <div className="w-full flex justify-start  items-start">
-              <p className="text-[#535353] font-poppins line-clamp-3 text-sm">
+              <p
+                className={`font-poppins line-clamp-3 text-sm ${
+                  isDarkMode ? "text-white" : "text-[#535353]"
+                }`}
+              >
                 {store.store_description}
               </p>
             </div>
@@ -93,7 +113,15 @@ function ServiceDetailleftSide() {
               height={100}
             />
           </div>
-          <h2 className="font-poppins font-medium text-black">No Data Found</h2>
+          <h2
+            className={`font-poppins font-medium  ${
+              isDarkMode ? "text-white" : "text-black"
+            }
+            
+          }`}
+          >
+            No Data Found
+          </h2>
         </div>
       )}
 

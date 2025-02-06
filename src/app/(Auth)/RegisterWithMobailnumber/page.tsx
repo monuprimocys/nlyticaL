@@ -10,7 +10,7 @@ import RegisterWithMobilenumber from "@/app/componets/Registration/RegisterWithM
 
 export default function RegisterWithMobailnumberModal() {
   const modalData = useAppSelector(
-    (state) => state.modals.RegisterWithMobilenumber,
+    (state) => state.modals.RegisterWithMobilenumber
   );
   const dispatch = useAppDispatch();
   // modal close
@@ -38,7 +38,7 @@ export default function RegisterWithMobailnumberModal() {
                 className="h-24 w-[11rem] object-contain"
               />
               <p className="font-poppins mx-auto mt-1 px-4 text-center text-sm text-[#717171] sm:px-6">
-                 Discover more about our app by registering or logging in.
+                Discover more about our app by registering or logging in. 
               </p>
             </div>
 

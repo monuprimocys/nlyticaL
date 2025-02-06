@@ -71,6 +71,9 @@ function FirstSection() {
     }
   };
 
+
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="w-full h-[40rem] relative">
       {/* Background image */}

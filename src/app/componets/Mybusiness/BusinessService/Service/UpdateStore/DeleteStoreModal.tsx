@@ -50,21 +50,31 @@ function DeleteStoreModal() {
     }
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <Dialog open={modalData} onClose={close} as="div" className="z-50">
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full items-center justify-center">
-          <DialogPanel className="mx-auto h-[15rem] w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%]  xl:w-[30%] 2xl:w-[25%]">
+          <DialogPanel
+            className={`mx-auto h-[15rem] w-[90%] rounded-2xl  shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%]  xl:w-[30%] 2xl:w-[25%]  ${
+              isDarkMode ? " bg-[#212121]  text-white" : "bg-white text-black"
+            }`}
+          >
             {/* Top Heading */}
-            <div className="deleteac flex w-full items-center justify-center rounded-xl p-4">
-              <h3 className="font-poppins text-lg font-medium text-black">
+            <div
+              className={` flex w-full items-center justify-center rounded-xl p-4  ${
+                isDarkMode ? " bg-[#FFFFFF0A]" : " deleteac"
+              }`}
+            >
+              <h3 className="font-poppins text-lg font-medium ">
                 Services Delete
               </h3>
             </div>
 
             {/* Content */}
             <div className="h-auto w-full">
-              <p className="font-poppins mx-auto w-[70%] items-center p-5 text-lg text-[#000000]">
+              <p className="font-poppins mx-auto w-[70%] items-center p-5 text-lg ">
                 Are you sure you want to delete this store?
               </p>
             </div>
@@ -74,7 +84,9 @@ function DeleteStoreModal() {
               {/* Cancel Button */}
               <button
                 onClick={close} // Close the modal on cancel
-                className="font-poppins cancelbordercolor w-full rounded-md py-2 text-[#3A3333]"
+                className={`font-poppins cancelbordercolor w-full rounded-md py-2   ${
+                  isDarkMode ? " text-white" : " text-[#3A3333]"
+                }`}
               >
                 Cancel
               </button>

@@ -74,6 +74,7 @@ const CardDesignBusiness: React.FC<CardDesignBusinessProps> = ({
     updatestoreslicedata
   );
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   return (
     <div className="h-fit overflow-hidden w-full relative rounded-xl flex flex-col mb-2 shadow-md cursor-pointer">
       {/* Image Section */}
@@ -86,7 +87,11 @@ const CardDesignBusiness: React.FC<CardDesignBusinessProps> = ({
       ></div>
 
       {/* Content Section */}
-      <div className="w-full py-4 flex justify-center h-[18rem] items-center px-4 sm:px-6">
+      <div
+        className={`w-full py-4 flex justify-center h-[18rem] items-center px-4 sm:px-6   ${
+          isDarkMode ? " bg-[#212121]" : " bg-white"
+        }`}
+      >
         <div className="flex flex-col w-full gap-3">
           {/* Avatar with Detail */}
           <div className="flex items-center gap-x-2">
@@ -100,7 +105,11 @@ const CardDesignBusiness: React.FC<CardDesignBusinessProps> = ({
               }}
             ></div>
             <div>
-              <h5 className="text-[#636363] font-poppins text-lg font-medium line-clamp-1">
+              <h5
+                className={` font-poppins text-lg font-medium line-clamp-1  ${
+                  isDarkMode ? "text-white" : "text-[#636363]"
+                }`}
+              >
                 {name}
               </h5>
             </div>
@@ -108,20 +117,34 @@ const CardDesignBusiness: React.FC<CardDesignBusinessProps> = ({
 
           {/* Store Heading */}
           <div>
-            <h3 className="xl:text-[22px] text-xl font-semibold text-black font-poppins line-clamp-1">
+            <h3
+              className={`xl:text-[22px] text-xl font-semibold font-poppins line-clamp-1  ${
+                isDarkMode ? "text-white" : " text-black"
+              }`}
+            >
               {store_name}
             </h3>
           </div>
 
           {/* Store Description */}
           <div className="flex gap-2">
-            <p className="text-[#636363] font-poppins text-sm line-clamp-2">
+            <p
+              className={` font-poppins text-sm line-clamp-2  ${
+                isDarkMode ? "text-[#FFFFFFBA]" : "text-[#636363]"
+              }`}
+            >
               {store_description}
             </p>
           </div>
 
           {/* Price Range Button */}
-          <div className="border-2 border-[#0046AE] px-4 py-3 rounded-xl flex justify-center items-center group relative overflow-hidden cursor-pointer">
+          <div
+            className={`border-2 border-[#0046AE] px-4 py-3 rounded-xl flex justify-center items-center group relative overflow-hidden cursor-pointer  ${
+              isDarkMode
+                ? " bg-[#0046AE2B]"
+                : "text-[#636363] bg-[#0046AE] hover:bg-[#003984]"
+            } `}
+          >
             <button className="text-[#0046AE] font-medium font-poppins group-hover:text-white z-10 relative">
               {priceRange}
             </button>

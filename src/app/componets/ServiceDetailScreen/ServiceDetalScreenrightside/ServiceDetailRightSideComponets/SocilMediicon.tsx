@@ -14,13 +14,18 @@ function SocilMediicon() {
   );
 
   console.log("serviceDetailData #12121121", ServiceDetailData);
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   return (
-    <div className="p-4 rounded-lg photoservicedetailborderandshado bg-white">
+    <div
+      className={`p-4 rounded-lg   ${
+        isDarkMode
+          ? "bg-[#212121] text-[#ffffff]"
+          : "bg-[#ffffff] text-[#3E5155] photoservicedetailborderandshado"
+      }`}
+    >
       {/* Heading */}
-      <div className="text-lg font-medium font-poppins text-[#3E5155] mb-4">
-        Follow Us On
-      </div>
+      <div className="text-lg font-medium font-poppins  mb-4">Follow Us On</div>
       <div className="w-full flex gap-3 flex-wrap">
         {/* Facebook Link */}
         {ServiceDetailData?.facebook_link &&
@@ -30,7 +35,7 @@ function SocilMediicon() {
                 <Image src={fbicon} alt="Facebook" className="w-6 h-6" />
               </div>
               <div>
-                <span className="text-[#3E5155] font-medium">Facebook</span>
+                <span className=" font-medium">Facebook</span>
               </div>
             </div>
           )}
@@ -43,7 +48,7 @@ function SocilMediicon() {
                 <Image src={insta} alt="Instagram" className="w-6 h-6" />
               </div>
               <div>
-                <span className="text-[#3E5155] font-medium">Instagram</span>
+                <span className="] font-medium">Instagram</span>
               </div>
             </div>
           )}
@@ -56,7 +61,7 @@ function SocilMediicon() {
                 <Image src={whatshop} alt="Instagram" className="w-6 h-6" />
               </div>
               <div>
-                <span className="text-[#3E5155] font-medium">Whatsapp</span>
+                <span className=" font-medium">Whatsapp</span>
               </div>
             </div>
           )}
@@ -69,7 +74,7 @@ function SocilMediicon() {
                 <Image src={twitter} alt="Twitter" className="w-6 h-6" />
               </div>
               <div>
-                <span className="text-[#3E5155] font-medium">Twitter</span>
+                <span className=" font-medium">Twitter</span>
               </div>
             </div>
           )}

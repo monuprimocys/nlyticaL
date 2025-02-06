@@ -23,10 +23,14 @@ const BusinessDescription: React.FC<BusinessDescriptionProps> = ({
     dispatch(updateAddPostData({ service_description: e.target.value }));
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="h-fit">
       <label
-        className="font-poppins text-sm font-medium text-[#000000]"
+        className={`text-sm font-medium   ${
+          isDarkMode ? "text-[#FFFFFF]" : "text-[#000000]"
+        }`}
         htmlFor="service_description"
       >
         Business Description
@@ -37,7 +41,9 @@ const BusinessDescription: React.FC<BusinessDescriptionProps> = ({
           id="service_description"
           name="service_description"
           placeholder="Enter Business Description"
-          className="!border-[#6565657a] border-[1px]    "
+          className={`border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm  ${
+            isDarkMode ? "bg-[#FFFFFF0A]" : "text-[#000000]"
+          }`}
           variant="outlined"
           fullWidth
           multiline

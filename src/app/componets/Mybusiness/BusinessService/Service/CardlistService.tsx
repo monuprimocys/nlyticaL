@@ -6,9 +6,12 @@ import { useStoreListApi } from "@/app/store/api/usestorelist";
 import Cookies from "js-cookie";
 import AvatarWithSpinner from "@/app/componets/Loading/AvatarWithSpinner";
 import { FcNext, FcPrevious } from "react-icons/fc";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function CardlistService() {
   const service_id = Cookies.get("service_id");
+
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   // Local state to manage API loading, error, fetched data, and pagination
   const [loading, setLoading] = useState(true);
@@ -55,7 +58,11 @@ function CardlistService() {
   // Check if the store list is empty
   if (data?.StoreList?.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full w-full">
+      <div
+        className={`flex items-center justify-center h-full w-full  ${
+          isDarkMode ? "text-white" : "text-gray-800"
+        }`}
+      >
         <span>No data found for the given service ID</span>
       </div>
     );
@@ -108,7 +115,9 @@ function CardlistService() {
         >
           <FcPrevious />
         </button>
-        <span className="px-4 py-2  font-poppins ">{`Page ${currentPage} of ${totalPages}`}</span>
+        <span className={`px-4 py-2  font-poppins  ${
+          isDarkMode? "text-white" : "text-gray-800"
+        } `}>{`Page ${currentPage} of ${totalPages}`}</span>
 
         <button
           onClick={() => handlePageChange(currentPage + 1)}

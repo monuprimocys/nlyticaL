@@ -78,31 +78,48 @@ function SerachDesing() {
     }
   }, [data, error]);
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
-    <div className="w-full h-auto grid gap-6 grid-cols-1">
+    <div className={`w-full h-auto grid gap-6 grid-cols-1  `}>
       {/* Search Box */}
       <div className="relative flex items-center">
-        
         <SerchboxLIsting />
       </div>
       <div className="w-full h-auto grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-1">
         {/* Location Search */}
-        <div className="w-full flex flex-col gap-6 h-auto border-color rounded-lg   p-5">
+        <div
+          className={`w-full flex flex-col gap-6 h-auto  rounded-lg   p-5  ${
+            isDarkMode ? " bg-[#212121]" : "border-color"
+          }`}
+        >
           <LocationCategorySubCategoryDropdwon />
         </div>
 
         {/* Price range */}
-        <div className="w-full h-auto border-color rounded-lg flex flex-col p-6">
+        <div
+          className={`w-full h-auto  rounded-lg flex flex-col p-6   ${
+            isDarkMode ? " bg-[#212121]" : "border-color"
+          }`}
+        >
           <PriceListing />
         </div>
 
         {/* type */}
-        <div className="border-color w-full rounded-lg ">
+        <div
+          className={` w-full rounded-lg  ${
+            isDarkMode ? " bg-[#212121]" : "border-color"
+          }`}
+        >
           <TypesListing />
         </div>
 
         {/* Rating */}
-        <div className="border-color w-full rounded-lg">
+        <div
+          className={` w-full rounded-lg  ${
+            isDarkMode ? " bg-[#212121]" : "border-color"
+          }`}
+        >
           <RatingListing />
         </div>
       </div>

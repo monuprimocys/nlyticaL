@@ -20,10 +20,14 @@ const AddStoreName: React.FC<BusinessNameProps> = ({ required }) => {
 
   console.log(" my reponcefjfkhnsdkfhsdkfl;hsdf0", storename.currentStoreName);
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="w-full">
       <label
-        className="text-sm font-medium text-[#000000]"
+        className={`font-poppins text-sm font-medium   ${
+          isDarkMode ? "text-[#FFFFFF]" : "text-[#000000]"
+        }`}
         htmlFor="store_name"
       >
         Service Name
@@ -34,7 +38,11 @@ const AddStoreName: React.FC<BusinessNameProps> = ({ required }) => {
           id="store_name"
           name="store_name"
           placeholder="store_name"
-          className="border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm"
+          className={`border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm`}
+          sx={{
+            backgroundColor: isDarkMode ? "#FFFFFF0A" : "#ffffff",
+            color: isDarkMode ? "#ffffff" : "#000000",
+          }}
           fullWidth
           required={required}
           onChange={handleStoreNameChange} // Handle the input change

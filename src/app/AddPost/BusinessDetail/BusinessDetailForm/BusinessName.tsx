@@ -16,10 +16,14 @@ const BusinessName: React.FC<BusinessNameProps> = ({ required }) => {
     dispatch(updateAddPostData({ service_name: e.target.value }));
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="">
       <label
-        className="text-sm font-medium text-[#000000]"
+        className={`text-sm font-medium   ${
+          isDarkMode ? "text-[#FFFFFF]" : "text-[#000000]"
+        }`}
         htmlFor="service_name"
       >
         Business Name
@@ -30,7 +34,9 @@ const BusinessName: React.FC<BusinessNameProps> = ({ required }) => {
           id="service_name"
           name="service_name"
           placeholder="Business Name"
-          className="border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm"
+          className={`border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm  ${
+            isDarkMode ? "bg-[#FFFFFF0A]" : "text-[#000000]"
+          }`}
           fullWidth
           value={serviceName || ""}
           onChange={handleChange}

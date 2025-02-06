@@ -37,21 +37,25 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ required }) => {
     selectedvalues.selectedCategory.category_name || " Category";
 
   console.log(" my category name  121212121212", selectedCategoryName);
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   return (
     <div className="w-full">
-      {/*  lable  category */}
-
+      {/* Label category */}
       <label
         htmlFor="location"
-        className="font-poppins mb-3 block text-sm font-medium capitalize text-black"
+        className={`font-poppins mb-3 block text-sm font-medium capitalize ${
+          isDarkMode ? "text-white" : "text-black"
+        }`}
       >
         Category
-        <span className=" text-[#F21818] pl-[1px]">*</span>
+        <span className="text-[#F21818] pl-[1px]">*</span>
       </label>
       <FormControl
         style={{
           width: "100%",
+          backgroundColor: isDarkMode ? "#333" : "#fff", // Change background color based on mode
+          color: isDarkMode ? "#FFFFFF" : "#000", // Change text color based on mode
         }}
       >
         <Select
@@ -60,6 +64,9 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ required }) => {
           value={selectedvalues?.id || ""}
           onChange={handleCategoryChange}
           displayEmpty
+          className={
+            isDarkMode ? "bg-dark-600 text-white" : "bg-light-200 text-black"
+          } // Conditional styling for select
         >
           {/* Display selected category name or placeholder */}
           <MenuItem value="" disabled>
@@ -76,7 +83,11 @@ const CategoryDropdown: React.FC<CategoryDropdownProps> = ({ required }) => {
           )}
         </Select>
         {required && !selectedvalues?.id && (
-          <FormHelperText>Category is required</FormHelperText>
+          <FormHelperText
+            className={isDarkMode ? "text-white" : "text-black"} // Conditional text color
+          >
+            Category is required
+          </FormHelperText>
         )}
       </FormControl>
     </div>

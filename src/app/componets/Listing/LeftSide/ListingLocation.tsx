@@ -158,6 +158,8 @@ const ListingLocation = () => {
     }
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="flex h-full w-full flex-col">
       <div className="relative h-full flex w-full items-center justify-center p-4">
@@ -170,16 +172,24 @@ const ListingLocation = () => {
             placeholder="Search only state name"
             value={inputValue}
             onChange={handleInputChange}
-            InputProps={{
-              style: {
-                borderRadius: "6px",
-                fontSize: "16px",
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                fontFamily: "Poppins, sans-serif",
+                fontSize: "1.125rem",
+                backgroundColor: isDarkMode ? "#FFFFFF21" : "#ffffff",
+                color: isDarkMode ? "#ffffff" : "#000000",
+                border: "none",
+
+                borderRadius: "8px",
+                borderColor: "#B4B4B4",
+                "&:focus-within": {
+                  borderColor: "#B5843F66",
+                  boxShadow: "0 0 0 1px #B5843F66",
+                },
               },
-            }}
-            InputLabelProps={{
-              style: {
-                opacity: 0.6,
-                color: "black",
+              "& .MuiInputBase-input": {
+                color: isDarkMode ? "#ffffff" : "#000000",
+                fontFamily: "Poppins, sans-serif",
               },
             }}
           />

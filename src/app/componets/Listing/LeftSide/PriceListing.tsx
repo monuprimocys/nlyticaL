@@ -17,6 +17,8 @@ const PriceListing: React.FC = () => {
 
   console.log("Updated price: listing", price);
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="flex flex-col w-full h-auto">
       {/* heading */}
@@ -25,19 +27,29 @@ const PriceListing: React.FC = () => {
           <Image
             src={priceicon}
             alt="priceicon"
-            className="h-[1.3rem] w-[1.3rem] object-cover"
+            className={`h-[1.3rem] w-[1.3rem] object-cover   ${
+              isDarkMode ? "bg-circle-icon" : ""
+            }`}
           />
         </div>
 
         <div>
-          <h5 className="font-poppins text-black font-normal">
+          <h5
+            className={`font-poppins text-black font-normal   ${
+              isDarkMode ? "text-white" : "text-black"
+            }`}
+          >
             Pricing Filter
           </h5>
         </div>
       </div>
 
       {/* price range input box */}
-      <div className="bg-white rounded-lg mt-5 w-full">
+      <div
+        className={`rounded-lg mt-5 w-full   ${
+          isDarkMode ? "bg-transparent" : " bg-white"
+        }`}
+      >
         <div>
           <input
             type="range"
@@ -49,14 +61,24 @@ const PriceListing: React.FC = () => {
             onChange={updatePrice}
           />
         </div>
-        <div className="flex justify-between text-gray-500">
-          <span id="minPrice" className="font-poppins text-[#0000004F]">
+        <div className="flex justify-between ">
+          <span
+            id="minPrice"
+            className={`font-poppins    ${
+              isDarkMode ? "text-white" : "text-[#0000004F]"
+            }`}
+          >
             $100
           </span>
           <span id="currentPrice" className="text-[#0046AE] font-poppins">
             ${price}
           </span>
-          <span id="maxPrice" className="font-poppins text-[#0000004F]">
+          <span
+            id="maxPrice"
+            className={`font-poppins    ${
+              isDarkMode ? "text-white" : "text-[#0000004F]"
+            }`}
+          >
             $1000
           </span>
         </div>

@@ -15,7 +15,9 @@ export default function BusinessSubCategory() {
   const dispatch = useDispatch();
   const [selectedValues, setSelectedValues] = React.useState<string[]>([]);
 
-  const category_id = useAppSelector((state) => state.service.service.category_id);
+  const category_id = useAppSelector(
+    (state) => state.service.service.category_id
+  );
   const subcategory_id = useAppSelector(
     (state) => state.service.service.subcategory_id
   );
@@ -45,7 +47,9 @@ export default function BusinessSubCategory() {
 
     if (selectedSubcategories) {
       const subcategoryIds = selectedSubcategories.map((sub) => sub.id);
-      dispatch(updateServiceField({ subcategory_id: subcategoryIds.join(",") }));
+      dispatch(
+        updateServiceField({ subcategory_id: subcategoryIds.join(",") })
+      );
     }
   };
 
@@ -61,7 +65,9 @@ export default function BusinessSubCategory() {
 
     if (selectedSubcategories) {
       const subcategoryIds = selectedSubcategories.map((sub) => sub.id);
-      dispatch(updateServiceField({ subcategory_id: subcategoryIds.join(",") }));
+      dispatch(
+        updateServiceField({ subcategory_id: subcategoryIds.join(",") })
+      );
     }
   };
 
@@ -70,9 +76,7 @@ export default function BusinessSubCategory() {
     if (subcategory_id) {
       const selectedSubcategoryIds = subcategory_id.split(",");
       const defaultSelectedValues = subcategory
-        ?.filter((sub) =>
-          selectedSubcategoryIds.includes(sub.id.toString())
-        )
+        ?.filter((sub) => selectedSubcategoryIds.includes(sub.id.toString()))
         .map((sub) => sub.subcategory_name);
 
       if (defaultSelectedValues) {
@@ -81,11 +85,15 @@ export default function BusinessSubCategory() {
     }
   }, [subcategory_id, subcategory]);
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="w-full overflow-hidden">
       <label
         htmlFor="location"
-        className="font-poppins mb-3 block text-sm font-medium capitalize text-black"
+        className={`font-poppins mb-3 block text-sm font-medium capitalize  ${
+          isDarkMode ? " text-white" : " text-black "
+        }`}
       >
         Sub Category
         <span className="text-[#F21818] pl-[1px]">*</span>
@@ -99,6 +107,20 @@ export default function BusinessSubCategory() {
           displayEmpty
           inputProps={{ "aria-label": "Without label" }}
           disabled={!category_id} // Disable if no category_id
+          sx={{
+            color: isDarkMode ? "white" : "black",
+            "&:focus": {
+              backgroundColor: "#f5f5f5",
+            },
+
+            "&:disabled": {
+              backgroundColor: "#f5f5f5",
+              color: "#cccccc",
+            },
+            "&:not(:first-child)": {
+              marginTop: 8,
+            },
+          }}
         >
           {/* Render options only if subcategory data is available */}
           {subcategory?.map((sub) => (
@@ -111,8 +133,12 @@ export default function BusinessSubCategory() {
                 type="checkbox"
                 checked={selectedValues.includes(sub.subcategory_name)}
                 onChange={() => {
-                  const newSelectedValues = selectedValues.includes(sub.subcategory_name)
-                    ? selectedValues.filter((value) => value !== sub.subcategory_name)
+                  const newSelectedValues = selectedValues.includes(
+                    sub.subcategory_name
+                  )
+                    ? selectedValues.filter(
+                        (value) => value !== sub.subcategory_name
+                      )
                     : [...selectedValues, sub.subcategory_name];
                   setSelectedValues(newSelectedValues);
 
@@ -122,8 +148,14 @@ export default function BusinessSubCategory() {
                   );
 
                   if (selectedSubcategories) {
-                    const subcategoryIds = selectedSubcategories.map((sub) => sub.id);
-                    dispatch(updateServiceField({ subcategory_id: subcategoryIds.join(",") }));
+                    const subcategoryIds = selectedSubcategories.map(
+                      (sub) => sub.id
+                    );
+                    dispatch(
+                      updateServiceField({
+                        subcategory_id: subcategoryIds.join(","),
+                      })
+                    );
                   }
                 }}
                 disabled={!category_id}
@@ -134,13 +166,41 @@ export default function BusinessSubCategory() {
         </Select>
       </FormControl>
 
-      <Box sx={{ mt: 2 }}>
+      <Box
+        sx={{
+          mt: 2,
+
+          color: isDarkMode ? "white" : "black",
+        }}
+      >
         {selectedValues.map((value) => (
           <Chip
             key={value}
             label={value}
             onDelete={() => handleDelete(value)}
-            sx={{ margin: 0.5 }}
+            sx={{
+              margin: 0.5,
+              color: isDarkMode ? "white" : "black",
+              backgroundColor: isDarkMode ? "#333333" : "#ffffff",
+              border: isDarkMode ? "1px solid #cccccc" : "1px solid #333333",
+              borderRadius: 2,
+              cursor: "pointer",
+              "&:hover": {
+                backgroundColor: isDarkMode ? "#444444" : "#cccccc",
+              },
+              "&:focus": {
+                backgroundColor: isDarkMode ? "#444444" : "#cccccc",
+              },
+              "&:active": {
+                backgroundColor: isDarkMode ? "#333333" : "#cccccc",
+              },
+              "&:first-child": {
+                marginLeft: 0,
+              },
+              "&:not(:first-child)": {
+                marginLeft: 2,
+              },
+            }}
           />
         ))}
       </Box>

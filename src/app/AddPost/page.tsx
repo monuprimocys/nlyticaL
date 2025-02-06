@@ -9,6 +9,8 @@ import ContactDetails from "./ContactDetails/ContactDetails";
 import BusinessTime from "./BusinessTime/BusinessTime";
 import AddStepCurrent from "./AddStepCurrent";
 import Cookies from "js-cookie";
+import { useEffect } from "react";
+import { setDarkMode } from "../store/Slice/darkModeSlice";
 
 export default function AddPostModal() {
   const user_id = Cookies.get("user_id");
@@ -94,17 +96,40 @@ export default function AddPostModal() {
 
   // Logging all the values
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+  // Ensuring dark mode state is loaded from localStorage on initial load
+  useEffect(() => {
+    const savedMode = localStorage.getItem("darkMode") === "true";
+    if (savedMode !== isDarkMode) {
+      dispatch(setDarkMode(savedMode));
+    }
+    document.documentElement.classList.toggle("dark", savedMode);
+  }, [dispatch, isDarkMode]);
+
+  console.log("My business is:!!!!!!!!!!!!!!!!!!!!!!!!!!!!", isDarkMode);
+
   return (
     <>
-      <Dialog open={modalData} onClose={close} as="div" className="overflow-y-auto">
+      <Dialog
+        open={modalData}
+        onClose={close}
+        as="div"
+        className="overflow-y-auto"
+      >
         <div className="fixed inset-0 z-10 overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
           <div className="flex min-h-full items-center justify-center overflow-y-auto">
             <DialogPanel
               transition
-              className="mx-auto h-auto w-[90%] overflow-y-auto rounded-2xl bg-white backdrop-blur-2xl duration-300 ease-out xl:w-[88%] 2xl:w-[58%]"
+              className={`mx-auto h-auto w-[90%] overflow-y-auto rounded-2xl backdrop-blur-2xl duration-300 ease-out xl:w-[88%] 2xl:w-[58%] ${
+                isDarkMode ? "text-white  bg-[#212121]" : " bg-white "
+              }`}
             >
               {/* heading */}
-              <div className="step-container relative flex h-[5rem] w-full items-center justify-center rounded-t-3xl">
+              <div
+                className={` relative flex h-[5rem] w-full items-center justify-center rounded-t-3xl  ${
+                  isDarkMode ? "  bg-[#FFFFFF0A] text-white" : "text-black step-container"
+                }`}
+              >
                 <ModalLable />
               </div>
 

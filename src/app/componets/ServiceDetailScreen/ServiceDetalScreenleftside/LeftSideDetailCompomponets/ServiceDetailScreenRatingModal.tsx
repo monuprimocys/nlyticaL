@@ -23,7 +23,7 @@ const ServiceDetailScreenRatingModal = () => {
   const service_id = pathname.split("/").filter(Boolean).pop() || "";
 
   // Use the mutate function from useMutation
-  const { mutate, isLoading  } = useAddReviewScreenApi();
+  const { mutate, isLoading } = useAddReviewScreenApi();
 
   const close = () => {
     dispatch(hideModal("ServiceDetailScreenRatingModal"));
@@ -69,15 +69,29 @@ const ServiceDetailScreenRatingModal = () => {
     }
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <Dialog open={modalData} onClose={close} as="div" className="z-50">
       {/* Modal Content */}
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full items-center justify-center">
-          <DialogPanel className="mx-auto h-auto w-[90%] rounded-2xl flex flex-col gap-6 bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[80%] xl:w-[70%] 2xl:w-[30%]">
+          <DialogPanel
+            className={`mx-auto h-auto w-[90%] rounded-2xl flex flex-col gap-6 shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[80%] xl:w-[70%] 2xl:w-[30%]   ${
+              isDarkMode ? " bg-[#212121]" : "bg-white "
+            } `}
+          >
             {/* Modal Header */}
-            <div className="flex h-auto w-full items-center justify-center rounded-xl p-4 borderxcolorwithshado">
-              <h3 className="font-poppins text-lg font-medium text-black">
+            <div
+              className={`flex h-auto w-full items-center justify-center rounded-xl p-4  ${
+                isDarkMode ? "  bg-[#FFFFFF0A]" : " borderxcolorwithshado  "
+              }`}
+            >
+              <h3
+                className={`font-poppins text-lg font-medium   ${
+                  isDarkMode ? "text-white" : "text-black"
+                }`}
+              >
                 Ratings
               </h3>
             </div>
@@ -92,7 +106,11 @@ const ServiceDetailScreenRatingModal = () => {
 
             {/* Modal Body */}
             <div className="w-full flex flex-col items-center gap-6 p-4">
-              <h4 className="font-poppins text-[#000000] text-lg font-medium">
+              <h4
+                className={`font-poppins  text-lg font-medium  ${
+                  isDarkMode ? "text-white" : "text-black"
+                }`}
+              >
                 Start Your Review
               </h4>
 
@@ -113,12 +131,16 @@ const ServiceDetailScreenRatingModal = () => {
                 ))}
               </div>
 
-              {/* Message Box */}
+              {/* Message Box */}   
               <textarea
                 placeholder="Write your review..."
                 value={reviewMessage}
                 onChange={handleMessageChange}
-                className="w-[80%] mx-auto h-[10rem] p-4 mt-4 revirecardbnt rounded-lg resize-none"
+                className={`w-[80%] mx-auto h-[10rem] p-4 mt-4  rounded-lg resize-none  ${
+                  isDarkMode
+                    ? "  bg-[#FFFFFF0A]  border-2 border-[#FFFFFF52] focus:[#FFFFFF52]"
+                    : "  bg-white revirecardbnt"
+                }`}
               />
 
               {/* Submit Button */}

@@ -17,10 +17,14 @@ const UpdateStoreName: React.FC = () => {
     dispatch(updateStoreName(updatedStoreName)); // Dispatch action to update store name in redux
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="w-full">
       <label
-        className="text-sm font-medium text-[#000000]"
+        className={`font-poppins text-sm font-medium   ${
+          isDarkMode ? "text-[#FFFFFF]" : "text-[#000000]"
+        }`}
         htmlFor="store_name"
       >
         Service Name
@@ -33,7 +37,11 @@ const UpdateStoreName: React.FC = () => {
           placeholder="store_name"
           value={Updatestorename || ""}
           onChange={handleStoreNameChange} // Attach change handler
-          className="border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm"
+          className={`border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm  ${
+            isDarkMode
+              ? "bg-[#FFFFFF0A] text-[#FFFFFF]"
+              : "bg-[#FFFFFF] text-[#000000]"
+          }`}
           fullWidth
         />
       </div>

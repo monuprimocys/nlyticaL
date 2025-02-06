@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 const RightSideAfterLogin = () => {
   const router = useRouter();
   const user_id = Cookies.get("user_id");
+
   const [isLoading, setIsLoading] = useState(true);
   const [userProfileData, setUserProfileData] = useState<ProfileUpdate | null>(
     null
@@ -55,6 +56,8 @@ const RightSideAfterLogin = () => {
     toast.success("Logged out successfully!");
     Cookies.remove("user_id");
     Cookies.remove("is_store");
+    Cookies.remove("store_approval");
+    Cookies.remove("loginuser");
     dispatch(showModal("LogoutModal"));
     window.location.href = "/";
 
@@ -69,7 +72,7 @@ const RightSideAfterLogin = () => {
   const isStore = Cookies.get("store_approval");
 
   return (
-    <div className="flex items-center gap-4 text-white">
+    <div className="flex items-center gap-4 text-white   ">
       <Menu>
         <MenuButton className="inline-flex items-center gap-2 rounded-md px-3  py-1.5 text-sm/6 focus:outline-none">
           <div className="flex items-center gap-2">
@@ -97,7 +100,7 @@ const RightSideAfterLogin = () => {
         <MenuItems
           transition
           anchor="bottom end"
-          className={`w-40 origin-top-right rounded-xl border border-white  p-1 text-sm/6 shadow-2xl transition duration-200 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0    ${
+          className={`w-40 origin-top-right rounded-xl border border-white z-50  p-1 text-sm/6 shadow-2xl transition duration-200 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0    ${
             isDarkMode ? "bg-[#212121] text-white" : "bg-white text-black"
           } `}
         >

@@ -1,4 +1,3 @@
-import { RegisterModalVerifyOtpRes } from "@/app/types/Restypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Define the base URL for the API
@@ -8,10 +7,7 @@ export const RegisterModalVerifyOtp = createApi({
   reducerPath: "RegisterModalVerifyOtp",
   baseQuery: fetchBaseQuery({ baseUrl: baseURL }),
   endpoints: (builder) => ({
-    RegisterModalVerifyOtp: builder.mutation<
-      RegisterModalVerifyOtpRes,
-      RegisterModalVerifyOtpRes
-    >({
+    RegisterModalVerifyOtp: builder.mutation({
       query: (RegisterModalVerifyOtp) => ({
         url: "verify-user",
         method: "POST",

@@ -44,18 +44,18 @@ export default function RegisterWithMobilenumberVerifyOtpModal() {
                 className="h-20 w-[11rem] object-contain"
               />
               <p className="text-center text-sm text-gray-600 sm:px-6 font-poppins">
-                Discover more about our app by registering or logging in. 
+                Discover more about our app by registering or logging in.
               </p>
 
               <h2 className="font-poppins font-semibold text-xl text-black">
-                Verification Code 
+                Verification Code
               </h2>
               <p className="text-center text-lg text-gray-800 sm:px-8 font-poppins">
-                  We have sent the verification code to your mobile number.
+                We have sent the verification code to your mobile number.
               </p>
 
               <h3 className="text-center text-lg font-semibold text-black sm:px-8 font-poppins">
-                {RegisterUserMobileNumber} 
+                {RegisterUserMobileNumber}
               </h3>
             </div>
 
@@ -73,7 +73,7 @@ export default function RegisterWithMobilenumberVerifyOtpModal() {
                       dispatch(showModal("RegisterModal"));
                     }}
                   >
-                    Sign Up 
+                    Sign Up
                   </span>
                 </p>
               </div>

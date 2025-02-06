@@ -34,12 +34,19 @@ export default function NoofEmployees() {
   );
 
   console.log("my select change event employee", selectedvalues);
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   return (
     <div className="w-full   ">
       <label
         htmlFor="location"
-        className="font-poppins mb-3 block text-sm font-medium capitalize text-black"
+        className={`font-poppins mb-3 block text-sm font-medium capitalize ${
+          isDarkMode
+            ? "text-white"
+            : selectedvalues === ""
+            ? "text-gray-600"
+            : "text-black"
+        }`}
       >
         Number of Employees
         <span className=" text-[#F21818] pl-[1px]">*</span>
@@ -48,17 +55,31 @@ export default function NoofEmployees() {
         <Select
           labelId="employee-select-label"
           id="employee-select"
-          value={selectedvalues} // Ensure default is empty string if no value
+          value={selectedvalues || ""} // Ensure default is empty string if no value
           onChange={handleSelectChange}
-          className="font-poppins"
+          className={`font-poppins ${
+            isDarkMode ? "bg-[#333333] text-white" : "bg-white text-black"
+          }`} // Conditional bg/text color for Select
           displayEmpty
         >
           {/* Display selected employeeRanges name or placeholder */}
-          <MenuItem value="" disabled className=" font-poppins text-sm    ">
+          <MenuItem
+            value=""
+            disabled
+            className={`font-poppins text-sm ${
+              isDarkMode ? "text-gray-400" : "text-gray-600"
+            }`}
+          >
             Select employee range
           </MenuItem>
           {employeeRanges.map((range) => (
-            <MenuItem key={range.value} value={range.value}>
+            <MenuItem
+              key={range.value}
+              value={range.value}
+              className={
+                isDarkMode ? "bg-[#444444] text-white" : "bg-white text-black"
+              } // MenuItem background/text color
+            >
               {range.label}
             </MenuItem>
           ))}

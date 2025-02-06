@@ -1,11 +1,33 @@
+"use client";
+
 import ServiceDetailBreadCome from "@/app/componets/AllBreadCome/ServiceDetailBreadCome";
 import ServiceDetalScreenleftside from "@/app/componets/ServiceDetailScreen/ServiceDetalScreenleftside/ServiceDetalScreenleftside";
 import ServiceDetalScreenrightside from "@/app/componets/ServiceDetailScreen/ServiceDetalScreenrightside/ServiceDetalScreenrightside";
-import React from "react";
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
+import { setDarkMode } from "@/app/store/Slice/darkModeSlice";
+import React, { useEffect } from "react";
 
-function page() {
+function Page() {
+  const dispatch = useAppDispatch();
+
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+  // Ensuring dark mode state is loaded from localStorage on initial load
+  useEffect(() => {
+    const savedMode = localStorage.getItem("darkMode") === "true";
+    if (savedMode !== isDarkMode) {
+      dispatch(setDarkMode(savedMode));
+    }
+    document.documentElement.classList.toggle("dark", savedMode);
+  }, [dispatch, isDarkMode]);
+
+  console.log("My business is:!!!!!!!!!!!!!!!!!!!!!!!!!!!!", isDarkMode);
+
   return (
-    <div className="w-full h-auto    ">
+    <div
+      className={`w-full h-auto        ${
+        isDarkMode ? "  bg-[#181818]" : " bg-white"
+      }`}
+    >
       {/* header */}
       <ServiceDetailBreadCome />
 
@@ -25,4 +47,4 @@ function page() {
   );
 }
 
-export default page;
+export default Page;

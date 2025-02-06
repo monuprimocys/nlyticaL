@@ -112,14 +112,26 @@ const TimeModalFormValues: React.FC = () => {
     };
   }, []);
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="flex w-full flex-col items-center space-y-6">
       <div className="flex w-full items-start justify-start">
-        <label className="font-poppins text-lg font-medium text-[#000000]">
+        <label
+          className={`font-poppins text-lg font-medium   ${
+            isDarkMode ? "text-[#FFFFFF]" : "text-[#000000]"
+          }`}
+        >
           Business Opening Hours
         </label>
       </div>
-      <div className="step-container w-full rounded-lg p-6">
+      <div
+        className={` w-full rounded-lg p-6   ${
+          isDarkMode
+            ? "bg-[#FFFFFF0A]  border-2 border-[#373737]"
+            : " step-container"
+        }`}
+      >
         {/* Day buttons */}
         <div className="flex w-full flex-wrap gap-4">
           {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
@@ -145,7 +157,11 @@ const TimeModalFormValues: React.FC = () => {
             />
           </div>
           <div>
-            <p className="font-poppins text-[10px] font-normal text-[#B0B0B0] md:text-sm">
+            <p
+              className={`font-poppins text-[10px] font-normal  md:text-sm   ${
+                isDarkMode ? "text-[#FFFFFF]" : "text-[#B0B0B0]"
+              }`}
+            >
               Select the multiple days you want to provide the service to the
               users
             </p>
@@ -166,7 +182,9 @@ const TimeModalFormValues: React.FC = () => {
                   label="Start Time"
                   value={startTime ? dayjs(startTime, "hh:mm A") : null}
                   onChange={handleStartTimeChange} // Handle start time change
-                  sx={{ width: "100%" }}
+                  sx={{
+                    width: "100%",
+                  }}
                   views={["hours"]}
                 />
               </DemoContainer>

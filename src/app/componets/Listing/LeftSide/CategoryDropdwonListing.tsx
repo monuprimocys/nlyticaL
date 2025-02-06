@@ -45,6 +45,8 @@ const CategoryDropdwonListing: React.FC<
     (state) => state.categoryListing.selectedCategoryListing.id
   );
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="w-full mx-auto mt-6 rounded-xl">
       <div className="relative w-full rounded-full">
@@ -55,18 +57,27 @@ const CategoryDropdwonListing: React.FC<
             id="category-select"
             value={selectedCategory || ""}
             onChange={handleCategoryChange}
-            className={`pl-10  bordercolor ${
+            className={`pl-10   ${
               selectedCategory
                 ? "hide-select-icon text-gray-700 bg-slate-300"
                 : "  !text-gray-500" // If no category is selected, apply opacity
-            }`} // Conditionally apply opacity class
+            }
+            
+            ${
+              isDarkMode ? "  bg-[#FFFFFF21]" : "bordercolor" // Apply color based on dark mode
+            }
+            
+            
+            `} // Conditionally apply opacity class
             displayEmpty
             startAdornment={
               <InputAdornment position="start">
                 <Image
                   src={dropdown}
                   alt="Dropdown Icon"
-                  className="h-5 w-6 opacity-[50%]"
+                  className={`h-5 w-6     ${
+                    isDarkMode ? "bg-circle-icon " : "opacity-[50%]" // Apply color based on dark mode
+                  }`}
                 />
               </InputAdornment>
             }

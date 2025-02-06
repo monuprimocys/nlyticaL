@@ -75,13 +75,23 @@ function FollowSocialMediaModal() {
     }
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <Dialog open={modalOpen} onClose={close} as="div" className="z-50">
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full h-auto items-center justify-center">
-          <DialogPanel className="mx-auto pb-6 h-auto w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%]">
-            <div className="flex w-full items-center justify-between p-4 modalbordercolor font-poppins rounded-b-lg">
-              <h3 className="font-poppins text-lg font-medium text-black text-center w-full">
+          <DialogPanel
+            className={`mx-auto pb-6 h-auto w-[90%] rounded-2xl  shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%]  ${
+              isDarkMode ? "bg-[#212121] text-white" : "bg-white text-black"
+            }`}
+          >
+            <div
+              className={`flex w-full items-center justify-between p-4  font-poppins rounded-b-lg  ${
+                isDarkMode ? " bg-[#FFFFFF0A]" : " modalbordercolor"
+              }`}
+            >
+              <h3 className="font-poppins text-lg font-medium  text-center w-full">
                 Follow on Social Media{" "}
               </h3>
               <div
@@ -89,7 +99,11 @@ function FollowSocialMediaModal() {
                 onClick={close}
                 aria-label="Close modal"
               >
-                <Image src={crossicon} className="h-8 w-8" alt="Close icon" />
+                <Image
+                  src={crossicon}
+                  className={`h-8 w-8   ${isDarkMode ? " invert" : ""}`}
+                  alt="Close icon"
+                />
               </div>
             </div>
 
@@ -101,7 +115,11 @@ function FollowSocialMediaModal() {
                   alt="Information icon"
                 />
               </div>
-              <p className="text-[15px] font-normal text-[#0046AE] text-center font-poppins">
+              <p
+                className={`1text-[15px] font-normal  text-center font-poppins  ${
+                  isDarkMode ? " text-white" : " text-[#0046AE]"
+                }`}
+              >
                 Enter the address details that would be used by customers to
                 locate your workplace
               </p>
@@ -110,7 +128,9 @@ function FollowSocialMediaModal() {
             <div className="mx-auto w-[80%] flex justify-center items-center h-auto  flex-col   gap-6">
               <div className=" w-full">
                 <label
-                  className="text-sm font-medium text-[#000000]"
+                  className={`text-sm font-medium  ${
+                    isDarkMode ? " text-white" : "text-[#000000]"
+                  }`}
                   htmlFor="facebook_link"
                 >
                   facebook_link
@@ -120,7 +140,11 @@ function FollowSocialMediaModal() {
                     type="text"
                     id="facebook_link"
                     name="facebook_link"
-                    className="font-poppins inputboxborder w-full font-poppins rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
+                    className={`font-poppins inputboxborder w-full font-poppins rounded-md border  py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]  ${
+                      isDarkMode
+                        ? "text-white  bg-[#FFFFFF0A]"
+                        : "text-[#000000] bg-white"
+                    }`}
                     placeholder="facebook_link"
                     value={facebook_link}
                     onChange={handalfacebook_link}
@@ -129,7 +153,9 @@ function FollowSocialMediaModal() {
               </div>
               <div className=" w-full">
                 <label
-                  className="text-sm font-medium text-[#000000]"
+                  className={`text-sm font-medium  ${
+                    isDarkMode ? " text-white" : "text-[#000000]"
+                  }`}
                   htmlFor="instagram_link"
                 >
                   instagram_link
@@ -139,7 +165,11 @@ function FollowSocialMediaModal() {
                     type="text"
                     id="instagram_link"
                     name="instagram_link"
-                    className="font-poppins inputboxborder w-full  font-poppins rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
+                    className={`font-poppins inputboxborder w-full font-poppins rounded-md border  py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]  ${
+                      isDarkMode
+                        ? "text-white  bg-[#FFFFFF0A]"
+                        : "text-[#000000] bg-white"
+                    }`}
                     placeholder="instagram_link"
                     value={instagram_link}
                     onChange={handalinstagram_link}
@@ -148,7 +178,9 @@ function FollowSocialMediaModal() {
               </div>
               <div className=" w-full">
                 <label
-                  className="text-sm font-medium text-[#000000]"
+                  className={`text-sm font-medium  ${
+                    isDarkMode ? " text-white" : "text-[#000000]"
+                  }`}
                   htmlFor="whatsapp_link"
                 >
                   whatsapp_link
@@ -158,7 +190,11 @@ function FollowSocialMediaModal() {
                     type="text"
                     id="whatsapp_link"
                     name="whatsapp_link"
-                    className="font-poppins inputboxborder w-full font-poppins rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
+                    className={`font-poppins inputboxborder w-full font-poppins rounded-md border  py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]  ${
+                      isDarkMode
+                       ? "text-white  bg-[#FFFFFF0A]"
+                        : "text-[#000000] bg-white"
+                    }`}
                     placeholder="whatsapp_link"
                     value={whatsapp_link}
                     onChange={handlewhatshop_link}
@@ -167,7 +203,9 @@ function FollowSocialMediaModal() {
               </div>
               <div className=" w-full">
                 <label
-                  className="text-sm font-medium text-[#000000]"
+                  className={`text-sm font-medium  ${
+                    isDarkMode ? " text-white" : "text-[#000000]"
+                  }`}
                   htmlFor="twitter_link"
                 >
                   twitter_link
@@ -177,7 +215,11 @@ function FollowSocialMediaModal() {
                     type="text"
                     id="twitter_link"
                     name="twitter_link"
-                    className="font-poppins inputboxborder w-full font-poppins rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
+                    className={`font-poppins inputboxborder w-full font-poppins rounded-md border  py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]  ${
+                      isDarkMode
+                       ? "text-white  bg-[#FFFFFF0A]"
+                        : "text-[#000000] bg-white"
+                    }`}
                     placeholder="twitter_link"
                     value={twitter_link}
                     onChange={handaltwitter_link}

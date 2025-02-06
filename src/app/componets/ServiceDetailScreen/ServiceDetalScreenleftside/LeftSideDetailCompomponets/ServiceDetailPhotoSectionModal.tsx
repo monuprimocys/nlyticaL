@@ -14,7 +14,7 @@ const ServiceDetailPhotoSectionModal: React.FC<
 > = ({ selectedImage, setSelectedImage }) => {
   const ServiceDetailData = useAppSelector((state) => state.serviceDetail);
   const serviceImages = ServiceDetailData.serviceDetail.service_images || [];
-
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   // Function to close the modal
   const close = () => {
     setSelectedImage(null); // Close the modal by setting selectedImage to null
@@ -24,7 +24,8 @@ const ServiceDetailPhotoSectionModal: React.FC<
   const prevImage = () => {
     if (!selectedImage) return;
     const currentIndex = serviceImages.indexOf(selectedImage);
-    const prevIndex = (currentIndex - 1 + serviceImages.length) % serviceImages.length;
+    const prevIndex =
+      (currentIndex - 1 + serviceImages.length) % serviceImages.length;
     setSelectedImage(serviceImages[prevIndex]);
   };
 
@@ -49,14 +50,16 @@ const ServiceDetailPhotoSectionModal: React.FC<
 
       {/* Modal content */}
       <div className="fixed inset-0 z-20 flex items-center justify-center">
-        <DialogPanel className="mx-auto w-[90%] md:w-[50%]  bg-white rounded-xl relative">
+        <DialogPanel className={`mx-auto w-[90%] md:w-[50%]  bg-white rounded-xl relative  ${
+          isDarkMode? "dark:bg-gray-800 dark:text-white" : ""
+        }`}>
           {/* Close icon */}
           <button
             className="absolute top-1 right-1 bg-gray-300 rounded-full p-2 text-2xl text-[#0046AE]"
             onClick={close}
             aria-label="Close"
           >
-            <IoClose /> 
+            <IoClose />
           </button>
 
           {/* Left Arrow */}

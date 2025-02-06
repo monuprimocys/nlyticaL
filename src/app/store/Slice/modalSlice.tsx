@@ -31,12 +31,15 @@ interface ModalState {
   BusinessImagesModal: boolean;
   BusinessWebsiteModal: boolean;
   FollowSocialMediaModal: boolean;
+  BusinessVideoModal: boolean;
   AddStoreModal: boolean;
   UpdateAddStoreModal: boolean;
   DeleteStoreModal: boolean;
   VisitedModal: boolean;
   SelectLocationVisite: boolean;
   RegisterWithMobailNumberOtpVerify: boolean;
+  BusinessPorfileUpdateModal: boolean;
+  BusinessRebiewListModal: boolean;
 }
 
 const initialState: ModalState = {
@@ -76,6 +79,9 @@ const initialState: ModalState = {
   VisitedModal: false,
   SelectLocationVisite: false,
   RegisterWithMobailNumberOtpVerify: false,
+  BusinessVideoModal: false,
+  BusinessPorfileUpdateModal: false,
+  BusinessRebiewListModal: false,
 };
 
 const modalSlice = createSlice({

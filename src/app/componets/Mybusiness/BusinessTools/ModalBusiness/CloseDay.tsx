@@ -55,15 +55,27 @@ const CloseDay: React.FC = () => {
       : "bg-[#0046AE] text-white"; // Unselected day button will be blue with white text
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="flex w-full flex-col items-center space-y-6">
       {/* Label */}
       <div className="flex w-full items-start justify-start">
-        <label className="font-poppins text-lg font-medium text-[#000000]">
+        <label
+          className={`font-poppins text-lg font-medium    ${
+            isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
+          }`}
+        >
           Select Days of the Week
         </label>
       </div>
-      <div className="step-container w-full rounded-lg p-6">
+      <div
+        className={` w-full rounded-lg p-6   ${
+          isDarkMode
+            ? "bg-[#FFFFFF0A]  border-2 border-[#373737]"
+            : " step-container"
+        }`}
+      >
         {/* Day buttons */}
         <div className="flex w-full flex-wrap gap-4">
           {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
@@ -89,7 +101,9 @@ const CloseDay: React.FC = () => {
             />
           </div>
           <div>
-            <p className="font-poppins text-[10px] font-normal text-[#B0B0B0] md:text-sm">
+            <p className={`font-poppins text-[10px] font-normal  md:text-sm   ${
+              isDarkMode? "text-[#ffffff]" : "  text-[#B0B0B0]"
+            }`}>
               Select the multiple days you want to provide the service to the
               users
             </p>

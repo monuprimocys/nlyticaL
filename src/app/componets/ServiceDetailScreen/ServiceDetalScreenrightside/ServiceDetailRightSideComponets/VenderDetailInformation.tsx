@@ -10,11 +10,21 @@ function VenderDetailInformation() {
     (state) => state.serviceDetail.vendorDetails
   );
   const listing = useAppSelector((state) => state.serviceDetail);
-
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   return (
-    <div className="p-4 rounded-lg photoservicedetailborderandshado bg-white">
+    <div
+      className={`p-4 rounded-lg    ${
+        isDarkMode
+          ? " bg-[#212121]"
+          : " bg-[#ffffff] photoservicedetailborderandshado"
+      } `}
+    >
       {/* Heading */}
-      <div className="text-lg font-medium font-poppins text-[#3E5155] mb-4">
+      <div
+        className={`text-lg font-medium font-poppins  mb-4  ${
+          isDarkMode ? "text-[#ffffff]" : "text-[#3E5155]"
+        }`}
+      >
         Vendor Information
       </div>
 
@@ -30,7 +40,11 @@ function VenderDetailInformation() {
 
         {/* Name and Details */}
         <div className="flex flex-col">
-          <div className="flex items-center font-poppins gap-2 text-lg font-medium text-[#3E5155]">
+          <div
+            className={`flex items-center font-poppins gap-2 text-lg font-medium    ${
+              isDarkMode ? "text-[#ffffff]" : "text-[#3E5155]"
+            }`}
+          >
             <span>
               {ServiceDetailData.first_name} {ServiceDetailData.last_name}
             </span>
@@ -44,7 +58,11 @@ function VenderDetailInformation() {
               {" "}
               {listing.serviceDetail.total_stores_count} Listings
             </span>
-            <span className="text-[#929292] ml-2 font-poppins">
+            <span
+              className={` ml-2 font-poppins  ${
+                isDarkMode ? "text-[#ffffff]" : "text-[#929292]"
+              }`}
+            >
               Member since {listing.serviceDetail.published_year}{" "}
               {listing.serviceDetail.published_month}
             </span>

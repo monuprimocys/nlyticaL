@@ -30,9 +30,16 @@ const AddStorePrice: React.FC<BusinessNameProps> = ({ required }) => {
 
   console.log("Current store price:", storename.currentStorePrice);
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="w-full">
-      <label className="text-sm font-medium text-[#000000]" htmlFor="price">
+      <label
+        className={`font-poppins text-sm font-medium   ${
+          isDarkMode ? "text-[#FFFFFF]" : "text-[#000000]"
+        }`}
+        htmlFor="price"
+      >
         Price
         <span className="text-[#F21818] pl-[1px]">*</span>
       </label>
@@ -41,7 +48,11 @@ const AddStorePrice: React.FC<BusinessNameProps> = ({ required }) => {
           id="price"
           name="price"
           placeholder="Add price"
-          className="border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm"
+          className={`border-solid border-2 border-[#EFEFEF] rounded-md focus:outline-none focus:border-[#888888] focus:ring-2 focus:ring-[#888888] focus:ring-offset-2 focus:ring-offset-[#555555] focus:shadow-sm  ${
+            isDarkMode
+              ? "bg-[#212121] text-[#FFFFFF]"
+              : "bg-[#FFFFFF] text-[#000000]"
+          }`}
           fullWidth
           required={required}
           onChange={handleStoreNameChange} // Handle the input change

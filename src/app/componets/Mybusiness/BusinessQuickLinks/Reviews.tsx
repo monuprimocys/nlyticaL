@@ -2,12 +2,19 @@ import React from "react";
 import addprofile from "../../../../../public/assets/Image/businesssreview.png";
 import Image from "next/image";
 import { useAppSelector } from "@/app/hooks/hooks";
+import { useDispatch } from "react-redux";
+import { showModal } from "@/app/store/Slice/modalSlice";
 
 function Reviews() {
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
-
+  const dispatch = useDispatch();
   return (
-    <div className="  flex  flex-col gap-2 cursor-pointer ">
+    <div
+      className="  flex  flex-col gap-2 cursor-pointer "
+      onClick={() => {
+        dispatch(showModal("BusinessRebiewListModal"));
+      }}
+    >
       <div className=" w-[6.3rem]  h-[6.3rem] rounded-lg  flex justify-center items-center  bg-[#B5E2FF]  ">
         <Image
           src={addprofile}

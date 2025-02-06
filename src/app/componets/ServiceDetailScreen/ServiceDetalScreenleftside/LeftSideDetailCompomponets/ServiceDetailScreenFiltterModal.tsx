@@ -35,14 +35,26 @@ function ServiceDetailScreenFiltterModal() {
     store.store_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <Dialog open={modalData} onClose={close} as="div" className="z-50">
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full items-center justify-center">
-          <DialogPanel className="mx-auto h-auto w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[80%] xl:w-[70%] 2xl:w-[40%]">
+          <DialogPanel
+            className={`mx-auto h-auto w-[90%] rounded-2xl shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[80%] xl:w-[70%] 2xl:w-[40%]  ${
+              isDarkMode ? " bg-[#181818] text-white" : "bg-white text-black"
+            }`}
+          >
             {/* Modal Header */}
-            <div className="flex h-auto w-full items-center justify-center rounded-xl p-4 borderxcolorwithshado">
-              <h3 className="font-poppins text-lg font-medium text-black">
+            <div
+              className={`flex h-auto w-full items-center justify-center rounded-xl p-4  ${
+                isDarkMode
+                  ? " border-[#212121] bg-[#FFFFFF0A]"
+                  : "border-white borderxcolorwithshado"
+              }`}
+            >
+              <h3 className="font-poppins text-lg font-medium ">
                 {data?.serviceDetail.service_name}
               </h3>
             </div>
@@ -63,7 +75,7 @@ function ServiceDetailScreenFiltterModal() {
                     >
                       {/* Left side image */}
                       <div
-                        className="w-[25%] h-full flex items-center justify-center"
+                        className="w-[25%] h-full flex items-center justify-center  rounded-lg"
                         style={{
                           backgroundImage: `url(${store.store_images[0]})`,
                           backgroundSize: "cover",
@@ -73,10 +85,21 @@ function ServiceDetailScreenFiltterModal() {
                       ></div>
 
                       {/* Right side */}
-                      <div className="w-full flex flex-col items-center p-4 gap-4">
+                      <div
+                        className={`w-full flex flex-col items-center p-4 gap-4  rounded-lg  ${
+                          isDarkMode
+                            ? " bg-[#FFFFFF0A] text-white "
+                            : "bg-white text-black"
+                        } 
+                      } `}
+                      >
                         {/* Top heading */}
                         <div className="w-full flex justify-between items-center">
-                          <div className="text-sm font-poppins font-medium text-[#0046AE]">
+                          <div
+                            className={`text-sm font-poppins font-medium   ${
+                              isDarkMode ? "text-white" : " text-[#0046AE]"
+                            }`}
+                          >
                             {store.store_name}
                           </div>
                           {/* Right arrow */}
@@ -89,7 +112,11 @@ function ServiceDetailScreenFiltterModal() {
 
                         {/* Bottom paragraph */}
                         <div className="w-full flex justify-start items-start">
-                          <p className="text-[#535353] font-poppins line-clamp-3 text-sm">
+                          <p
+                            className={` font-poppins line-clamp-3 text-sm  ${
+                              isDarkMode ? "text-[#FFFFFFBA]" : "text-[#535353]"
+                            }`}
+                          >
                             {store.store_description}
                           </p>
                         </div>

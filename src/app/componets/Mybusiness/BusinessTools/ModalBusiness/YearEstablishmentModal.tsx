@@ -51,13 +51,27 @@ function YearEstablishmentModal() {
   // Handle modal close (dispatch action to hide modal)
   const close = () => dispatch(hideModal("YearEstablishmentModal"));
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <Dialog open={modalOpen} onClose={close} as="div" className="z-50">
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full h-auto items-center justify-center">
-          <DialogPanel className="mx-auto pb-6 h-auto w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%]">
-            <div className="flex w-full items-center justify-between p-4 modalbordercolor font-poppins rounded-b-lg">
-              <h3 className="font-poppins text-lg font-medium text-black text-center w-full">
+          <DialogPanel
+            className={`mx-auto pb-6 h-auto w-[90%] rounded-2xl  shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%]  ${
+              isDarkMode
+                ? "text-[#FFFFFF] bg-[#212121]"
+                : "text-[#212121] border-[#F8F9FC] bg-[#F8F9FC]"
+            }`}
+          >
+            <div
+              className={`flex w-full items-center justify-between p-4  font-poppins rounded-b-lg   ${
+                isDarkMode
+                  ? "bg-[#FFFFFF0A]"
+                  : "text-[#212121] modalbordercolor"
+              }`}
+            >
+              <h3 className="font-poppins text-lg font-medium  text-center w-full">
                 Year of Establishment
               </h3>
               <div
@@ -65,7 +79,11 @@ function YearEstablishmentModal() {
                 onClick={close}
                 aria-label="Close modal"
               >
-                <Image src={crossicon} className="h-8 w-8" alt="Close icon" />
+                <Image
+                  src={crossicon}
+                  className={`h-8 w-8   ${isDarkMode ? " invert" : ""}`}
+                  alt="Close icon"
+                />
               </div>
             </div>
 
@@ -77,7 +95,11 @@ function YearEstablishmentModal() {
                   alt="Information icon"
                 />
               </div>
-              <p className="text-[15px] font-normal text-[#0046AE] text-center font-poppins">
+              <p
+                className={`text-[15px] font-normal  text-center font-poppins  ${
+                  isDarkMode ? "text-[#FFFFFF]" : "text-[#0046AE]"
+                }`}
+              >
                 Please note that any changes to the details below can go for
                 verification and take upto 2 working days to go live.
               </p>

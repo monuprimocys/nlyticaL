@@ -38,20 +38,24 @@ const BusinessCategory: React.FC<CategoryDropdownProps> = ({ required }) => {
   const selectedCategoryName = category.find((cat) => cat.id === storevalues)
     ? category.find((cat) => cat.id === storevalues)?.category_name
     : "Select Category"; // Default text if no category is selected
+    const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   return (
     <div className="w-full h-auto">
       {/* Label category */}
       <label
         htmlFor="location"
-        className="font-poppins mb-3 block text-sm font-medium capitalize text-black"
+        className={`font-poppins mb-3 block text-sm font-medium capitalize ${
+          isDarkMode ? "text-white" : "text-black"
+        }`}
       >
         Category
-        <span className=" text-[#F21818] pl-[1px]">*</span>
+        <span className="text-[#F21818] pl-[1px]">*</span>
       </label>
       <FormControl
         style={{
           width: "100%",
+          backgroundColor: isDarkMode ? "#333" : "#fff", // Adjust the background color
         }}
       >
         <Select
@@ -60,6 +64,10 @@ const BusinessCategory: React.FC<CategoryDropdownProps> = ({ required }) => {
           value={storevalues || ""} // Set the value based on category_id from Redux store
           onChange={handleCategoryChange}
           displayEmpty
+          style={{
+            color: isDarkMode ? "#fff" : "#000", // Adjust the text color of the select dropdown
+            backgroundColor: isDarkMode ? "#444" : "#fff", // Adjust background color for the dropdown
+          }}
         >
           {/* Display selected category name or placeholder */}
           <MenuItem value="" disabled>
@@ -76,7 +84,13 @@ const BusinessCategory: React.FC<CategoryDropdownProps> = ({ required }) => {
           )}
         </Select>
         {required && !storevalues && (
-          <FormHelperText>Category is required</FormHelperText>
+          <FormHelperText
+            style={{
+              color: isDarkMode ? "#ff4444" : "#F21818", // Adjust error color based on mode
+            }}
+          >
+            Category is required
+          </FormHelperText>
         )}
       </FormControl>
     </div>

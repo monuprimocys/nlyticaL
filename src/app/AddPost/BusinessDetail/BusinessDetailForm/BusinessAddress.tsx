@@ -23,11 +23,18 @@ const BusinessAddress: React.FC<BusinessAddressProps> = ({ required }) => {
     dispatch(showModal("CompleteAddressModal"));
   };
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div className="">
-      <label className="text-sm font-medium text-[#000000]" htmlFor="address">
+      <label
+        className={`text-sm font-medium ${
+          isDarkMode ? "text-white" : "text-black"
+        }`}
+        htmlFor="address"
+      >
         Business Address
-        <span className=" text-[#F21818] pl-[1px]">*</span>
+        <span className="text-[#F21818] pl-[1px]">*</span>
       </label>
       <div className="relative mt-2 flex items-center">
         <TextField
@@ -35,26 +42,28 @@ const BusinessAddress: React.FC<BusinessAddressProps> = ({ required }) => {
           name="address"
           placeholder="Enter your address"
           variant="outlined"
-          className="!border-[#6565657a] border-[1px] "
-          
-          
+          className={`!border-[1px] ${
+            isDarkMode ? "border-[#656565]" : "border-[#6565657a]"
+          } ${isDarkMode ? "bg-[#333333] text-white" : "bg-white text-black"}`} // Conditional background and text color for TextField
           fullWidth
           value={joinAddress || ""}
           onClick={handleAddressClick}
           required={required}
           InputProps={{
             endAdornment: (
-              <InputAdornment position="end" >
+              <InputAdornment position="end">
                 <IconButton
                   onClick={handleAddressClick}
                   edge="end"
                   style={{
-                    backgroundColor: "#B4B4B414",
+                    backgroundColor: isDarkMode ? "#444444" : "#B4B4B414", // Darker button for dark mode
                     borderRadius: "50%",
                     padding: "8px",
                   }}
                 >
-                  <CiEdit className="text-[#b4b4b4]" />
+                  <CiEdit
+                    className={isDarkMode ? "text-white" : "text-[#b4b4b4]"} // Icon color based on the mode
+                  />
                 </IconButton>
               </InputAdornment>
             ),
