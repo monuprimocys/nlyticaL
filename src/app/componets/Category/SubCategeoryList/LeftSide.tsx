@@ -92,7 +92,7 @@ function LeftSide() {
         </div>
 
         {/* type */}
-        <div className="border-color w-full rounded-lg">
+        <div className="border-color w-full rounded-lg h-fit">
           <Types />
         </div>
 

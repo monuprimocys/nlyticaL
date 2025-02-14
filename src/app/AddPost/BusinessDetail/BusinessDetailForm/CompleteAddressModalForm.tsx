@@ -104,7 +104,7 @@ function CompleteAddressModalForm() {
   // console.log("Complete Address Modal", address);
 
   return (
-    <div className="grid h-auto w-full grid-cols-1 gap-6">
+    <div className="grid h-auto w-full grid-cols-1 gap-6 ">
       {/* address detail box  */}
       <div className="step-container1 flex flex-col gap-4 rounded-lg p-5">
         <div className="hidden">

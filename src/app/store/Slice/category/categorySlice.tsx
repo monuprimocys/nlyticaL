@@ -12,15 +12,17 @@ interface CategoryState {
 
 const initialState: CategoryState = {
   selectedCategory: {
-    id: null,
-    category_name: null,
+    id: sessionStorage.getItem("cid")
+      ? Number(sessionStorage.getItem("cid"))
+      : null,
+    category_name: sessionStorage.getItem("category_name") || null,
   },
 };
 
 const categorySlice = createSlice({
   name: "category",
-  initialState, 
-  
+  initialState,
+
   reducers: {
     setSelectedCategory(
       state,

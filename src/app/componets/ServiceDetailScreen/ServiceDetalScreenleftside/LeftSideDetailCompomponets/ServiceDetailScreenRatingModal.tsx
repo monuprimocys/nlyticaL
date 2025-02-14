@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import { usePathname } from "next/navigation";
 import { useAddReviewScreenApi } from "@/app/store/api/ServiceDetailScreenApi/useAddReviewScreenApi";
 import { toast } from "react-hot-toast";
+import { useServiceDetailApi } from "@/app/store/api/ServiceDetailScreenApi/useServiceDetailApi";
 
 const ServiceDetailScreenRatingModal = () => {
   const pathname = usePathname();
@@ -21,6 +22,7 @@ const ServiceDetailScreenRatingModal = () => {
   const dispatch = useAppDispatch();
   const user_id = Cookies.get("user_id");
   const service_id = pathname.split("/").filter(Boolean).pop() || "";
+  const { refetch } = useServiceDetailApi(service_id);
 
   // Use the mutate function from useMutation
   const { mutate, isLoading } = useAddReviewScreenApi();
@@ -62,6 +64,7 @@ const ServiceDetailScreenRatingModal = () => {
 
       // On success, show a toast message and close the modal
       toast.success("Review submitted successfully!");
+      refetch();
       close();
     } catch (error) {
       // Handle any errors from the API call
@@ -131,7 +134,7 @@ const ServiceDetailScreenRatingModal = () => {
                 ))}
               </div>
 
-              {/* Message Box */}   
+              {/* Message Box */}
               <textarea
                 placeholder="Write your review..."
                 value={reviewMessage}

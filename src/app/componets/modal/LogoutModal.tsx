@@ -18,8 +18,16 @@ function LogoutModal() {
     // Add your logout logic here
     toast.success("Logged out successfully!");
     Cookies.remove("user_id");
+    Cookies.remove("is_store");
+    Cookies.remove("store_approval");
+    Cookies.remove("loginuser");
+    Cookies.remove("service_id");
+    Cookies.remove("country_code");
+    Cookies.remove("email");
+    Cookies.remove("mobile");
+    Cookies.remove("login_type");
+    Cookies.remove("first_name");
     dispatch(hideModal("LogoutModal"));
-    window.location.href = "/";
   };
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
@@ -73,7 +81,7 @@ function LogoutModal() {
 
               {/* Delete Button */}
               <button
-                className="font-poppins w-full rounded-md bg-[#0046AE] py-2 text-white"
+                className="font-poppins w-full rounded-md bg-[#0046AE] py-3 text-white"
                 onClick={handalLogout}
               >
                 Logout

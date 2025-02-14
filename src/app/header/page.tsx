@@ -54,6 +54,11 @@ import RegisterWithMobailNumberOtpVerify from "../(Auth)/RegisterWithMobailNumbe
 import BusinessVideoModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/BusinessVideoModal";
 import BusinessPorfileUpdateModal from "../componets/Mybusiness/BusinessQuickLinks/BusinessPorfileUpdateModal";
 import BusinessRebiewListModal from "../componets/Mybusiness/BusinessQuickLinks/BusinessRebiewListModal";
+import CompleteBusinessModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/CompleteBusinessModal";
+import MessageSendModal from "../componets/message/MessageBox/MessageSendModal";
+import VendorInfoModal from "../componets/message/MessageBox/VendorInfoModal";
+import Messagebtn from "../componets/message/messagebtn";
+import { useRouter } from "next/navigation";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -61,10 +66,10 @@ function Header() {
   const [isOpenlanguage, setIsOpenLanguage] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [isSticky, setIsSticky] = useState(false);
-
   const user_id = Cookies.get("loginuser");
-
+  const router = useRouter();
   const isServiceFormSubmit = Cookies.get("is_store");
+  const myuser_id = Cookies.get("user_id");
 
   // MODAL OPEN CLOSE CURRENT
 
@@ -222,6 +227,18 @@ function Header() {
     (state) => state.modals.BusinessRebiewListModal
   );
 
+  const isCompleteBusinessModalVisible = useAppSelector(
+    (state) => state.modals.CompleteBusinessModal
+  );
+
+  const isMessageSendModalVisible = useAppSelector(
+    (state) => state.modals.MessageSendModal
+  );
+
+  const isVendorInfoModalVisible = useAppSelector(
+    (state) => state.modals.VendorInfoModal
+  );
+
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -283,6 +300,9 @@ function Header() {
   const isAnyModalOpen = useSelector(selectAnyModalOpen);
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+  const handalmessage = () => {
+    router.push("/message");
+  };
 
   return (
     <header
@@ -607,6 +627,18 @@ function Header() {
                     </button>
                   </div>
                 )}
+                {/*  if user id not exit then show login modal  */}
+                <div
+                  onClick={() => {
+                    if (myuser_id) {
+                      handalmessage();
+                    } else {
+                      dispatch(showModal("loginModal"));
+                    }
+                  }}
+                >
+                  <Messagebtn />
+                </div>
 
                 {/* Conditional rendering based on user_id */}
                 {user_id ? (
@@ -882,6 +914,9 @@ function Header() {
       {isBusinessVideoModalVisible && <BusinessVideoModal />}
       {isBusinessPorfileUpdateModal && <BusinessPorfileUpdateModal />}
       {isBusinessRebiewListModalVisible && <BusinessRebiewListModal />}
+      {isCompleteBusinessModalVisible && <CompleteBusinessModal />}
+      {isMessageSendModalVisible && <MessageSendModal />}
+      {isVendorInfoModalVisible && <VendorInfoModal />}
     </header>
   );
 }

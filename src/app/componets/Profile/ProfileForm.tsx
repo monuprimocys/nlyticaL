@@ -21,6 +21,7 @@ const ProfileForm: React.FC = () => {
     useUpdateProfileMutation();
   const login_type = Cookies.get("login_type");
   const [profileData, setProfileData] = useState({
+    username: "",
     first_name: "",
     last_name: "",
     email: "",
@@ -35,8 +36,9 @@ const ProfileForm: React.FC = () => {
   );
   Cookies.set("email", data?.userdetails.email);
   Cookies.set("mobile", data?.userdetails.mobile);
-  Cookies.set("service_id", data?.store_id);
+  Cookies.set("service_id", data?.service_id);
   Cookies.set("store_approval", data?.store_approval);
+  Cookies.set("is_store", data?.is_store);
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -45,8 +47,6 @@ const ProfileForm: React.FC = () => {
     country_code: "",
     country: "",
   });
-
-  const dispatch = useDispatch();
 
   // dispatch(updateUserDetails(data));
 
@@ -60,10 +60,18 @@ const ProfileForm: React.FC = () => {
 
   useEffect(() => {
     if (data?.status) {
-      const { first_name, last_name, email, mobile, image, country_code } =
-        data.userdetails;
+      const {
+        first_name,
+        username,
+        last_name,
+        email,
+        mobile,
+        image,
+        country_code,
+      } = data.userdetails;
 
       setProfileData({
+        username,
         first_name,
         last_name,
         email,
@@ -114,6 +122,7 @@ const ProfileForm: React.FC = () => {
     const formData = new FormData();
     formData.append("user_id", user_id || "");
     formData.append("first_name", profileData.first_name);
+    formData.append("username", profileData.username);
     formData.append("last_name", profileData.last_name);
     formData.append("email", profileData.email);
     formData.append("mobile", PhonenumberInputBox.mobile || "");
@@ -216,6 +225,32 @@ const ProfileForm: React.FC = () => {
           </div>
 
           <div className="mx-auto flex h-auto w-[90%] flex-col gap-6 xl:w-[80%]">
+            {/*  username  */}
+            <div className="w-full">
+              <label
+                className={`text-sm font-medium     ${
+                  isDarkMode ? "text-white" : "text-[#000000]"
+                }`}
+                htmlFor="first_name"
+              >
+                username
+              </label>
+              <div className="relative mt-2 flex items-center">
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  className={`font-poppins  w-full rounded-md py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]   ${
+                    isDarkMode
+                      ? "text-white  bg-[#373737]  inputboxborder"
+                      : "text-[#000000]  bg-white inputboxborder"
+                  }`}
+                  placeholder="Enter username"
+                  value={profileData.username}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
             {/* first name */}
             <div className="w-full">
               <label

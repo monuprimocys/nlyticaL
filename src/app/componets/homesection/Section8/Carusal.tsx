@@ -8,7 +8,7 @@ import { RiArrowLeftWideFill } from "react-icons/ri";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Card from "./Card";
-import homeSection8CardData from "./Data";
+import { useHomeScreenApi } from "@/app/store/api/useHomeScreenApi";
 
 function CausalSection8() {
   const sliderRef = useRef(null); // Create a ref for the slider
@@ -52,6 +52,10 @@ function CausalSection8() {
     ],
   };
 
+  const { data, isLoading, refetch } = useHomeScreenApi();
+
+  const carddata = data?.testimonials[0].client_reviews;
+
   return (
     <div className="w-full flex items-center justify-center  flex-col xl:flex-row ">
       {/* Previous Button */}
@@ -68,15 +72,10 @@ function CausalSection8() {
         {/* Slider component with ref */}
         <Slider {...settings} ref={sliderRef}>
           {/* Cards */}
-          {homeSection8CardData.map((card, index) => (
-            <div key={index} className="px-2 ">
-              <Card
-                key={index}
-                avatar={card.avatar}
-                title={card.title}
-                name={card.name}
-                position={card.position}
-              />
+
+          {carddata?.map((item, index) => (
+            <div key={index} className=" px-2">
+              <Card data={item} key={index} />
             </div>
           ))}
         </Slider>

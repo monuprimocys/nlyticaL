@@ -24,7 +24,7 @@ function CompleteAddressModal() {
       {/* Modal Content */}
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full items-center justify-center">
-          <DialogPanel className="mx-auto h-auto w-[55%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out">
+          <DialogPanel className="mx-auto h-auto  w-[90%] xl:w-[55%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out">
             {/* Modal Header */}
             <div className="deleteac flex h-auto w-full items-center rounded-xl p-4">
               <div className="flex w-full items-center justify-center">
@@ -39,7 +39,7 @@ function CompleteAddressModal() {
               </div>
             </div>
 
-            <div className="mx-auto grid w-full grid-cols-1 gap-6 bg-white p-10 xl:grid-cols-2">
+            <div className="mx-auto grid w-full h-[100rem]   md:h-full  grid-cols-1 gap-6 bg-white p-10 xl:grid-cols-2">
               <GooglemapInput />
               <CompleteAddressModalForm />
             </div>

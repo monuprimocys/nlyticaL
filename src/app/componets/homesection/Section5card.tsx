@@ -8,33 +8,33 @@ import { GoHeart } from "react-icons/go";
 import { GoHeartFill } from "react-icons/go";
 
 import Image from "next/image";
-import { HomeSectionMainCardRes } from "@/app/types/Restypes";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-const Section5card: React.FC<HomeSectionMainCardRes> = ({
-  mainimage,
-  category,
-  avatar,
-  name,
-  businessName,
-  reviews,
-  yearsInBusiness,
-  location,
-  priceRange,
-  featured,
-}) => {
+const Section5card = ({ data }) => {
   const [isLiked, setIsLiked] = useState(false);
   const handleClick = () => {
     setIsLiked((prevState) => !prevState);
   };
 
+  const rating = data.totalAvgReview;
+
+  const router = useRouter();
+  const handleCardClick = (id) => {
+    // Navigate to service detail page
+    router.push(`/ServiceDetail/${id}`);
+  };
+
   return (
-    <div className="h-[26rem]   lg:h-[30rem] overflow-hidden  w-full relative rounded-xl flex flex-col  shadow-md     mb-2    ">
+    <div
+      className="h-[26rem]   cursor-pointer lg:h-[30rem] overflow-hidden  w-full relative rounded-xl flex flex-col  shadow-md     mb-2    "
+      onClick={() => handleCardClick(data.id)}
+    >
       {/* Image Section (60% height of parent) */}
       <div
         className="relative w-full h-[45%] sm:h-[45%] md:h-[50%] rounded-t-xl"
         style={{
-          backgroundImage: `url(${mainimage.src})`,
+          backgroundImage: `url(${data.service_images[0]})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -42,7 +42,9 @@ const Section5card: React.FC<HomeSectionMainCardRes> = ({
       >
         {/* Top-left button */}
         <div className="absolute left-0 h-auto bg-[#0046AE] top-4 w-fit rounded-r-md px-2 py-1">
-          <button className="text-white font-poppins">{category}</button>
+          <button className="text-white font-poppins">
+            {data.service_name}
+          </button>
         </div>
 
         {/* Top-right heart icon */}
@@ -68,9 +70,7 @@ const Section5card: React.FC<HomeSectionMainCardRes> = ({
             alt="feature icon"
             className="object-contain w-4 h-4"
           />
-          <button className="text-white font-poppins text-sm">
-            {featured}
-          </button>
+          <button className="text-white font-poppins text-sm">featured</button>
         </div>
 
         <div className="flex flex-col w-full gap-3  xl:px-6 px-4">
@@ -79,7 +79,7 @@ const Section5card: React.FC<HomeSectionMainCardRes> = ({
             <div
               className="w-10 h-10"
               style={{
-                backgroundImage: `url(${avatar})`,
+                backgroundImage: `url(${data.vendor_image})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
@@ -89,7 +89,7 @@ const Section5card: React.FC<HomeSectionMainCardRes> = ({
 
             <div>
               <h5 className="text-[#636363] font-poppins text-lg font-medium">
-                {name}
+                {data.vendor_first_name} <span>{data.vendor_last_name}</span>
               </h5>
             </div>
           </div>
@@ -97,30 +97,38 @@ const Section5card: React.FC<HomeSectionMainCardRes> = ({
           {/* Heading */}
           <div>
             <h3 className="xl:text-[18px] text-xl font-semibold text-black font-poppins">
-              {businessName} 
+              {data.category_name}
             </h3>
           </div>
 
           {/* Ratings and Business Info */}
           <div className="flex items-center w-full  justify-between">
             <div className="flex items-center justify-center gap-1">
-              <MdOutlineStar className="  text-[#FFA41C]" />
-              <MdOutlineStar className=" text-[#FFA41C]" />
-              <MdOutlineStar className=" text-[#FFA41C]" />
-              <MdOutlineStar className=" text-[#FFA41C]" />
-              <IoIosStarHalf className=" text-[#FFA41C]" />
+              {[...Array(Math.floor(rating))].map((_, index) => (
+                <MdOutlineStar
+                  key={`full-${index}`}
+                  className="text-[#FFA41C]"
+                />
+              ))}
+              {rating % 1 !== 0 && <IoIosStarHalf className="text-[#FFA41C]" />}
+              {[...Array(5 - Math.ceil(rating))].map((_, index) => (
+                <MdOutlineStar
+                  key={`empty-${index}`}
+                  className="text-[#D1D1D1]"
+                />
+              ))}
               <div>
                 <p className="text-[#5C5C5C] font-poppins text-[12px] xl:text-sm">
-                  ({reviews})
+                  ({data.totalReviewCount})
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center justify-center">
+            {/* <div className="flex items-center justify-center">
               <p className="font-medium font-poppins text-[#636363] text-[12px] xl:text-sm line-clamp-1">
-                {yearsInBusiness}
+                {data.total_years_count}
               </p>
-            </div>
+            </div> */}
           </div>
 
           {/* Location */}
@@ -134,7 +142,7 @@ const Section5card: React.FC<HomeSectionMainCardRes> = ({
             </div>
             <div>
               <p className="text-[#636363] font-poppins font-normal text-sm">
-                {location}
+                {data.address}
               </p>
             </div>
           </div>
@@ -142,7 +150,7 @@ const Section5card: React.FC<HomeSectionMainCardRes> = ({
           {/* Button */}
           <div className="w-full mx-auto border-2 border-[#0046AE] px-4 py-3 rounded-xl flex justify-center items-center group relative overflow-hidden cursor-pointer">
             <button className="text-[#0046AE] font-medium font-poppins group-hover:text-white z-10 relative">
-              {priceRange}
+              {data.price_range}
             </button>
             <div className="absolute top-0 left-0 w-full h-full bg-[#0046AE] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
           </div>

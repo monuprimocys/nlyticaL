@@ -58,6 +58,8 @@ function CardListing() {
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
+  console.log(" my api responce data ", data);
+
   // Handle view type change
   const handleGridView = () => setViewType("grid");
   const handleListView = () => setViewType("list");
@@ -104,6 +106,8 @@ function CardListing() {
   }, [filter, filterslice, price, user_id, searchQuery]);
 
   const serviceFilter = data?.serviceFilter || [];
+
+  console.log(" my filter responce ", serviceFilter[0]?.price_range);
 
   // Handling the case when no data is found
   if (isLoading) {
@@ -238,7 +242,7 @@ function CardListing() {
                   reviews={card.total_review_count}
                   yearsInBusiness={card.published_year}
                   location={card.address}
-                  priceRange={card.service_price || "N/A"}
+                  priceRange={card.price_range}
                   featured={card.is_featured ? "Featured" : "Not Featured"}
                   rating={card.average_review_star}
                   isLike={card.isLike}
@@ -262,7 +266,7 @@ function CardListing() {
                   reviews={card.total_review_count}
                   yearsInBusiness={card.published_year}
                   location={card.address}
-                  priceRange={card.service_price || "N/A"}
+                  priceRange={card.price_range}
                   featured={card.is_featured ? "Featured" : "Not Featured"}
                   rating={card.average_review_star}
                   isLike={card.isLike}

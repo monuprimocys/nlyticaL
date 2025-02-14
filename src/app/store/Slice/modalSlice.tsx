@@ -40,6 +40,9 @@ interface ModalState {
   RegisterWithMobailNumberOtpVerify: boolean;
   BusinessPorfileUpdateModal: boolean;
   BusinessRebiewListModal: boolean;
+  CompleteBusinessModal: boolean;
+  MessageSendModal: boolean;
+  VendorInfoModal: boolean;
 }
 
 const initialState: ModalState = {
@@ -82,6 +85,9 @@ const initialState: ModalState = {
   BusinessVideoModal: false,
   BusinessPorfileUpdateModal: false,
   BusinessRebiewListModal: false,
+  CompleteBusinessModal: false,
+  MessageSendModal: false,
+  VendorInfoModal: false,
 };
 
 const modalSlice = createSlice({

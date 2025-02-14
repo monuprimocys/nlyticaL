@@ -9,6 +9,9 @@ import Header from "@/app/componets/Category/Header";
 import { useDispatch } from "react-redux";
 import { setselectedSubCategory } from "@/app/store/Slice/category/subcategorySlice";
 import { useAppSelector } from "@/app/hooks/hooks";
+import video from "../../../../public/assets/lottie_search_anim/lottie_search_anim/Animation - 1736233762512.gif";
+import Image from "next/image";
+import SubcategoryBreadCome from "@/app/componets/AllBreadCome/CategorisBreadCome/SubcategoryBreadCome";
 
 function Category() {
   const router = useRouter();
@@ -51,7 +54,9 @@ function Category() {
       setselectedSubCategory({
         id: subCategory.id,
         subcategory_name: subCategory.subcategory_name,
-      })
+      }),
+      sessionStorage.setItem("subcategory_name", subCategory.subcategory_name),
+      sessionStorage.setItem("subid", subCategory.id)
     );
 
     // Navigate to the detail page
@@ -59,15 +64,30 @@ function Category() {
   };
 
   if (!data?.subCategoryData?.length) {
-    return <div>No subcategories available.</div>;
+    return (
+      <div className="w-full h-auto">
+        <SubcategoryBreadCome />
+        <div className="flex h-auto min-h-screen w-full flex-col items-center justify-center text-center">
+          <div className="flex h-[8rem] w-[8rem] items-center justify-center">
+            <Image
+              src={video}
+              alt="Loading animation"
+              width={100}
+              height={100}
+            />
+          </div>
+          <h2 className={`font-poppins font-medium text-black`}>
+            No Data Found
+          </h2>
+        </div>
+      </div>
+    );
   }
 
   return (
     <div className="w-full h-auto">
-      <div>
-        <Header />
-      </div>
-      <div className="mx-auto 2xl:w-[60%] xl:w-[80%] w-[95%] grid   gap-4 mt-[4rem]">
+      <SubcategoryBreadCome />
+      <div className="mx-auto 2xl:w-[60%] xl:w-[80%] w-[95%] grid gap-4 mt-[4rem]">
         {data?.subCategoryData?.map((subCategory: SubCategoryData) => (
           <SubCategoryCard
             key={subCategory.id}

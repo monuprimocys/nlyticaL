@@ -13,6 +13,7 @@ import { setVendorServiceDetails } from "@/app/store/Slice/ServiceDetail/Service
 import { useAppSelector } from "@/app/hooks/hooks";
 import Cookies from "js-cookie";
 import { useServicelikeMutation } from "@/app/store/api/servicelike";
+import { setLikeStatus } from "@/app/store/Slice/category/likeStatusSlice";
 
 function FirstSection() {
   const pathname = usePathname();
@@ -39,38 +40,56 @@ function FirstSection() {
 
   const [isLiked, setIsLiked] = useState(false);
   const [serviceLike] = useServicelikeMutation();
-
+  // Retrieve the like status for this service from the Redux store
+  const currentLikeStatus = useAppSelector(
+    (state) => state.likeStatus[data?.serviceDetail.id]
+  );
+  // Check if the service is already liked by the user when the component mounts
   useEffect(() => {
-    // Check if the service is already liked by the user
     if (ServiceDetailData.serviceDetail && user_id) {
-      const likes = ServiceDetailData.serviceDetail.likes || [];
-      setIsLiked(likes.some((like) => like.user_id === user_id));
+      const service_id = ServiceDetailData.serviceDetail.id;
+
+      // Set the `isLiked` state based on the current like status in the Redux store
+      setIsLiked(currentLikeStatus === 1); // If like status is 1, set isLiked to true
     }
   }, [ServiceDetailData.serviceDetail, user_id]);
 
   const handleClick = async () => {
     try {
-      if (isLiked) {
-        // Dislike the service
+      if (user_id) {
+        const service_id = ServiceDetailData.serviceDetail.id;
+
+        // Toggle the like status: if currently liked (1), set to 0 (dislike); if currently disliked (0), set to 1 (like)
+        const newLikeStatus = isLiked ? 0 : 1; // If liked, dislike it; if disliked, like it.
+
+        // Perform the like/dislike API action (mutation)
         await serviceLike({
           user_id: user_id,
-          service_id: ServiceDetailData.serviceDetail.id,
+          service_id: service_id,
+          likeStatus: newLikeStatus, // Send the updated like status
         });
+
+        // Update the local state to reflect the new like status
+        setIsLiked(!isLiked);
+
+        // Dispatch the updated like status to Redux
+        dispatch(
+          setLikeStatus({
+            service_id: service_id,
+            likeStatus: newLikeStatus, // Update Redux state with new like status
+          })
+        );
+
+        // Optionally, refetch data after like/dislike action if needed
+        refetch(); // Refresh data after like/dislike
       } else {
-        // Like the service and if user id not exit then showe alert
-        await serviceLike({
-          user_id: user_id,
-          service_id: ServiceDetailData.serviceDetail.id,
-        });
+        alert("Please log in to like or dislike this service.");
       }
-      refetch(); // Refresh data after like/dislike
-      setIsLiked(!isLiked);
     } catch (error) {
       console.error("Error liking/disliking service:", error);
       // Handle error (e.g., display error message to the user)
     }
   };
-
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 

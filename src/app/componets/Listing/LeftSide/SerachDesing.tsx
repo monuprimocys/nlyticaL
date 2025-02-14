@@ -69,7 +69,7 @@ function SerachDesing() {
   useEffect(() => {
     // Log the response when data is available
     if (data) {
-      console.log("API Response:", data);
+      console.log("API Response:1212121212121", data);
     }
 
     // Optionally handle the error case
@@ -84,7 +84,7 @@ function SerachDesing() {
     <div className={`w-full h-auto grid gap-6 grid-cols-1  `}>
       {/* Search Box */}
       <div className="relative flex items-center">
-        <SerchboxLIsting />
+      <SerchboxLIsting />
       </div>
       <div className="w-full h-auto grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-1">
         {/* Location Search */}

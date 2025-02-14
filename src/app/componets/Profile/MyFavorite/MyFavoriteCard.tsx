@@ -7,15 +7,55 @@ import { IoIosStarHalf } from "react-icons/io";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import Image from "next/image";
 import { useAppSelector } from "@/app/hooks/hooks";
+import { useServicelikeMutation } from "@/app/store/api/servicelike";
+import { useState } from "react";
+import Cookies from "js-cookie";
+import { useFavouriteProperties } from "@/app/store/api/LikeService";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { setLikeStatus } from "@/app/store/Slice/category/likeStatusSlice";
 
 const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
-  const featured = favorite.is_featured;
-
-  console.log(" my filter data from like api", favorite.vendor_image);
-  const rating = favorite.totalAvgReview;
-
+  const [isLiked, setIsLiked] = useState(favorite.isLike); // Track like state
+  const [serviceLike] = useServicelikeMutation();
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+  const featured = favorite.is_featured;
+  const rating = favorite.totalAvgReview;
+  const user_id = Cookies.get("user_id");
+  const { data, error, isLoading, refetch } = useFavouriteProperties();
+  const dispatch = useDispatch();
 
+  const handleLikeToggle = async () => {
+    try {
+      // Call API to toggle like status
+      await serviceLike({ user_id, service_id: favorite.id });
+
+      // Toggle the local like state
+      const newLikeStatus = !isLiked;
+      setIsLiked(newLikeStatus);
+
+      // Dispatch the action to update the like status in Redux
+      dispatch(
+        setLikeStatus({
+          service_id: favorite.id,
+          likeStatus: newLikeStatus ? 1 : 0,
+        })
+      );
+
+      // Show success message based on new like status
+      if (newLikeStatus) {
+        toast.success("You liked this item!");
+      } else {
+        toast.success("You disliked this item!");
+      }
+
+      // Refetch data to update any necessary state
+      refetch();
+    } catch (error) {
+      console.error("Error while toggling like status:", error);
+      toast.error("Error while updating like status.");
+    }
+  };
   return (
     <div className="relative mb-2 flex h-[26rem] w-full flex-col overflow-hidden rounded-xl shadow-md lg:h-[30rem]">
       {/* Image Section */}
@@ -32,7 +72,7 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
         <div className="absolute left-0 top-4 h-auto w-fit rounded-r-md bg-[#0046AE] px-2 py-1">
           <button
             className={`font-poppins ${
-              isDarkMode ? " text-[#212121]" : "text-[#FFFFFF]"
+              isDarkMode ? "text-[#212121]" : "text-[#FFFFFF]"
             }`}
           >
             {favorite.category_name}
@@ -40,8 +80,11 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
         </div>
 
         {/* Top-right heart icon */}
-        <div className="group absolute right-3 top-4 flex h-12 w-12 transform cursor-pointer items-center justify-center rounded-full bg-[#FFFFFF3D] transition-all duration-300 ease-in-out hover:scale-110">
-          {favorite.isLike ? (
+        <div
+          className="group absolute right-3 top-4 flex h-12 w-12 transform cursor-pointer items-center justify-center rounded-full bg-[#FFFFFF3D] transition-all duration-300 ease-in-out hover:scale-110"
+          onClick={handleLikeToggle} // Handle like/unlike click
+        >
+          {isLiked ? (
             <GoHeartFill className="h-6 w-6 text-[#FF2929]" />
           ) : (
             <GoHeart className="h-6 w-6 text-black transition-colors duration-200" />
@@ -52,10 +95,10 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
       {/* Content Section */}
       <div
         className={`relative flex h-[55%] w-full items-center justify-center rounded-xl sm:h-[50%] md:h-[55%] lg:h-[50%] xl:h-[55%] ${
-          isDarkMode ? "text-[#FFFFFF] bg-[#212121]  " : "text-[#212121]"
-        }   `}
+          isDarkMode ? "text-[#FFFFFF] bg-[#212121]" : "text-[#212121]"
+        }`}
       >
-        {/* top right */}
+        {/* Top-right feature badge */}
         {featured == 1 && (
           <div className="absolute right-4 top-[-1rem] flex h-auto w-fit items-center justify-center rounded-lg bg-[#0046AE] px-2 py-1">
             <Image
@@ -64,12 +107,12 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
               className="h-4 w-4 object-contain"
             />
             <button className="font-poppins text-sm text-white">
-              featured
+              Featured
             </button>
           </div>
         )}
 
-        <div className="flex w-full flex-col gap-3 px-4 xl:px-6 ">
+        <div className="flex w-full flex-col gap-3 px-4 xl:px-6">
           {/* Avatar with detail */}
           <div className="flex items-center gap-x-2">
             <div
@@ -85,7 +128,7 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
 
             <div>
               <h5
-                className={`font-poppins text-lg font-medium flex gap-1   ${
+                className={`font-poppins text-lg font-medium flex gap-1 ${
                   isDarkMode ? "text-[#FFFFFF]" : "text-[#636363]"
                 }`}
               >
@@ -98,7 +141,7 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
           {/* Heading */}
           <div>
             <h3
-              className={`font-poppins text-xl font-semibold  xl:text-[18px   ${
+              className={`font-poppins text-xl font-semibold xl:text-[18px] ${
                 isDarkMode ? "text-[#FFFFFF]" : "text-[#000000]"
               }`}
             >
@@ -124,7 +167,7 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
               ))}
               <div>
                 <p
-                  className={`font-poppins text-[12px]  xl:text-sm  ${
+                  className={`font-poppins text-[12px] xl:text-sm ${
                     isDarkMode ? "text-[#FFFFFF]" : "text-[#5C5C5C]"
                   }`}
                 >
@@ -153,7 +196,7 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
               <p
                 className={`font-poppins line-clamp-1 text-sm font-normal ${
                   isDarkMode ? "text-[#FFFFFF]" : "text-[#636363]"
-                } `}
+                }`}
               >
                 {favorite.address}
               </p>
@@ -162,8 +205,8 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
 
           {/* Button */}
           <div
-            className={`group relative mx-auto flex w-full cursor-pointer items-center justify-center  overflow-hidden rounded-xl border-2 border-[#0046AE] px-4 py-3   ${
-              isDarkMode ? "text-[#FFFFFF] bg-[#0046AE2B]  " : "  "
+            className={`group relative mx-auto flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl border-2 border-[#0046AE] px-4 py-3 ${
+              isDarkMode ? "text-[#FFFFFF] bg-[#0046AE2B]" : ""
             }`}
           >
             <button
@@ -171,7 +214,7 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
                 isDarkMode
                   ? "text-[#FFFFFF]"
                   : "text-[#0046AE] group-hover:text-white"
-              } `}
+              }`}
             >
               From {favorite.price_range}
             </button>

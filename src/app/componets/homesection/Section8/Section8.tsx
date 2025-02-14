@@ -5,8 +5,19 @@ import rightsideimage from "../../../../../public/assets/Image/section8rightimag
 
 import CausalSection8 from "./Carusal";
 import Heading from "../../Heading/Heading";
+import { useHomeScreenApi } from "@/app/store/api/useHomeScreenApi";
+import { useHomeScreenSettingApi } from "@/app/store/api/useHomeScreenSettingApi";
 
 function Section8() {
+  const { data, isLoading, refetch } = useHomeScreenApi();
+
+  console.log(" my @@@@@@@@@@@@@", data?.testimonials[0].title);
+
+  const { data: settingHome } = useHomeScreenSettingApi();
+
+  if (settingHome?.data[7].status == 0) {
+    return null;
+  }
   return (
     <div
       className="w-full h-auto mt-[5rem] bg-cover bg-no-repeat overflow-hidden  "
@@ -20,12 +31,13 @@ function Section8() {
           {/* Top part */}
           <div className="md:w-[70%] mx-auto text-center ">
             <div className=" w-full">
-              <Heading title="Top Trending" highlightedTitle="Clint Review" />
+              <Heading
+                title="Top Trending"
+                highlightedTitle={data?.testimonials[0].title}
+              />
             </div>
-            <p className="text-[#000000] font-poppins text-lg font-normal tracking-wide">
-              Clint Eastwood delivers another masterclass in storytelling,
-              blending grit, heart, and timeless themes with unparalleled
-              precision.
+            <p className="text-[#000000] font-poppins text-lg line-clamp-3 font-normal tracking-wide">
+              {data?.testimonials[0].body}
             </p>
           </div>
 

@@ -3,7 +3,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface FilterStateType {
   category_id: string;
-
   review_star: string;
   price: string;
   type: string;

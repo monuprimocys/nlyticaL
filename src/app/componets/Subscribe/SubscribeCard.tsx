@@ -4,20 +4,15 @@ import React from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaRegCircleCheck } from "react-icons/fa6";
 
-function SubscribeCard() {
+function SubscribeCard({ plan }) {
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
-    <div
-      className="relative h-[27.5rem] w-full cursor-pointer"
-      style={{
-        position: "relative",
-      }}
-    >
+    <div className="relative h-fit w-full cursor-pointer">
       {/* Background Image with opacity 0.1 */}
       <div
         className="h-full w-full rounded-xl"
         style={{
-          content: "transparent",
           position: "absolute",
           top: 0,
           left: 0,
@@ -33,7 +28,7 @@ function SubscribeCard() {
 
       {/* Content (with white background color) */}
       <div
-        className={`h-full w-full rounded-xl ${
+        className={`h-full w-full rounded-xl   ${
           isDarkMode
             ? "bg-[#212121] border-2 border-[#FFFFFF66]"
             : "shadow bg-white"
@@ -41,26 +36,28 @@ function SubscribeCard() {
       >
         <div className="flex w-full flex-col items-start justify-start gap-4 p-6">
           <div className="flex flex-col gap-4">
-            <h2 className="font-poppins text-2xl font-medium text-[#0046AE]">
-              Business Plan
+            <h2 className="font-poppins text-2xl font-medium text-[#0046AE] line-clamp-1">
+              {plan.plan_name}
             </h2>
             <p
-              className={`font-poppins text-lg ${
+              className={`font-poppins text-lg line-clamp-2 ${
                 isDarkMode ? "text-white" : "text-[#000000]"
               }`}
             >
-              Hold in these matters this principle
+              {plan.description}
             </p>
           </div>
+
           {/* Price detail */}
           <div className="flex">
             <div>
               <h2 className="font-poppins text-xl font-medium text-[#000000]">
                 ${" "}
                 <span className="font-poppins relative bottom-[1px] text-3xl font-semibold">
-                  46.00
+                  {plan.price}
                 </span>
                 <span className="font-poppins text-[16px] font-semibold text-[#0046AE]">
+                  {" "}
                   / PER MONTH
                 </span>
               </h2>
@@ -70,41 +67,24 @@ function SubscribeCard() {
           {/* Listing */}
           <div className="flex flex-col gap-2">
             <ul className="flex flex-col gap-4">
-              <li className="flex items-center gap-2">
-                <div className="h-5 w-5">
-                  <FaCheckCircle className="h-full w-full text-[#0046AE]" />
-                </div>
-                <p className="font-poppins text-[16px] text-[#000000]">
-                  24/7 Consultant Service
-                </p>
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="h-5 w-5">
-                  <FaCheckCircle className="h-full w-full text-[#0046AE]" />
-                </div>
-                <p className="font-poppins text-[16px] text-[#000000]">
-                  24/7 Consultant Service
-                </p>
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="h-5 w-5">
-                  <FaRegCircleCheck className="h-full w-full" />
-                </div>
-                <p className="font-poppins text-[16px] text-[#000000]">
-                  24/7 Consultant Service
-                </p>
-              </li>
-              <li className="flex items-center gap-2">
-                <div className="h-5 w-5">
-                  <FaRegCircleCheck className="h-full w-full" />
-                </div>
-                <p className="font-poppins text-[16px] text-[#000000]">
-                  24/7 Consultant Service
-                </p>
-              </li>
+              {plan.plan_services.map((service, index) => (
+                <li className="flex items-center gap-2" key={index}>
+                  <div className="h-5 w-5">
+                    {service.status === 1 ? (
+                      <FaCheckCircle className="h-full w-full text-[#0046AE]" />
+                    ) : (
+                      <FaRegCircleCheck className="h-full w-full" />
+                    )}
+                  </div>
+                  <p className="font-poppins text-[16px] text-[#000000]">
+                    {service.plan_services}
+                  </p>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
+
         {/* Button */}
         <div className="w-full p-4">
           <button className="font-poppins w-full rounded-lg py-3 text-center text-lg font-semibold text-white bg-[#0046AE] transition duration-300 hover:bg-red-600 focus:outline-none">

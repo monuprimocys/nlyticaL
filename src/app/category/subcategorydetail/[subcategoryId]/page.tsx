@@ -1,4 +1,4 @@
-import Header from "@/app/componets/Category/Header";
+import CategorySubdetailBreadCome from "@/app/componets/AllBreadCome/CategorisBreadCome/CategorySubdetailBreadCome";
 import LeftSide from "@/app/componets/Category/SubCategeoryList/LeftSide";
 import RightSideCardListing from "@/app/componets/Category/SubCategeoryList/RightSideCardListing";
 import React from "react";
@@ -8,7 +8,7 @@ function subcategeoyDetail() {
     <div className="w-full h-auto">
       {/* Header */}
       <div>
-        <Header />
+        <CategorySubdetailBreadCome />
       </div>
 
       <div className="mx-auto 2xl:w-[60%] xl:w-[80%] w-[90%] mt-[5rem] grid xl:grid-cols-[30%_70%] gap-6   bg-white  grid-cols-1">

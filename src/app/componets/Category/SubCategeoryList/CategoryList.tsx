@@ -60,7 +60,7 @@ function CategoryList() {
               className="h-[1.3rem] w-[1.3rem] object-cover"
             />
             <span className="font-poppins text-[#000000] font-normal text-lg">
-              Select Category
+              Select Category 
             </span>
           </div>
         </button>

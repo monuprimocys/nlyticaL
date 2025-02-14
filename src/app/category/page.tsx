@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux"; // Import useDispatch from react-redux
 import { setSelectedCategory } from "../store/Slice/category/categorySlice";
 import { useAppSelector } from "../hooks/hooks";
+import Categories from "../componets/AllBreadCome/CategorisBreadCome/Categories";
 
 function Category() {
   const { data, error, isLoading } = useGetCategoriesQuery();
@@ -43,8 +44,11 @@ function Category() {
       setSelectedCategory({
         id: category.id,
         category_name: category.category_name,
-      })
+      }),
+      sessionStorage.setItem("category_name", category.category_name),
+      sessionStorage.setItem("cid", category.id)
     );
+
     router.push(`category/${category.id}`);
   };
 
@@ -53,11 +57,11 @@ function Category() {
   return (
     <div className="w-full h-auto">
       <div>
-        <Header />
+        <Categories />
       </div>
 
       {/* All Categories */}
-      <div className="mx-auto 2xl:w-[60%] xl:w-[80%] w-[95%] grid xl:grid-cols-4 grid-cols-2 md:grid-cols-3 gap-4 mt-[4rem]">
+      <div className="mx-auto 2xl:w-[60%] xl:w-[80%] w-[95%]  grid grid-cols-2  md:flex md:flex-wrap   justify-items-center  md:justify-start md:items-center gap-4 mt-[4rem]">
         {categories.length > 0 ? (
           categories.map((category: Categorydata) => (
             <Card

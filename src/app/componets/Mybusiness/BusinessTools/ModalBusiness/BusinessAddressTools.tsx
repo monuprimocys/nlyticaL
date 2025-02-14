@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import "../../businesscss.css";
 import handsake from "../../../../../../public/assets/Image/myaddress.png";
 import Image from "next/image";
@@ -21,7 +20,7 @@ function BusinessAddressTools() {
           : "bg-[#ffffff]  businesslable text-black"
       }  `}
       onClick={() => {
-        dispatch(showModal("BusinessAddressToolsModal"));
+        dispatch(showModal("CompleteBusinessModal"));
       }}
     >
       <div className="flex gap-3 items-center">
@@ -32,7 +31,7 @@ function BusinessAddressTools() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="text-xl font-poppins ">Business Address</div>
+        <div className="text-xl font-poppins ">Business Address </div>
       </div>
 
       <div className="flex gap-3 items-center">
@@ -45,7 +44,7 @@ function BusinessAddressTools() {
             src={arrow}
             alt="arrow"
             className={`w-full h-full object-cover  ${
-              isDarkMode? "invert" : ""
+              isDarkMode ? "invert" : ""
             }`}
           />
         </div>

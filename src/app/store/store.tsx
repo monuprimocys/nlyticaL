@@ -42,6 +42,11 @@ import UpdateStoreReducer from "./Slice/UpdateStoreSlice";
 import customerSupportSliceReducer from "./Slice/CustomreSupportSlice";
 import activeComponentReducer from "./Slice/activeComponentSlice";
 import darkModeReducer from "./Slice/darkModeSlice";
+import subscriptionSliceReducer from "./Slice/subscriptionSlice";
+import selectedUserReducer from "./Slice/selectedUserSlice";
+import MessageSliceFileAndDocReducer from "./Slice/MessageSliceFileAndDoc";
+import distanceReducer from "./Slice/distanceSlice";
+import sponsorLocationReducer  from  "./Slice/sponsorLocation"
 
 // All API File
 import { GetAllCategory } from "./api/useGetCategory";
@@ -65,6 +70,7 @@ import { filter } from "./api/filter";
 import { servicelike } from "./api/servicelike";
 import { updateService } from "./api/updateServiceApi";
 import { UpdateStoreApi } from "./api/UpdateStoreApi";
+import { AddChatList } from "./api/message/AddChatList";
 
 export const store = configureStore({
   reducer: {
@@ -109,6 +115,11 @@ export const store = configureStore({
     customerSupportSlice: customerSupportSliceReducer,
     activeComponent: activeComponentReducer,
     darkMode: darkModeReducer,
+    subscription: subscriptionSliceReducer,
+    selectedUser: selectedUserReducer,
+    MessageSliceFileAndDoc: MessageSliceFileAndDocReducer,
+    distance: distanceReducer,
+    sponsorLocation: sponsorLocationReducer,
 
     // All Api Methods
     [GetAllCategory.reducerPath]: GetAllCategory.reducer,
@@ -132,7 +143,9 @@ export const store = configureStore({
     [servicelike.reducerPath]: servicelike.reducer,
     [updateService.reducerPath]: updateService.reducer,
     [UpdateStoreApi.reducerPath]: UpdateStoreApi.reducer,
+    [AddChatList.reducerPath]: AddChatList.reducer,
   },
+
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(GetAllCategory.middleware)
@@ -155,7 +168,8 @@ export const store = configureStore({
       .concat(filter.middleware)
       .concat(servicelike.middleware)
       .concat(updateService.middleware)
-      .concat(UpdateStoreApi.middleware),
+      .concat(UpdateStoreApi.middleware)
+      .concat(AddChatList.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

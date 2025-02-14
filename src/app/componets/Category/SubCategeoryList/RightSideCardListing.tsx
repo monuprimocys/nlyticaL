@@ -16,6 +16,7 @@ import AvatarWithSpinner from "../../Loading/AvatarWithSpinner";
 import video from "../../../../../public/assets/lottie_search_anim/lottie_search_anim/Animation - 1736233762512.gif";
 import { FcNext } from "react-icons/fc";
 import { FcPrevious } from "react-icons/fc";
+import { useRouter } from "next/navigation";
 
 function RightSideCardListing() {
   const [viewType, setViewType] = useState("grid");
@@ -98,8 +99,11 @@ function RightSideCardListing() {
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
+  const router = useRouter();
   //   when clikc on any card then navigate to about page
+  const handleCardClick = (serviceId) => {
+    router.push(`/ServiceDetail/${serviceId}`); // Navigate to dynamic route
+  };
 
   return (
     <div className="w-full h-auto">
@@ -165,11 +169,12 @@ function RightSideCardListing() {
                 reviews={card.total_review_count}
                 yearsInBusiness={card.published_year}
                 location={card.address}
-                priceRange={card.service_price || "N/A"}
+                priceRange={card.price_range }
                 featured={card.is_featured ? "Featured" : "Not Featured"}
                 rating={card.average_review_star}
                 isLike={card.isLike}
                 service_id={card.id}
+                onclicknavigate={() => handleCardClick(card.id)}
               />
             ))}
           </div>
@@ -186,11 +191,12 @@ function RightSideCardListing() {
                 reviews={card.total_review_count}
                 yearsInBusiness={card.published_year}
                 location={card.address}
-                priceRange={card.service_price || "N/A"}
+                priceRange={card.price_range }
                 featured={card.is_featured ? "Featured" : "Not Featured"}
                 rating={card.average_review_star}
                 isLike={card.isLike}
                 service_id={card.id}
+                onclicknavigate={() => handleCardClick(card.id)}
               />
             ))}
           </div>

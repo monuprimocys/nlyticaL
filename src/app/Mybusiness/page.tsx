@@ -9,6 +9,7 @@ import CustomeSupport from "../componets/Mybusiness/CustomreSupport/CustomeSuppo
 import MybusinessBreadCome from "../componets/AllBreadCome/MybusinessBreadCome";
 import { useAppSelector, useAppDispatch } from "../hooks/hooks";
 import { setDarkMode } from "../store/Slice/darkModeSlice";
+import SponsorLable from "../componets/Mybusiness/SponsorComponets/SponsorLable";
 
 function Mybusiness() {
   const dispatch = useAppDispatch();
@@ -36,6 +37,7 @@ function Mybusiness() {
 
       {/*  complete my lable bussiness  */}
       <MybusinessLable />
+      <SponsorLable />
       <MainSectionQuickLink />
       <Businesstools />
       <BusinessService />

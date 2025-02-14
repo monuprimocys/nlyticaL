@@ -6,15 +6,14 @@ export const deleteuseraccount = createApi({
   reducerPath: "deleteuseraccount",
   baseQuery: fetchBaseQuery({ baseUrl: baseURL }),
   endpoints: (builder) => ({
-    // Update the query to send FormData
-    deleteAccount: builder.query<void, { user_id: string }>({
+    deleteAccount: builder.mutation<void, { user_id: string }>({
       query: ({ user_id }) => ({
         url: "delete-useraccount",
         method: "POST",
-        body: new URLSearchParams({ user_id }),
+        body: new URLSearchParams({ user_id }), // Send the user_id in the body
       }),
     }),
   }),
 });
 
-export const { useDeleteAccountQuery } = deleteuseraccount;
+export const { useDeleteAccountMutation } = deleteuseraccount;

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface LikeStatusState {
-  [key: string]: number; // Maps service_id to like status (0 or 1)
+  [key: string]: number; 
 }
 
 const initialState: LikeStatusState = {};

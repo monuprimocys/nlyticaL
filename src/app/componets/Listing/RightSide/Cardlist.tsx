@@ -125,7 +125,7 @@ function Cardlist() {
                  <div className=' w-full justify-start items-start flex  pt-2 md:pt-4 md:pl-7 pl-1'>
                  <div className="w-fit border-2 border-[#0046AE] px-2 md:px-8 py-2 md:py-3 rounded-xl flex justify-center items-center group relative overflow-hidden cursor-pointer">
                         <button className="text-[#0046AE] font-medium font-poppins group-hover:text-white z-10 relative  text-sm md:text-[16px]">
-                            From $252-$565
+                            From $252-$565 12
                         </button>
                         <div className="absolute top-0 left-0 w-full h-full bg-[#0046AE] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
                     </div>

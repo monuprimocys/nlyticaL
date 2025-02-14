@@ -558,3 +558,269 @@ export interface StoreImage {
   id: number;
   store_images: string;
 }
+
+//  plane
+
+export interface Subscriptionplan {
+  status: boolean;
+  message: string;
+  subscriptionDetail: SubscriptionDetail[];
+}
+
+export interface SubscriptionDetail {
+  id: number;
+  plan_name: string;
+  description: string;
+  price: string;
+  validity_day: string;
+  plan_services: PlanService[];
+}
+
+export interface PlanService {
+  plan_services: string;
+  status: number;
+}
+
+//  home Screen
+
+export interface HomeScreenRes {
+  status: boolean;
+  message: string;
+  first_name: string;
+  last_name: string;
+  slides: Slide[];
+  categories: Category[];
+  cards: Card[];
+  sponser_store: SponserStore;
+  new_cities: NewCities;
+  banners: Banner[];
+  perfect_store: PerfectStore;
+  testimonials: Slide[];
+}
+
+export interface Banner {
+  id: number;
+  play_store_url: string;
+  app_store_url: string;
+  image: string;
+}
+
+export interface Card {
+  id: number;
+  subcategory_id: number;
+  title: string;
+  image: string;
+  subcategory_name: string;
+}
+
+export interface Category {
+  id: number;
+  category_id: number;
+  category_name: string;
+  category_image: string;
+  subcategory_count: number;
+}
+
+export interface NewCities {
+  title: string;
+  cities: string[];
+}
+
+export interface PerfectStore {
+  title: string;
+  perfect_store: PerfectStoreElement[];
+}
+
+export interface PerfectStoreElement {
+  id: number;
+  service_name: string;
+  address: string;
+  lat: string;
+  lon: string;
+  category_id: number;
+  vendor_id: number;
+  category_name: string;
+  vendor_first_name: string;
+  vendor_last_name: string;
+  vendor_email: null | string;
+  service_images: string[];
+  isLike: number;
+  totalReviewCount: number;
+  totalAvgReview: string;
+  vendor_image: string;
+  total_years_count: number;
+  price_range: string;
+  is_featured?: number;
+}
+
+export interface Slide {
+  id: number;
+  title: string;
+  body: string;
+  image: string;
+  link?: string;
+  client_reviews?: ClientReview[];
+}
+
+export interface ClientReview {
+  review_text: string;
+  review_star: string;
+  full_name: string;
+  client_role: string;
+  image: string;
+}
+
+export interface SponserStore {
+  title: string;
+  services: PerfectStoreElement[];
+}
+
+// homeScreen Settings
+
+export interface HomeScreenSettingRes {
+  status: boolean;
+  message: string;
+  data: Datum[];
+}
+
+export interface Datum {
+  id: number;
+  inputs: string;
+  status: number;
+}
+
+
+export interface HomeGetCountrieslistRes {
+  status:        boolean;
+  message:       string;
+  countriesList: string[];
+}
+
+
+export interface HomeGetCountrieslisCategorytRes {
+  status:         boolean;
+  message:        string;
+  categoriesList: CategoriesList[];
+}
+
+export interface CategoriesList {
+  id:            number;
+  category_name: string;
+}
+
+
+// ++++++++================================================== messssage chta ++++++++++++++++++++++++++++++++++++++++++++++
+
+export interface MessageListRes {
+  success: boolean;
+  message: string;
+  chat_list: ChatList[];
+}
+
+export interface ChatList {
+  id: number;
+  my_id: number;
+  second_id: number;
+  last_message: string;
+  url: string;
+  type: string;
+  user_id: number;
+  first_name: string;
+  last_name: string;
+  is_online: number;
+  user_role: string;
+  profile_pic: string;
+  time: string;
+  last_seen: string;
+  is_block: number;
+  unread_message: string;
+}
+
+//  inner chat list
+
+export interface InnerChatListRes {
+  success: boolean;
+  message: string;
+  to_user_details: ToUserDetails;
+  chatMessages: ChatMessage[];
+}
+
+export interface ChatMessage {
+  date: Date;
+  messages: Message[];
+}
+
+export interface Message {
+  id: number;
+  from_user: number;
+  to_user: number;
+  message: string;
+  url: string;
+  type: string;
+  read_message: string;
+  created_at: Date;
+  first_name: string;
+  last_name: string;
+  role: string;
+  status: number;
+  profile_image: string;
+  message_seen: number;
+  chat_time: string;
+}
+
+export interface ToUserDetails {
+  id: number;
+  first_name: string;
+  last_name: string;
+  status: number;
+  image: string;
+  role: string;
+  updated_at: Date;
+}
+
+//  vendor info
+
+export interface VendorDetailRes {
+  status: boolean;
+  message: string;
+  Vendordetails: Vendordetails;
+  serviceDetails: ServiceDetail[];
+}
+
+export interface Vendordetails {
+  id: number;
+  first_name: string;
+  last_name: string;
+  address: string;
+  lat: string;
+  lon: string;
+  mobile: string;
+  country_code: string;
+  image: string;
+  total_reviews: number;
+  average_rating: string;
+}
+
+export interface ServiceDetail {
+  id: number;
+  vendor_id: number;
+  category_id: number;
+  category_name: string;
+  subcategory_id: string;
+  service_name: string;
+  address: string;
+  lat: string;
+  lon: string;
+  is_featured: number;
+  published_month: string;
+  published_year: string;
+  service_images: string[];
+  total_reviews: number;
+  average_rating: string;
+  price_range: string;
+  vendor_first_name: string;
+  vendor_last_name: string;
+  vendor_email: string;
+  vendor_image: string;
+  isLike: number;
+}

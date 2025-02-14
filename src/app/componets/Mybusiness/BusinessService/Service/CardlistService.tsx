@@ -7,6 +7,8 @@ import Cookies from "js-cookie";
 import AvatarWithSpinner from "@/app/componets/Loading/AvatarWithSpinner";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import { useAppSelector } from "@/app/hooks/hooks";
+import Image from "next/image";
+import video from "../../../../../../public/assets/lottie_search_anim/lottie_search_anim/Animation - 1736233762512.gif";
 
 function CardlistService() {
   const service_id = Cookies.get("service_id");
@@ -58,12 +60,17 @@ function CardlistService() {
   // Check if the store list is empty
   if (data?.StoreList?.length === 0) {
     return (
-      <div
-        className={`flex items-center justify-center h-full w-full  ${
-          isDarkMode ? "text-white" : "text-gray-800"
-        }`}
-      >
-        <span>No data found for the given service ID</span>
+      <div className="flex h-[50vh] w-full flex-col items-center justify-center text-center">
+        <div className="flex h-[8rem] w-[8rem] items-center justify-center">
+          <Image src={video} alt="Loading animation" width={100} height={100} />
+        </div>
+        <h2
+          className={`font-poppins font-medium  ${
+            isDarkMode ? "text-white" : "text-black"
+          }`}
+        >
+          No Service Found
+        </h2>
       </div>
     );
   }
@@ -115,9 +122,11 @@ function CardlistService() {
         >
           <FcPrevious />
         </button>
-        <span className={`px-4 py-2  font-poppins  ${
-          isDarkMode? "text-white" : "text-gray-800"
-        } `}>{`Page ${currentPage} of ${totalPages}`}</span>
+        <span
+          className={`px-4 py-2  font-poppins  ${
+            isDarkMode ? "text-white" : "text-gray-800"
+          } `}
+        >{`Page ${currentPage} of ${totalPages}`}</span>
 
         <button
           onClick={() => handlePageChange(currentPage + 1)}

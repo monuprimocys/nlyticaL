@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { showModal } from "@/app/store/Slice/modalSlice";
 import { setLikeStatus } from "@/app/store/Slice/category/likeStatusSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
+import { useRouter } from "next/navigation";
 
 const GridCard = ({
   service_images,
@@ -71,6 +72,8 @@ const GridCard = ({
   );
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
+  const router = useRouter();
 
   return (
     <div
@@ -136,7 +139,7 @@ const GridCard = ({
                   isDarkMode ? "  text-white " : " text-[#636363] "
                 }`}
               >
-                {name}
+                {name} 12
               </h5>
             </div>
           </div>
@@ -178,7 +181,7 @@ const GridCard = ({
                 </p>
               </div>
             </div>
-            <div>
+            {/* <div>
               <p
                 className={`font-medium font-poppins  text-[12px] xl:text-sm  ${
                   isDarkMode ? "  text-white " : " text-[#636363] "
@@ -186,7 +189,7 @@ const GridCard = ({
               >
                 {yearsInBusiness}
               </p>
-            </div>
+            </div> */}
           </div>
 
           {/* Location */}

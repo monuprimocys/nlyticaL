@@ -10,8 +10,10 @@ interface SubCategoryState {
 
 const initialState: SubCategoryState = {
   selectedSubCategory: {
-    id: null,
-    subcategory_name: null,
+    id: sessionStorage.getItem("subid")
+      ? Number(sessionStorage.getItem("subid"))
+      : null,
+    subcategory_name: sessionStorage.getItem("subcategory_name") || null,
   },
 };
 

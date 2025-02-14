@@ -116,7 +116,7 @@ const GooglemapInput = () => {
   }
 
   return (
-    <div className="flex h-full w-full flex-col rounded-xl">
+    <div className="flex h-full w-full flex-col rounded-xl  ">
       <div className="relative flex w-full items-center justify-center p-4">
         <div className="relative">
           <input

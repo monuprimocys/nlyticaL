@@ -139,10 +139,8 @@ const CardDesignBusiness: React.FC<CardDesignBusinessProps> = ({
 
           {/* Price Range Button */}
           <div
-            className={`border-2 border-[#0046AE] px-4 py-3 rounded-xl flex justify-center items-center group relative overflow-hidden cursor-pointer  ${
-              isDarkMode
-                ? " bg-[#0046AE2B]"
-                : "text-[#636363] bg-[#0046AE] hover:bg-[#003984]"
+            className={`w-full mx-auto border-2 border-[#0046AE] px-4 py-3 rounded-xl flex justify-center items-center group relative overflow-hidden cursor-pointer   ${
+              isDarkMode ? "  bg-[#0046AE2B]" : " "
             } `}
           >
             <button className="text-[#0046AE] font-medium font-poppins group-hover:text-white z-10 relative">
