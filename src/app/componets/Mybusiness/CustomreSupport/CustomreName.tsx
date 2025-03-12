@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextField } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { addCustomerSupportMessage } from "@/app/store/Slice/CustomreSupportSlice";
+import { addCustomerSupportMessage } from "@/app/storeApp/Slice/CustomreSupportSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 const CustomerName: React.FC = () => {

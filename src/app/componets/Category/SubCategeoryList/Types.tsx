@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { IoStarOutline } from "react-icons/io5";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { updateFilterData } from "@/app/store/Slice/category/filterSlice";
+import { updateFilterData } from "@/app/storeApp/Slice/category/filterSlice";
 
 function Types() {
   const [isTypeDropdown, setIsTypeDropdown] = useState(true);

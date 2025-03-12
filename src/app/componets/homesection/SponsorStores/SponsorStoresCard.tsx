@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import Image from "next/image";
 import { GoHeart, GoHeartFill } from "react-icons/go";
@@ -8,12 +7,15 @@ import locationicon from "../../../../../public/assets/Image/locationicon.png";
 import { MdOutlineStar } from "react-icons/md";
 import { IoIosStarHalf } from "react-icons/io";
 import "./cardStyle.css";
-import { useServicelikeMutation } from "@/app/store/api/servicelike";
-import { setLikeStatus } from "@/app/store/Slice/category/likeStatusSlice";
-import toast from "react-hot-toast";
+import { useServicelikeMutation } from "@/app/storeApp/api/servicelike";
+import { setLikeStatus } from "@/app/storeApp/Slice/category/likeStatusSlice";
+import { ToastContainer, toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/app/hooks/hooks";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import { decodeString, encodeString } from "@/app/utils/enocodeAndDecode";
 
 function SponsorStoresCard({ data }) {
   console.log(" my card detail @@@@@@@@@@ ", data);
@@ -24,7 +26,14 @@ function SponsorStoresCard({ data }) {
   const [serviceLike] = useServicelikeMutation();
   const user_id = Cookies.get("user_id");
 
-  const handleLikeToggle = async () => {
+  const handleLikeToggle = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!user_id) {
+      dispatch(showModal("loginModal"));
+      return;
+    }
+
     try {
       // Call API to toggle like status
       await serviceLike({ user_id, service_id: data.id });
@@ -42,11 +51,9 @@ function SponsorStoresCard({ data }) {
       );
 
       // Show success message based on new like status
-      if (newLikeStatus) {
-        toast.success("You liked this item!");
-      } else {
-        toast.success("You disliked this item!");
-      }
+      toast.success(
+        newLikeStatus ? "You liked this item!" : "You disliked this item!"
+      );
     } catch (error) {
       console.error("Error while toggling like status:", error);
       toast.error("Error while updating like status.");
@@ -54,16 +61,35 @@ function SponsorStoresCard({ data }) {
   };
 
   const router = useRouter();
-  const handleCardClick = (id) => {
-    // Navigate to service detail page
-    router.push(`/ServiceDetail/${id}`);
+  const handleCardClick = (serviceId, serviceName) => {
+    if (!serviceId || !serviceName) {
+      console.error("Invalid serviceId or serviceName");
+      return;
+    }
+
+    const encodedServiceId = encodeString(String(serviceId)); // Ensure serviceId is a string
+    const serviceSlug = serviceName.toLowerCase().replace(/\s+/g, "-"); // Convert name to URL slug
+
+    console.log("Encoded Service ID:", encodedServiceId);
+
+    // Navigate to the encoded route
+    router.push(`/stores/${serviceSlug}`);
+
+    serviceId = decodeString(encodedServiceId);
+
+    // Store in sessionStorage for later use
+    sessionStorage.setItem("serviceId", serviceId);
   };
+
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   return (
     <div
-      className="w-full h-auto  rounded-lg   flex flex-row  gap-2 "
+      className={`w-full h-auto  rounded-lg   flex flex-row  gap-2  ${
+        isDarkMode ? "bg-[#212121] " : "bg-[#ffffff] "
+      }`}
       id="border-color"
-      onClick={() => handleCardClick(data.id)}
+      onClick={() => handleCardClick(data.id, data.service_name)}
     >
       {/* Image Section */}
       <div className=" w-[50%]   md:w-[35%]  h-auto relative">
@@ -79,7 +105,7 @@ function SponsorStoresCard({ data }) {
         ></div>
         <div className="absolute left-0 top-4 w-fit bg-[#0046AE] rounded-r-md px-1 md:px-2 pb-1">
           <button className="text-white font-poppins text-[12px] md:text-sm">
-            {data.service_name}
+            {data.category_name}
           </button>
         </div>
       </div>
@@ -120,7 +146,11 @@ function SponsorStoresCard({ data }) {
               }}
             ></div>
             <div>
-              <h5 className="text-[#636363] font-poppins text-sm  font-medium">
+              <h5
+                className={` font-poppins text-sm  font-medium 
+                ${isDarkMode ? "text-white" : "text-[#636363]"}
+              `}
+              >
                 {data.vendor_first_name} <span>{data.vendor_last_name}</span>
               </h5>
             </div>
@@ -128,8 +158,13 @@ function SponsorStoresCard({ data }) {
 
           {/* Heading */}
           <div>
-            <h3 className="md:text-xl text-sm  font-semibold text-black font-poppins">
-              {data.category_name}
+            <h3
+              className={`md:text-xl text-sm  font-semibold  font-poppins ${
+                isDarkMode ? "text-white" : "text-black"
+              }
+            }`}
+            >
+              {data.service_name}
             </h3>
           </div>
 
@@ -150,7 +185,11 @@ function SponsorStoresCard({ data }) {
                 />
               ))}
               <div>
-                <p className="text-[#5C5C5C] font-poppins text-[10px] sm:text-sm line-clamp-1">
+                <p
+                  className={` font-poppins text-[10px] sm:text-sm line-clamp-1   ${
+                    isDarkMode ? "text-white" : "text-[#636363]"
+                  }`}
+                >
                   ({data.totalReviewCoun} Review)
                 </p>
               </div>
@@ -173,7 +212,11 @@ function SponsorStoresCard({ data }) {
               />
             </div>
             <div>
-              <p className="text-[#636363] font-poppins text-[12px] md:text-sm line-clamp-1">
+              <p
+                className={` font-poppins text-[12px] md:text-sm line-clamp-1  ${
+                  isDarkMode ? "text-white" : "text-[#636363]"
+                }`}
+              >
                 {data.address}
               </p>
             </div>
@@ -181,7 +224,11 @@ function SponsorStoresCard({ data }) {
 
           {/* Button */}
           <div className=" w-full justify-start items-start flex mt-1 ">
-            <div className="w-full border-2 border-[#0046AE] px-2 md:px-8 py-2 md:py-3 rounded-xl flex justify-center items-center group relative overflow-hidden cursor-pointer">
+            <div
+              className={`w-full border-2    border-[#0046AE] px-2 md:px-8 py-2 md:py-3 rounded-xl flex justify-center items-center group relative overflow-hidden cursor-pointer  ${
+                isDarkMode ? " bg-[#0046AE2B]" : ""
+              }`}
+            >
               <button className="text-[#0046AE] font-medium font-poppins group-hover:text-white z-10 relative  text-sm md:text-[16px]">
                 {data.price_range}
               </button>
@@ -190,6 +237,7 @@ function SponsorStoresCard({ data }) {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={5000} />
     </div>
   );
 }

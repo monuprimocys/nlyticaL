@@ -5,7 +5,7 @@ import Image from "next/image";
 import loginbgimage from "../../../../public/assets/Image/loginbgimage.png";
 import logo from "../../../../public/assets/Image/logo.png";
 import { useAppSelector } from "@/app/hooks/hooks";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useDispatch } from "react-redux";
 import RegisterWithMobilenumberVerifyOtpForm from "@/app/componets/Registration/RegisterWithMobilenumberVerifyOtpFomr";
 
@@ -18,6 +18,10 @@ export default function RegisterWithMobilenumberVerifyOtpModal() {
   const RegisterUserMobileNumber = useAppSelector(
     (state) => state.registration.mobile
   );
+
+  const RegisterUserEmail = useAppSelector((state) => state.registration.email);
+
+  console.log(" my slice values are", RegisterUserEmail);
 
   // Close modal
   const handleModalClose = () => {
@@ -35,7 +39,7 @@ export default function RegisterWithMobilenumberVerifyOtpModal() {
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
             }}
-            className="w-full max-w-[30rem] rounded-xl  bg-white p-8 shadow-lg backdrop-blur-md transition-all duration-300 ease-in-out"
+            className="w-full max-w-[30rem] rounded-xl    bg-white p-1 md:p-8 shadow-lg backdrop-blur-md transition-all duration-300 ease-in-out"
           >
             <div className="flex flex-col items-center justify-center gap-4">
               <Image
@@ -44,19 +48,21 @@ export default function RegisterWithMobilenumberVerifyOtpModal() {
                 className="h-20 w-[11rem] object-contain"
               />
               <p className="text-center text-sm text-gray-600 sm:px-6 font-poppins">
-                Discover more about our app by registering or logging in.
+                Discover more about our app by registering or logging in.  
               </p>
 
               <h2 className="font-poppins font-semibold text-xl text-black">
-                Verification Code
+                Verification Code 
               </h2>
               <p className="text-center text-lg text-gray-800 sm:px-8 font-poppins">
                 We have sent the verification code to your mobile number.
               </p>
 
-              <h3 className="text-center text-lg font-semibold text-black sm:px-8 font-poppins">
-                {RegisterUserMobileNumber}
-              </h3>
+              {(RegisterUserMobileNumber || RegisterUserEmail) && (
+                <h3 className="text-center text-lg font-semibold text-black sm:px-8 font-poppins">
+                  {RegisterUserMobileNumber || RegisterUserEmail}
+                </h3>
+              )}
             </div>
 
             <div className="mt-6">
@@ -73,7 +79,7 @@ export default function RegisterWithMobilenumberVerifyOtpModal() {
                       dispatch(showModal("RegisterModal"));
                     }}
                   >
-                    Sign Up
+                    Sign Up  
                   </span>
                 </p>
               </div>

@@ -1,6 +1,6 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import loginbgimage from "../../../../public/assets/Image/loginbgimage.png";

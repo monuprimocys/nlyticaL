@@ -5,7 +5,7 @@ import LeftSide from "./LeftSideMenuProfile/LeftSide";
 import HeadingProfile from "../componets/Profile/HeadingProfile";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation"; // Import useRouter for navigation
-import { showModal } from "../store/Slice/modalSlice";
+import { showModal } from "../storeApp/Slice/modalSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import MyProfileBreadCome from "../componets/AllBreadCome/MyProfileBreadCome";
 import { useSelector } from "react-redux";

@@ -1,6 +1,7 @@
+"use client";
 import React, { useEffect } from "react";
 import HeadingText from "@/app/componets/Profile/HeadingText";
-import { usePrivacypolicyResQuery } from "@/app/store/api/PrivacypolicyRes";
+import { usePrivacypolicyResQuery } from "@/app/storeApp/api/PrivacypolicyRes";
 import AvatarWithSpinner from "@/app/componets/Loading/AvatarWithSpinner";
 import { useAppSelector } from "@/app/hooks/hooks";
 

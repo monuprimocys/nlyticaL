@@ -3,77 +3,97 @@ import "react-phone-input-2/lib/high-res.css";
 import PhoneInput from "react-phone-input-2";
 import { useDispatch, useSelector } from "react-redux"; // Import useDispatch and useSelector
 import "../../style.css";
-import { updateAddPostData } from "@/app/store/Slice/AddPostSlice"; // Action to update Redux slice
+import { updateAddPostData } from "@/app/storeApp/Slice/AddPostSlice"; // Action to update Redux slice
 import Cookies from "js-cookie";
-import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
+import { useUpdateProfileMutation } from "@/app/storeApp/api/auth/ProfileUpdate";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function PhoneNumberInput() {
   const dispatch = useDispatch();
+  const user_id = Cookies.get("user_id");
+
+  const [triggerUpdateProfile, data] = useUpdateProfileMutation();
+
+  useEffect(() => {
+    if (user_id) {
+      triggerUpdateProfile({ user_id }).then((response) => {
+        if (response?.data) {
+          console.log(" my responce api ", response.data.is_store);
+          Cookies.set("is_store", response.data?.is_store);
+          Cookies.set("store_approval", response.data?.store_approval);
+          Cookies.set("service_id", response.data?.service_id);
+          Cookies.set("subscriber_user", response.data?.subscriber_user);
+          Cookies.set("sponcer_id", response.data.campaign);
+          Cookies.set("email", response.data.userdetails.email);
+          Cookies.set("mobile", response.data.userdetails.mobile);
+          console.log(
+            " my plane  name ",
+            response.data.subscriptionDetails.plan_name
+          );
+          const name =
+            response.data?.subscriptionDetails.plan_name.split(" ")[0];
+          Cookies.set(
+            "plane_name",
+            response.data?.subscriptionDetails.plan_name.split(" ")[0]
+          );
+        }
+      });
+    }
+  }, [user_id, triggerUpdateProfile]);
+  const country_code = data.data?.userdetails.country_code;
+  const mobilenumber = data.data?.userdetails.mobile;
+
+  // Check if the mobilenumber contains the country_code, and filter it out if it does
+  const filteredMobilenumber =
+    mobilenumber && mobilenumber.startsWith(country_code)
+      ? mobilenumber.slice(country_code.length)
+      : mobilenumber;
+
+  useEffect(() => {
+    dispatch(
+      updateAddPostData({
+        service_phone: filteredMobilenumber,
+        service_country_code: country_code,
+      })
+    );
+  }, [filteredMobilenumber, country_code, dispatch]);
+
+  const addPostData = useAppSelector((state) => state.AddPost);
+
+  const [phone, setPhone] = useState("");
+  const [countryCode, setCountryCode] = useState("");
 
   // Retrieve service_phone and country_code from Redux state (useSelector)
   const servicePhone = useSelector((state) => state.AddPost.service_phone);
-  const countryCode = useSelector((state) => state.AddPost.country_code);
+  const countryCodeFromSice = useSelector(
+    (state) => state.AddPost.service_country_code
+  );
 
-  // Use state to manage the form inputs locally
-  const [formData, setFormData] = useState({
-    service_phone: servicePhone || "", // Use Redux state first
-    country_code: countryCode || "", // Use Redux state first
-    country: "",
-    country_full_name: "",
-  });
-
-
-  console.log(" my slice values",servicePhone)
+  console.log(" my phone number countryCodeFromSice", phone);
 
   useEffect(() => {
-    // On mount, check cookies and set Redux state if cookies exist
-    const mobileFromCookies = Cookies.get("mobile");
-    const countryCodeFromCookies = Cookies.get("country_code");
-
-    if (mobileFromCookies && countryCodeFromCookies) {
-      // Dispatch action to update Redux state with values from cookies
-      dispatch(
-        updateAddPostData({
-          service_phone: mobileFromCookies,
-          country_code: countryCodeFromCookies,
-        })
-      );
-    } else {
-      // If no cookies, use the current Redux state
-      setFormData({
-        service_phone: servicePhone || "",
-        country_code: countryCode || "",
-        country: "",
-        country_full_name: "",
-      });
+    if (servicePhone && countryCodeFromSice) {
+      // Concatenate the country code with the phone number
+      setPhone(`${countryCodeFromSice}${servicePhone}`);
+      setCountryCode(countryCodeFromSice);
     }
-  }, [dispatch, servicePhone, countryCode]);
+  }, [servicePhone, countryCodeFromSice]);
 
-  const handlePhoneChange = (value, data) => {
-    // Update local state
-    setFormData({
-      ...formData,
-      service_phone: value,
-      country_code: `+${data.dialCode}`,
-      country: data.countryCode,
-      country_full_name: data.name,
-    });
+  const handlePhoneChange = (value, countryData) => {
+    setPhone(value);
+    const dialCode = countryData.dialCode;
+    const countryNumber = value.replace(dialCode, "").trim();
 
-    // Dispatch to Redux store
     dispatch(
       updateAddPostData({
-        service_phone: value,
-        country_code: `+${data.dialCode}`,
+        service_phone: countryNumber,
+        service_country_code: `+${dialCode}`,
       })
     );
-
-    // Store in cookies after Redux update
-    Cookies.set("mobile", value);
-    Cookies.set("country_code", `+${data.dialCode}`);
   };
 
   return (
-    <div className="">
+    <div>
       <label
         className="font-poppins text-sm font-medium text-[#000000]"
         htmlFor="mobile"
@@ -84,9 +104,8 @@ function PhoneNumberInput() {
       <div className="relative mt-2 w-full">
         <PhoneInput
           placeholder="Enter phone number"
-          value={servicePhone} // Bind to local state value
-          onChange={handlePhoneChange} // Handle phone number change
-          country={formData.country || "us"} // Set the country dynamically
+          value={phone} // Ensuring the value passed is the combined country code and phone number
+          onChange={handlePhoneChange}
           enableSearch
         />
       </div>

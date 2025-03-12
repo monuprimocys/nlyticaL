@@ -1,4 +1,4 @@
-import { updateAddPostData } from "@/app/store/Slice/AddPostSlice";
+import { updateAddPostData } from "@/app/storeApp/Slice/AddPostSlice";
 import { Box } from "@mui/material";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";

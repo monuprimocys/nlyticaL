@@ -6,7 +6,7 @@ import Image from "next/image";
 import { MdOutlineStar } from "react-icons/md";
 import { IoIosStarHalf } from "react-icons/io";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/app/store/Slice/modalSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 import Cookies from "js-cookie";
 import { useAppSelector } from "@/app/hooks/hooks";
 import video from "../../../../../../public/assets/lottie_search_anim/lottie_search_anim/Animation - 1736233762512.gif";
@@ -46,55 +46,56 @@ function ServiceReviewDetailScreen() {
 
       {/* Review List */}
       <div className="w-full flex flex-col gap-6 pt-4">
-        {/* Rating */}
-        <div className="w-full flex justify-start items-center gap-6">
-          <div className="w-14 h-14 rounded-lg bg-[#0046AE] flex justify-center items-center cursor-pointer">
-            <p className="font-medium text-white font-poppins text-lg">
-              {" "}
-              {reviewsDatastar.totalAvgReview}{" "}
-            </p>
-          </div>
-          <div
-            className={`text-base font-medium font-poppins   ${
-              isDarkMode ? "text-white" : "text-black"
-            }`}
-          >
-            {reviewsDatastar.totalReviewCount} ratings
-          </div>
-        </div>
+        <div className=" w-full flex justify-between   items-center">
+          {/* Star Rating Section */}
+          <div className=" flex  flex-col gap-6">
+            <h4
+              className={`font-poppins  text-lg font-medium  ${
+                isDarkMode ? "text-white" : "text-black"
+              }`}
+            >
+              Start Your Review
+            </h4>
 
-        {/* Star Rating Section */}
-        <div className="w-full flex justify-center items-center flex-col gap-6">
-          <h4
-            className={`font-poppins  text-lg font-medium  ${
-              isDarkMode ? "text-white" : "text-black"
-            }`}
-          >
-            Start Your Review
-          </h4>
-
-          {/* if user id not exist show alert */}
-          <div
-            className="w-full flex justify-center gap-4"
-            onClick={handleStarClick}
-          >
-            {[...Array(5)].map((_, idx) => (
-              <div
-                key={idx}
-                className="h-12 w-12 rounded-lg p-1 cursor-pointer flex justify-center items-center bg-[#E8E8E8]"
-              >
-                <Image
-                  src={staricon}
-                  alt="star"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
+            {/* if user id not exist show alert */}
+            <div
+              className="w-full flex  gap-4"
+              onClick={handleStarClick}
+            >
+              {[...Array(5)].map((_, idx) => (
+                <div
+                  key={idx}
+                  className="h-12 w-12 rounded-lg p-1 cursor-pointer flex justify-center items-center bg-[#E8E8E8]"
+                >
+                  <Image
+                    src={staricon}
+                    alt="star"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* Rating */}
+          <div className=" pt-8  flex justify-start items-center gap-6">
+            <div className="w-14 h-14 rounded-lg bg-[#0046AE] flex justify-center items-center cursor-pointer">
+              <p className="font-medium text-white font-poppins text-lg">
+                {" "}
+                {reviewsDatastar.totalAvgReview}{" "}
+              </p>
+            </div>
+            <div
+              className={`text-base font-medium font-poppins   ${
+                isDarkMode ? "text-white" : "text-black"
+              }`}
+            >
+              {reviewsDatastar.totalReviewCount} ratings
+            </div>
           </div>
         </div>
 
         {/* Review Card */}
-        <div className="w-full flex flex-col gap-6">
+        <div className="w-full flex flex-col gap-6 mt-12">
           {reviewsData.length > 0 ? (
             reviewsData.map((review, idx) => {
               // Convert review_star to a number for rating calculation
@@ -122,7 +123,7 @@ function ServiceReviewDetailScreen() {
                         />
                       </div>
                       <div
-                        className={`text-base font-medium absolute left-[12%] top-4 font-poppins    ${
+                        className={`text-base font-medium absolute left-[20%] md:left-[12%] top-4 font-poppins    ${
                           isDarkMode ? "text-white" : "text-black"
                         }`}
                       >

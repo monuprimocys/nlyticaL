@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import "../../businesscss.css";
+import "../../bussinescss.css";
 import handsake from "../../../../../../public/assets/Image/networking.png";
 import Image from "next/image";
 import arrow from "../../../../../../public/assets/Image/arrow-left.png";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/app/store/Slice/modalSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 function Businesscategories() {

@@ -1,5 +1,5 @@
 "use client";
-import { updateAddPostData } from "@/app/store/Slice/AddPostSlice";
+import { updateAddPostData } from "@/app/storeApp/Slice/AddPostSlice";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/app/hooks/hooks";
 import {
@@ -14,9 +14,12 @@ export default function NoofEmployees() {
   // Static data for number of employees, with modified values
   const employeeRanges = [
     { label: "Less than 10", value: "Less than 10" },
-    { label: "20-30", value: "20-30" },
-    { label: "30-40", value: "30-40" },
-    { label: "40-50", value: "40-50" },
+    { label: "10-100", value: "10-100" },
+    { label: "100-500", value: "100-500" },
+    { label: "500-1000", value: "500-1000" },
+    { label: "1000-2000", value: "1000-2000" },
+    { label: "2000-5000", value: "2000-5000" },
+    { label: "5000-10000", value: "5000-10000" },
     { label: "More than 10000", value: "More than 10000" },
   ];
 
@@ -33,7 +36,6 @@ export default function NoofEmployees() {
     (state) => state.AddPost.employee_strength
   );
 
-  console.log("my select change event employee", selectedvalues);
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   return (
@@ -41,11 +43,7 @@ export default function NoofEmployees() {
       <label
         htmlFor="location"
         className={`font-poppins mb-3 block text-sm font-medium capitalize ${
-          isDarkMode
-            ? "text-white"
-            : selectedvalues === ""
-            ? "text-gray-600"
-            : "text-black"
+          isDarkMode ? "text-white" : "text-black"
         }`}
       >
         Number of Employees

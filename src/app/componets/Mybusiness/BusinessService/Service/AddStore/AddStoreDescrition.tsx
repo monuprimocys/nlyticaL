@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/app/hooks/hooks";
-import { setStoreDescription } from "@/app/store/Slice/AddStore";
+import { setStoreDescription } from "@/app/storeApp/Slice/AddStore";
 import { TextField } from "@mui/material";
 import React from "react";
 import { useDispatch } from "react-redux";

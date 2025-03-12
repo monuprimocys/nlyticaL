@@ -3,8 +3,8 @@
 import arror from "../../../../public/assets/Image/section4arrorw.png";
 import arrowright from "../../../../public/assets/Image/section4arrorw.png";
 import Image from "next/image";
-import { useHomeScreenApi } from "@/app/store/api/useHomeScreenApi";
-import { useHomeScreenSettingApi } from "@/app/store/api/useHomeScreenSettingApi";
+import { useHomeScreenApi } from "@/app/storeApp/api/useHomeScreenApi";
+import { useHomeScreenSettingApi } from "@/app/storeApp/api/useHomeScreenSettingApi";
 
 function Section4() {
   const { data, isLoading, refetch } = useHomeScreenApi();
@@ -14,7 +14,7 @@ function Section4() {
     return null;
   }
   return (
-    <div className="w-full h-auto mt-[6rem] ">
+    <div className="w-full h-auto   mt-[4rem] md:mt-[6rem] ">
       <div className="w-[90%] sm:w-[85%] md:w-[90%] 2xl:w-[70%] mx-auto flex flex-wrap xl:flex-nowrap justify-between gap-4">
         {/* First Section (Left Box) */}
         <div
@@ -37,7 +37,7 @@ function Section4() {
           <div className="w-full p-6 section4linearbgcolor h-[35%] flex flex-col gap-4 justify-center rounded-2xl">
             <div className=" flex flex-col gap-2">
               <h4 className="text-3xl font-semibold text-white font-poppins line-clamp-3">
-                {data?.cards[0].title} 
+                {data?.cards[0].title}
               </h4>
               <p className=" font-poppins text-white line-clamp-1 2xl:line-clamp-2">
                 {data?.cards[0].subcategory_name}

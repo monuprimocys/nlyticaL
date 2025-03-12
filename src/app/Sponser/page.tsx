@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useHomeScreenApi } from "../store/api/useHomeScreenApi";
+import { useHomeScreenApi } from "../storeApp/api/useHomeScreenApi";
 import SponsorStoresCard from "../componets/homesection/SponsorStores/SponsorStoresCard";
 import Header from "../componets/Category/Header";
 

@@ -24,9 +24,14 @@ function HeadingProfile() {
   const router = useRouter();
 
   const handleClick = () => {
+    //  store approval values 0 then move list route to the
+    if (isStore === "0") {
+      router.push("/Subscribe");
+    }
+
     // Only push to the route when isStore equals "1" and isServiceId is not "undefined"
     if (isStore === "1" && isServiceId !== "undefined") {
-      router.push("/Mybusiness");
+      router.push("/bussines");
     }
   };
 

@@ -8,13 +8,13 @@ import { GoHeart } from "react-icons/go";
 import { GoHeartFill } from "react-icons/go";
 
 import Image from "next/image";
-import { useServicelikeMutation } from "@/app/store/api/servicelike";
+import { useServicelikeMutation } from "@/app/storeApp/api/servicelike";
 import Cookies from "js-cookie";
 import { useState, useCallback } from "react";
-import { toast } from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { showModal } from "@/app/store/Slice/modalSlice";
-import { setLikeStatus } from "@/app/store/Slice/category/likeStatusSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import { setLikeStatus } from "@/app/storeApp/Slice/category/likeStatusSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 import { useRouter } from "next/navigation";
 
@@ -58,11 +58,11 @@ const GridCard = ({
           setLocalLikeStatus(newLikeStatus);
           dispatch(setLikeStatus({ service_id, likeStatus: newLikeStatus }));
 
-          toast.success(
-            action === "like"
-              ? "Service liked successfully!"
-              : "Service disliked!"
-          );
+          if (action === "like") {
+            toast.success("Service liked successfully!");
+          } else {
+            toast.error("Service disliked!");
+          }
         } else {
           toast.error("Failed to update the service's like status.");
         }
@@ -77,7 +77,7 @@ const GridCard = ({
 
   return (
     <div
-      className={`h-[26rem] lg:h-[30rem] cursor-pointer overflow-hidden w-full relative rounded-xl flex flex-col shadow-md mb-2   ${
+      className={`h-[27.4rem] lg:h-[30rem] cursor-pointer overflow-hidden w-full relative rounded-xl flex flex-col shadow-md mb-2   ${
         isDarkMode ? "bg-[#212121] " : "bg-[#ffffff] "
       } `}
       onClick={onclicknavigate}
@@ -97,20 +97,20 @@ const GridCard = ({
 
         {/* Like Button */}
         <div
-          className="absolute top-4 right-3 bg-[#FFFFFF3D] w-12 h-12 rounded-full flex justify-center items-center cursor-pointer transition-all ease-in-out duration-300 transform hover:scale-110"
+          className="absolute top-4 right-3 bg-[#FFFFFF3D] w-10 h-10 rounded-full flex justify-center items-center cursor-pointer transition-all ease-in-out duration-300 transform hover:scale-110"
           onClick={handleLike} // Make sure this event stops propagation to parent div
         >
           {localLikeStatus === 1 ? (
-            <GoHeartFill className="w-6 h-6 text-[#FF2929]" />
+            <GoHeartFill className="w-5 h-5 text-[#FF2929]" />
           ) : (
-            <GoHeart className="w-6 h-6 text-black transition-colors duration-200" />
+            <GoHeart className="w-5 h-5 text-black transition-colors duration-200" />
           )}
         </div>
       </div>
 
       {/* Content Section */}
       <div className="w-full h-[55%] flex justify-center items-center rounded-xl relative">
-        {featured === "Featured" && (
+        {featured === "sponosor" && (
           <div className="absolute right-4 top-[-1rem] bg-[#0046AE] px-2 py-1 rounded-lg flex justify-center items-center">
             <Image
               src={featureicon}
@@ -139,7 +139,7 @@ const GridCard = ({
                   isDarkMode ? "  text-white " : " text-[#636363] "
                 }`}
               >
-                {name} 12
+                {name}
               </h5>
             </div>
           </div>
@@ -207,7 +207,7 @@ const GridCard = ({
                   isDarkMode ? "  text-white " : " text-[#636363] "
                 }`}
               >
-                {location}
+                {location} 
               </p>
             </div>
           </div>
@@ -225,6 +225,7 @@ const GridCard = ({
           </div>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={5000} />
     </div>
   );
 };

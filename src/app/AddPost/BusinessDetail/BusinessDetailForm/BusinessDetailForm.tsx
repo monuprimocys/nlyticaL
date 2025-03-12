@@ -7,14 +7,15 @@ import MonthYear from "./MonthYear";
 import CategoryDropdown from "./CategoryDropdown";
 import UploadImageAndVideo from "./UploadImageAndVideo";
 import NoofEmployees from "./NoofEmployees";
-import { updateAddPostData } from "@/app/store/Slice/AddPostSlice";
+import { updateAddPostData } from "@/app/storeApp/Slice/AddPostSlice";
 import BusinessName from "./BusinessName";
 import BusinessDescription from "./BusinessDescription";
 import BusinessAddress from "./BusinessAddress";
-import FeaturedService from "./FeaturedService";
 import Cookies from "js-cookie";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import UploadCoverImage from "./UploadCoverImage";
+import dayjs from "dayjs";
+import VideoUrlAddPost from "./VideoUrlAddPost";
 
 function BusinessDetailForm() {
   const addPostData = useAppSelector((state) => state.AddPost);
@@ -28,16 +29,12 @@ function BusinessDetailForm() {
   const location = useAppSelector((state) => state.location);
   const current_address = useAppSelector((state) => state.currentLocation);
 
-  console.log(" my current adress", current_address.latitude);
-
   const category_id = useAppSelector(
     (state) => state.categorySelected.selectedCategory.id
   );
   const subcategory_id = useAppSelector(
     (state) => state.subCategorySelected.selectedSubCategory
   );
-
-  console.log(" my lat and lon value3s", location);
 
   // Filter out any empty IDs and join them into a comma-separated string
   const ids = Array.isArray(subcategory_id)
@@ -47,15 +44,19 @@ function BusinessDetailForm() {
         .join(",") // Join the valid IDs into a string
     : "";
 
-  console.log("Subcategory IDs:  1212121212", ids);
-
-  const getvalues = useAppSelector((state) => state.monthYear);
   const selectedDate = useAppSelector((state) => state.businessHours);
 
   const joinAddress =
     `${address.house} ${address.area} ${address.landmark}`.trim();
-  const published_month = getvalues.monthValue.format("MMMM");
-  const published_year = getvalues.yearValue.format("YYYY");
+  const getvalues = useAppSelector((state) => state.monthYear);
+
+  const published_month = getvalues.monthValue
+    ? dayjs(getvalues.monthValue).format("MMMM")
+    : null;
+
+  const published_year = getvalues.yearValue
+    ? dayjs(getvalues.yearValue).format("YYYY")
+    : null;
 
   const postData = {
     address: joinAddress,
@@ -91,8 +92,6 @@ function BusinessDetailForm() {
     video: "",
     video_thumbnail: "",
   };
-
-  console.log("my post data loaded 1212121212112", postData);
 
   // Validation function
   const validateFields = () => {
@@ -140,6 +139,10 @@ function BusinessDetailForm() {
       toast.error("Please select employee ");
       return false;
     }
+    if (!addPostData.video_url) {
+      toast.error("Please select video_url ");
+      return false;
+    }
 
     return true;
   };
@@ -166,42 +169,45 @@ function BusinessDetailForm() {
   };
 
   return (
-    <div className="w-full overflow-y-auto h-auto">
-      <form onSubmit={handleNextStep} className="overflow-y-auto h-auto">
-        <div className="w-full pb-6 h-auto">
-          <div className="grid w-full grid-cols-1 md:grid-cols-2 gap-6 h-auto">
-            {/* left side part */}
-            <div className="grid h-fit w-full gap-6">
-              <BusinessName />
-              <BusinessDescription />
-              <BusinessAddress />
-              <CategoryDropdown />
-              <SubCategoryDropdwon />
-            </div>
-            {/* right side */}
-            <div className="grid h-fit w-full  gap-10">
-              <UploadCoverImage />
-              <UploadImageAndVideo />
-              <div className="flex h-fit flex-col gap-6">
-                {/* <FeaturedService /> */}
-                <NoofEmployees />
-                <MonthYear />
+    <>
+      <div className="w-full overflow-y-auto h-auto">
+        <form onSubmit={handleNextStep} className="overflow-y-auto h-auto">
+          <div className="w-full pb-6 h-auto">
+            <div className="grid w-full grid-cols-1 md:grid-cols-2 gap-6 h-auto">
+              {/* left side part */}
+              <div className="grid h-fit w-full gap-6">
+                <BusinessName />
+                <BusinessDescription />
+                <BusinessAddress />
+                <CategoryDropdown />
+                <SubCategoryDropdwon />
+              </div>
+              {/* right side */}
+              <div className="grid h-fit w-full  gap-10">
+                <UploadCoverImage />
+                <UploadImageAndVideo />
+                <div className="flex h-fit flex-col gap-6">
+                  {/* <FeaturedService /> */}
+                  <VideoUrlAddPost />
+                  <NoofEmployees />
+                  <MonthYear />
+                </div>
               </div>
             </div>
+            <div className="flex w-full items-center justify-center mt-12">
+              <button
+                type="submit"
+                className="flex w-fit items-center justify-between gap-2 rounded-lg bg-[#0046AE] px-10 py-3"
+              >
+                <p className="font-poppins text-lg font-medium text-white">
+                  Next Step
+                </p>
+              </button>
+            </div>
           </div>
-          <div className="flex w-full items-center justify-center mt-12">
-            <button
-              type="submit"
-              className="flex w-fit items-center justify-between gap-2 rounded-lg bg-[#0046AE] px-10 py-3"
-            >
-              <p className="font-poppins text-lg font-medium text-white">
-                Next Step
-              </p>
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
   );
 }
 

@@ -7,9 +7,9 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import Box from "@mui/material/Box";
 import { useAppSelector } from "@/app/hooks/hooks";
-import { useGetSubCategoriesQuery } from "@/app/store/api/useGetAllSubCategory";
+import { useGetSubCategoriesQuery } from "@/app/storeApp/api/useGetAllSubCategory";
 import { useDispatch } from "react-redux";
-import { updateServiceField } from "@/app/store/Slice/serviceSlice";
+import { updateServiceField } from "@/app/storeApp/Slice/serviceSlice";
 
 export default function BusinessSubCategory() {
   const dispatch = useDispatch();

@@ -1,10 +1,12 @@
 "use client";
-
 import React from "react";
 import "./cardStyle.css";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { setSelectedCategory } from "@/app/store/Slice/AddpostSelectedIDandvalues/CategorySelectedIDandValues";
+import { setSelectedCategory } from "@/app/storeApp/Slice/AddpostSelectedIDandvalues/CategorySelectedIDandValues";
+import { useAppSelector } from "@/app/hooks/hooks";
+import { decodeString, encodeString } from "@/app/utils/enocodeAndDecode";
+import { setSelectedCategoryListing } from "@/app/storeApp/Slice/Listing/CategoryLIstingSlice";
 
 function NewCardDesingHome({ total, title, category_image, subCategoryId }) {
   const router = useRouter(); // Initialize router
@@ -13,15 +15,32 @@ function NewCardDesingHome({ total, title, category_image, subCategoryId }) {
 
   // Handle card click to navigate to the subcategory detail page
   const handleCardClick = () => {
+    // dispatch(
+    //   setSelectedCategory({
+    //     id: subCategoryId,
+    //     category_name: title,
+    //   })
+    // );
+
     dispatch(
-      setSelectedCategory({
+      setSelectedCategoryListing({
         id: subCategoryId,
         category_name: title,
       })
     );
+    // sessionStorage.setItem("cid", subCategoryId);
+    sessionStorage.setItem("Category_Name", title);
 
-    router.push(`/category/${subCategoryId}`);
+    const encodedServiceId = encodeString(String(subCategoryId)); // Ensure serviceId is a string
+    const serviceSlug = title.toLowerCase().replace(/\s+/g, "-"); // Convert name to URL slug
+
+    const cid = decodeString(encodedServiceId);
+    sessionStorage.setItem("Category_ID", cid);
+
+    router.push(`/category/${serviceSlug}`);
   };
+
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   return (
     <div
@@ -29,7 +48,11 @@ function NewCardDesingHome({ total, title, category_image, subCategoryId }) {
       onClick={handleCardClick} // Add click handler here
     >
       {/* Card Image Section */}
-      <div className="w-full h-[70%] flex justify-center items-center bg-[#0046AE0F] rounded-lg cardbordercolor">
+      <div
+        className={`w-full h-[70%] flex justify-center items-center  rounded-lg   ${
+          isDarkMode ? " bg-[#212121]" : " bg-[#0046AE0F] cardbordercolor"
+        }`}
+      >
         <div
           className="w-[50%] h-[50%] bg-cover rounded-xl"
           style={{
@@ -41,7 +64,11 @@ function NewCardDesingHome({ total, title, category_image, subCategoryId }) {
 
       {/* Card Content Section */}
       <div className="w-full h-[30%] flex justify-center items-center">
-        <p className="font-poppins text-black text-center line-clamp-2">
+        <p
+          className={`font-poppins  text-center line-clamp-2  ${
+            isDarkMode ? "text-white" : "text-black"
+          }`}
+        >
           {title} ({total})
         </p>
       </div>

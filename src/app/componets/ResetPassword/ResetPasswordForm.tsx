@@ -4,10 +4,10 @@ import React, { useState } from "react";
 import pwdicon from "../../../../public/assets/Image/lockicon.png";
 import Image from "next/image";
 import { useAppSelector } from "@/app/hooks/hooks";
-import { useResetpasswordMutation } from "@/app/store/api/auth/Resetpassword";
-import { toast } from "react-hot-toast";
+import { useResetpasswordMutation } from "@/app/storeApp/api/auth/Resetpassword";
+import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 
 const ResetPasswordForm = () => {
   const [resetPassword, { isLoading }] = useResetpasswordMutation();

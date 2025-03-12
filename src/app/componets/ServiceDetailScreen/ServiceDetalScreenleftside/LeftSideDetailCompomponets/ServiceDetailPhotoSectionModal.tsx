@@ -1,3 +1,5 @@
+"use client";
+
 import { useAppSelector } from "@/app/hooks/hooks";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Dispatch, SetStateAction } from "react";
@@ -12,18 +14,21 @@ interface ServiceDetailPhotoSectionModalProps {
 const ServiceDetailPhotoSectionModal: React.FC<
   ServiceDetailPhotoSectionModalProps
 > = ({ selectedImage, setSelectedImage }) => {
-  const ServiceDetailData = useAppSelector((state) => state.serviceDetail);
-  const serviceImages = ServiceDetailData.serviceDetail.service_images || [];
+  const serviceDetailData = useAppSelector((state) => state.serviceDetail);
+  const serviceImages = serviceDetailData?.serviceDetail?.service_images || [];
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
+  if (!selectedImage || serviceImages.length === 0) return null;
+
+  // Get the current index of the selected image
+  const currentIndex = serviceImages.indexOf(selectedImage);
+
   // Function to close the modal
-  const close = () => {
-    setSelectedImage(null); // Close the modal by setting selectedImage to null
-  };
+  const close = () => setSelectedImage(null);
 
   // Function to go to the previous image
   const prevImage = () => {
-    if (!selectedImage) return;
-    const currentIndex = serviceImages.indexOf(selectedImage);
+    if (serviceImages.length <= 1) return; // Prevent navigation if only one image
     const prevIndex =
       (currentIndex - 1 + serviceImages.length) % serviceImages.length;
     setSelectedImage(serviceImages[prevIndex]);
@@ -31,66 +36,65 @@ const ServiceDetailPhotoSectionModal: React.FC<
 
   // Function to go to the next image
   const nextImage = () => {
-    if (!selectedImage) return;
-    const currentIndex = serviceImages.indexOf(selectedImage);
+    if (serviceImages.length <= 1) return; // Prevent navigation if only one image
     const nextIndex = (currentIndex + 1) % serviceImages.length;
     setSelectedImage(serviceImages[nextIndex]);
   };
-
-  if (!selectedImage) return null; // Don't render the modal if no image is selected
 
   return (
     <Dialog
       open={true}
       onClose={close}
-      className="relative z-10 focus:outline-none"
+      className="relative z-50 focus:outline-none"
     >
       {/* Backdrop with blur effect */}
       <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-10" />
 
       {/* Modal content */}
       <div className="fixed inset-0 z-20 flex items-center justify-center">
-        <DialogPanel className={`mx-auto w-[90%] md:w-[50%]  bg-white rounded-xl relative  ${
-          isDarkMode? "dark:bg-gray-800 dark:text-white" : ""
-        }`}>
-          {/* Close icon */}
+        <DialogPanel
+          className={`relative mx-auto   w-fit h-[44.5rem] rounded-xl overflow-hidden shadow-lg 
+            ${isDarkMode ? "bg-gray-800 text-white" : "bg-white"}`}
+        >
+          {/* Close button */}
           <button
-            className="absolute top-1 right-1 bg-gray-300 rounded-full p-2 text-2xl text-[#0046AE]"
+            className="absolute top-4 right-4 bg-gray-300 rounded-full p-2 text-2xl text-[#0046AE] hover:bg-gray-400"
             onClick={close}
             aria-label="Close"
           >
             <IoClose />
           </button>
 
-          {/* Left Arrow */}
-          <button
-            onClick={prevImage}
-            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-300 rounded-full p-2 text-2xl text-[#0046AE]"
-            aria-label="Previous Image"
-          >
-            <IoChevronBack />
-          </button>
+          {/* Left Arrow (Only show if more than one image) */}
+          {serviceImages.length > 1 && (
+            <button
+              onClick={prevImage}
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-gray-300 rounded-full p-2 text-2xl text-[#0046AE] hover:bg-gray-400"
+              aria-label="Previous Image"
+            >
+              <IoChevronBack />
+            </button>
+          )}
 
-          {/* Right Arrow */}
-          <button
-            onClick={nextImage}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-300 rounded-full p-2 text-2xl text-[#0046AE]"
-            aria-label="Next Image"
-          >
-            <IoChevronForward />
-          </button>
+          {/* Right Arrow (Only show if more than one image) */}
+          {serviceImages.length > 1 && (
+            <button
+              onClick={nextImage}
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-gray-300 rounded-full p-2 text-2xl text-[#0046AE] hover:bg-gray-400"
+              aria-label="Next Image"
+            >
+              <IoChevronForward />
+            </button>
+          )}
 
           {/* Image display */}
-          <div
-            className="w-full"
-            style={{
-              backgroundImage: `url(${selectedImage})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              height: "30rem",
-              borderRadius: "1rem",
-            }}
-          ></div>
+          <div className="w-full h-full flex items-center justify-center   bg-white">
+            <img
+              src={selectedImage}
+              alt="Selected Service"
+              className="max-h-full max-w-full object-contain rounded-xl"
+            />
+          </div>
         </DialogPanel>
       </div>
     </Dialog>

@@ -3,8 +3,8 @@
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
 import ServiceDetailPhotoSectionModal from "./ServiceDetailPhotoSectionModal";
-import { showModal } from "@/app/store/Slice/modalSlice";
-
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import image from "../../../../../../public/assets/Image/1.png";
 const ServiceDetailListphoto: React.FC = () => {
   const ServiceDetailData = useAppSelector((state) => state.serviceDetail);
   const images = ServiceDetailData.serviceDetail.service_images;
@@ -32,7 +32,7 @@ const ServiceDetailListphoto: React.FC = () => {
     >
       {/* Heading */}
       <div className="text-lg font-medium items-start font-poppins">
-        Photos{" "} 
+        Photos{" "}
       </div>
 
       {/* Image grid */}
@@ -43,7 +43,7 @@ const ServiceDetailListphoto: React.FC = () => {
             key={index}
             className="w-full h-32 bg-[#0046AE] rounded-xl cursor-pointer"
             style={{
-              backgroundImage: `url(${image})`,
+              backgroundImage: `url(${image || "image"})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -53,9 +53,9 @@ const ServiceDetailListphoto: React.FC = () => {
 
         {imageCount > 5 && (
           <div
-            className="relative w-full h-32 bg-[#0046AE] rounded-xl"
+            className="relative w-full h-32 cursor-pointer bg-[#0046AE] rounded-xl"
             style={{
-              backgroundImage: `url(${images[4]})`,
+              backgroundImage: `url(${images[4] || "image"})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}

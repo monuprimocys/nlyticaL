@@ -1,27 +1,24 @@
 "use client"; // This is important for Next.js to handle client-side rendering
 
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import { IoClose } from "react-icons/io5";
 import staricon from "../../../../../../public/assets/Image/starindetailscreen.png";
 import { useState } from "react";
 import Cookies from "js-cookie";
-import { usePathname } from "next/navigation";
-import { useAddReviewScreenApi } from "@/app/store/api/ServiceDetailScreenApi/useAddReviewScreenApi";
+import { useAddReviewScreenApi } from "@/app/storeApp/api/ServiceDetailScreenApi/useAddReviewScreenApi";
 import { toast } from "react-hot-toast";
-import { useServiceDetailApi } from "@/app/store/api/ServiceDetailScreenApi/useServiceDetailApi";
+import { useServiceDetailApi } from "@/app/storeApp/api/ServiceDetailScreenApi/useServiceDetailApi";
 
 const ServiceDetailScreenRatingModal = () => {
-  const pathname = usePathname();
-
   const modalData = useAppSelector(
     (state) => state.modals.ServiceDetailScreenRatingModal
   );
   const dispatch = useAppDispatch();
   const user_id = Cookies.get("user_id");
-  const service_id = pathname.split("/").filter(Boolean).pop() || "";
+  const service_id = sessionStorage.getItem("serviceId");
   const { refetch } = useServiceDetailApi(service_id);
 
   // Use the mutate function from useMutation
@@ -45,8 +42,9 @@ const ServiceDetailScreenRatingModal = () => {
     setReviewMessage(e.target.value);
   };
 
-  // Handle form submission
   const handleSubmit = async () => {
+    refetch();
+
     // Validation to ensure a rating and review message are provided
     if (!selectedStars || !reviewMessage.trim()) {
       toast.error("Please provide a rating and a review message.");
@@ -55,19 +53,34 @@ const ServiceDetailScreenRatingModal = () => {
 
     try {
       // Submit the review using the mutate function from the API hook
-      await mutate({
-        service_id,
-        user_id,
-        review_star: String(selectedStars),
-        review_message: reviewMessage,
-      });
-
-      // On success, show a toast message and close the modal
-      toast.success("Review submitted successfully!");
-      refetch();
-      close();
+      await mutate(
+        {
+          service_id,
+          user_id,
+          review_star: String(selectedStars),
+          review_message: reviewMessage,
+        },
+        {
+          onSuccess: (data) => {
+            console.log("API Success Response:", data);
+            toast.success("Review submitted successfully!");
+            refetch();
+            close();
+          },
+          onError: (error) => {
+            console.error(
+              "API Error Response:",
+              error?.response?.data || error
+            );
+            toast.error(
+              error?.response?.data?.message ||
+                "Something went wrong. Please try again."
+            );
+          },
+        }
+      );
     } catch (error) {
-      // Handle any errors from the API call
+      console.error("Unexpected API Error:", error);
       toast.error("Something went wrong. Please try again.");
     }
   };

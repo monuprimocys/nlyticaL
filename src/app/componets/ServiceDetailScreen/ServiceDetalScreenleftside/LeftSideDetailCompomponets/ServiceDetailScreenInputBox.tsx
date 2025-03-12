@@ -3,7 +3,7 @@ import Image from "next/image";
 import { TextField, InputAdornment } from "@mui/material";
 import search from "../../../../../../public/assets/Image/search-normal.png";
 import { useDispatch } from "react-redux";
-import { setSearchQuery } from "@/app/store/Slice/ServiceDetail/serviceDetailScreenInputSlice";
+import { setSearchQuery } from "@/app/storeApp/Slice/ServiceDetail/serviceDetailScreenInputSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 const ServiceDetailScreenInputBox: React.FC = () => {

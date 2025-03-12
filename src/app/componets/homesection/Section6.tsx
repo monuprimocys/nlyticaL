@@ -6,8 +6,8 @@ import rightside from "../../../../public/assets/Image/section6rightsideimage.pn
 import Image from "next/image";
 import section5vectorline from "../../../../public/assets/Image/section5vectorline.png";
 import phone from "../../../../public/assets/Image/phone.png";
-import { useHomeScreenApi } from "@/app/store/api/useHomeScreenApi";
-import { useHomeScreenSettingApi } from "@/app/store/api/useHomeScreenSettingApi";
+import { useHomeScreenApi } from "@/app/storeApp/api/useHomeScreenApi";
+import { useHomeScreenSettingApi } from "@/app/storeApp/api/useHomeScreenSettingApi";
 
 function Section6() {
   const { data, isLoading, refetch } = useHomeScreenApi();

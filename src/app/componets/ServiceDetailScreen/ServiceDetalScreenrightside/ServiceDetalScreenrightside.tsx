@@ -5,6 +5,7 @@ import GooglemapDetailScreen from "./ServiceDetailRightSideComponets/GooglemapDe
 import Websiteurl from "./ServiceDetailRightSideComponets/Websiteurl";
 import SocilMediicon from "./ServiceDetailRightSideComponets/SocilMediicon";
 import BusinessHoursDetail from "./ServiceDetailRightSideComponets/BusinessHoursDetail";
+import VideoSectionDetsilScrenn from "./ServiceDetailRightSideComponets/VideoSectionDetsilScrenn";
 
 function ServiceDetalScreenrightside() {
   return (
@@ -13,6 +14,7 @@ function ServiceDetalScreenrightside() {
       <VenderDetailInformation />
       <GooglemapDetailScreen />
       <Websiteurl />
+      <VideoSectionDetsilScrenn />
       <SocilMediicon />
       <BusinessHoursDetail />
     </div>

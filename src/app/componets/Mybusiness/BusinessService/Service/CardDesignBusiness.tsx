@@ -1,12 +1,16 @@
+"use client";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/app/store/Slice/modalSlice";
-import { useUpdateStoreMutation } from "@/app/store/api/UpdateStoreApi";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import { useUpdateStoreMutation } from "@/app/storeApp/api/UpdateStoreApi";
 import {
   updateStoreFailure,
   updateStoreSuccess,
-} from "@/app/store/Slice/UpdateStoreSlice";
+} from "@/app/storeApp/Slice/UpdateStoreSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { decodeString, encodeString } from "@/app/utils/enocodeAndDecode";
 
 interface CardDesignBusinessProps {
   name: string;
@@ -16,6 +20,7 @@ interface CardDesignBusinessProps {
   mainImage: string;
   avatar: string;
   store_id: string;
+  service_name: string;
 }
 
 const CardDesignBusiness: React.FC<CardDesignBusinessProps> = ({
@@ -26,17 +31,33 @@ const CardDesignBusiness: React.FC<CardDesignBusinessProps> = ({
   mainImage,
   avatar,
   store_id,
+  service_name,
 }) => {
   const dispatch = useDispatch();
 
   const [UpdateStore] = useUpdateStoreMutation();
 
-  console.log(" my avatar@@###   ", avatar);
+  console.log(" my avatar@@###   ", service_name);
+  const service_id = Cookies.get("service_id");
+  const router = useRouter(); // <-- Initialize router
 
   // Function to handle edit
   const handalupdate = async (id: string) => {
     try {
       const response = await UpdateStore({ store_id: id });
+
+      console.log(
+        " my   update store api response",
+        response.data?.store.subcategory_name
+      );
+      sessionStorage.setItem(
+        "updatestore_idsubcategory",
+        response.data?.store.subcategory_id
+      );
+      sessionStorage.setItem(
+        "updatestorenamesubcategory",
+        response.data?.store.subcategory_name
+      );
       if (response.data && response.data.status) {
         dispatch(updateStoreSuccess({ store: response.data.store }));
         dispatch(showModal("UpdateAddStoreModal"));
@@ -74,9 +95,34 @@ const CardDesignBusiness: React.FC<CardDesignBusinessProps> = ({
     updatestoreslicedata
   );
 
+  const handleCardClick = (e) => {
+    e.preventDefault(); // Prevent default behavior
+    e.stopPropagation(); // Stop event propagation to avoid triggering other click handlers
+    if (!service_id || !service_name) {
+      console.error("Invalid serviceId or serviceName");
+      return;
+    }
+
+    const encodedServiceId = encodeString(String(service_id)); // Ensure serviceId is a string
+    const serviceSlug = service_name.toLowerCase().replace(/\s+/g, "-"); // Convert name to URL slug
+
+    console.log("Encoded Service ID:", encodedServiceId);
+
+    // Navigate to the encoded route
+    router.push(`/stores/${serviceSlug}`);
+
+    service_id12 = decodeString(encodedServiceId);
+
+    // Store in sessionStorage for later use
+    sessionStorage.setItem("serviceId", service_id12);
+  };
+
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   return (
-    <div className="h-fit overflow-hidden w-full relative rounded-xl flex flex-col mb-2 shadow-md cursor-pointer">
+    <div
+      className="h-fit overflow-hidden w-full relative rounded-xl flex flex-col mb-2 shadow-md cursor-pointer"
+      onClick={handleCardClick} // <-- Call navigation on click
+    >
       {/* Image Section */}
       <div
         className="w-full rounded-t-xl h-[12rem] bg-cover bg-right-top"
@@ -153,13 +199,19 @@ const CardDesignBusiness: React.FC<CardDesignBusinessProps> = ({
           <div className="w-full grid grid-cols-2 gap-6">
             <button
               className="text-[#FFFFFF] bg-[#0046AE] rounded-xl px-4 py-2 font-medium font-poppins"
-              onClick={() => handalupdate(store_id)}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent event bubbling
+                handalupdate(store_id);
+              }}
             >
               Edit
             </button>
             <button
               className="text-[#0046AE] font-medium font-poppins rounded-xl px-4 py-2 bordercolorservice"
-              onClick={() => handalDelete(store_id)}
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent event bubbling
+                handalDelete(store_id);
+              }}
             >
               Delete
             </button>

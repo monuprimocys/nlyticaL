@@ -43,9 +43,9 @@ function MybuinessBreadComeService() {
 
           {/* Current Pathname */}
           <h2
-            className="text-white text-lg font-normal font-poppins"
+            className="text-[#FFD428] text-lg font-normal font-poppins"
             onClick={() => {
-              router.push("/Mybusiness");
+              router.push("/bussines");
             }}
           >
             My business
@@ -68,7 +68,7 @@ function MybuinessBreadComeService() {
 
         {/* Right Section */}
         <div className="cursor-pointer">
-          <h2 className="text-white text-lg font-normal font-poppins">
+          <h2 className="text-white text-lg hidden md:block font-normal font-poppins">
             Services
           </h2>
         </div>

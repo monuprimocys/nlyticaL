@@ -5,7 +5,7 @@ import Image from "next/image";
 import loginbgimage from "../../../../public/assets/Image/loginbgimage.png";
 import logo from "../../../../public/assets/Image/logo.png";
 import { useAppSelector } from "@/app/hooks/hooks";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useDispatch } from "react-redux";
 import ForgotPasswordVerifyOtpForm from "@/app/componets/ForgotPassword/ForgotPasswordVerifyOtpForm";
 
@@ -49,11 +49,11 @@ export default function ForgotPasswordOtpVerfiyModal() {
                 Verification Code
               </h2>
               <p className="text-center text-lg text-gray-800 sm:px-8 font-poppins">
-                We have sent the verification code to your mobile number.
+                We have sent the verification code to your mobile number. 
               </p>
 
               <h3 className="text-center text-lg font-semibold text-black sm:px-8 font-poppins">
-                {ForgotPwdEmail} 
+                {ForgotPwdEmail}
               </h3>
             </div>
 

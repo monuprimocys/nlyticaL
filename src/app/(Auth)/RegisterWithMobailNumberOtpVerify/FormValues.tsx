@@ -9,12 +9,13 @@ import callicon from "../../../../public/assets/Image/callSinup.png";
 import { FiPlus } from "react-icons/fi";
 import { useAppSelector } from "@/app/hooks/hooks";
 import Cookies from "js-cookie";
-import { useUpdateProfileMutation } from "@/app/store/api/auth/ProfileUpdate";
-import { toast } from "react-hot-toast";
+import { useUpdateProfileMutation } from "@/app/storeApp/api/auth/ProfileUpdate";
+import { toast } from "react-toastify";
 import avatar from "../../../../public/assets/Image/Avatar_img_2.jpg";
 import emailicon from "../../../../public/assets/Image/emailiconformailsendfooter.png";
 import { useDispatch } from "react-redux";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
+import { useServiceDetailApi } from "@/app/storeApp/api/ServiceDetailScreenApi/useServiceDetailApi";
 
 function FormValues() {
   const slicevalues = useAppSelector((state) => state.registration);
@@ -22,15 +23,14 @@ function FormValues() {
   const user_id = Cookies.get("user_id");
   const [triggerUpdateProfile, { data, isLoading }] =
     useUpdateProfileMutation();
+  const id = sessionStorage.getItem("serviceId");
 
-  console.log("defailt image", data?.userdetails.image);
+  const { refetch } = useServiceDetailApi(id);
 
   const disptach = useDispatch();
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
-
-  console.log(" my file preview", imageFile);
 
   // Form states for input fields
   const [firstName, setFirstName] = useState("");
@@ -64,9 +64,15 @@ function FormValues() {
     }
   }, [user_id, triggerUpdateProfile]);
 
+  console.log("  my updated profile  api returned", data?.message);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (data?.status === false) {
+      toast.error(data?.message);
+      return;
+    }
     // All required fields must be filled, including the image
     if (!firstName || !lastName || !email || !username) {
       toast.error("All fields are required");
@@ -88,26 +94,21 @@ function FormValues() {
       // Assuming triggerUpdateProfile returns a Promise
       const response = await triggerUpdateProfile(formData);
       Cookies.set("loginuser", "user_login");
-
+      refetch();
       // Log the response values
-      console.log("API Response:", response.data?.store_id);
       Cookies.set("is_store", response.data?.is_store);
       Cookies.set("store_approval", response.data?.store_approval);
 
       // If there’s a status or any specific field to check, you can access it here
       if (response.success) {
-        console.log("Profile update successful:", response.data);
       } else {
-        console.log("Error in updating profile:", response.message);
       }
 
       disptach(hideModal("RegisterWithMobailNumberOtpVerify"));
-
+      refetch();
       // Optionally reload the page if the update was successful
-      window.location.reload();
-    } catch (error) {
-      console.error("Error while updating profile:", error);
-    }
+      // window.location.reload();
+    } catch (error) {}
   };
 
   return (
@@ -153,7 +154,8 @@ function FormValues() {
             className="text-sm font-medium text-[#000000]"
             htmlFor="username"
           >
-            username
+            UserName
+            <span className="text-[#F21818] pl-[2px]">*</span>
           </label>
           <div className="relative mt-2 flex items-center">
             <input
@@ -167,7 +169,7 @@ function FormValues() {
             />
             <span className="absolute right-2 flex h-[3rem] w-[3rem] items-center justify-center rounded-full bg-[#B4B4B414]">
               <Image
-                src={profileImage}
+                src={profileImage || avatar}
                 alt="Profile Icon"
                 className="h-[1.3rem] w-[1.3rem] object-cover"
               />
@@ -180,6 +182,7 @@ function FormValues() {
             htmlFor="first_name"
           >
             First Name
+            <span className="text-[#F21818] pl-[2px]">*</span>
           </label>
           <div className="relative mt-2 flex items-center">
             <input
@@ -193,7 +196,7 @@ function FormValues() {
             />
             <span className="absolute right-2 flex h-[3rem] w-[3rem] items-center justify-center rounded-full bg-[#B4B4B414]">
               <Image
-                src={profileImage}
+                src={profileImage || avatar}
                 alt="Profile Icon"
                 className="h-[1.3rem] w-[1.3rem] object-cover"
               />
@@ -207,6 +210,7 @@ function FormValues() {
             htmlFor="last_name"
           >
             Last Name
+            <span className="text-[#F21818] pl-[2px]">*</span>
           </label>
           <div className="relative mt-2 flex items-center">
             <input
@@ -220,7 +224,7 @@ function FormValues() {
             />
             <span className="absolute right-2 flex h-[3rem] w-[3rem] items-center justify-center rounded-full bg-[#B4B4B414]">
               <Image
-                src={profileImage}
+                src={profileImage || avatar}
                 alt="Profile Icon"
                 className="h-[1.3rem] w-[1.3rem] object-cover"
               />
@@ -231,6 +235,7 @@ function FormValues() {
         <div>
           <label className="text-sm font-medium text-[#000000]" htmlFor="email">
             Email
+            <span className="text-[#F21818] pl-[2px]">*</span>
           </label>
           <div className="relative mt-2 flex items-center">
             <input

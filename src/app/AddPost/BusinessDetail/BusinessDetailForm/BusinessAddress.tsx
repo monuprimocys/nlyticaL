@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/app/hooks/hooks";
-import { showModal } from "@/app/store/Slice/modalSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 import React from "react";
 import { CiEdit } from "react-icons/ci";
 import { useDispatch } from "react-redux";
@@ -14,9 +14,13 @@ const BusinessAddress: React.FC<BusinessAddressProps> = ({ required }) => {
 
   const address = useAppSelector((state) => state.address);
 
+  const addpostaddress = useAppSelector((state) => state.AddPost.country);
+
+  console.log(" my  address values@!@!@@  ", addpostaddress);
+
   // Join the address components
   const joinAddress =
-    `${address.house} ${address.area} ${address.landmark}`.trim();
+    ` ${address.area}  ${address.cityName} ${address.house} ${address.landmark}`.trim();
 
   // Handle address update
   const handleAddressClick = () => {

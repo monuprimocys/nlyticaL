@@ -30,7 +30,7 @@ function Categories() {
                 router.push("/");
               }}
             >
-              Home
+              Home    
             </h2>
             <Image
               src={Arrowicon}

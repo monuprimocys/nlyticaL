@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import React from "react";
 import { useDispatch } from "react-redux";

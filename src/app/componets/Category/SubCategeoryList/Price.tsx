@@ -4,7 +4,7 @@ import Image from "next/image";
 import React from "react";
 import priceicon from "../../../../../public/assets/Image/priceicon.png";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
-import { setPrice } from "@/app/store/Slice/category/priceSlice";
+import { setPrice } from "@/app/storeApp/Slice/category/priceSlice";
 
 const Price: React.FC = () => {
   const dispatch = useAppDispatch();

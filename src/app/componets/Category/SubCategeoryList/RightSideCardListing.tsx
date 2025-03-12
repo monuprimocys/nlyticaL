@@ -8,8 +8,8 @@ import cardlisticon2 from "../../../../../public/assets/Image/cardlist3.png";
 import GridCard from "../../Category/SubCategeoryList/GridCard";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/app/hooks/hooks";
-import { updateFilterData } from "@/app/store/Slice/category/filterSlice";
-import { useFilterMutation } from "@/app/store/api/filter";
+import { updateFilterData } from "@/app/storeApp/Slice/category/filterSlice";
+import { useFilterMutation } from "@/app/storeApp/api/filter";
 import Cookies from "js-cookie";
 import ListCard from "../../Category/SubCategeoryList/ListCard";
 import AvatarWithSpinner from "../../Loading/AvatarWithSpinner";
@@ -169,7 +169,7 @@ function RightSideCardListing() {
                 reviews={card.total_review_count}
                 yearsInBusiness={card.published_year}
                 location={card.address}
-                priceRange={card.price_range }
+                priceRange={card.price_range}
                 featured={card.is_featured ? "Featured" : "Not Featured"}
                 rating={card.average_review_star}
                 isLike={card.isLike}
@@ -191,7 +191,7 @@ function RightSideCardListing() {
                 reviews={card.total_review_count}
                 yearsInBusiness={card.published_year}
                 location={card.address}
-                priceRange={card.price_range }
+                priceRange={card.price_range}
                 featured={card.is_featured ? "Featured" : "Not Featured"}
                 rating={card.average_review_star}
                 isLike={card.isLike}

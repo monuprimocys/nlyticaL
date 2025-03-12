@@ -1,188 +1,178 @@
-"use client";
-
-import * as React from "react";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Chip from "@mui/material/Chip";
-import Box from "@mui/material/Box";
-import { useAppSelector } from "@/app/hooks/hooks";
-import { useGetSubCategoriesQuery } from "@/app/store/api/useGetAllSubCategory";
-import { setselectedSubCategory } from "@/app/store/Slice/AddpostSelectedIDandvalues/SubCategorySelectedIdandValues";
+import { useGetSubCategoriesQuery } from "@/app/storeApp/api/useGetAllSubCategory";
 import { useDispatch } from "react-redux";
+import { setselectedSubCategory } from "@/app/storeApp/Slice/AddpostSelectedIDandvalues/SubCategorySelectedIdandValues";
+import { useAppSelector } from "@/app/hooks/hooks";
+import { useState } from "react";
+import { MdOutlineChevronRight } from "react-icons/md";
 
-export default function SelectLabels() {
+const SubcategoryDropdown: React.FC = () => {
   const dispatch = useDispatch();
-  const [selectedValues, setSelectedValues] = React.useState<string[]>([]);
+  const [searchValue, setSearchValue] = useState<string>(""); // For input value
+  const [showDropdown, setShowDropdown] = useState<boolean>(false); // For controlling dropdown visibility
+  const [selectedValues, setSelectedValues] = useState<string[]>([]); // Store selected subcategory names
+
   const category_id = useAppSelector(
     (state) => state.categorySelected.selectedCategory.id
   );
-
-  const selectedSubcategorysliceValues = useAppSelector(
-    (state) => state.subCategorySelected.selectedSubCategory
-  );
-
-  console.log(
-    "My selected subcategory from Redux",
-    selectedSubcategorysliceValues
-  );
-
-  // Fetch subcategories if category_id exists
-  const { data } = useGetSubCategoriesQuery(
-    { category_id: category_id || "" },
-    { skip: !category_id } // Skip API call if no category_id
-  );
-
-  const subcategory = data?.subCategoryData;
-
-  console.log("API Response: ", data);
-
-  // Handle selection change (both single and multiple)
-  const handleChange = (event: SelectChangeEvent<typeof selectedValues>) => {
-    const {
-      target: { value },
-    } = event;
-
-    // Update selected values
-    const newSelectedValues =
-      typeof value === "string" ? value.split(",") : value;
-    setSelectedValues(newSelectedValues);
-
-    // Dispatch selected subcategories to Redux store
-    const selectedSubcategories = subcategory?.filter((sub) =>
-      newSelectedValues.includes(sub.subcategory_name)
-    );
-
-    if (selectedSubcategories) {
-      const subcategoryPayload = selectedSubcategories.map((sub) => ({
-        id: sub.id,
-        subcategory_name: sub.subcategory_name,
-      }));
-
-      // Dispatch the action to update the selected subcategory in the Redux store
-      dispatch(setselectedSubCategory(subcategoryPayload));
-    }
-  };
-
-  // Handle individual checkbox toggle
-  const handleCheckboxChange = (subcategoryName: string) => {
-    const newSelectedValues = selectedValues.includes(subcategoryName)
-      ? selectedValues.filter((value) => value !== subcategoryName)
-      : [...selectedValues, subcategoryName];
-
-    setSelectedValues(newSelectedValues);
-
-    // Update Redux store with the new selected subcategories
-    const selectedSubcategories = subcategory?.filter((sub) =>
-      newSelectedValues.includes(sub.subcategory_name)
-    );
-
-    if (selectedSubcategories) {
-      const subcategoryPayload = selectedSubcategories.map((sub) => ({
-        id: sub.id,
-        subcategory_name: sub.subcategory_name,
-      }));
-
-      dispatch(setselectedSubCategory(subcategoryPayload));
-    }
-  };
-
-  // Handle deletion of selected values (removing subcategories from selection)
-  const handleDelete = (value: string) => {
-    const newSelectedValues = selectedValues.filter((item) => item !== value);
-    setSelectedValues(newSelectedValues);
-
-    // If a subcategory is deleted, update the Redux store with the new selection
-    const selectedSubcategories = subcategory?.filter((sub) =>
-      newSelectedValues.includes(sub.subcategory_name)
-    );
-
-    if (selectedSubcategories) {
-      const subcategoryPayload = selectedSubcategories.map((sub) => ({
-        id: sub.id,
-        subcategory_name: sub.subcategory_name,
-      }));
-
-      dispatch(setselectedSubCategory(subcategoryPayload));
-    }
-  };
+  const subcategory =
+    useGetSubCategoriesQuery(
+      { category_id: category_id || "" },
+      { skip: !category_id }
+    ).data?.subCategoryData || [];
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
+  // Handle category search input change
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  };
+
+  // Show dropdown on focus
+  const handleFocus = () => {
+    setShowDropdown(true);
+  };
+
+  // Hide dropdown on blur
+  const handleBlur = () => {
+    setTimeout(() => {
+      setShowDropdown(false);
+    }, 100);
+  };
+
+  // Handle subcategory selection (both single and multiple)
+  const handleSelectCategory = (subcategoryName: string) => {
+    const newSelectedValues = selectedValues.includes(subcategoryName)
+      ? selectedValues.filter((value) => value !== subcategoryName)
+      : [...selectedValues, subcategoryName];
+    setSelectedValues(newSelectedValues);
+
+    // Dispatch selected subcategories to Redux store
+    const selectedSubcategories = subcategory.filter((sub) =>
+      newSelectedValues.includes(sub.subcategory_name)
+    );
+    dispatch(setselectedSubCategory(selectedSubcategories));
+  };
+
+  // Filter subcategories based on search input
+  const filteredSubcategories = searchValue.trim()
+    ? subcategory.filter((sub) =>
+        sub.subcategory_name.toLowerCase().includes(searchValue.toLowerCase())
+      )
+    : subcategory; // Show all if search value is empty
+
+  const [rotate, setRotate] = useState(false); // State to manage icon rotation
+
+  const handleToggle = () => {
+    setShowDropdown((prev) => !prev); // Toggle dropdown visibility
+    setRotate((prev) => !prev); // Toggle rotation of the icon
+  };
+
   return (
-    <div className="w-full overflow-hidden">
-      {/* Subcategory label */}
+    <div className="w-full flex flex-col  relative">
+      {/* Subcategory Label */}
       <label
-        htmlFor="location"
-        className={`font-poppins mb-3 block text-sm font-medium capitalize ${
+        htmlFor="subcategory"
+        className={`font-poppins text-sm font-medium ${
           isDarkMode ? "text-white" : "text-black"
         }`}
       >
-        Sub Category
+        Subcategory
         <span className="text-[#F21818] pl-[1px]">*</span>
       </label>
-      <FormControl
-        style={{
-          width: "100%",
-          backgroundColor: isDarkMode ? "#333333" : "#ffffff", // Darker background for dark mode
-        }}
-      >
-        <Select
-          multiple
-          value={selectedValues}
-          onChange={handleChange}
-          displayEmpty
-          inputProps={{ "aria-label": "Without label" }}
-          disabled={!category_id} // Disable dropdown if category_id doesn't exist
-          className={
-            isDarkMode ? "bg-[#444444] text-white" : "bg-white text-black"
-          } // Select styling
+
+      {/* Subcategory Input */}
+      <div className="relative mt-2 flex items-center  cursor-pointer" onClick={handleToggle}>
+        <input
+          type="text"
+          id="subcategory"
+          name="subcategory"
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck="false"
+          className={`font-poppins w-full rounded-lg py-4  cursor-pointer pl-4 placeholder-gray-500 focus:border-[#0046AE80] focus:outline-none focus:ring-[#0046AE80] ${
+            isDarkMode
+              ? "text-white border border-[#FFFFFF0A] bg-[#333333]"
+              : "text-black bg-white border border-[#e5e7eb]"
+          } ${!category_id ? "bg-gray-300 cursor-not-allowed" : ""}`} // Disable styles when category_id is missing
+          placeholder="Search Subcategory"
+          value={searchValue}
+          onChange={handleCategoryChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          disabled={!category_id}
+        />
+
+        <div
+          className={`absolute right-2 text-xl cursor-pointer transition-transform ${
+            rotate ? "transform rotate-90" : "transform -rotate-90" // Apply rotation when `rotate` is true
+          }`}
+          onClick={handleToggle}
         >
-          {/* Render options only if subcategory data is available */}
-          {subcategory?.map((sub) => (
-            <MenuItem
-              key={sub.id}
-              value={sub.subcategory_name}
-              className="!flex !gap-2"
-              style={{
-                backgroundColor: isDarkMode ? "#444444" : "transparent", // MenuItem background
-                color: isDarkMode ? "white" : "black", // MenuItem text color
-              }}
-            >
-              <input
-                type="checkbox"
-                checked={selectedValues.includes(sub.subcategory_name)}
-                onChange={() => handleCheckboxChange(sub.subcategory_name)} // Handle checkbox toggle
-                disabled={!category_id}
-              />
-              {sub.subcategory_name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+          <MdOutlineChevronRight className="text-xl" />
+        </div>
+      </div>
 
-      <Box sx={{ mt: 2 }}>
-        {selectedValues.map((value) => (
-          <Chip
-            key={value}
-            label={value}
-            onDelete={() => handleDelete(value)}
-            sx={{
-              margin: 0.5,
-              backgroundColor: isDarkMode ? "#555555" : "#eeeeee", // Chip background color
-              color: isDarkMode ? "#ffffff" : "#000000", // Chip text color
-              borderColor: isDarkMode ? "#666666" : "#cccccc", // Chip border color
+      {/* Custom Dropdown */}
+      {showDropdown &&
+        category_id && ( // Only show dropdown if category_id exists
+          <ul
+            className="absolute top-[5.9rem] left-0 w-full bg-white rounded-lg shadow-lg max-h-[200px] overflow-y-auto z-10 border border-[#0046AE80] mt-1"
+            style={{
+              maxHeight: "200px",
+              overflowY: "auto",
             }}
-          />
-        ))}
-      </Box>
+          >
+            {filteredSubcategories.length > 0 ? (
+              filteredSubcategories.map((sub) => (
+                <li
+                  key={sub.id}
+                  className="px-4 py-2 cursor-pointer font-poppins hover:bg-gray-200 text-black"
+                  onMouseDown={() => handleSelectCategory(sub.subcategory_name)}
+                >
+                  <input
+                    type="checkbox"
+                    checked={selectedValues.includes(sub.subcategory_name)}
+                    onChange={() => handleSelectCategory(sub.subcategory_name)}
+                    className="mr-3"
+                  />
+                  {sub.subcategory_name}
+                </li>
+              ))
+            ) : (
+              <li className="px-4 py-2 text-center text-gray-500">
+                No subcategories found
+              </li>
+            )}
+          </ul>
+        )}
 
-      {/* Display a message if category_id doesn't exist */}
-      {!category_id && (
-        <Box sx={{ mt: 2, color: isDarkMode ? "gray" : "black" }}>
-          Please select a category to see subcategories.
-        </Box>
-      )}
+      {/* Display Selected Subcategories as Chips */}
+      <div className="mt-3 flex flex-wrap gap-2">
+        {selectedValues.map((value) => (
+          <span
+            key={value}
+            className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium ${
+              isDarkMode ? "bg-[#555555] text-white" : "bg-[#e5e7eb] text-black"
+            }`}
+          >
+            {value}
+            <button
+              type="button"
+              onClick={() => {
+                const newSelectedValues = selectedValues.filter(
+                  (item) => item !== value
+                );
+                setSelectedValues(newSelectedValues);
+              }}
+              className="ml-2 text-sm font-bold text-gray-600 hover:text-red-500"
+            >
+              &times;
+            </button>
+          </span>
+        ))}
+      </div>
     </div>
   );
-}
+};
+
+export default SubcategoryDropdown;

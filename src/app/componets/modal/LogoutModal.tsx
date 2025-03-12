@@ -1,5 +1,5 @@
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import "./style.css";
 import Cookies from "js-cookie";
@@ -27,7 +27,17 @@ function LogoutModal() {
     Cookies.remove("mobile");
     Cookies.remove("login_type");
     Cookies.remove("first_name");
+    Cookies.remove("campaign_id");
+    Cookies.remove("detail_id");
+    Cookies.remove("from_user_id");
+    Cookies.remove("lat");
+    Cookies.remove("lng");
+    Cookies.remove("plane_name");
+    Cookies.remove("sponcer_id");
+    Cookies.remove("subscriber_user");
+    Cookies.remove("login_token");
     dispatch(hideModal("LogoutModal"));
+    window.location.href = "/";
   };
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
@@ -37,7 +47,7 @@ function LogoutModal() {
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full items-center justify-center">
           <DialogPanel
-            className={`mx-auto h-[15rem] w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%]  xl:w-[30%] 2xl:w-[25%]   ${
+            className={`mx-auto h-[14rem] w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%]  xl:w-[30%] 2xl:w-[25%]   ${
               isDarkMode ? "bg-[#212121]" : "bg-[#FFFFFF]"
             }`}
           >
@@ -57,7 +67,7 @@ function LogoutModal() {
             {/* Content */}
             <div className="h-auto w-full">
               <p
-                className={`font-poppins mx-auto w-[70%] items-center p-5 text-lg text-[#000000]  ${
+                className={`font-poppins mx-auto w-[76%] items-center p-5 text-lg text-[#000000]  ${
                   isDarkMode ? "text-[#FFFFFF] " : "text-[#000000] "
                 }`}
               >

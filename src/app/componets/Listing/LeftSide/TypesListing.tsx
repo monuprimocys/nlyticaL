@@ -2,24 +2,28 @@ import React, { useState } from "react";
 import { IoStarOutline } from "react-icons/io5";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import { updateFilterDataListing } from "@/app/store/Slice/Listing/FilterListingSlice";
+import { updateFilterDataListing } from "@/app/storeApp/Slice/Listing/FilterListingSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 function TypesListing() {
   const [isTypeDropdown, setIsTypeDropdown] = useState(true);
-  const [isFeaturedChecked, setIsFeaturedChecked] = useState(false);
-  const dispatch = useDispatch();
 
   const toggleTypeDropdown = () => {
     setIsTypeDropdown((prevState) => !prevState); // Toggle the dropdown visibility on click
   };
 
+  const dispatch = useDispatch();
+
+  // Get 'type' directly from Redux store
+  const isFeaturedChecked = useAppSelector(
+    (state) => state.FilterListingSlice.type === "1"
+  );
+
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const checked = e.target.checked;
-    setIsFeaturedChecked(checked);
-    // Update the `type` value in the Redux store
-    dispatch(updateFilterDataListing({ type: checked ? "1" : "0" }));
+    dispatch(updateFilterDataListing({ type: e.target.checked ? "1" : "0" }));
   };
+
+  console.log(" my type !!!!", isFeaturedChecked);
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
@@ -34,7 +38,9 @@ function TypesListing() {
           <IoStarOutline
             className={`text-lg   ${
               isDarkMode ? "text-[#FFFFFF]" : "text-[#000000]"
-            }`}
+            }  
+            
+            `}
           />
           <div>
             <h6
@@ -50,10 +56,11 @@ function TypesListing() {
         {/* Icon dropdown */}
         <div onClick={toggleTypeDropdown}>
           <MdKeyboardArrowRight
-            className={`rotate-${
-              isTypeDropdown ? "90" : "0"
-            } text-2xl text-[#000000] cursor-pointer transition-transform duration-300     *:
-            ${isDarkMode ? "text-[#FFFFFF]" : "text-[#000000]"}
+            className={`
+            ${isTypeDropdown ? "rotate-90" : "rotate-0"}
+            
+            text-2xl text-[#000000] cursor-pointer transition-transform duration-300     *:
+            ${isDarkMode ? "text-[#FFFFFF]" : "text-[#000000]  "}
             
              
             `}

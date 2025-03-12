@@ -1,10 +1,10 @@
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
-import { useDeleteStoreApi } from "@/app/store/api/useDeleteStoreApi";
+import { useDeleteStoreApi } from "@/app/storeApp/api/useDeleteStoreApi";
 import Cookies from "js-cookie";
-import { useStoreListApi } from "@/app/store/api/usestorelist";
-import { setStoreList } from "@/app/store/Slice/AddStore";
+import { useStoreListApi } from "@/app/storeApp/api/usestorelist";
+import { setStoreList } from "@/app/storeApp/Slice/AddStore";
 import { ToastContainer, toast } from "react-toastify";
 function DeleteStoreModal() {
   const modalData = useAppSelector((state) => state.modals.DeleteStoreModal);

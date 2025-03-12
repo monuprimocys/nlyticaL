@@ -14,7 +14,7 @@ function Websiteurl() {
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   return (
     <div
-      className={`items-center justify-center w-full p-4 h-full rounded-lg   ${
+      className={`items-center justify-center w-full  gap-1  flex flex-col p-4 h-full rounded-lg   ${
         isDarkMode
           ? "bg-[#212121] text-[#ffffff]"
           : "bg-[#ffffff] text-[#000000] photoservicedetailborderandshado"
@@ -27,11 +27,7 @@ function Websiteurl() {
         </div>
         {/* Export icon with link */}
         <a href={websitelink} target="_blank" rel="noreferrer">
-          <Image
-            src={exorticon}
-            alt="export"
-            className="h-[20px] w-[20px] ml-2"
-          />
+          <Image src={exorticon} alt="export" className="h-[20px] w-[20px] " />
         </a>
       </div>
 

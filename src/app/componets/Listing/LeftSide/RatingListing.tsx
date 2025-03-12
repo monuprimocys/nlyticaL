@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
-import { setSelectedRatingListing } from "@/app/store/Slice/Listing/RatingSliceListing";
+import { setSelectedRatingListing } from "@/app/storeApp/Slice/Listing/RatingSliceListing";
 import React, { useState, useEffect } from "react";
 import { IoStarOutline, IoClose } from "react-icons/io5";
 import { MdKeyboardArrowRight } from "react-icons/md";

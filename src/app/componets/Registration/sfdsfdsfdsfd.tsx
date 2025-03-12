@@ -2,10 +2,10 @@
 
 import { useAppSelector } from "@/app/hooks/hooks";
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { useRegisterModalVerifyOtpMutation } from "../../store/api/auth/RegisterModalVerifyOtp";
+import { useRegisterModalVerifyOtpMutation } from "../../storeApp/api/auth/RegisterModalVerifyOtp";
 import { toast } from "react-hot-toast";
-import { useRegisterAccountMutation } from "@/app/store/api/auth/newuser-registeraccount";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
+import { useRegisterAccountMutation } from "@/app/storeApp/api/auth/newuser-registeraccount";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 

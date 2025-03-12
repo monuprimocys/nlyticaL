@@ -17,9 +17,9 @@ import {
 } from "@mui/material";
 import DistanceRangeInputBox from "./DistanceRangeInputBox";
 import Cookies from "js-cookie";
-import { useUpdateServiceMutation } from "@/app/store/api/updateServiceApi";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
 import { useAppSelector } from "@/app/hooks/hooks";
-import { setSponsorLocation } from "@/app/store/Slice/sponsorLocation";
+import { setSponsorLocation } from "@/app/storeApp/Slice/sponsorLocation";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function GoogleMapInputBoxSponsor() {
@@ -33,7 +33,7 @@ export default function GoogleMapInputBoxSponsor() {
   const { address, latLng } = useSelector((state) => state.sponsorLocation);
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
-  console.log(" my location@@@@@@@@  ", latLng);
+  console.log(" my location@@@@@@@@  ", latLng.lat);
 
   const vendor_id = Cookies.get("user_id");
   const service_id = Cookies.get("service_id");
@@ -54,6 +54,13 @@ export default function GoogleMapInputBoxSponsor() {
   }, [data]);
 
   useEffect(() => {
+    if (latLng) {
+      Cookies.set("lat", latLng.lat);
+      Cookies.set("lng", latLng.lng);
+    }
+  }, [latLng]);
+
+  useEffect(() => {
     const lat = Cookies.get("lat");
     const lng = Cookies.get("lng");
 
@@ -64,6 +71,8 @@ export default function GoogleMapInputBoxSponsor() {
 
   const lat = parseFloat(Cookies.get("lat") || "0");
   const lng = parseFloat(Cookies.get("lng") || "0");
+
+  console.log(" my lat long values ", lat, lng);
 
   const [markerPosition, setMarkerPosition] = useState({ lat, lng });
   const [map, setMap] = useState(null);
@@ -241,7 +250,7 @@ export default function GoogleMapInputBoxSponsor() {
               <TextField
                 fullWidth
                 variant="outlined"
-                placeholder="Enter campaign title"
+                placeholder="Serach your location"
                 inputRef={locationRef}
                 value={locationAddress} // Bind the input value to the state
                 onChange={(e) => setLocationAddress(e.target.value)} // Update the state on input change
@@ -249,7 +258,7 @@ export default function GoogleMapInputBoxSponsor() {
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     fontFamily: "Poppins, sans-serif",
-                    fontSize: "1.125rem",
+                    fontSize: "0.8rem",
                     backgroundColor: isDarkMode ? "#212121" : "#ffffff",
                     color: isDarkMode ? "#ffffff" : "#000000",
                     border: "none",

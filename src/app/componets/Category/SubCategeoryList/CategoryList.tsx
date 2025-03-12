@@ -1,11 +1,11 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
-import { setSelectedCategory } from "@/app/store/Slice/category/categorySlice";
-import { updateFilterData } from "@/app/store/Slice/category/filterSlice";
+import { setSelectedCategory } from "@/app/storeApp/Slice/category/categorySlice";
+import { updateFilterData } from "@/app/storeApp/Slice/category/filterSlice";
 import Image from "next/image";
 import React, { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import dropdwoninputboxicon from "../../../../../public/assets/Image/listingdropdwonlocation.png";
-import { useGetCategoriesQuery } from "@/app/store/api/useGetCategory";
+import { useGetCategoriesQuery } from "@/app/storeApp/api/useGetCategory";
 
 function CategoryList() {
   const dispatch = useAppDispatch();

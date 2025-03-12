@@ -1,27 +1,36 @@
 "use client";
-
-import React from "react";
+import React, { useEffect } from "react";
 import Card from "../componets/homesection/ServicesSection3/Card";
 import Header from "../componets/Category/Header";
-import { useGetCategoriesQuery } from "../store/api/useGetCategory";
+import { useGetCategoriesQuery } from "../storeApp/api/useGetCategory";
 import { Categorydata } from "@/app/types/Restypes";
 import AvatarWithSpinner from "../componets/Loading/AvatarWithSpinner";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux"; // Import useDispatch from react-redux
-import { setSelectedCategory } from "../store/Slice/category/categorySlice";
+import { setSelectedCategory } from "../storeApp/Slice/category/categorySlice";
 import { useAppSelector } from "../hooks/hooks";
 import Categories from "../componets/AllBreadCome/CategorisBreadCome/Categories";
+import { setDarkMode } from "../storeApp/Slice/darkModeSlice";
+import { setSelectedCategoryListing } from "../storeApp/Slice/Listing/CategoryLIstingSlice";
 
 function Category() {
   const { data, error, isLoading } = useGetCategoriesQuery();
   const router = useRouter();
   const dispatch = useDispatch(); // Initialize dispatch
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
+  // Ensuring dark mode state is loaded from localStorage on initial load
+  useEffect(() => {
+    const savedMode = localStorage.getItem("darkMode") === "true";
+    if (savedMode !== isDarkMode) {
+      dispatch(setDarkMode(savedMode));
+    }
+    document.documentElement.classList.toggle("dark", savedMode);
+  }, [dispatch, isDarkMode]);
   // Access selected category from Redux store
   const selectedCategory = useAppSelector(
     (state) => state.category.selectedCategory
   );
-  console.log("Selected Category from Redux store:", selectedCategory);
 
   if (isLoading) {
     return (
@@ -41,27 +50,30 @@ function Category() {
   const handleCategoryClick = (category: Categorydata) => {
     // Dispatch only id and category_name to Redux store
     dispatch(
-      setSelectedCategory({
+      setSelectedCategoryListing({
         id: category.id,
         category_name: category.category_name,
       }),
-      sessionStorage.setItem("category_name", category.category_name),
-      sessionStorage.setItem("cid", category.id)
+
+      sessionStorage.setItem("Category_Name", category.category_name),
+      sessionStorage.setItem("Category_ID", category.id)
     );
 
-    router.push(`category/${category.id}`);
+    const serviceSlug = category.category_name
+      .toLowerCase()
+      .replace(/\s+/g, "-"); // Convert name to URL slug
+
+    router.push(`category/${serviceSlug}`);
   };
 
-  console.log("my category clicked on values", categories);
-
   return (
-    <div className="w-full h-auto">
+    <div className={`w-full h-auto    ${isDarkMode ? "  bg-[#181818]" : ""}`}>
       <div>
         <Categories />
       </div>
 
       {/* All Categories */}
-      <div className="mx-auto 2xl:w-[60%] xl:w-[80%] w-[95%]  grid grid-cols-2  md:flex md:flex-wrap   justify-items-center  md:justify-start md:items-center gap-4 mt-[4rem]">
+      <div className="mx-auto 2xl:w-[60%] xl:w-[80%] w-[95%]  grid grid-cols-2  md:flex md:flex-wrap     justify-items-center  md:justify-start md:items-center gap-4 mt-[4rem]">
         {categories.length > 0 ? (
           categories.map((category: Categorydata) => (
             <Card

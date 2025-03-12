@@ -1,9 +1,7 @@
 "use client";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
-import ProfileForm from "../../Profile/ProfileForm";
-import Myreview from "@/app/Profile/Myreview/page";
 import BusinessReview from "./BusinessReview";
 
 function BusinessRebiewListModal() {

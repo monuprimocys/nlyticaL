@@ -1,20 +1,21 @@
 "use client";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import crossicon from "../../../../../../../public/assets/Image/crossicon.png";
-import "../../../businesscss.css";
+import "../../../businesscss.css";  
 import UploadStoreImage from "./UploadStoreImage";
 import AddStoreName from "./AddStoreName";
 import AddStoreDescrition from "./AddStoreDescrition";
 import AddStorePrice from "./AddStorePrice";
 import AddStoreAttachments from "./AddStoreAttachments";
-import { useAddStoreApi } from "@/app/store/api/useStoreAdd";
+import { useAddStoreApi } from "@/app/storeApp/api/useStoreAdd";
 import Cookies from "js-cookie";
-import { useStoreListApi } from "@/app/store/api/usestorelist";
-import { setStoreList } from "@/app/store/Slice/AddStore";
+import { useStoreListApi } from "@/app/storeApp/api/usestorelist";
+import { setStoreList } from "@/app/storeApp/Slice/AddStore";
 import { ToastContainer, toast } from "react-toastify";
+import AddStoreSubCategoriy from "./AddStoreSubCategoriy";
 
 function AddStoreModal() {
   const modalOpen = useAppSelector((state) => state.modals.AddStoreModal);
@@ -33,6 +34,7 @@ function AddStoreModal() {
   const store_attachments = useAppSelector(
     (state) => state.AddPost.cover_image
   );
+  const storedCategoryId = sessionStorage.getItem("selectedSubCategoryId");
 
   const close = () => dispatch(hideModal("AddStoreModal"));
 
@@ -49,6 +51,7 @@ function AddStoreModal() {
     formData.append("store_name", store_name);
     formData.append("store_description", store_description);
     formData.append("price", price);
+    formData.append("subcategory_id", storedCategoryId);
 
     // Append files (store_images)
     store_images.forEach((file) => {
@@ -70,6 +73,7 @@ function AddStoreModal() {
         price,
         store_images, // These should be File[] arrays
         store_attachments, // These should be File[] arrays
+        subcategory_id: storedCategoryId, // The stored category ID should be used for the store
       });
 
       // Success toast notification
@@ -144,6 +148,7 @@ function AddStoreModal() {
             <div className="mx-auto w-[80%] flex justify-center mt-[3rem] flex-col gap-6 items-center h-auto">
               <UploadStoreImage />
               <AddStoreName />
+              <AddStoreSubCategoriy />
               <AddStoreDescrition />
               <AddStorePrice />
               <AddStoreAttachments />

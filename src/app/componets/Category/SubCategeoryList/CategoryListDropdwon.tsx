@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { updateFilterData } from "@/app/store/Slice/category/filterSlice";
+import { updateFilterData } from "@/app/storeApp/Slice/category/filterSlice";
 import CategoryList from "./CategoryList";
 import SubcategoryList from "./SubcategoryList";
 

@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
-import { updateStoreDescription } from "@/app/store/Slice/UpdateStoreSlice";
+import { updateStoreDescription } from "@/app/storeApp/Slice/UpdateStoreSlice";
 import { TextField } from "@mui/material";
 import React from "react";
 

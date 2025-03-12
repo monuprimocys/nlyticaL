@@ -9,12 +9,12 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import "./style.css";
 import callicon from "../../../../public/assets/Image/callSinup.png";
-import { useRegisterAccountMutation } from "../../store/api/auth/newuser-registeraccount";
-import { setUserRegistration } from "@/app/store/Slice/RegistrationSlice";
+import { useRegisterAccountMutation } from "../../storeApp/api/auth/newuser-registeraccount";
+import { setUserRegistration } from "@/app/storeApp/Slice/RegistrationSlice";
 import { useAppDispatch } from "@/app/hooks/hooks";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import { toast } from "react-hot-toast";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 
 function RegistrationForm() {
   const [formData, setFormData] = useState({

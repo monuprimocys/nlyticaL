@@ -2,10 +2,10 @@
 
 import { useAppSelector } from "@/app/hooks/hooks";
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { useRegisterModalVerifyOtpMutation } from "../../store/api/auth/RegisterModalVerifyOtp";
-import { useResendotpandForgetpwdMutation } from "@/app/store/api/auth/ResendotpandForgetpwd";
-import { toast } from "react-hot-toast";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { useRegisterModalVerifyOtpMutation } from "../../storeApp/api/auth/RegisterModalVerifyOtp";
+import { useResendotpandForgetpwdMutation } from "@/app/storeApp/api/auth/ResendotpandForgetpwd";
+import { toast } from "react-toastify";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import Cookies from "js-cookie";
 function RegisterModalVerifyOtpForm() {
   const [otp, setOtp] = useState(Array(4).fill("")); // Stores OTP as an array of strings
@@ -87,6 +87,7 @@ function RegisterModalVerifyOtpForm() {
         toast.error(
           response.message || "OTP verification failed. Please try again."
         );
+        alert("1222");
       } else {
         toast.success("OTP Verified Successfully");
         hideModal("RegisterModalVerifyOtpModal");

@@ -1,11 +1,11 @@
 "use client";
-import { useGetCategoriesQuery } from "@/app/store/api/useGetCategory";
+import { useGetCategoriesQuery } from "@/app/storeApp/api/useGetCategory";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 // Import Material-UI components
 import { FormControl, Select, MenuItem, FormHelperText } from "@mui/material";
-import { updateServiceField } from "@/app/store/Slice/serviceSlice";
+import { updateServiceField } from "@/app/storeApp/Slice/serviceSlice";
 
 interface CategoryDropdownProps {
   required?: boolean;

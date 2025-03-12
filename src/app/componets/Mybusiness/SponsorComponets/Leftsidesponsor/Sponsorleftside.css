@@ -20,16 +20,14 @@
   border-bottom: 0.93px solid #ececec;
 }
 
-
-
-#Audiancedetail{
-  border: 1.61px solid #0046AE29;
-  
+#Audiancedetail {
+  border: 1.61px solid #0046ae29;
 }
 
+.bordercolornewCampain {
+  border: 1.61px solid #0046ae;
+}
 
-
-
-
-
-
+.bordercolornewCampain12 {
+  border: 1.61px solid #0046ae29;
+}

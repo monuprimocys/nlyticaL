@@ -1,25 +1,36 @@
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import crossicon from "../../../../../../../public/assets/Image/crossicon.png";
-import "../../../businesscss.css";
+import "../../../businesscss.css";  
 import UpdateStoreImage from "./UpdateStoreImage";
 import UpdateStoreName from "./UpdateStoreName";
 import UpdateStoreDescription from "./UpdateStoreDescription";
 import UpdateStorePrice from "./UpdateStorePrice";
 import UpdateStoreCoverImage from "./UpdateStoreCoverImage";
-import { useUpdateStoreMutation } from "@/app/store/api/UpdateStoreApi";
-import { useStoreListApi } from "@/app/store/api/usestorelist";
-import { setStoreList } from "@/app/store/Slice/AddStore";
+import { useUpdateStoreMutation } from "@/app/storeApp/api/UpdateStoreApi";
+import { useStoreListApi } from "@/app/storeApp/api/usestorelist";
+import { setStoreList } from "@/app/storeApp/Slice/AddStore";
 import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
+import UpdateSubCategoriy from "./UpdateSubCategoriy";
 
 function UpdateAddStoreModal() {
   const modalOpen = useAppSelector((state) => state.modals.UpdateAddStoreModal);
   const dispatch = useAppDispatch();
   const close = () => dispatch(hideModal("UpdateAddStoreModal"));
   const service_id = Cookies.get("service_id");
+
+  const setSelectedSubCategoryupdatestore = useAppSelector(
+    (state) => state.UpdateStoreSubCategoriySlice
+  );
+
+  console.log(
+    "  my slice values  from store   slice ",
+    setSelectedSubCategoryupdatestore.selectedSubCategoryId
+  );
+  const id = setSelectedSubCategoryupdatestore.selectedSubCategoryId;
 
   // Select data from the Redux store
   const store_description = useAppSelector(
@@ -50,6 +61,9 @@ function UpdateAddStoreModal() {
     formData.append("store_name", store_name || "");
     formData.append("store_description", store_description || "");
     formData.append("price", price?.toString() || "0");
+    if (id !== null && id !== undefined) {
+      formData.append("subcategory_id", id.toString());
+    }
 
     // Append images if available (assuming `store_images` is an array of file objects)
     if (store_images && store_images.length > 0) {
@@ -120,6 +134,7 @@ function UpdateAddStoreModal() {
             <div className="mx-auto w-[80%]  grid mt-[3rem] grid-cols-1 gap-6 h-auto">
               <UpdateStoreImage />
               <UpdateStoreName />
+              <UpdateSubCategoriy />
               <UpdateStoreDescription />
               <UpdateStorePrice />
               <UpdateStoreCoverImage />

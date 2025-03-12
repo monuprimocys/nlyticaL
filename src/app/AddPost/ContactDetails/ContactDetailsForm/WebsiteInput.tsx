@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/app/hooks/hooks";
-import { updateAddPostData } from "@/app/store/Slice/AddPostSlice";
+import { updateAddPostData } from "@/app/storeApp/Slice/AddPostSlice";
 
 function WebsiteInput() {
   const dispatch = useDispatch();

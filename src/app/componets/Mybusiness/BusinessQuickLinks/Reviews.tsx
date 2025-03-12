@@ -1,9 +1,11 @@
+"use client";
+
 import React from "react";
 import addprofile from "../../../../../public/assets/Image/businesssreview.png";
 import Image from "next/image";
 import { useAppSelector } from "@/app/hooks/hooks";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/app/store/Slice/modalSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 
 function Reviews() {
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);

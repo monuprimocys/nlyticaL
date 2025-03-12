@@ -1,99 +1,192 @@
-import { useServicePlane } from "@/app/store/api/useserviceplane";
-import bgvectoreimage from "../../../../../public/assets/Image/section9card2.png";
-import React from "react";
+"use client";
+import { useServicePlane } from "@/app/storeApp/api/useserviceplane";
+import bgvectoreimage from "../../../../../public/assets/Image/bg-s.png";
+import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { FaRegCircleCheck } from "react-icons/fa6";
+import { useRouter } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
+import Cookies from "js-cookie";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "./style.css";
 
-function Card2() {
+function SameTypeCard() {
   const { data, isLoading, refetch } = useServicePlane();
+  const router = useRouter(); // Initialize the router
+  const subscriber_user = Cookies.get("subscriber_user");
+
+  useEffect(()=>{
+    refetch();
+  },[data,refetch])
+
+  const user_id = Cookies.get("user_id");
+
+
+
+  const dispatch = useAppDispatch();
+  const handleClick = () => {
+    if (subscriber_user === "1") {
+      toast.error("You have already purchased a plan");
+      return; // Do not proceed with navigation
+    }
+    // Ensure plan data is available before extracting
+    if (data?.subscriptionDetail?.[1]) {
+      const plan = data?.subscriptionDetail[1];
+
+      // Extract the numeric value from the plan price by removing the ¥ symbol
+      const numericPrice = plan.price;
+
+      // Store the plan data in session storage
+      sessionStorage.setItem("planName", plan.plan_name);
+      sessionStorage.setItem("planPrice", numericPrice);
+
+      // Navigate to the payment page
+      if (user_id) {
+        router.push("/Payment");
+      } else {
+        dispatch(showModal("loginModal"));
+      }
+    }
+  };
+
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
+  const [planeName, setPlaneName] = useState(null);
+
+  // Fetch the cookie value on component mount
+  useEffect(() => {
+    const currentPlaneName = Cookies.get("plane_name") || null;
+    setPlaneName(currentPlaneName);
+    console.log("Initial plane_name:", currentPlaneName);
+  }, []);
+
+  // Listen for updates to the cookie value
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const updatedPlaneName = Cookies.get("plane_name") || null;
+      if (updatedPlaneName !== planeName) {
+        setPlaneName(updatedPlaneName);
+        console.log("Updated plane_name:", updatedPlaneName);
+      }
+    }, 1000); // Check every second
+
+    return () => clearInterval(interval);
+  }, [planeName]);
+
   return (
-    <div className="w-full  min-h-fit relative cursor-pointer">
-      {/* Background Image with opacity 0.1 */}
+    <div className="w-full   h-[28rem] relative   cursor-pointer">
+      <div className=" w-full  absolute  flex mt-[-1.7rem]  pr-[1rem] justify-end items-center ">
+        <button className="  w-fit  px-6 rounded-lg py-2 bg-[#0046AE]   text-white   font-poppins">
+          {" "}
+          Popular
+        </button>
+      </div>
+      {/* Content (with white background color) */}
       <div
-        className="w-full h-full rounded-xl"
+        className={`w-full  min-h-full   z-10 shadow rounded-xl  ${
+          isDarkMode ? "bg-[#212121]  border-2 border-[#FFFFFF66]" : ""
+        }
+        
+        `}
         style={{
-          content: "''",
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
           backgroundImage: `url(${bgvectoreimage.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          opacity: 0.1,
         }}
-      ></div>
-
-      {/* Content (with blue background color) */}
-      <div className="w-full min-h-full bg-[#0046AE] z-10 shadow-lg rounded-xl">
-        {/* Content Section */}
-        <div className="w-full flex flex-col gap-4 p-6">
-          {/* Title and Description */}
-          <div className="flex flex-col gap-4">
-            <h2 className="text-[#FFFFFF] font-medium font-poppins text-2xl">
-              {data?.subscriptionDetail[1].plan_name}
-            </h2>
-            <p className="text-[#FFFFFF] font-poppins text-lg line-clamp-1">
-              {data?.subscriptionDetail[1].description}
-            </p>
-          </div>
-
-          {/* Price Detail */}
-          <div className="flex">
-            <div>
-              <h2 className="text-[#FFFFFF] font-medium font-poppins text-xl">
-                <span className="font-poppins font-semibold text-3xl relative bottom-[1px]">
-                  {data?.subscriptionDetail[1].price}
-                </span>
-                <span className="text-[#FFFFFF] font-poppins font-semibold text-[16px]">
-                  / PER MONTH
-                </span>
+      >
+        <div
+          className={`w-full h-full  rounded-lg     ${
+            subscriber_user === "1" &&
+            planeName === "Enterprise" &&
+            "linearcolor  "
+          } `}
+        >
+          <div className="w-full flex justify-start items-start gap-4 flex-col p-6">
+            <div className="flex flex-col gap-4">
+              <h2 className="text-[#0046AE] font-medium font-poppins text-2xl">
+                {data?.subscriptionDetail[1].plan_name}
               </h2>
+              <p
+                className={` font-poppins text-lg line-clamp-1   ${
+                  isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
+                }`}
+              >
+                {data?.subscriptionDetail[1].description}
+              </p>
+            </div>
+
+            {/* price detail */}
+            <div className="flex">
+              <div>
+                <h2
+                  className={`text-[#000000] font-medium font-poppins text-xl   ${
+                    isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
+                  }`}
+                >
+                  <span className="font-poppins font-semibold text-3xl relative bottom-[1px]">
+                    {data?.subscriptionDetail[1].price}
+                  </span>
+                  <span className="text-[#0046AE] font-poppins font-semibold text-[16px]">
+                    / PER MONTH
+                  </span>
+                </h2>
+              </div>
+            </div>
+            <div className=" w-full  h-[1px] bg-opacity-[15%] rounded-xl bg-black"></div>
+            {/* listing */}
+            <div className="flex flex-col gap-2">
+              <ul className="flex flex-col gap-4">
+                {data?.subscriptionDetail?.[1]?.plan_services?.map(
+                  (service, index) => (
+                    <li className="flex gap-2 items-center" key={index}>
+                      <div className="w-5 h-5">
+                        {service.status === 1 ? (
+                          <FaCheckCircle className="w-full h-full text-[#0046AE]" />
+                        ) : (
+                          <FaRegCircleCheck
+                            className={`w-full h-full  ${
+                              isDarkMode ? " text-white" : ""
+                            }`}
+                          />
+                        )}
+                      </div>
+                      <p
+                        className={` font-poppins text-[16px]   ${
+                          isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
+                        }`}
+                      >
+                        {service.plan_services}
+                      </p>
+                    </li>
+                  )
+                )}
+              </ul>
             </div>
           </div>
 
-          {/* Listing with icons */}
-
-          <div className="flex flex-col gap-2">
-            <ul className="flex flex-col gap-4">
-              {data?.subscriptionDetail?.[1]?.plan_services?.map(
-                (service, index) => (
-                  <li className="flex gap-2 items-center" key={index}>
-                    <div className="w-5 h-5">
-                      {service.status === 1 ? (
-                        <FaCheckCircle className="w-full h-full text-[#FFFFFF]" />
-                      ) : (
-                        <FaRegCircleCheck className="w-full h-full text-[#FFFFFF]" />
-                      )}
-                    </div>
-                    <p className="text-[#FFFFFF] font-poppins text-[16px]">
-                      {service.plan_services}
-                    </p>
-                  </li>
-                )
-              )}
-            </ul>
+          {/* btn */}
+          <div className="w-full p-4">
+            {/* subscriber_user values 1 and name values then bg colr black  */}
+            <button
+              onClick={handleClick} // Adding the onClick handler to the button
+              className={` text-white   bg-[#0046AE] font-semibold font-poppins text-lg text-center py-3 rounded-lg w-full   ${
+                subscriber_user === "1" &&
+                planeName === "Enterprise" &&
+                " bg-green-600"
+              }  `}
+            >
+              {subscriber_user === "1" && planeName === "Enterprise"
+                ? "Active Plan "
+                : `Choose Plan   ${data?.subscriptionDetail[1].price}`}
+            </button>
           </div>
         </div>
-
-        {/* Button to choose the plan */}
-        <div className="w-full p-4">
-          <button className="bg-[#FFFFFF]  text-[#0046AE] font-poppins font-semibold text-lg text-center py-3 rounded-lg w-full">
-            Choose Plan
-          </button>
-        </div>
-
-        {/* Top button */}
-        <div className="relative top-[-28rem] left-[3rem]">
-          <button className="border-color text-[#0046AE] px-3 bg-white py-2 rounded-lg font-poppins">
-            Most Popular
-          </button>
-        </div>
       </div>
+      <ToastContainer position="top-right" autoClose={5000} />
     </div>
   );
 }
 
-export default Card2;
+export default SameTypeCard;

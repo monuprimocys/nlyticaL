@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "../businesscss.css";
 import EditProfile from "./EditProfile";
 import AddPhotos from "./AddPhotos";
@@ -9,10 +9,48 @@ import AddWebsite from "./AddWebsite";
 import AddVideo from "./AddVideo";
 import AddSocialLinks from "./AddSocialLinks";
 import { useAppSelector } from "@/app/hooks/hooks";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
+import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
+import {
+  addServiceImage,
+  updateServiceField,
+} from "@/app/storeApp/Slice/serviceSlice";
 
 function MainSectionQuickLink() {
-  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+  const dispatch = useDispatch();
 
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+  const vendor_id = Cookies.get("user_id");
+  const service_id = Cookies.get("service_id");
+
+  const [updateService, { data, isLoading, error }] =
+    useUpdateServiceMutation();
+
+  useEffect(() => {
+    if (vendor_id && service_id) {
+      // Trigger the mutation if vendor_id and service_id are present
+      updateService({ vendor_id, service_id });
+    }
+  }, [vendor_id, service_id, updateService]);
+
+  // Handle the different states of the API call
+  useEffect(() => {
+    if (isLoading) {
+      console.log("Loading...");
+    }
+
+    if (error) {
+      console.error("Error fetching service:", error);
+    }
+
+    if (data) {
+      console.log("API Response:@@!!", data);
+
+      dispatch(updateServiceField(data.service));
+      dispatch(addServiceImage(data.service_images));
+    }
+  }, [data, isLoading, error]);
   return (
     <div
       className={`mx-auto 2xl:w-[60%] xl:w-[80%] w-[90%] mt-[3rem]    gap-5 flex-col rounded-lg py-10 px-6 md:px-16 flex  justify-center   items-center    ${
@@ -39,7 +77,7 @@ function MainSectionQuickLink() {
       </div>
 
       {/*   all type of links  */}
-      <div className=" w-full flex     gap-4  md:gap-7 flex-wrap justify-center     ">
+      <div className=" w-full  grid grid-cols-2  justify-items-center gap-6  xl:grid-cols-8   ">
         <EditProfile />
         <AddPhotos />
         <AddContact />

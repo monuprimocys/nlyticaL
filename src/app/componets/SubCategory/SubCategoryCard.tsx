@@ -3,6 +3,7 @@
 import React from "react";
 import { RiArrowRightWideFill } from "react-icons/ri";
 import { SubCategoryData } from "@/app/types/Restypes";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 const SubCategoryCard: React.FC<SubCategoryData> = ({
   services_count,
@@ -10,9 +11,13 @@ const SubCategoryCard: React.FC<SubCategoryData> = ({
   subcategory_image,
   onClick,
 }) => {
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
   return (
     <div
-      className="w-full  flex items-center  shadobg justify-between p-4 rounded-lg cursor-pointer"
+      className={`w-full  flex items-center  shadobg justify-between p-4 rounded-lg cursor-pointer   ${
+        isDarkMode ? " bg-[#212121] text-white" : " text-black"
+      }`}
       onClick={onClick}
       style={{
         borderBottom: "3.3px solid #ECECEC",
@@ -35,7 +40,7 @@ const SubCategoryCard: React.FC<SubCategoryData> = ({
         {/* Category Name */}
         <div>
           <h2 className="font-medium text-xl font-poppins">
-            {subcategory_name}
+            {subcategory_name} 
           </h2>
         </div>
       </div>

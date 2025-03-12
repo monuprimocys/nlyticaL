@@ -1,16 +1,32 @@
 "use client";
 
-import React from "react";
-import { usePathname, useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import bgimage from "../../../../public/assets/Image/CategoryHeaderbg.png";
 import Arrowicon from "../../../../public/assets/Image/currentrouteArrow.png";
 import Image from "next/image";
+import Cookies from "js-cookie";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
 
 function MybusinessToolsBreadCome() {
-  const pathname = usePathname();
-  const segments = pathname.split("/");
+ 
 
   const router = useRouter();
+  const vendor_id = Cookies.get("user_id");
+
+  const service_id = Cookies.get("service_id");
+
+  const [updateService, { data: updateservicedata, isLoading, error }] =
+    useUpdateServiceMutation();
+
+  useEffect(() => {
+    if (vendor_id && service_id) {
+      // Trigger the mutation if vendor_id and service_id are present
+      updateService({ vendor_id, service_id });
+    }
+  }, [vendor_id, service_id, updateService]);
+
+  const service_name = updateservicedata?.service.service_name;
 
   return (
     <div
@@ -28,7 +44,7 @@ function MybusinessToolsBreadCome() {
           {/* Breadcrumb */}
           <div className="flex items-center space-x-2">
             <h2
-              className="text-[#FFD428] text-lg font-normal font-poppins"
+              className="text-[#FFD428] text-[16px] md:text-lg font-normal font-poppins"
               onClick={() => {
                 router.push("/");
               }}
@@ -46,12 +62,12 @@ function MybusinessToolsBreadCome() {
 
           {/* Current Pathname */}
           <h2
-            className="text-white text-lg font-normal font-poppins"
+            className="text-[#FFD428] text-[16px] md:text-lg font-normal font-poppins"
             onClick={() => {
-              router.push("/Mybusiness");
+              router.push("/bussines");
             }}
           >
-            My business
+            My business  
           </h2>
 
           <div className="flex items-center space-x-2">
@@ -63,16 +79,16 @@ function MybusinessToolsBreadCome() {
               className="cursor-pointer"
             />
 
-            <h2 className="text-white text-lg font-normal font-poppins">
-              Business Tools
+            <h2 className="text-white text-[16px] md:text-lg font-normal font-poppins">
+              {service_name}
             </h2>
           </div>
         </div>
 
         {/* Right Section */}
         <div className="cursor-pointer">
-          <h2 className="text-white text-lg font-normal font-poppins">
-            Business Tools
+          <h2 className="text-white text-sm md:text-lg hidden md:block  font-normal font-poppins">
+            {service_name}
           </h2>
         </div>
       </div>

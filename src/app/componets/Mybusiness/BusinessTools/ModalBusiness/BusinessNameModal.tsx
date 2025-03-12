@@ -1,6 +1,6 @@
 "use client";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import crossicon from "../../../../../../public/assets/Image/crossicon.png";
@@ -8,9 +8,9 @@ import "../../businesscss.css";
 import infocircle from "../../../../../../public/assets/Image/info-circle.png";
 import { TextField } from "@mui/material";
 import Cookies from "js-cookie";
-import { useUpdateServiceMutation } from "@/app/store/api/updateServiceApi";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
 import { useEffect, useState } from "react";
-import { updateServiceField } from "@/app/store/Slice/serviceSlice"; // Import updateServiceField from slice
+import { updateServiceField } from "@/app/storeApp/Slice/serviceSlice"; // Import updateServiceField from slice
 
 function BusinessNameModal() {
   const modalOpen = useAppSelector((state) => state.modals.BusinessNameModal);

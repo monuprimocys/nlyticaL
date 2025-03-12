@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import {
   setCurrentLocation,
   setError,
-} from "@/app/store/Slice/AddpostSelectedIDandvalues/CurrentLocation";
+} from "@/app/storeApp/Slice/AddpostSelectedIDandvalues/CurrentLocation";
 import { useDispatch } from "react-redux";
 
 const Currentlocation = () => {
@@ -15,9 +15,7 @@ const Currentlocation = () => {
   const getLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition, showError);
-      console.log(
-        navigator.geolocation.getCurrentPosition(showPosition, showError)
-      );
+    
     } else {
       dispatch(setError("Geolocation is not supported by this browser."));
     }
@@ -101,7 +99,6 @@ const Currentlocation = () => {
     getLocation();
   }, []);
 
-  console.log(" fjkhbsdagbfjkhsadfhagsdjkasdf", locationName);
 
   return (
     <div>

@@ -1,101 +1,65 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
-
-import CrossIcon from "../../../../public/assets/Image/insta.png";
-import { MdOutlineStar } from "react-icons/md";
-import { IoIosStarHalf } from "react-icons/io";
+import React, { useEffect, useRef } from "react";
+import locationIcon from "../../../../public/assets/Image/locationicondetail1.png";
+import { useGoogleMaps } from "@/app/hooks/useGoogleMaps";
+import { useAppSelector } from "@/app/hooks/hooks";
+import Currentlocation from "@/app/AddPost/BusinessDetail/BusinessDetailForm/Currentlocation";
 
 const Googlemap: React.FC = () => {
   const googleMapRef = useRef<HTMLDivElement | null>(null);
-  const [googleLoaded, setGoogleLoaded] = useState(false);
+  const googleLoaded = useGoogleMaps();
+  const current_address = useAppSelector((state) => state.currentLocation);
 
-  // Static data for the property
-  const staticData = {
-    id: "1",
-    lat: 23.073292,
-    lon: 72.560402,
-    title: "Mapplin Electronic",
-    price: 500000,
-    bedrooms: 3,
-    bathrooms: 2,
-    area: 1200,
-    location: "Los Angeles, CA",
-    status: "Electrical",
-    property_image: [
-      {
-        url: "https://plus.unsplash.com/premium_photo-1661960643553-ccfbf7d921f6?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      }, // Replace with actual image URL
-    ],
+  console.log("  my  current location ", current_address);
+
+  // Default property location
+  const propertyData = {
+    lat: current_address.latitude, // Default latitude (Los Angeles, CA)
+    lon: current_address.longitude, // Default longitude (Los Angeles, CA)
+    title: current_address.locationName,
   };
-
-  useEffect(() => {
-    const loadGoogleMaps = () => {
-      if (!window.google) {
-        const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAMZ4GbRFYSevy7tMaiH5s0JmMBBXc0qBA`;
-        script.async = true;
-        script.defer = true;
-
-        script.onload = () => {
-          // console.log("Google Maps script loaded");
-          setGoogleLoaded(true);
-        };
-
-        script.onerror = () => {
-          console.error(
-            "Failed to load Google Maps script. Check your API key or network connection."
-          );
-        };
-
-        document.body.appendChild(script);
-      } else {
-        // console.log("Google Maps already loaded");
-        setGoogleLoaded(true);
-      }
-    };
-
-    loadGoogleMaps();
-  }, []);
 
   useEffect(() => {
     if (googleLoaded && window.google && googleMapRef.current) {
       const googleMap = new window.google.maps.Map(googleMapRef.current, {
-        center: { lat: staticData.lat, lng: staticData.lon },
+        center: { lat: propertyData.lat, lng: propertyData.lon },
         zoom: 13,
         mapTypeId: window.google.maps.MapTypeId.ROADMAP,
       });
 
       const marker = new window.google.maps.Marker({
-        position: { lat: staticData.lat, lng: staticData.lon },
+        position: { lat: propertyData.lat, lng: propertyData.lon },
         map: googleMap,
         icon: {
-          url: "https://cdn-icons-png.flaticon.com/512/1001/1001022.png",
-          scaledSize: new window.google.maps.Size(50, 50),
+          url: locationIcon,
+          scaledSize: new window.google.maps.Size(40, 40),
         },
       });
 
-      const infoWindow = new window.google.maps.InfoWindow({
-        content: `
-        `,
-      });
-
+      // Open Google Maps on marker click
       marker.addListener("click", () => {
-        infoWindow.open(googleMap, marker);
+        window.open(
+          `https://www.google.com/maps?q=${propertyData.lat},${propertyData.lon}`,
+          "_blank"
+        );
       });
     }
   }, [googleLoaded]);
 
   return (
-    <div className="items-center justify-center w-full h-full rounded-lg">
+    <div className="w-full h-full rounded-lg">
       <div
+        className="h-full"
         ref={googleMapRef}
         style={{
           width: "100%",
-          height: "100%",
           borderRadius: "8px",
         }}
       />
+      <div className=" hidden">
+        <Currentlocation />
+      </div>
     </div>
   );
 };

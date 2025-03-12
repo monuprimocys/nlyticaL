@@ -5,14 +5,30 @@ import handsake from "../../../../../../public/assets/Image/computer-1.png";
 import Image from "next/image";
 import arrow from "../../../../../../public/assets/Image/arrow-left.png";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/app/store/Slice/modalSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
+import { useEffect, useState } from "react";
 
 function BusinessImages() {
   const dispatch = useDispatch();
-  const storesliceImage = useAppSelector(
-    (state) => state.service.service_images
-  );
+  const [serviceImageLength, setServiceImageLength] = useState(() => {
+    return localStorage.getItem("service_image_length") || 0;
+  });
+
+  useEffect(() => {
+    // Function to check and update state from localStorage
+    const checkLocalStorage = () => {
+      const newValue = localStorage.getItem("service_image_length") || 0;
+      setServiceImageLength(newValue);
+    };
+
+    // Set interval to check localStorage every 2 seconds
+    const interval = setInterval(checkLocalStorage, 2000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
+
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   return (
@@ -39,7 +55,7 @@ function BusinessImages() {
 
       <div className="flex gap-3 items-center">
         <p className="text-[#848484] font-normal font-poppins text-[18px]">
-          {storesliceImage?.length}
+          {serviceImageLength}
         </p>
 
         <div className="h-[2rem] w-[2rem] flex justify-center items-center">

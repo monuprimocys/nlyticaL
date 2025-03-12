@@ -4,11 +4,12 @@ import { FiPlus } from "react-icons/fi";
 import Image from "next/image";
 import "react-phone-input-2/lib/high-res.css";
 import PhoneInput from "react-phone-input-2";
-import { useUpdateProfileMutation } from "@/app/store/api/auth/ProfileUpdate";
+import { useUpdateProfileMutation } from "@/app/storeApp/api/auth/ProfileUpdate";
 import Cookies from "js-cookie";
 import "./style.css";
-import { toast } from "react-hot-toast";
+import { ToastContainer, toast } from "react-toastify";
 import HeadingText from "./HeadingText";
+import imagesponcer from "../../../../public/assets/Image/image 2499.png";
 
 import phoneverifyicon from "../../../../public/assets/Image/phoneverifyicon.png";
 import { useRouter } from "next/navigation";
@@ -39,6 +40,8 @@ const ProfileForm: React.FC = () => {
   Cookies.set("service_id", data?.service_id);
   Cookies.set("store_approval", data?.store_approval);
   Cookies.set("is_store", data?.is_store);
+  Cookies.set("sponcer_id", data?.campaign);
+  Cookies.set("subscriber_user", data?.subscriber_user);
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -50,7 +53,7 @@ const ProfileForm: React.FC = () => {
 
   // dispatch(updateUserDetails(data));
 
-  console.log("phone number121212", imageFile);
+  console.log("phone number121212!!!!!!", imageFile);
 
   useEffect(() => {
     if (user_id) {
@@ -154,10 +157,12 @@ const ProfileForm: React.FC = () => {
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
+  const sponcer_id = Cookies.get("subscriber_user");
+
   return (
     <div className="flex h-auto w-full flex-col gap-6 py-[2rem]">
       {/* heading */}
-      <HeadingText text="Profile" text1="" />
+      <HeadingText text="Profile " text1="" />
 
       {/* form */}
       <div className="h-auto w-full">
@@ -166,10 +171,12 @@ const ProfileForm: React.FC = () => {
           className="flex h-auto w-full flex-col items-center justify-center"
         >
           {/* profile Image */}
-          <div className="relative">
+          <div className="relative    right-[-1rem]">
             {/* Profile image section */}
             <div
-              className="profileimageborderocolor h-[8rem] w-[8rem] cursor-pointer rounded-full" // Added cursor-pointer for click effect
+              className={`profileimageborderocolor h-[8rem] w-[8rem] cursor-pointer rounded-full ${
+                sponcer_id === "1" ? " ml-1" : ""
+              }`} // Added cursor-pointer for click effect
               onClick={() => document.getElementById("image").click()} // Trigger input on click
             >
               <Image
@@ -182,15 +189,20 @@ const ProfileForm: React.FC = () => {
             </div>
 
             <div
-              className="absolute right-0 top-[5rem] h-10 w-10 cursor-pointer rounded-full bg-white p-[3px]"
+              className="absolute right-0 top-[5rem] h-10 w-10 cursor-pointer rounded-full  p-[3px]"
               onClick={() => document.getElementById("image").click()}
             >
-              <div className="flex h-full w-full items-center justify-center rounded-full bg-[#0046AE]">
+              {/*  if  sponce id 1 then bg black  */}
+              <div
+                className={`flex h-full w-full items-center justify-center border-white border-2 rounded-full bg-[#0046AE]   ${
+                  sponcer_id === "1" ? "   absolute  left-[-4rem] " : ""
+                } `}
+              >
                 <FiPlus className="font-poppins text-xl text-white" />
               </div>
             </div>
 
-            <div className="mt-2 cursor-pointer">
+            {/* <div className="mt-2 cursor-pointer">
               <label
                 htmlFor="image"
                 className={`font-poppins text-lg font-medium      ${
@@ -199,7 +211,7 @@ const ProfileForm: React.FC = () => {
               >
                 Change Profile
               </label>
-            </div>
+            </div> */}
 
             {/* File input */}
             <input
@@ -210,18 +222,34 @@ const ProfileForm: React.FC = () => {
               onChange={handleImageChange} // Handle file change
             />
 
-            <div
-              className={`font-poppins mt-3 flex w-full cursor-pointer items-center justify-center rounded-lg bg-[#0046AE17] py-2 text-sm font-medium   ${
-                isDarkMode ? "text-white" : "text-[#0046AE]"
-              }`}
-              onClick={() => {
-                router.push("/Subscribe");
-              }}
-            >
-              {data?.subscriptionDetails.plan_name
-                ? data.subscriptionDetails.plan_name
-                : "No plan"}
-            </div>
+            {sponcer_id === "1" ? (
+              <div className=" w-full p-2  left-[-1.5rem]   relative md:left-[-1rem] cursor-pointer flex flex-col   rounded-lg mt-3 bg-[#0046AE17]">
+                <div className=" w-full  justify-center  items-center flex gap-2">
+                  <Image
+                    src={imagesponcer}
+                    alt="imagesponcer"
+                    className=" w-6 h-6"
+                  />
+                  <h6 className="  font-poppins  font-medium text-[#0046AE] text-[16px]">
+                    {data?.subscriptionDetails.plan_name}
+                  </h6>
+                </div>
+                <p className=" font-poppins  text-[16px]   text-[#626262] ">
+                  Expires on {data?.subscriptionDetails.expire_date}
+                </p>
+              </div>
+            ) : (
+              <div
+                className={`font-poppins mt-3 flex w-full cursor-pointer items-center justify-center rounded-lg bg-[#0046AE17] py-2 text-sm font-medium   ${
+                  isDarkMode ? "text-white" : "text-[#0046AE]"
+                }`}
+                onClick={() => {
+                  router.push("/Subscribe");
+                }}
+              >
+                Subscription Plan
+              </div>
+            )}
           </div>
 
           <div className="mx-auto flex h-auto w-[90%] flex-col gap-6 xl:w-[80%]">
@@ -389,6 +417,7 @@ const ProfileForm: React.FC = () => {
           </div>
         </form>
       </div>
+      <ToastContainer position="top-right" autoClose={5000} />
     </div>
   );
 };

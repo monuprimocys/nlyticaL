@@ -6,19 +6,12 @@ import AddFacebookprofilelink from "./AddFacebookprofilelink";
 import AddInstagramInput from "./AddInstagramInput";
 import AddTwitterlink from "./AddTwitterlink";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { updateAddPostData } from "@/app/store/Slice/AddPostSlice";
-import { toast } from "react-hot-toast";
+import { updateAddPostData } from "@/app/storeApp/Slice/AddPostSlice";
+import {  toast } from "react-toastify";
 
 function FollowUs() {
   const dispatch = useAppDispatch();
   const addPostData = useAppSelector((state) => state.AddPost);
-
-  const postData = {
-    service_email: addPostData.service_email,
-    service_phone: addPostData.service_phone,
-  };
-
-  console.log("my post data loaded", postData);
 
   // Validation function
   const validateFields = () => {
@@ -104,7 +97,7 @@ function FollowUs() {
             onClick={handleNextStep}
             className="font-poppins rounded-xl bg-[#0046AE] px-12 py-3 font-medium text-white"
           >
-            Next Step
+            Next Step 
           </button>
         </div>
       </div>

@@ -6,7 +6,7 @@ import bgimage from "../../../../public/assets/Image/CategoryHeaderbg.png";
 import Arrowicon from "../../../../public/assets/Image/currentrouteArrow.png";
 import Image from "next/image";
 import { useAppSelector } from "@/app/hooks/hooks";
-import { setActiveComponent } from "@/app/store/Slice/activeComponentSlice";
+import { setActiveComponent } from "@/app/storeApp/Slice/activeComponentSlice";
 import { useDispatch } from "react-redux";
 
 function MyProfileBreadCome() {

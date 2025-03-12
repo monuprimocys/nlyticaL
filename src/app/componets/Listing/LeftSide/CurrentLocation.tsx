@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import {
   setCurrentLocation,
   setError,
-} from "@/app/store/Slice/AddpostSelectedIDandvalues/CurrentLocation";
+} from "@/app/storeApp/Slice/AddpostSelectedIDandvalues/CurrentLocation";
 import { useDispatch } from "react-redux";
 
 const CurrentLocation = () => {

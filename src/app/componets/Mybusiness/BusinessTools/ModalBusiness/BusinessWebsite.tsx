@@ -5,7 +5,7 @@ import handsake from "../../../../../../public/assets/Image/worldwide.png";
 import Image from "next/image";
 import arrow from "../../../../../../public/assets/Image/arrow-left.png";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/app/store/Slice/modalSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 function BusinessWebsite() {
@@ -17,11 +17,11 @@ function BusinessWebsite() {
 
   return (
     <div
-    className={`w-full justify-between px-4 md:px-8 py-4 rounded-lg items-center flex  cursor-pointer  ${
-      isDarkMode
-        ? "bg-[#212121] text-[#ffffff]"
-        : "bg-[#ffffff]  businesslable text-black"
-    }  `}
+      className={`w-full justify-between px-4 md:px-8 py-4  overflow-hidden rounded-lg items-center flex  cursor-pointer  ${
+        isDarkMode
+          ? "bg-[#212121] text-[#ffffff]"
+          : "bg-[#ffffff]  businesslable text-black"
+      }  `}
       onClick={() => {
         dispatch(showModal("BusinessWebsiteModal"));
       }}
@@ -38,7 +38,7 @@ function BusinessWebsite() {
       </div>
 
       <div className="flex gap-3 items-center">
-        <p className="text-[#848484] font-normal font-poppins text-[18px]">
+        <p className="text-[#848484] font-normal font-poppins text-[18px] line-clamp-1">
           {storevalues.service.service_website}
         </p>
 
@@ -47,7 +47,7 @@ function BusinessWebsite() {
             src={arrow}
             alt="arrow"
             className={`w-full h-full object-cover  ${
-              isDarkMode? "invert" : ""
+              isDarkMode ? "invert" : ""
             }`}
           />
         </div>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import React from "react";
 import shopicon from "../../../public/assets/Image/shop.png";
 import location from "../../../public/assets/Image/locationstepform.png";
+import clock  from  "../../../public/assets/Image/clock.png"
 import { useAppSelector } from "../hooks/hooks";
 import "./style.css";
 
@@ -34,10 +35,9 @@ function AddStepCurrent() {
 
   // Function to determine the background color of the line based on the current step
   const getLineClass = (step: number) => {
-    return (AddPostDataStep ?? 0) === step ? "linearcolor" : "bg-[#0046AE]";
+    return (AddPostDataStep ?? 0) === step ? "linearcolor12" : "bg-[#0046AE]";
   };
 
-  console.log("my current step", AddPostDataStep);
 
   return (
     <>
@@ -71,7 +71,7 @@ function AddStepCurrent() {
           )}`}
         >
           <Image
-            src={shopicon}
+            src={clock}
             className="h-6 w-6 rounded-full"
             alt="step icon"
           />

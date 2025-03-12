@@ -45,7 +45,7 @@ function MybusinessSponsor() {
           <h2
             className="text-white text-lg font-normal font-poppins"
             onClick={() => {
-              router.push("/Mybusiness");
+              router.push("/bussines");
             }}
           >
             My business
@@ -68,7 +68,7 @@ function MybusinessSponsor() {
 
         {/* Right Section */}
         <div className="cursor-pointer">
-          <h2 className="text-white text-lg font-normal font-poppins">
+          <h2 className="text-white text-lg   hidden md:block font-normal font-poppins">
             Sponsor
           </h2>
         </div>

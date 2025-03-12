@@ -8,7 +8,7 @@ import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import dayjs from "dayjs";
 import { useAppSelector } from "@/app/hooks/hooks";
 import { useDispatch } from "react-redux";
-import { updateServiceField } from "@/app/store/Slice/serviceSlice";
+import { updateServiceField } from "@/app/storeApp/Slice/serviceSlice";
 
 const TimeModalFormValues: React.FC = () => {
   // Get the data from the Redux store
@@ -185,7 +185,7 @@ const TimeModalFormValues: React.FC = () => {
                   sx={{
                     width: "100%",
                   }}
-                  views={["hours"]}
+                 
                 />
               </DemoContainer>
             </LocalizationProvider>
@@ -204,7 +204,7 @@ const TimeModalFormValues: React.FC = () => {
                   value={endTime ? dayjs(endTime, "hh:mm A") : null}
                   onChange={handleEndTimeChange} // Handle end time change
                   sx={{ width: "100%" }}
-                  views={["hours"]}
+                 
                 />
               </DemoContainer>
             </LocalizationProvider>

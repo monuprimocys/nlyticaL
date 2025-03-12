@@ -7,13 +7,15 @@ import { IoIosStarHalf } from "react-icons/io";
 import { GoHeart, GoHeartFill } from "react-icons/go";
 import Image from "next/image";
 import { useAppSelector } from "@/app/hooks/hooks";
-import { useServicelikeMutation } from "@/app/store/api/servicelike";
+import { useServicelikeMutation } from "@/app/storeApp/api/servicelike";
 import { useState } from "react";
 import Cookies from "js-cookie";
-import { useFavouriteProperties } from "@/app/store/api/LikeService";
-import toast from "react-hot-toast";
+import { useFavouriteProperties } from "@/app/storeApp/api/LikeService";
+import { ToastContainer, toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { setLikeStatus } from "@/app/store/Slice/category/likeStatusSlice";
+import { setLikeStatus } from "@/app/storeApp/Slice/category/likeStatusSlice";
+import { useRouter } from "next/navigation";
+import { decodeString, encodeString } from "@/app/utils/enocodeAndDecode";
 
 const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
   const [isLiked, setIsLiked] = useState(favorite.isLike); // Track like state
@@ -24,8 +26,10 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
   const user_id = Cookies.get("user_id");
   const { data, error, isLoading, refetch } = useFavouriteProperties();
   const dispatch = useDispatch();
+  const handleLikeToggle = async (e) => {
+    e.preventDefault();
+    e.stopPropagation(); // Prevent event propagation before API call and state changes
 
-  const handleLikeToggle = async () => {
     try {
       // Call API to toggle like status
       await serviceLike({ user_id, service_id: favorite.id });
@@ -46,7 +50,7 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
       if (newLikeStatus) {
         toast.success("You liked this item!");
       } else {
-        toast.success("You disliked this item!");
+        toast.error("You disliked this item!");
       }
 
       // Refetch data to update any necessary state
@@ -56,8 +60,38 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
       toast.error("Error while updating like status.");
     }
   };
+
+  const router = useRouter();
+
+  const handleCardClick = (serviceId, serviceName, e) => {
+    e.preventDefault(); // Prevent default behavior
+    e.stopPropagation(); // Stop event propagation to avoid triggering other click handlers
+    if (!serviceId || !serviceName) {
+      console.error("Invalid serviceId or serviceName");
+      return;
+    }
+
+    const encodedServiceId = encodeString(String(serviceId)); // Ensure serviceId is a string
+    const serviceSlug = serviceName.toLowerCase().replace(/\s+/g, "-"); // Convert name to URL slug
+
+    console.log("Encoded Service ID:", encodedServiceId);
+
+    // Navigate to the encoded route
+    router.push(`/stores/${serviceSlug}`);
+
+    serviceId = decodeString(encodedServiceId);
+
+    // Store in sessionStorage for later use
+    sessionStorage.setItem("serviceId", serviceId);
+  };
+
+  console.log(" image url ", favorite?.vendor_image);
+
   return (
-    <div className="relative mb-2 flex h-[26rem] w-full flex-col overflow-hidden rounded-xl shadow-md lg:h-[30rem]">
+    <div
+      className="relative mb-2 flex h-[26rem] w-full flex-col overflow-hidden rounded-xl shadow-md lg:h-[30rem] cursor-pointer"
+      onClick={(e) => handleCardClick(favorite.id, favorite.service_name, e)}
+    >
       {/* Image Section */}
       <div
         className="relative h-[45%] w-full rounded-t-xl sm:h-[45%] md:h-[50%]"
@@ -222,6 +256,7 @@ const Section5card: React.FC<{ favorite: any }> = ({ favorite }) => {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={5000} />
     </div>
   );
 };

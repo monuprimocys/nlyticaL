@@ -1,7 +1,7 @@
 "use client";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/app/hooks/hooks";
-import { updateAddPostData } from "@/app/store/Slice/AddPostSlice";
+import { updateAddPostData } from "@/app/storeApp/Slice/AddPostSlice";
 
 const AddInstagramInput: React.FC = () => {
   const dispatch = useDispatch();

@@ -1,7 +1,5 @@
-"use client";
-
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import crossicon from "../../../../../../public/assets/Image/crossicon.png";
@@ -9,78 +7,71 @@ import "../../businesscss.css";
 import infocircle from "../../../../../../public/assets/Image/info-circle.png";
 import { TextField } from "@mui/material";
 import Cookies from "js-cookie";
-import { useUpdateServiceMutation } from "@/app/store/api/updateServiceApi";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
 import { useEffect, useState } from "react";
 import "react-phone-input-2/lib/high-res.css";
-import PhoneInput from "react-phone-input-2";
-import { updateServiceField } from "@/app/store/Slice/serviceSlice";
+import { updateServiceField } from "@/app/storeApp/Slice/serviceSlice";
 import { useDispatch } from "react-redux";
+import PhoneNumberBusiness from "./PhoneNumberBusiness";
+import { useUpdateService } from "@/app/storeApp/api/useUpdateService";
 
 function ContactDetailsModal() {
   const modalOpen = useAppSelector((state) => state.modals.ContactDetailsModal);
   const vendor_id = Cookies.get("user_id");
   const service_id = Cookies.get("service_id");
   const dispatch = useDispatch();
+  const servicedetail = useAppSelector((state) => state.service.service);
 
-  const [updateService, { data, isLoading, error }] =
-    useUpdateServiceMutation();
+  const [updateService, { isLoading, error }] = useUpdateServiceMutation();
+
+  console.log(
+    " my phone number and country code ~~~~ ",
+    servicedetail.service_phone,
+    servicedetail.service_country_code
+  );
 
   // Initialize form data
   const [formData, setFormData] = useState({
-    service_phone: data?.service?.service_phone || "",
-    country_code: data?.service?.service_country_code || "",
-    email: data?.service?.service_email || "",
+    service_phone: servicedetail.service_phone,
+    service_country_code: servicedetail.service_country_code,
+    email: servicedetail.service_email,
   });
 
-  // Handle phone number change and log values
-  const handlePhoneChange = (value, data) => {
-    setFormData({
-      ...formData,
-      service_phone: value,
-      country_code: `+${data.dialCode}`,
-    });
-  };
-
   useEffect(() => {
-    if (vendor_id && service_id) {
-      const fetchData = async () => {
-        try {
-          const response = await updateService({
-            vendor_id,
-            service_id,
-          }).unwrap();
-          if (response?.status) {
-            setFormData({
-              service_phone: response?.service?.service_phone || "",
-              country_code: response?.service?.service_country_code || "",
-              email: response?.service?.service_email || "",
-            });
-          }
-        } catch (err) {
-          console.error("API Error:", err);
-        }
-      };
-      fetchData();
-    }
-  }, [vendor_id, service_id, updateService]);
+    setFormData({
+      service_phone: servicedetail.service_phone || "",
+      service_country_code: servicedetail.service_country_code || "",
+      email: servicedetail.service_email || "",
+    });
+  }, [servicedetail]);
 
   // Close modal logic
   const close = () => {
     dispatch(hideModal("ContactDetailsModal"));
   };
 
+  console.log(" my phone number and country code ~~~~ !!!!!!", formData);
+  const { refetch } = useUpdateService();
+
   // Handle form submission
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Prevent default form submission behavior if inside a form
+
+    if (!vendor_id || !service_id) {
+      console.error("Missing vendor_id or service_id");
+      return;
+    }
 
     // Prepare the data to update
     const payload = {
       vendor_id,
       service_id,
       service_phone: formData.service_phone,
-      country_code: formData.country_code,
+      service_country_code: formData.service_country_code,
       service_email: formData.email,
     };
+
+    console.log(" my   payload values ", payload);
 
     try {
       const response = await updateService(payload).unwrap();
@@ -90,9 +81,10 @@ function ContactDetailsModal() {
           updateServiceField({
             service_phone: formData.service_phone,
             service_email: formData.email,
-            service_country_code: formData.country_code,
+            service_country_code: formData.service_country_code,
           })
         );
+        refetch();
         dispatch(hideModal("ContactDetailsModal"));
       } else {
         console.error("Failed to update service:", response?.message);
@@ -153,32 +145,9 @@ function ContactDetailsModal() {
             </div>
 
             <div className="mx-auto w-[80%] flex justify-center items-center h-auto">
-              <form
-                className="w-full grid grid-cols-1 gap-4"
-                onSubmit={handleSubmit}
-              >
-                <div>
-                  <label
-                    className="font-poppins text-sm font-medium"
-                    htmlFor="mobile"
-                  >
-                    Mobile Number
-                    <span className="text-[#F21818] pl-[1px]">*</span>
-                  </label>
-                  <div className="relative mt-2 w-full">
-                    <PhoneInput
-                      placeholder="Enter phone number"
-                      value={formData.service_phone}
-                      onChange={handlePhoneChange}
-                      country={formData.country_code || "us"}
-                      enableSearch
-                      inputStyle={{
-                        fontFamily: "Poppins",
-                        color: isDarkMode ? "#ffffff" : "#000000",
-                        backgroundColor: isDarkMode ? "#373737" : "#FFFFFF",
-                      }}
-                    />
-                  </div>
+              <div className="w-full grid grid-cols-1 gap-4">
+                <div className="relative mt-2 w-full">
+                  <PhoneNumberBusiness />
                 </div>
                 <div className="mb-4 w-full">
                   <label className="text-sm font-medium " htmlFor="email">
@@ -207,14 +176,14 @@ function ContactDetailsModal() {
 
                 <div className="w-full justify-center items-center flex">
                   <button
-                    type="submit"
                     className="w-fit px-[5rem] py-3 bg-[#0046AE] rounded-lg font-poppins text-white"
+                    onClick={handleSubmit} // Trigger handleSubmit when button is clicked
                     disabled={isLoading} // Disable button while loading
                   >
                     {isLoading ? "Saving..." : "Save "}
                   </button>
                 </div>
-              </form>
+              </div>
             </div>
           </DialogPanel>
         </div>

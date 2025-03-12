@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./style.css";
 import { IoMdStar } from "react-icons/io";
-import { useAppSelector } from "@/app/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import { useGetReview } from "@/app/storeApp/api/useGetReview";
 
-function MyreviewCard({ review }) {
+function MyreviewCard({ review, onClick }) {
   // Function to render stars based on the rating
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
@@ -19,10 +21,18 @@ function MyreviewCard({ review }) {
     return filledStars;
   };
 
+  const dispatch = useAppDispatch();
+  const { refetch } = useGetReview();
+
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
   return (
     <div
       className="cardborder flex w-full cursor-pointer flex-col gap-3 rounded-lg p-3   bg-[#FFFFFF12]
 "
+      onClick={onClick}
     >
       {/* heading with star */}
       <div className="flex w-full flex-row items-center justify-between">
@@ -63,7 +73,12 @@ function MyreviewCard({ review }) {
       {/* btn delete and edit */}
       <div className="mx-auto flex w-[80%] items-center justify-between gap-6">
         {/* delete btn */}
-        <button className="font-poppins w-full rounded-md bg-[#0046AE] py-2 text-white">
+        <button
+          className="font-poppins w-full rounded-md bg-[#0046AE] py-2 text-white "
+          onClick={() => {
+            dispatch(showModal("DeleteReviewModal"));
+          }}
+        >
           Delete
         </button>
         {/* edit btn */}
@@ -71,6 +86,9 @@ function MyreviewCard({ review }) {
           className={`btnbordercolor font-poppins w-full rounded-md py-2  ${
             isDarkMode ? "text-white" : "text-[#0046AE]"
           } `}
+          onClick={() => {
+            dispatch(showModal("EditReviewModal"));
+          }}
         >
           Edit
         </button>

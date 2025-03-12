@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import crossicon from "../../../../../../../public/assets/Image/add-circle.png";
 import uploadicon from "../../../../../../../public/assets/Image/uploadicon.png";
 import { useDispatch } from "react-redux";
-import { updateServiceImages } from "@/app/store/Slice/AddPostSlice";
+import { updateServiceImages } from "@/app/storeApp/Slice/AddPostSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 function UpdateStoreImage() {

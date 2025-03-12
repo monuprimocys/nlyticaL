@@ -11,7 +11,7 @@ import cross from "../../../public/assets/Image/cross.png";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { showModal } from "../store/Slice/modalSlice";
+import { showModal } from "../storeApp/Slice/modalSlice";
 import { useAppSelector } from "../hooks/hooks";
 import LoginModal from "../(Auth)/loginaccount/page";
 import AddPostModal from "../AddPost/page";
@@ -29,11 +29,25 @@ import AppFeedbackModal from "../componets/modal/AppFeedbackModal";
 import AppLanguageModal from "../componets/modal/AppLanguageModal";
 import ShareAppModal from "../componets/modal/ShareAppModal";
 import LogoutModal from "../componets/modal/LogoutModal";
-import CompleteAddressModal from "../AddPost/BusinessDetail/BusinessDetailForm/CompleteAddressModal";
 import ServiceDetailScreenModalImage from "../componets/ServiceDetailScreen/ServiceDetalScreenleftside/LeftSideDetailCompomponets/ServiceDetailScreenModalImage";
 import ServiceDetailScreenFiltterModal from "../componets/ServiceDetailScreen/ServiceDetalScreenleftside/LeftSideDetailCompomponets/ServiceDetailScreenFiltterModal";
 import ServiceDetailScreenRatingModal from "../componets/ServiceDetailScreen/ServiceDetalScreenleftside/LeftSideDetailCompomponets/ServiceDetailScreenRatingModal";
 import ServiceDetailScreenImageSubModal from "../componets/ServiceDetailScreen/ServiceDetalScreenleftside/LeftSideDetailCompomponets/ServiceDetailScreenImageSubModal";
+import VisitedModal from "../componets/modal/VisitedModal";
+import SelectLocationVisite from "../componets/modal/SelectLocationVisite";
+import RegisterWithMobailNumberOtpVerify from "../(Auth)/RegisterWithMobailNumberOtpVerify/RegisterWithMobailNumberOtpVerify";
+import { selectAnyModalOpen } from "@/app/storeApp/Slice/modalSlice";
+import { useRouter } from "next/navigation";
+import MessageSendModal from "../componets/message/MessageBox/MessageSendModal";
+import VendorInfoModal from "../componets/message/MessageBox/VendorInfoModal";
+import Messagebtn from "../componets/message/messagebtn";
+import CampaignModal from "../componets/Mybusiness/SponsorComponets/RightsideSponser/CampaignModal";
+import Paymentsuccessful from "../componets/Mybusiness/PaymentComponets/Paymentsuccessful";
+import StoresDetailModal from "../componets/ServiceDetailScreen/ServiceDetalScreenleftside/LeftSideDetailCompomponets/StoresDetailModal";
+import ServiceDetailScreenFiltterModalDetail from "../componets/ServiceDetailScreen/ServiceDetalScreenleftside/LeftSideDetailCompomponets/ServiceDetailScreenFiltterModalDetail";
+import EditReviewModal from "../componets/Profile/Myreview/EditReviewModal";
+import DeleteReviewModal from "../componets/Profile/Myreview/DeleteReviewModal";
+import SponcerModalAfterAdd from "../componets/Mybusiness/SponsorComponets/RightsideSponser/SponcerModalAfterAdd";
 import BusinessNameModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/BusinessNameModal";
 import ContactDetailsModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/ContactDetailsModal";
 import BusinessAddressToolsModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/BusinessAddressToolsModal";
@@ -46,19 +60,14 @@ import BusinessWebsiteModal from "../componets/Mybusiness/BusinessTools/ModalBus
 import FollowSocialMediaModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/FollowSocialMediaModal";
 import AddStoreModal from "../componets/Mybusiness/BusinessService/Service/AddStore/AddStoreModal";
 import UpdateAddStoreModal from "../componets/Mybusiness/BusinessService/Service/UpdateStore/UpdateAddStoreModal";
-import { selectAnyModalOpen } from "@/app/store/Slice/modalSlice";
 import DeleteStoreModal from "../componets/Mybusiness/BusinessService/Service/UpdateStore/DeleteStoreModal";
-import VisitedModal from "../componets/modal/VisitedModal";
-import SelectLocationVisite from "../componets/modal/SelectLocationVisite";
-import RegisterWithMobailNumberOtpVerify from "../(Auth)/RegisterWithMobailNumberOtpVerify/RegisterWithMobailNumberOtpVerify";
 import BusinessVideoModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/BusinessVideoModal";
 import BusinessPorfileUpdateModal from "../componets/Mybusiness/BusinessQuickLinks/BusinessPorfileUpdateModal";
 import BusinessRebiewListModal from "../componets/Mybusiness/BusinessQuickLinks/BusinessRebiewListModal";
 import CompleteBusinessModal from "../componets/Mybusiness/BusinessTools/ModalBusiness/CompleteBusinessModal";
-import MessageSendModal from "../componets/message/MessageBox/MessageSendModal";
-import VendorInfoModal from "../componets/message/MessageBox/VendorInfoModal";
-import Messagebtn from "../componets/message/messagebtn";
-import { useRouter } from "next/navigation";
+import CompleteAddressModal from "../AddPost/BusinessDetail/BusinessDetailForm/CompleteAddressModal";
+import ImageModalMessage from "../componets/message/MessageBox/ImageModalMessage";
+import ImageModalRightSide from "../componets/message/MessageBox/ImageModalRightSide";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -67,9 +76,35 @@ function Header() {
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [isSticky, setIsSticky] = useState(false);
   const user_id = Cookies.get("loginuser");
+  const login_type = Cookies.get("login_token");
   const router = useRouter();
-  const isServiceFormSubmit = Cookies.get("is_store");
   const myuser_id = Cookies.get("user_id");
+
+  const subscriber_user = Cookies.get("subscriber_user");
+
+  const [isServiceFormSubmit, setPlaneName] = useState(null);
+
+  // Fetch the cookie value on component mount
+  useEffect(() => {
+    const currentPlaneName = Cookies.get("plane_name") || null;
+    setPlaneName(currentPlaneName);
+    console.log("Initial plane_name:", currentPlaneName);
+  }, []);
+
+  // Listen for updates to the cookie value
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const updatedPlaneName = Cookies.get("is_store") || null;
+      if (updatedPlaneName !== isServiceFormSubmit) {
+        setPlaneName(updatedPlaneName);
+        console.log("Updated plane_name:", updatedPlaneName);
+      }
+    }, 100); // Check every second
+
+    return () => clearInterval(interval);
+  }, [isServiceFormSubmit]);
+
+  console.log(" my scunrrice id ", subscriber_user);
 
   // MODAL OPEN CLOSE CURRENT
 
@@ -239,6 +274,42 @@ function Header() {
     (state) => state.modals.VendorInfoModal
   );
 
+  const isCampaignModalVisible = useAppSelector(
+    (state) => state.modals.CampaignModal
+  );
+
+  const isPaymentsuccessfulVisile = useAppSelector(
+    (state) => state.modals.Paymentsuccessful
+  );
+
+  const isStoresDetailModalVisibility = useAppSelector(
+    (state) => state.modals.StoresDetailModal
+  );
+
+  const isServiceDetailScreenFiltterModalDetailVisibility = useAppSelector(
+    (state) => state.modals.ServiceDetailScreenFiltterModalDetail
+  );
+
+  const isDeleteReviewModalVisibility = useAppSelector(
+    (state) => state.modals.DeleteReviewModal
+  );
+
+  const isEditReviewModalVisibility = useAppSelector(
+    (state) => state.modals.EditReviewModal
+  );
+
+  const isSponcerModalAfterAddVisibility = useAppSelector(
+    (state) => state.modals.SponcerModalAfterAdd
+  );
+
+  const isImageModalMessageVisibility = useAppSelector(
+    (state) => state.modals.ImageModalMessage
+  );
+
+  const isImageModalRightSideVisibility = useAppSelector(
+    (state) => state.modals.ImageModalRightSide
+  );
+
   const handleMenuToggle = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -303,6 +374,10 @@ function Header() {
   const handalmessage = () => {
     router.push("/message");
   };
+
+  // const handalCheakStore = () => {
+  //   router.push("/sub");
+  // };
 
   return (
     <header
@@ -432,13 +507,13 @@ function Header() {
               </li>
               <li className="group relative cursor-pointer p-2 sm:p-3">
                 <Link
-                  href="/listing"
+                  href="/store"
                   passHref
                   className={`font-poppins relative z-10 font-normal   ${
                     isDarkMode ? "text-[#FFFFFFCC]" : "text-black"
                   } `}
                 >
-                  Listing
+                  Stores
                 </Link>
                 <div className="absolute bottom-1 left-0 right-0">
                   <div className="h-[2px] scale-x-0 rounded-full bg-white transition-all duration-300 group-hover:scale-x-100"></div>
@@ -490,11 +565,11 @@ function Header() {
             </ul>
           </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between  gap-2   ">
             {/* Profile btn (Right side) */}
             <div className="flex items-center justify-end gap-2 md:pr-3 xl:pr-0">
               {/* Dropdown for language */}
-              <div className="mx-auto flex w-fit max-w-sm items-end justify-end">
+              <div className="mx-auto flex w-fit max-w-sm items-end justify-end   hidden md:block">
                 <div className="flex items-center justify-between">
                   {/* Language Icon Button */}
                   <button
@@ -549,7 +624,7 @@ function Header() {
                     {/* Dropdown menu */}
                     {isOpenlanguage && (
                       <div
-                        className={`absolute left-[-3rem] right-[12rem] top-12 z-50 flex w-[10rem] -translate-y-2 transform items-center justify-center rounded border  shadow transition-all duration-300 ease-out ${
+                        className={`absolute left-[-3rem]   right-[12rem] top-12 z-50   flex w-[10rem] -translate-y-2 transform items-center justify-center rounded border  shadow transition-all duration-300 ease-out ${
                           isOpenlanguage
                             ? "pointer-events-auto translate-y-0 opacity-100"
                             : "pointer-events-none"
@@ -611,22 +686,6 @@ function Header() {
 
               {/* Buttons for 'Post Your Ad' and 'Sign In' */}
               <div className="flex items-center justify-center gap-6">
-                {isServiceFormSubmit !== "1" && (
-                  <div className="flex hidden cursor-pointer items-center justify-center rounded-lg border-2 border-[#0046AE] px-6 py-2 hover:bg-slate-200 md:block">
-                    <button
-                      className="font-poppins font-[500] text-[#0046AE]"
-                      onClick={() => {
-                        if (user_id) {
-                          dispatch(showModal("AddPostModal"));
-                        } else {
-                          dispatch(showModal("loginModal"));
-                        }
-                      }}
-                    >
-                      Add Store
-                    </button>
-                  </div>
-                )}
                 {/*  if user id not exit then show login modal  */}
                 <div
                   onClick={() => {
@@ -639,15 +698,31 @@ function Header() {
                 >
                   <Messagebtn />
                 </div>
+                {isServiceFormSubmit !== "1" && (
+                  <div
+                    className="flex hidden cursor-pointer items-center justify-center rounded-lg border-2 border-[#0046AE] px-6 py-2 hover:bg-slate-200 md:block"
+                    onClick={() => {
+                      if (user_id && subscriber_user === "1") {
+                        dispatch(showModal("AddPostModal"));
+                      } else {
+                        router.push("/Subscribe");
+                      }
+                    }}
+                  >
+                    <button className="font-poppins font-[500] text-[#0046AE]">
+                      Add Store
+                    </button>
+                  </div>
+                )}
 
                 {/* Conditional rendering based on user_id */}
-                {user_id ? (
+                {user_id || login_type ? (
                   <RightSideAfterLogin /> // This will be shown if user_id exists
                 ) : (
                   <div
                     className="flex hidden cursor-pointer items-center justify-center rounded-lg border-2 border-[#0046AE] px-6 py-2 hover:bg-slate-200 xl:block"
                     onClick={() => {
-                      if (!user_id) {
+                      if (!user_id || !login_type) {
                         dispatch(showModal("loginModal"));
                       }
                     }}
@@ -713,7 +788,7 @@ function Header() {
                 <hr />
 
                 <li className="py-4 font-normal">
-                  <Link href="/listing">Listing</Link>
+                  <Link href="/store">Stores</Link>
                 </li>
                 <hr />
 
@@ -907,7 +982,7 @@ function Header() {
       {isDeleteStoreModalVisibile && <DeleteStoreModal />}
       {isVisitedModalVisibile && <VisitedModal />}
 
-      {isSelectLocationVisiteVisibile && <SelectLocationVisite />}
+      {/* {isSelectLocationVisiteVisibile && <SelectLocationVisite/>} */}
       {isRegisterWithMobailNumberOtpVerifyVisibile && (
         <RegisterWithMobailNumberOtpVerify />
       )}
@@ -917,6 +992,18 @@ function Header() {
       {isCompleteBusinessModalVisible && <CompleteBusinessModal />}
       {isMessageSendModalVisible && <MessageSendModal />}
       {isVendorInfoModalVisible && <VendorInfoModal />}
+      {isCampaignModalVisible && <CampaignModal />}
+      {isPaymentsuccessfulVisile && <Paymentsuccessful />}
+      {isStoresDetailModalVisibility && <StoresDetailModal />}
+      {isServiceDetailScreenFiltterModalDetailVisibility && (
+        <ServiceDetailScreenFiltterModalDetail />
+      )}
+
+      {isEditReviewModalVisibility && <EditReviewModal />}
+      {isDeleteReviewModalVisibility && <DeleteReviewModal />}
+      {isSponcerModalAfterAddVisibility && <SponcerModalAfterAdd />}
+      {isImageModalMessageVisibility && <ImageModalMessage />}
+      {isImageModalRightSideVisibility && <ImageModalRightSide />}
     </header>
   );
 }

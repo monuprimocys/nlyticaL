@@ -3,11 +3,11 @@
 import { useAppSelector } from "@/app/hooks/hooks";
 import React, { useState, useRef, useEffect, useCallback } from "react";
 
-import { useResendotpandForgetpwdMutation } from "@/app/store/api/auth/ResendotpandForgetpwd";
-import { toast } from "react-hot-toast";
-import { useForgotPasswordVerifyOtpMutation } from "@/app/store/api/auth/Forgetpasswordotp-verify";
+import { useResendotpandForgetpwdMutation } from "@/app/storeApp/api/auth/ResendotpandForgetpwd";
+import { toast } from "react-toastify";
+import { useForgotPasswordVerifyOtpMutation } from "@/app/storeApp/api/auth/Forgetpasswordotp-verify";
 import { useDispatch } from "react-redux";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 function ForgotPasswordVerifyOtpForm() {
   const [otp, setOtp] = useState(Array(4).fill("")); // Stores OTP as an array of strings
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);

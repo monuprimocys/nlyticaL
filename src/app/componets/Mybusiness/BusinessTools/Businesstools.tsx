@@ -1,16 +1,45 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import "../businesscss.css";
 import tollsimage from "../../../../../public/assets/Image/businesstools.png";
 import Image from "next/image";
 import Arrowleftside from "../../../../../public/assets/Image/arrow-left.png";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "@/app/hooks/hooks";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
+import Cookies from "js-cookie";
 
 function Businesstools() {
   const router = useRouter();
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+  const vendor_id = Cookies.get("user_id");
+
+  const service_id = Cookies.get("service_id");
+
+  const [updateService, { data: updateservicedata, isLoading, error }] =
+    useUpdateServiceMutation();
+
+  useEffect(() => {
+    if (vendor_id && service_id) {
+      // Trigger the mutation if vendor_id and service_id are present
+      updateService({ vendor_id, service_id });
+    }
+  }, [vendor_id, service_id, updateService]);
+
+  const service_name = updateservicedata?.service.service_name;
+
+  const handleCardClick = () => {
+    if (!service_name) {
+      console.error("Invalid serviceId or serviceName");
+      return;
+    }
+
+    const serviceSlug = service_name.toLowerCase().replace(/\s+/g, "-"); // Convert name to URL slug
+
+    // Navigate to the encoded route
+    router.push(`/bussines/bussinestools/${serviceSlug}`);
+  };
 
   return (
     <div
@@ -19,7 +48,7 @@ function Businesstools() {
           ? "bg-[#212121] text-[#ffffff]"
           : "bg-[#ffffff] businesslable text-[#212121]"
       } `}
-      onClick={() => router.push("/Mybusiness/BusinessTools")}
+      onClick={handleCardClick}
     >
       {/* Left Side */}
       <div className="flex justify-start items-center gap-6">
@@ -30,7 +59,7 @@ function Businesstools() {
           alt="Tolls"
         />
         <div className=" w-full flex-col flex gap-2">
-          <h3 className="text-lg font-medium font-poppins">Business Tools</h3>
+          <h3 className="text-lg font-medium font-poppins">Business Tools </h3>
           <p className="text-[#848484] font-poppins font-normal">
             Manage Offers, Reviews and more
           </p>

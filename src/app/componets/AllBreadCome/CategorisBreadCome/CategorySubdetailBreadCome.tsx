@@ -41,12 +41,12 @@ function CategorySubdetailBreadCome() {
             />
           </div>
           <h2
-            className="text-white text-lg font-normal font-poppins"
+            className="text-[#FFD428] text-lg font-normal font-poppins"
             onClick={() => {
               router.push("/category");
             }}
           >
-            Category
+            Category  
           </h2>
 
           <div className="flex items-center space-x-2">
@@ -64,7 +64,7 @@ function CategorySubdetailBreadCome() {
         </div>
 
         {/* Right Section */}
-        <div className="cursor-pointer">
+        <div className="cursor-pointer hidden md:block">
           <h2 className="text-white text-lg font-normal font-poppins">
             Subcategory
           </h2>

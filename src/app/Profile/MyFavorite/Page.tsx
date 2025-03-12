@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image"; // Ensure you import Image correctly
 import video from "../../../../public/assets/lottie_search_anim/lottie_search_anim/Animation - 1736233762512.gif";
 import AvatarWithSpinner from "@/app/componets/Loading/AvatarWithSpinner";
-import { useFavouriteProperties } from "@/app/store/api/LikeService";
+import { useFavouriteProperties } from "@/app/storeApp/api/LikeService";
 import Cookies from "js-cookie";
 import { useAppSelector } from "@/app/hooks/hooks";
 
@@ -48,7 +48,7 @@ function MyFavorite() {
   }
 
   return (
-    <div className="h-auto w-full py-[2rem]">
+    <div className="h-full w-full py-[2rem]">
       {/* Heading */}
       <div className="w-full">
         <HeadingText text="My" text1="Favorite" />
@@ -61,8 +61,8 @@ function MyFavorite() {
             <MyFavoriteCard key={favorite.id} favorite={favorite} />
           ))}
         </div>
-      ) : (
-        <div className="flex h-auto min-h-screen w-full flex-col items-center justify-center text-center">
+      ) : ( 
+        <div className="flex   h-full w-full flex-col items-center justify-center text-center">
           <div className="flex h-[8rem] w-[8rem] items-center justify-center">
             <Image
               src={video}

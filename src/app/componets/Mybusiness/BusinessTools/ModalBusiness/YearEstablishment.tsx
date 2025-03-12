@@ -6,7 +6,7 @@ import handsake from "../../../../../../public/assets/Image/bar-chart.png";
 import Image from "next/image";
 import arrow from "../../../../../../public/assets/Image/arrow-left.png";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/app/store/Slice/modalSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 function YearEstablishment() {

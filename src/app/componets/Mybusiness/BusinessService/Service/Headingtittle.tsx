@@ -3,7 +3,7 @@
 import React from "react";
 import "../../businesscss.css";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/app/store/Slice/modalSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 function Headingtittle() {
   const dispatch = useDispatch();

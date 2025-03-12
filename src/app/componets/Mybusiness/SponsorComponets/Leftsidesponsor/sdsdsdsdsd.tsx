@@ -3,7 +3,7 @@ import "./Sponsorleftside.css";
 import { SlLocationPin } from "react-icons/sl";
 import DistanceRangeInputBox from "./DistanceRangeInputBox";
 import Cookies from "js-cookie";
-import { useUpdateServiceMutation } from "@/app/store/api/updateServiceApi";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 declare global {

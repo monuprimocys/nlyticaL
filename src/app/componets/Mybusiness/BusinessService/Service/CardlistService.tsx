@@ -2,16 +2,18 @@
 
 import React, { useEffect, useState } from "react";
 import CardDesignBusiness from "./CardDesignBusiness";
-import { useStoreListApi } from "@/app/store/api/usestorelist";
+import { useStoreListApi } from "@/app/storeApp/api/usestorelist";
 import Cookies from "js-cookie";
 import AvatarWithSpinner from "@/app/componets/Loading/AvatarWithSpinner";
 import { FcNext, FcPrevious } from "react-icons/fc";
 import { useAppSelector } from "@/app/hooks/hooks";
 import Image from "next/image";
 import video from "../../../../../../public/assets/lottie_search_anim/lottie_search_anim/Animation - 1736233762512.gif";
+import { useRouter } from "next/navigation";
 
 function CardlistService() {
   const service_id = Cookies.get("service_id");
+  const route = useRouter();
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
@@ -23,6 +25,8 @@ function CardlistService() {
 
   // Fetch store list via the custom API hook
   const { data, isLoading, refetch } = useStoreListApi(service_id);
+
+  console.log(" my store list ", data);
 
   // Use effect to trigger the API call only once after the page loads
   useEffect(() => {
@@ -91,8 +95,12 @@ function CardlistService() {
     setCurrentPage(page);
   };
 
+  console.log(" my service name from store list values ", data?.service_name);
+
+  const ServiceName=  data?.service_name
+
   return (
-    <div className=" w-full flex flex-col">
+    <div className=" w-full flex flex-col    ">
       <div className="w-full grid md:grid-cols-2 grid-cols-1 xl:grid-cols-3 gap-6 h-auto">
         {currentStores?.map((store) => {
           // Get the first image and avatar (assuming there's one image and avatar per store)
@@ -108,6 +116,7 @@ function CardlistService() {
               mainImage={mainImage}
               avatar={store.vendor_details.image}
               store_id={store.id}
+              service_name = {ServiceName}
             />
           );
         })}

@@ -1,8 +1,6 @@
 "use client";
 import HeadingText from "@/app/componets/Profile/HeadingText";
-import MyreviewCard from "@/app/componets/Profile/Myreview/MyreviewCard";
 import React, { useEffect, useState } from "react";
-import { useGetAllReviewQuery } from "@/app/store/api/reviewApi/userreviewlist";
 import Cookies from "js-cookie";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
@@ -10,6 +8,8 @@ import AvatarWithSpinner from "@/app/componets/Loading/AvatarWithSpinner";
 import video from "../../../../../public/assets/lottie_search_anim/lottie_search_anim/Animation - 1736233762512.gif";
 import Image from "next/image";
 import { useAppSelector } from "@/app/hooks/hooks";
+import BusinessRevieweCard from "./BusinessRevieweCard";
+import { useBusinessReview } from "@/app/storeApp/api/useBusinessReview";
 
 function BusinessReview() {
   const user_id = Cookies.get("user_id");
@@ -20,11 +20,7 @@ function BusinessReview() {
   const pageSize = 6; // Set to 6 cards per page
 
   // Modify API call to include pagination parameters
-  const { data, error, isLoading } = useGetAllReviewQuery({
-    user_id: user_id || "",
-    page: page,
-    pageSize: pageSize,
-  });
+  const { data, error, isLoading } = useBusinessReview();
 
   // Log the API response data for debugging
   useEffect(() => {
@@ -52,10 +48,10 @@ function BusinessReview() {
   }
 
   // Calculate the total pages
-  const totalPages = Math.ceil(data?.reviewlist?.length / pageSize);
+  const totalPages = Math.ceil(data?.userReviews?.length / pageSize);
 
   // Handle the current reviews to display based on the current page
-  const currentReviews = data?.reviewlist.slice(
+  const currentReviews = data?.userReviews.slice(
     (page - 1) * pageSize,
     page * pageSize
   );
@@ -64,7 +60,7 @@ function BusinessReview() {
     <div className="h-auto w-full  py-[2rem]">
       {/* Heading */}
       <div className="">
-        <HeadingText text="My" text1="Review" />
+        <HeadingText text="My" text1="Store" />
       </div>
 
       {totalPages === 0 ? (
@@ -92,7 +88,7 @@ function BusinessReview() {
           <div className="mt-[3rem] grid w-full   grid-rows-1 gap-6">
             {/* Render dynamic reviews */}
             {currentReviews?.map((review) => (
-              <MyreviewCard key={review.id} review={review} />
+              <BusinessRevieweCard key={review.id} review={review} />
             ))}
           </div>
           {/* Pagination */}

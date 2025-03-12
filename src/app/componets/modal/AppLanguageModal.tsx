@@ -1,5 +1,5 @@
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import "./style.css";
 import Cookies from "js-cookie";
@@ -22,7 +22,7 @@ function AppLanguageModal() {
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full items-center justify-center">
           <DialogPanel
-            className={`mx-auto h-auto w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%] 2xl:w-[25%]    ${
+            className={`mx-auto h-auto w-[90%] rounded-2xl  shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[60%] xl:w-[30%] 2xl:w-[25%]    ${
               isDarkMode ? "bg-[#212121]" : "bg-[#FFFFFF]"
             }`}
           >

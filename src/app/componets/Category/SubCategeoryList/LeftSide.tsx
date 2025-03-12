@@ -10,8 +10,8 @@ import Price from "./Price";
 import Types from "./Types";
 import Rating from "./Rating";
 import { useEffect } from "react";
-import { useFilterMutation } from "@/app/store/api/filter";
-import { updateFilterData } from "@/app/store/Slice/category/filterSlice";
+import { useFilterMutation } from "@/app/storeApp/api/filter";
+import { updateFilterData } from "@/app/storeApp/Slice/category/filterSlice";
 import { useDispatch } from "react-redux";
 import SubCategorySerachBox from "./SubCategorySerachBox";
 
@@ -28,7 +28,7 @@ function LeftSide() {
   );
   const state = statelocation ? statelocation.split(",")[0] : "";
 
-  console.log("my filter slice values are", filterslice);
+  console.log("my filter slice values are !!!!", state);
 
   useEffect(() => {
     dispatch(

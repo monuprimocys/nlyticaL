@@ -1,6 +1,6 @@
 "use client";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import crossicon from "../../../../../../public/assets/Image/crossicon.png";
@@ -33,7 +33,7 @@ function BusinessVideoModal() {
               }`}
             >
               <h3 className="font-poppins text-lg font-medium  text-center w-full">
-                Business video
+                Business Video Url
               </h3>
               <div
                 className="cursor-pointer"

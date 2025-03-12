@@ -1,6 +1,6 @@
 "use client";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import crossicon from "../../../../../../public/assets/Image/crossicon.png";
@@ -8,8 +8,10 @@ import "../../businesscss.css";
 import infocircle from "../../../../../../public/assets/Image/info-circle.png";
 import { TextField } from "@mui/material";
 import Cookies from "js-cookie";
-import { useUpdateServiceMutation } from "@/app/store/api/updateServiceApi";
-import { updateServiceField } from "@/app/store/Slice/serviceSlice";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
+import { updateServiceField } from "@/app/storeApp/Slice/serviceSlice";
+import { useEffect } from "react";
+import { useTotalPercentage } from "@/app/storeApp/api/useTotalPercentage";
 
 function BusinessWebsiteModal() {
   const modalOpen = useAppSelector(
@@ -27,6 +29,10 @@ function BusinessWebsiteModal() {
 
   // Handle modal close (dispatch action to hide modal)
   const close = () => dispatch(hideModal("BusinessWebsiteModal"));
+
+  const { refetch } = useTotalPercentage(vendor_id);
+
+  console.log(" my total percentage data", data);
 
   // Handle website change in input field
   const handleWebsiteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +52,7 @@ function BusinessWebsiteModal() {
 
       // Optionally dispatch additional actions to update state (if needed)
       dispatch(updateServiceField({ service_website }));
-
+      refetch();
       // Close modal after successful update
       close();
     } catch (error) {

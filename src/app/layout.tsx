@@ -1,40 +1,31 @@
-// app/layout.tsx
-import type { Metadata } from "next";
 import "./globals.css";
 import Header from "./header/page";
-import StoreProvider from "./store/StoreProvider";
-import { Toaster } from "react-hot-toast";
-import Fotter from "./fotter/page";
+import StoreProvider from "./storeApp/StoreProvider";
+import { ToastContainer } from "react-toastify";
+import { Metadata } from "next";
 import VisitedModal from "./componets/modal/VisitedModal";
+import Fotter from "./fotter/page";
 
 export const metadata: Metadata = {
-  title: "nlytical",
-  description: "nlytical",
+  title: "Nlytical - On-Demand Home Services",
+  description: "Explore a complete solution for home services with Nlytical.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <StoreProvider>
-        <body>
+      <head>{/* Any additional meta tags or styles */}</head>
+      <body className="bg-white">
+        <StoreProvider>
           <Header />
           {children}
           <Fotter />
-
-          {/* Render the modal */}
           <VisitedModal />
-
-          <Toaster
-            toastOptions={{ duration: 3000 }}
-            position="top-center"
-            reverseOrder={false}
-          />
-        </body>
-      </StoreProvider>
+        </StoreProvider>
+        <ToastContainer position="top-right" autoClose={5000} />
+      </body>
     </html>
   );
 }

@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
-import { updateStorePrice } from "@/app/store/Slice/UpdateStoreSlice";
+import { updateStorePrice } from "@/app/storeApp/Slice/UpdateStoreSlice";
 import { TextField } from "@mui/material";
 import toast from "react-hot-toast";
 

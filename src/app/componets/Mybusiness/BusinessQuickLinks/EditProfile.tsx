@@ -3,7 +3,7 @@ import addprofile from "../../../../../public/assets/Image/editprofilebusiness.p
 import Image from "next/image";
 import { useAppSelector } from "@/app/hooks/hooks";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/app/store/Slice/modalSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 
 function EditProfile() {
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);

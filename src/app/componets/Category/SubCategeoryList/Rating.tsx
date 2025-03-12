@@ -1,6 +1,6 @@
 // src/Rating.tsx
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
-import { setSelectedRating } from "@/app/store/Slice/category/ratingSlice";
+import { setSelectedRating } from "@/app/storeApp/Slice/category/ratingSlice";
 import React, { useState, useEffect } from "react";
 import { IoStarOutline } from "react-icons/io5";
 import { MdKeyboardArrowRight } from "react-icons/md";

@@ -1,6 +1,6 @@
 "use client";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import "./style.css";
 import ModalLable from "./ModalLable";
@@ -10,7 +10,8 @@ import BusinessTime from "./BusinessTime/BusinessTime";
 import AddStepCurrent from "./AddStepCurrent";
 import Cookies from "js-cookie";
 import { useEffect } from "react";
-import { setDarkMode } from "../store/Slice/darkModeSlice";
+import { setDarkMode } from "../storeApp/Slice/darkModeSlice";
+import dayjs from "dayjs";
 
 export default function AddPostModal() {
   const user_id = Cookies.get("user_id");
@@ -19,14 +20,12 @@ export default function AddPostModal() {
 
   const AddPostData = useAppSelector((state) => state.AddPost);
 
-  // console.log(AddPostData.add_new_post_steps);
 
   function close() {
     dispatch(hideModal("AddPostModal"));
   }
 
   const AllAddpostData = useAppSelector((state) => state.AddPost);
-  // console.log("my all add post data 121212121", AllAddpostData);
 
   // address data
   const address = useAppSelector((state) => state.address);
@@ -40,26 +39,26 @@ export default function AddPostModal() {
   const category_id = useAppSelector(
     (state) => state.categorySelected.selectedCategory.id
   );
-  // console.log("category_id", category_id);
 
   // subcategory values id
   const subcategory_id = useAppSelector(
     (state) => state.subCategorySelected.selectedSubCategory.id
   );
-  // console.log("subcategory_id", subcategory_id);
 
   // year  and month
   const getvalues = useAppSelector((state) => state.monthYear);
-  const published_month = getvalues.monthValue.format("MMMM");
-  const published_year = getvalues.yearValue.format("YYYY");
 
-  // console.log("published_month", getvalues.monthValue.format("MMMM"));
-  // console.log("published_year", getvalues.yearValue.format("YYYY"));
+  const published_month = getvalues.monthValue
+    ? dayjs(getvalues.monthValue).format("MMMM")
+    : null;
+
+  const published_year = getvalues.yearValue
+    ? dayjs(getvalues.yearValue).format("YYYY")
+    : null;
 
   // selected date
 
   const selectedDate = useAppSelector((state) => state.businessHours);
-  // console.log("selectedDate", selectedDate.unselectedDays);
 
   // all values
 
@@ -92,7 +91,6 @@ export default function AddPostModal() {
     video_thumbnail: "",
   };
 
-  // console.log("postData", postData);
 
   // Logging all the values
 
@@ -106,7 +104,6 @@ export default function AddPostModal() {
     document.documentElement.classList.toggle("dark", savedMode);
   }, [dispatch, isDarkMode]);
 
-  console.log("My business is:!!!!!!!!!!!!!!!!!!!!!!!!!!!!", isDarkMode);
 
   return (
     <>
@@ -127,7 +124,9 @@ export default function AddPostModal() {
               {/* heading */}
               <div
                 className={` relative flex h-[5rem] w-full items-center justify-center rounded-t-3xl  ${
-                  isDarkMode ? "  bg-[#FFFFFF0A] text-white" : "text-black step-container"
+                  isDarkMode
+                    ? "  bg-[#FFFFFF0A] text-white"
+                    : "text-black step-container"
                 }`}
               >
                 <ModalLable />

@@ -69,7 +69,7 @@ const Card: React.FC<HomeSectionMainCardRes> = ({
             className="object-contain w-4 h-4"
           />
           <button className="text-white font-poppins text-sm">
-            {featured}
+            {featured} 
           </button>
         </div>
 

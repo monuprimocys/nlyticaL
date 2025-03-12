@@ -194,7 +194,21 @@ body {
   background-clip: content-box, border-box; /* Applies the gradient to the border area */
 }
 
-
 .bg-circle-icon {
   filter: brightness(0) invert(1);
+}
+
+.css-rohclq-MuiFormControl-root-MuiTextField-root .MuiInputBase-input {
+  color: #000000 !important;
+}
+
+.css-19t1te9-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-19t1te9-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.css-19t1te9-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  color: #000000 !important;
+  opacity: 50% !important;
+  font-family: "Poppins", serif;
+  font-weight: 400 !important;
+}
+
+.css-lohd6h-MuiSvgIcon-root-MuiSelect-icon {
+  color: white !important;
 }

@@ -1,13 +1,23 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import bgimage from "../../../../public/assets/Image/CategoryHeaderbg.png";
 import Arrowicon from "../../../../public/assets/Image/currentrouteArrow.png";
 import Image from "next/image";
+import { decodeString } from "@/app/utils/enocodeAndDecode";
 
 function ServiceDetailBreadCome() {
   const router = useRouter();
+
+  const pathname = usePathname();
+
+  // Extract URL segments dynamically
+  const pathSegments = pathname.split("/").filter(Boolean);
+
+  const store_name = pathSegments[1];
+
+  console.log("my  path values ", store_name);
 
   return (
     <div
@@ -42,15 +52,30 @@ function ServiceDetailBreadCome() {
           </div>
 
           {/* Current Pathname */}
+          <h2
+            className="text-[#FFD428] text-lg font-normal font-poppins"
+            onClick={() => {
+              router.push("/store");
+            }}
+          >
+            Stores
+          </h2>
+          <Image
+            src={Arrowicon}
+            alt="arrow icon"
+            width={14}
+            height={14}
+            className="cursor-pointer"
+          />
           <h2 className="text-white text-lg font-normal font-poppins">
-            Services Detail
+            {store_name}
           </h2>
         </div>
 
         {/* Right Section */}
-        <div className="cursor-pointer">
+        <div className="cursor-pointer   hidden md:block">
           <h2 className="text-white text-lg font-normal font-poppins">
-            Services Detail
+            {store_name}
           </h2>
         </div>
       </div>

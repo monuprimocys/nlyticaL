@@ -5,7 +5,7 @@ import Image from "next/image";
 import questionImage from "../.././../../../public/assets/Image/message-question.png";
 import dropdownImage from "../../../../../public/assets/Image/dropdwonicon.png";
 import { FaMinus, FaPlus } from "react-icons/fa6";
-import { UseGetFaq } from "@/app/store/api/UseGetFaq";
+import { UseGetFaq } from "@/app/storeApp/api/UseGetFaq";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 function FAQ() {

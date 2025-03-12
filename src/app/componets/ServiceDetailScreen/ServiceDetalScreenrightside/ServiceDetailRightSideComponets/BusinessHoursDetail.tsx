@@ -1,13 +1,11 @@
 "use client";
 
 import { useAppSelector } from "@/app/hooks/hooks";
-import { useServiceDetailApi } from "@/app/store/api/ServiceDetailScreenApi/useServiceDetailApi";
-import { usePathname } from "next/navigation";
+import { useServiceDetailApi } from "@/app/storeApp/api/ServiceDetailScreenApi/useServiceDetailApi";
 import React from "react";
 
 function BusinessHoursDetail() {
-  const pathname = usePathname();
-  const lastSegment = pathname.split("/").filter(Boolean).pop() || "";
+  const lastSegment = sessionStorage.getItem("serviceId");
   const { data, error, isLoading, refetch } = useServiceDetailApi(lastSegment);
 
   // Ensure the response data exists and then split open and closed days into arrays

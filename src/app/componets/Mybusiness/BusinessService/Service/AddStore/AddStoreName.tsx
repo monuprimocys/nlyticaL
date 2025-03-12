@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { TextField } from "@mui/material";
-import { setStoreName } from "@/app/store/Slice/AddStore";
+import { setStoreName } from "@/app/storeApp/Slice/AddStore";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 interface BusinessNameProps {

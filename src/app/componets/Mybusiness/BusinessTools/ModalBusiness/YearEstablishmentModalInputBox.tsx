@@ -8,9 +8,9 @@ import TextField from "@mui/material/TextField";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
 import Cookies from "js-cookie";
 import dayjs from "dayjs"; // Import dayjs
-import { updateServiceField } from "@/app/store/Slice/serviceSlice";
-import { hideModal } from "@/app/store/Slice/modalSlice";
-import { useUpdateServiceMutation } from "@/app/store/api/updateServiceApi";
+import { updateServiceField } from "@/app/storeApp/Slice/serviceSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
 
 interface MonthYearProps {
   required?: boolean;

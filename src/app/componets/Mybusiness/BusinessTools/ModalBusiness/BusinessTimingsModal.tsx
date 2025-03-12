@@ -5,12 +5,13 @@ import crossicon from "../../../../../../public/assets/Image/crossicon.png";
 import "../../businesscss.css";
 import infocircle from "../../../../../../public/assets/Image/info-circle.png";
 import { useDispatch } from "react-redux";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import TimeModalFormValues from "./TimeModalFormValues";
 import CloseDay from "./CloseDay";
 import Cookies from "js-cookie";
-import { useUpdateServiceMutation } from "@/app/store/api/updateServiceApi";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
 import toast from "react-hot-toast";
+import { useTotalPercentage } from "@/app/storeApp/api/useTotalPercentage";
 
 function BusinessTimingsModal() {
   const modalOpen = useAppSelector(
@@ -38,14 +39,15 @@ function BusinessTimingsModal() {
     useUpdateServiceMutation();
 
   console.log(" my opne days", openday);
+  const { refetch } = useTotalPercentage(vendor_id);
 
   // Handle Save button click
   const handleSave = async () => {
     const businessData = {
       vendor_id,
       service_id,
-      start_time: startTime,
-      end_time: endTime,
+      open_time: startTime,
+      close_time: endTime,
       open_days: openday,
       closed_days: closedDays.join(", "),
     };
@@ -56,6 +58,7 @@ function BusinessTimingsModal() {
         // If response is successful, you might want to show a success message.
         toast.success("Business hours updated successfully!");
         close(); // Close the modal after saving
+        refetch();
       }
     } catch (err) {
       // Handle error from the API call

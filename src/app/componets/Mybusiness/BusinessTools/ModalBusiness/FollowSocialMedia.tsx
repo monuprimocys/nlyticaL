@@ -5,7 +5,7 @@ import handsake from "../../../../../../public/assets/Image/computer-1.png";
 import Image from "next/image";
 import arrow from "../../../../../../public/assets/Image/arrow-left.png";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/app/store/Slice/modalSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 import fbicon from "../../../../../../public/assets/Image/facebook.png";
 import insta from "../../../../../../public/assets/Image/instafotter.png";
@@ -31,11 +31,11 @@ function FollowSocialMedia() {
 
   return (
     <div
-    className={`w-full justify-between px-4 md:px-8 py-4 rounded-lg items-center flex  cursor-pointer  ${
-      isDarkMode
-        ? "bg-[#212121] text-[#ffffff]"
-        : "bg-[#ffffff]  businesslable text-black"
-    }  `}
+      className={`w-full justify-between px-4 md:px-8 py-4 rounded-lg items-center flex  cursor-pointer  ${
+        isDarkMode
+          ? "bg-[#212121] text-[#ffffff]"
+          : "bg-[#ffffff]  businesslable text-black"
+      }  `}
       onClick={() => {
         dispatch(showModal("FollowSocialMediaModal"));
       }}
@@ -48,14 +48,12 @@ function FollowSocialMedia() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="text-xl font-poppins">
-          Follow on Social Media
-        </div>
+        <div className="text-xl font-poppins">Follow on Social Media</div>
       </div>
 
       <div className="flex gap-3 items-center">
         {/*  show continaly icon socila media icon */}
-        <p className="text-[#848484] font-normal font-poppins  ">
+        <div className="text-[#848484] font-normal font-poppins  ">
           <div className="flex gap-3 w-full h-full ">
             {facebook_link && (
               <a href={facebook_link} target="_blank" rel="noopener noreferrer">
@@ -90,14 +88,14 @@ function FollowSocialMedia() {
               </a>
             )}
           </div>
-        </p>
+        </div>
 
         <div className="h-[2rem] w-[2rem] flex justify-center items-center">
           <Image
             src={arrow}
             alt="arrow"
             className={`w-full h-full object-cover  ${
-              isDarkMode? "invert" : ""
+              isDarkMode ? "invert" : ""
             }`}
           />
         </div>

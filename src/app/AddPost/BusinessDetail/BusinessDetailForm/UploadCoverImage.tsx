@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import crossicon from "../../../../../public/assets/Image/add-circle.png";
 import uploadicon from "../../../../../public/assets/Image/uploadicon.png";
 import { useDispatch } from "react-redux";
-import { updateCoverImage } from "@/app/store/Slice/AddPostSlice";
+import { updateCoverImage } from "@/app/storeApp/Slice/AddPostSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 import { toast } from "react-hot-toast";
 
@@ -14,7 +14,6 @@ function UploadCoverImage() {
 
   const storesliceImage = useAppSelector((state) => state.AddPost.cover_image);
 
-  console.log(" my cover image 12121212121212#", storesliceImage);
 
   const handleFileClick = () => {
     if (fileInputRef.current) {

@@ -5,9 +5,25 @@ import "../style.css";
 import { useAppSelector } from "@/app/hooks/hooks";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/app/store/Slice/modalSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import { useServiceLead } from "@/app/storeApp/api/ServiceDetailScreenApi/useServiceLead";
 
 function VenderDetail() {
+  const lastSegment = sessionStorage.getItem("serviceId");
+  const { mutate } = useServiceLead();
+
+  const handalcallapi = () => {
+    // Call the API
+    mutate(lastSegment, {
+      onSuccess: (data) => {
+        console.log("API success:", data);
+      },
+      onError: (error) => {
+        console.error("API error:", error);
+      },
+    });
+  };
+
   const ServiceDetailData = useAppSelector(
     (state) => state.serviceDetail.serviceDetail.service_phone
   );
@@ -17,20 +33,24 @@ function VenderDetail() {
   // State to handle whether the phone number is shown fully
   const [isNumberVisible, setIsNumberVisible] = useState(false);
 
-  // Function to toggle phone number visibility
   const togglePhoneNumberVisibility = () => {
-    //   if user id not exit the show alert
+    handalcallapi();
+
     if (!user_id) {
       dispatch(showModal("loginModal"));
       return;
     }
-    setIsNumberVisible(!isNumberVisible);
+
+    // Set to true only if it's currently false
+    if (!isNumberVisible) {
+      setIsNumberVisible(true);
+    }
   };
 
   // Show only the first 4 digits by default
   const displayedPhoneNumber = isNumberVisible
     ? ServiceDetailData
-    : `${ServiceDetailData.slice(0, 4)}XXXXXXXXXX`; // Hides part of the number except for the first 4 digits
+    : `${ServiceDetailData.slice(0, 4)}XXXXXX`; // Hides part of the number except for the first 4 digits
 
   return (
     <div className="bordercolo p-3 gap-1 bg-[#0046AE] rounded-lg w-full flex flex-col justify-center items-center">
@@ -47,11 +67,13 @@ function VenderDetail() {
       {/* Show phone number button */}
       <button
         onClick={togglePhoneNumberVisibility}
-        className="w-full text-white font-poppins text-sm py-2 px-4 rounded-lg bg-transparent transition-all duration-300"
+        className={`w-full font-poppins text-sm py-2 px-4 rounded-lg bg-transparent transition-all duration-300  ${
+          isNumberVisible ? " text-[#00B665]   font-bold" : "text-white"
+        }`}
       >
         Show Number
         {/* line */}
-        <div className="h-[1px] w-[29.7%] mx-auto bg-[#FFFFFF] opacity-[30%] "></div>
+        {/* <div className="h-[1px] w-[29.7%] mx-auto bg-[#FFFFFF] opacity-[30%] "></div> */}
       </button>
     </div>
   );

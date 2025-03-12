@@ -7,7 +7,7 @@ import dropdownImage from "../../../../../public/assets/Image/dropdwonicon.png";
 import { TextField } from "@mui/material";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/high-res.css";
-import { useAddCustomerSupportMutation } from "@/app/store/api/add-customersupport";
+import { useAddCustomerSupportMutation } from "@/app/storeApp/api/add-customersupport";
 import { ToastContainer, toast } from "react-toastify";
 import { useAppSelector } from "@/app/hooks/hooks";
 
@@ -55,7 +55,7 @@ function CustomreSupportFomr() {
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   return (
-    <div className="mx-auto 2xl:w-[55%] rounded-b-lg xl:w-[80%] shadow-xl w-[90%] mt-[3rem] gap-5 flex justify-center flex-col items-center cursor-pointer">
+    <div className="mx-auto 2xl:w-[55%] rounded-b-lg xl:w-[80%] shadow-xl w-[90%]  mt-[2rem] gap-5 flex justify-center flex-col items-center cursor-pointer">
       <div
         className={`w-full justify-between items-center businesslable flex h-auto p-8 rounded-xl  ${
           isDarkMode ? "bg-[#FFFFFF0A] text-white" : "bg-white text-black"
@@ -91,7 +91,7 @@ function CustomreSupportFomr() {
               : "bg-white text-black"
           }`}
         >
-          <div className="mx-auto w-[90%] grid grid-cols-2 gap-6">
+          <div className="mx-auto w-[90%] grid  grid-cols-1 md:grid-cols-2 gap-6">
             <div className="w-full">
               <label className="text-sm font-medium " htmlFor="name">
                 Name

@@ -1,35 +1,49 @@
 import { useAppSelector } from "@/app/hooks/hooks";
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
-import { useRegisterAccountMutation } from "@/app/store/api/auth/newuser-registeraccount";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
+import { useRegisterAccountMutation } from "@/app/storeApp/api/auth/newuser-registeraccount";
+import { useServiceDetailApi } from "@/app/storeApp/api/ServiceDetailScreenApi/useServiceDetailApi";
 
 function RegisterWithMobilenumberVerifyOtpForm() {
+  const id = sessionStorage.getItem("serviceId");
+
+  const { refetch } = useServiceDetailApi(id);
+
   const [otp, setOtp] = useState(Array(4).fill("")); // Stores OTP as an array of strings
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [isLoading, setIsLoading] = useState(false); // Loading state for the button
+  const [otpVerified, setOtpVerified] = useState(false); // New state to track OTP verification
 
   const mobile = useAppSelector((state) => state.registration.mobile);
+
+  const email = useAppSelector((state) => state.registration.email);
+
+  console.log(" my email id ");
 
   // Handal Resend the otp request
   const [resendOtp] = useRegisterAccountMutation();
 
   // Button click handler
+  // Button click handler for Resend OTP
   const handleResendOtp = async () => {
-    if (!mobile) {
-      toast.error("Mobile is required");
+    if (!mobile && !email) {
+      toast.error("Mobile or Email is required");
       return;
     }
 
     try {
-      // Call the API with the mobile
-      await resendOtp({ mobile });
+      // Call the API with email if it exists, otherwise send mobile
+      const requestData = email ? { email } : { mobile };
+
+      await resendOtp(requestData);
       toast.success("OTP Sent Successfully");
     } catch (error) {
       console.error("Error resending OTP:", error);
+      toast.error("Failed to resend OTP. Please try again.");
     }
   };
 
@@ -126,6 +140,7 @@ function RegisterWithMobilenumberVerifyOtpForm() {
   };
 
   // Verify OTP function
+  // Verify OTP function
   const verifyOtp = async () => {
     if (otp.join("").length !== otp.length) {
       toast.error("Please fill in all OTP fields.");
@@ -135,23 +150,22 @@ function RegisterWithMobilenumberVerifyOtpForm() {
     setIsLoading(true); // Set loading to true when the API is being called
 
     try {
+      const requestData = email
+        ? { email, otp: otp.join("") } // If email exists, send email & OTP
+        : { mobile, otp: otp.join("") }; // Otherwise, send mobile & OTP
+
       const response = await axios.post(
         "http://192.168.0.69:8001/api/verify-user",
-        {
-          mobile,
-          otp: otp.join(""), // Send OTP as a string
-        }
+        requestData
       );
 
       // Handle the response here
       if (response.data.status) {
-        toast.success(response.data.message || "OTP verified successfully!");
+        toast.success("OTP verified successfully!");
         Cookies.set("user_id", response.data.user_id);
+        refetch();
 
-        console.log(
-          "API response data from verify:",
-          response?.data?.first_name
-        );
+        Cookies.set("login_token", "email_with_phone");
 
         // Check if first_name exists before setting loginuser cookie
         if (response?.data?.first_name) {
@@ -181,11 +195,11 @@ function RegisterWithMobilenumberVerifyOtpForm() {
     if (otp.join("").length === otp.length && !isLoading) {
       verifyOtp();
     }
-  }, [otp]); // Run when the OTP state changes
+  }, [otp]);
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-center gap-6">
+      <div className="flex justify-center gap-3 md:gap-6">
         {otp.map((digit, index) => (
           <input
             key={index}
@@ -207,13 +221,15 @@ function RegisterWithMobilenumberVerifyOtpForm() {
       <div className="mt-6 flex flex-col items-center justify-center gap-2">
         <button
           onClick={handleResendOtp}
-          className="font-poppins text-sm text-blue-600"
+          className={`font-poppins text-sm ${
+            timeLeft > 0 ? "text-gray-400 cursor-not-allowed" : "text-blue-600"
+          }`}
           disabled={timeLeft > 0}
         >
           Resend OTP
         </button>
         <p className="font-poppins text-sm text-[#717171]">
-          Resend OTP in {formattedTime}
+          Resend OTP in {timeLeft}s
         </p>
       </div>
 

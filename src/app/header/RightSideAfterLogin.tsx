@@ -8,12 +8,12 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useUpdateProfileMutation } from "../store/api/auth/ProfileUpdate";
+import { useUpdateProfileMutation } from "../storeApp/api/auth/ProfileUpdate";
 import { ProfileUpdate } from "../types/Restypes";
 import { toast } from "react-hot-toast";
-import { showModal } from "../store/Slice/modalSlice";
+import { showModal } from "../storeApp/Slice/modalSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import Messagebtn from "../componets/message/messagebtn";
+import avatar from "../../../public/assets/Image/defaultimage.png";
 
 const RightSideAfterLogin = () => {
   const router = useRouter();
@@ -27,6 +27,8 @@ const RightSideAfterLogin = () => {
   const dispatch = useAppDispatch();
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
+  console.log(" my user detail from update api ", userProfileData);
+
   const [triggerUpdateProfile] = useUpdateProfileMutation();
 
   useEffect(() => {
@@ -34,12 +36,20 @@ const RightSideAfterLogin = () => {
       triggerUpdateProfile({ user_id })
         .then((response) => {
           if (response?.data) {
-            setUserProfileData(response.data);
+            setUserProfileData(response?.data);
 
-            console.log(" my responce api ", response.data.is_store);
-            Cookies.set("is_store", response.data?.is_store);
-            Cookies.set("store_approval", response.data?.store_approval);
-            Cookies.set("service_id", response.data?.service_id);
+            console.log(" my responce api ", response?.data?.is_store);
+            Cookies.set("is_store", response?.data?.is_store);
+            Cookies.set("store_approval", response?.data?.store_approval);
+            Cookies.set("service_id", response?.data?.service_id);
+            Cookies.set("subscriber_user", response.data?.subscriber_user);
+            Cookies.set("sponcer_id", response.data.campaign);
+            Cookies.set("email", response.data.userdetails.email);
+            Cookies.set("mobile", response.data.userdetails.mobile);
+            Cookies.set(
+              "plane_name",
+              response.data?.subscriptionDetails.plan_name.split(" ")[0]
+            );
           }
         })
         .finally(() => {
@@ -55,7 +65,7 @@ const RightSideAfterLogin = () => {
   };
 
   const handleMybusinessClick = () => {
-    router.push("/Mybusiness");
+    router.push("/bussines");
   };
 
   const handleLogoutClick = () => {
@@ -64,21 +74,16 @@ const RightSideAfterLogin = () => {
 
   const isStore = Cookies.get("store_approval");
 
-  const handalmessage = () => {
-    router.push("/message");
-  };
-
   return (
-    <div className="flex items-center gap-4 text-white    justify-between ">
-     
+    <div className="flex items-center gap-4 text-white      justify-between ">
       <Menu>
-        <MenuButton className="inline-flex items-center gap-2 rounded-md px-3  py-1.5 text-sm/6 focus:outline-none">
+        <MenuButton className="inline-flex items-center gap-2 rounded-md    py-1.5 text-sm/6 focus:outline-none">
           <div className="flex items-center gap-2">
             {/* Profile Picture */}
             <div className="h-12 w-12 overflow-hidden rounded-full">
               <Image
                 className="h-full w-full object-cover"
-                src={userProfileData?.userdetails?.image || ""}
+                src={userProfileData?.userdetails?.image || avatar}
                 alt="Profile Pic"
                 width={100}
                 height={100}
@@ -113,17 +118,16 @@ const RightSideAfterLogin = () => {
           </MenuItem>
 
           {/* Show "My business" only if is_store is 1 */}
-          {isStore === "1" && (
-            <MenuItem>
-              <button
-                onClick={handleMybusinessClick}
-                className="group flex w-full items-center gap-2 rounded-lg py-1.5 pl-6 data-[focus]:bg-dropdownOptionHover"
-              >
-                <CgProfile className="text-xl" />
-                <span>My business</span>
-              </button>
-            </MenuItem>
-          )}
+
+          <MenuItem>
+            <button
+              onClick={handleMybusinessClick}
+              className="group flex w-full items-center gap-2 rounded-lg py-1.5 pl-6 data-[focus]:bg-dropdownOptionHover"
+            >
+              <CgProfile className="text-xl" />
+              <span>My business</span>
+            </button>
+          </MenuItem>
 
           <MenuItem>
             <button

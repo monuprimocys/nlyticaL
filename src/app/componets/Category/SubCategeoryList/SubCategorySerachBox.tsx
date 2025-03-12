@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import Image from "next/image";
 import search from "../../../../../public/assets/Image/search-normal.png";
 import { InputAdornment, TextField } from "@mui/material";
-import { setSearchTerm } from "@/app/store/Slice/category/SearchInputBoxSice";
+import { setSearchTerm } from "@/app/storeApp/Slice/category/SearchInputBoxSice";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 const SubCategorySerachBox: React.FC = () => {

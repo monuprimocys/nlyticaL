@@ -5,9 +5,10 @@ import Image from "next/image";
 import loginbgimage from "../../../../public/assets/Image/loginbgimage.png";
 import logo from "../../../../public/assets/Image/logo.png";
 import { useAppSelector } from "@/app/hooks/hooks";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useDispatch } from "react-redux";
 import FormValues from "./FormValues";
+import { ToastContainer } from "react-toastify";
 
 export default function RegisterWithMobailNumberOtpVerify() {
   const modalData = useAppSelector(
@@ -17,13 +18,8 @@ export default function RegisterWithMobailNumberOtpVerify() {
 
   const RegisterUseremail = useAppSelector((state) => state.registration);
 
-  // Close modal
-  const handleModalClose = () => {
-    dispatch(hideModal("RegisterWithMobailNumberOtpVerify"));
-  };
-
   return (
-    <Dialog open={modalData} onClose={handleModalClose}>
+    <Dialog open={modalData} onClose={() => {}}>
       <div className="fixed inset-0 z-10 bg-black bg-opacity-50 backdrop-blur-sm overflow-y-auto">
         <div className="flex min-h-full items-center justify-center p-6  bg">
           <DialogPanel
@@ -42,7 +38,7 @@ export default function RegisterWithMobailNumberOtpVerify() {
                 className="h-20 w-[11rem] object-contain"
               />
               <p className="text-center text-sm text-gray-600 sm:px-6 font-poppins">
-                Discover more about our app by registering or logging in.
+                Discover more about our app by registering or logging in. 
               </p>
             </div>
 
@@ -51,7 +47,9 @@ export default function RegisterWithMobailNumberOtpVerify() {
             </div>
           </DialogPanel>
         </div>
+        <ToastContainer position="top-right" autoClose={5000} />
       </div>
+
     </Dialog>
   );
 }

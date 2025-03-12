@@ -4,8 +4,13 @@ import ServiceDetailBreadCome from "@/app/componets/AllBreadCome/ServiceDetailBr
 import ServiceDetalScreenleftside from "@/app/componets/ServiceDetailScreen/ServiceDetalScreenleftside/ServiceDetalScreenleftside";
 import ServiceDetalScreenrightside from "@/app/componets/ServiceDetailScreen/ServiceDetalScreenrightside/ServiceDetalScreenrightside";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
-import { setDarkMode } from "@/app/store/Slice/darkModeSlice";
+import { useServiceDetailApi } from "@/app/storeApp/api/ServiceDetailScreenApi/useServiceDetailApi";
+import { setDarkMode } from "@/app/storeApp/Slice/darkModeSlice";
+import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
+import Cookies from "js-cookie";
+import { setVendorServiceDetails } from "@/app/storeApp/Slice/ServiceDetail/ServiceDetailScreenSlice";
+import AvatarWithSpinner from "@/app/componets/Loading/AvatarWithSpinner";
 
 function Page() {
   const dispatch = useAppDispatch();
@@ -22,6 +27,30 @@ function Page() {
 
   console.log("My business is:!!!!!!!!!!!!!!!!!!!!!!!!!!!!", isDarkMode);
 
+  const pathname = usePathname();
+  const lastSegment = pathname.split("/").filter(Boolean).pop() || "";
+  const user_id = Cookies.get("user_id");
+
+  const { data, error, isLoading, refetch } = useServiceDetailApi(lastSegment);
+
+  // Log the response for debugging
+  console.log("API response:", data);
+
+  // Dispatch to Redux only when data is available
+  useEffect(() => {
+    if (data && !isLoading && !error) {
+      dispatch(setVendorServiceDetails(data));
+      refetch();
+    }
+  }, [data, isLoading, error, dispatch , refetch]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-full w-full">
+        <AvatarWithSpinner />
+      </div>
+    );
+  }
   return (
     <div
       className={`w-full h-auto        ${

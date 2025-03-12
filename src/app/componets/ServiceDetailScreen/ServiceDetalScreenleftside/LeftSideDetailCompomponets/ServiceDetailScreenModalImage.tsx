@@ -1,7 +1,7 @@
 "use client"; // This is important for Next.js to handle client-side rendering
 
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import { IoClose } from "react-icons/io5";
@@ -31,7 +31,7 @@ function ServiceDetailScreenModalImage() {
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full items-center justify-center">
           <DialogPanel
-            className={`mx-auto h-auto w-[90%] rounded-2xl shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[80%] xl:w-[70%] 2xl:w-[50%]  ${
+            className={`mx-auto h-auto w-[90%] rounded-2xl shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[80%] xl:w-[70%] 2xl:w-[40%]  ${
               isDarkMode ? " bg-[#212121] text-white" : "text-black   bg-white"
             }`}
           >
@@ -55,13 +55,13 @@ function ServiceDetailScreenModalImage() {
             </button>
 
             {/* Image Display with Scrolling */}
-            <div className="w-full max-h-[400px] overflow-y-auto grid gap-4 px-2 md:px-4 md:grid-cols-3 grid-cols-2 xl:grid-cols-5 py-3">
+            <div className="w-full  h-[550px] overflow-y-auto grid gap-4 px-2 md:px-4 md:grid-cols-3 grid-cols-2 xl:grid-cols-5 py-3">
               {/* Iterate over all images */}
               {serviceImages && serviceImages.length > 0 ? (
                 serviceImages.map((image, index) => (
                   <div
                     key={index}
-                    className="w-full h-32 rounded-xl cursor-pointer overflow-hidden   "
+                    className="w-full mt-4  h-32 rounded-xl cursor-pointer overflow-hidden   "
                     onClick={() => {
                       dispatch(showModal("ServiceDetailScreenImageSubModal"));
                     }}

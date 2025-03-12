@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { IoClose, IoChevronBack, IoChevronForward } from "react-icons/io5";
 
@@ -39,9 +39,9 @@ function ServiceDetailScreenImageSubModal() {
       {/* Modal Content */}
       <div className="fixed inset-0 z-50 h-auto overflow-y-auto bg-black bg-opacity-55 backdrop-blur-sm">
         <div className="flex min-h-full items-center justify-center flex-col">
-          <DialogPanel className="mx-auto h-auto w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[80%] xl:w-[70%] 2xl:w-[50%]">
+          <DialogPanel className="mx-auto h-auto w-[90%] rounded-2xl bg-white shadow-lg backdrop-blur-2xl duration-300 ease-out sm:w-[80%] xl:w-[70%] 2xl:w-[35%]">
             {/* Image Display */}
-            <div className="flex flex-col items-center justify-center h-[30rem] w-full relative">
+            <div className="flex flex-col items-center justify-center h-[38.5rem] w-full relative">
               {/*  total image and slice image count */}
 
               <div className="flex items-center justify-center  absolute top-1 left-2 bg-gray-300 rounded-lg p-2 text-2xl text-[#0046AE]">
@@ -55,12 +55,15 @@ function ServiceDetailScreenImageSubModal() {
               >
                 <IoClose />
               </button>
-              <div
-                className=" w-full h-full   rounded-xl  bg-no-repeat bg-center"
-                style={{
-                  backgroundImage: `url(${ServiceDetailData[currentImageIndex]})`,
-                }}
-              ></div>
+
+              {/*  image tag add  */}
+              <div className="  w-fit h-full flex   justify-center items-center">
+                <img
+                  className="w-full h-full rounded-xl   "
+                  src={ServiceDetailData[currentImageIndex]}
+                  alt=""
+                />
+              </div>
               <div className="flex absolute w-full px-2 justify-between ">
                 <button
                   onClick={prevImage}

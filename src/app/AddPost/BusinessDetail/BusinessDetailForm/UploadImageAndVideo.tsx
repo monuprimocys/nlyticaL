@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import crossicon from "../../../../../public/assets/Image/add-circle.png";
 import uploadicon from "../../../../../public/assets/Image/uploadicon.png";
 import { useDispatch } from "react-redux";
-import { updateServiceImages } from "@/app/store/Slice/AddPostSlice";
+import { updateServiceImages } from "@/app/storeApp/Slice/AddPostSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 function UploadImageAndVideo() {
@@ -16,26 +16,20 @@ function UploadImageAndVideo() {
     (state) => state.AddPost.service_image
   );
 
-  console.log("##################", storesliceImage);
-
   const handleFileClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  console.log("uploadedFiles: ", storesliceImage);
-
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    console.log("my file upload: ", files);
 
     if (files && files.length > 0) {
       const fileArray: File[] = Array.from(files);
 
       setUploadedFilesState((prevFiles) => {
         const newFiles = [...prevFiles, ...fileArray];
-        console.log("newFiles: ", newFiles);
 
         // Dispatch the entire FileList (File objects) to Redux
         dispatch(updateServiceImages(newFiles));

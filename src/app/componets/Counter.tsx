@@ -2,7 +2,7 @@
 
 // components/Counter.tsx
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import { increment, decrement, setValue } from "../store/Slice/counterSlice";
+import { increment, decrement, setValue } from "../storeApp/Slice/counterSlice";
 
 const Counter = () => {
   const dispatch = useAppDispatch();

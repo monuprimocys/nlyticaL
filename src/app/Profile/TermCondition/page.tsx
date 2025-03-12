@@ -1,5 +1,6 @@
+"use client";
 import React, { useEffect } from "react";
-import { useTermAndconditionQuery } from "@/app/store/api/termAndcondition";
+import { useTermAndconditionQuery } from "@/app/storeApp/api/termAndcondition";
 import HeadingText from "@/app/componets/Profile/HeadingText";
 import AvatarWithSpinner from "@/app/componets/Loading/AvatarWithSpinner";
 import { useAppSelector } from "@/app/hooks/hooks";

@@ -7,12 +7,12 @@ import Image from "next/image";
 import arrow from "../../../../../public/assets/Image/arrow-left.png";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/app/store/Slice/modalSlice";
-import { useUpdateServiceMutation } from "@/app/store/api/updateServiceApi"; // Adjust import
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi"; // Adjust import
 import {
   addServiceImage,
   updateServiceField,
-} from "@/app/store/Slice/serviceSlice";
+} from "@/app/storeApp/Slice/serviceSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 function BusinessNameMyBusiness() {
@@ -30,7 +30,6 @@ function BusinessNameMyBusiness() {
     }
   }, [vendor_id, service_id, updateService]);
 
-  console.log("jkhfnjklsdfhjksdfhksfhsdf", data?.service);
 
   // Handle the different states of the API call
   useEffect(() => {
@@ -43,7 +42,7 @@ function BusinessNameMyBusiness() {
     }
 
     if (data) {
-      console.log("API Response:", data);
+      console.log("API Response:@@!!", data);
 
       dispatch(updateServiceField(data.service));
       dispatch(addServiceImage(data.service_images));
@@ -52,10 +51,7 @@ function BusinessNameMyBusiness() {
 
   const serviceupdatafromstore = useAppSelector((state) => state.service);
 
-  console.log(
-    " my api reponce stor ein slice 12121212",
-    serviceupdatafromstore
-  );
+ 
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   return (
@@ -77,7 +73,7 @@ function BusinessNameMyBusiness() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="text-xl font-poppins ">Business Name </div>
+        <div className="text-xl font-poppins ">Business Name   </div>
       </div>
 
       <div className="flex gap-3 items-center">
@@ -85,7 +81,7 @@ function BusinessNameMyBusiness() {
           {serviceupdatafromstore.service.service_name}
         </p>
 
-        <div className="h-[2rem] w-[2rem] flex justify-center items-center">
+        <div className="h-[1.5rem] w-[1.5rem] flex justify-center items-center">
           <Image
             src={arrow}
             alt="arrow"

@@ -1,9 +1,9 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import dropdwoninputboxicon from "../../../../../public/assets/Image/listingdropdwonlocation.png";
-import { updateFilterData } from "@/app/store/Slice/category/filterSlice";
+import { updateFilterData } from "@/app/storeApp/Slice/category/filterSlice";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
-import { setselectedSubCategory } from "@/app/store/Slice/category/subcategorySlice";
+import { setselectedSubCategory } from "@/app/storeApp/Slice/category/subcategorySlice";
 import { RxCross2 } from "react-icons/rx";
 
 function SubcategoryList() {

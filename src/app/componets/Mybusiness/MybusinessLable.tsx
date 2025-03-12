@@ -1,19 +1,24 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import "./businesscss.css";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
-import { useTotalPercentage } from "@/app/store/api/useTotalPercentage";
+import { useTotalPercentage } from "@/app/storeApp/api/useTotalPercentage";
 import { useAppSelector } from "@/app/hooks/hooks";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
 
 function MybusinessLable() {
   const router = useRouter();
 
   const vendor_id = Cookies.get("user_id");
 
-  const { data } = useTotalPercentage(vendor_id);
+  const { data, refetch } = useTotalPercentage(vendor_id);
 
   console.log(" my total percentage data", data);
+
+  useEffect(() => {
+    refetch();
+  }, [data, refetch]);
 
   const totalPercentage = data?.percentage;
 
@@ -32,6 +37,32 @@ function MybusinessLable() {
     return ""; // No additional border color for below 30%
   };
 
+  const service_id = Cookies.get("service_id");
+
+  const [updateService, { data: updateservicedata, isLoading, error }] =
+    useUpdateServiceMutation();
+
+  useEffect(() => {
+    if (vendor_id && service_id) {
+      // Trigger the mutation if vendor_id and service_id are present
+      updateService({ vendor_id, service_id });
+    }
+  }, [vendor_id, service_id, updateService]);
+
+  const service_name = updateservicedata?.service.service_name;
+
+  const handleCardClick = () => {
+    if (!service_name) {
+      console.error("Invalid serviceId or serviceName");
+      return;
+    }
+
+    const serviceSlug = service_name.toLowerCase().replace(/\s+/g, "-"); // Convert name to URL slug
+
+    // Navigate to the encoded route
+    router.push(`/bussines/bussinestools/${serviceSlug}`);
+  };
+
   return (
     <div
       className={`mx-auto 2xl:w-[60%] xl:w-[80%] w-[90%] mt-[3rem]    rounded-lg gap-6  justify-items-center py-6 md:py-10 px-6 md:px-16 grid  grid-cols-1  md:grid-cols-2  items-center    ${
@@ -45,7 +76,7 @@ function MybusinessLable() {
             className={`rounded-full h-[5rem] w-[5rem] bordercolorbusiness flex justify-center items-center`}
           >
             <p className="text-[#00AE5D] font-medium text-lg font-poppins">
-              {totalPercentage}
+              {totalPercentage}%
             </p>
           </div>
           <div
@@ -75,7 +106,7 @@ function MybusinessLable() {
       {/*  right side btn  */}
       <div
         className="  w-full   flex justify-center items-center md:justify-end  md:items-end "
-        onClick={() => router.push("/Mybusiness/BusinessTools")}
+        onClick={handleCardClick}
       >
         <button className="py-3 px-6 text-white rounded-md  font-poppins bg-[#0046AE] ">
           Increase Score

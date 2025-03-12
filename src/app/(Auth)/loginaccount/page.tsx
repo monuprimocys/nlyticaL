@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import loginbgimage from "../../../../public/assets/Image/loginbgimage.png";
@@ -9,19 +9,19 @@ import logo from "../../../../public/assets/Image/logo.png";
 import emailicon from "../../../../public/assets/Image/loginemailicon.png";
 import pwdicon from "../../../../public/assets/Image/lockicon.png";
 import "./style.css";
-import googlelogo from "../../../../public/assets/Image/googlelogo.png";
 import call from "../../../../public/assets/Image/calliconlogin.png";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Cookies from "js-cookie";
+import crossicon from "../../../../public/assets/Image/crossicon.png";
 
 import {
   loginStart,
   loginSuccess,
   loginFailure,
-  logout,
-} from "../../store/Slice/LoginSlice";
-import { useLoginUserMutation } from "@/app/store/api/auth/user-login";
+} from "../../storeApp/Slice/LoginSlice";
+import { useLoginUserMutation } from "@/app/storeApp/api/auth/user-login";
 import { useState } from "react";
+import AddSocilLoginGoogle from "@/app/componets/AddSocilLoginGoogle";
 
 export default function LoginModal() {
   const modalData = useAppSelector((state) => state.modals.loginModal);
@@ -61,7 +61,6 @@ export default function LoginModal() {
       dispatch(loginSuccess(userData));
       Cookies.set("user_id", userData.user_id);
 
-      console.log(" sdjkfhjlisdbfjlsdkfsfd", userData.login_type);
       Cookies.set("login_type", userData.login_type);
       Cookies.set("is_store", userData.is_store);
       Cookies.set("service_id", userData.service_id);
@@ -71,8 +70,6 @@ export default function LoginModal() {
       // Optionally, hide the modal after successful login
       dispatch(hideModal("loginModal"));
       window.location.reload();
-
-      console.log(" responce login successful", userData);
     } catch (error) {
       dispatch(loginFailure(error));
       toast.error("Login failed. Please try again.");
@@ -84,6 +81,8 @@ export default function LoginModal() {
   const handleModalClose = () => {
     dispatch(hideModal("loginModal"));
   };
+
+  const isDarkMode = useAppSelector((state) => state.darkMode);
 
   return (
     <Dialog open={modalData} onClose={handleModalClose}>
@@ -98,13 +97,25 @@ export default function LoginModal() {
             }}
             className="w-full max-w-[30rem] rounded-xl bg-white p-6 shadow-[rgba(17,_17,_26,_0.3)_0px_0px_16px] backdrop-blur-md transition-all duration-300 ease-in-out"
           >
+            <div
+              className="  w-full   relative    flex   items-center  justify-end    cursor-pointer"
+              onClick={handleModalClose}
+            >
+              <div className=" w-8 h-8   absolute right-[-1rem]  rounded-full bg-slate-400 flex justify-center items-center">
+                <Image
+                  src={crossicon}
+                  className={` w-full h-full  ${isDarkMode ? " invert" : ""}`}
+                  alt="crossicon"
+                />
+              </div>
+            </div>
             <div className="mb-6 flex w-full flex-col items-center justify-center">
               <Image
                 src={logo}
                 alt="Logo"
                 className="h-24 w-[11rem] object-contain"
               />
-              <p className="font-poppins mx-auto mt-1 px-4 text-center text-sm text-[#717171] sm:px-6">
+              <p className="font-poppins mx-auto mt-1 px-4 text-center text-sm   text-[#717171] sm:px-6">
                 Discover more about our app by registering or logging in.
               </p>
             </div>
@@ -210,19 +221,8 @@ export default function LoginModal() {
                 </div>
 
                 {/* login with google and phone number */}
-                <div className="mx-auto mt-4 flex w-[80%] flex-col items-center justify-center gap-6">
-                  <div className="flex w-full cursor-pointer items-center justify-center gap-6 rounded-lg border border-[#0046AE] py-3">
-                    <div className="h-6 w-6">
-                      <Image
-                        src={googlelogo}
-                        alt="Google Logo"
-                        className="h-full w-full object-contain"
-                      />
-                    </div>
-                    <p className="font-poppins text-sm font-medium text-[#3A3333]">
-                      Continue with Google
-                    </p>
-                  </div>
+                <div className="mx-auto mt-4 flex w-full md:w-[80%] flex-col items-center justify-center gap-6">
+                  <AddSocilLoginGoogle />
                   <div
                     className="flex w-full cursor-pointer items-center justify-center gap-6 rounded-lg border border-[#0046AE] py-3"
                     onClick={() => {
@@ -263,8 +263,6 @@ export default function LoginModal() {
           </DialogPanel>
         </div>
       </div>
-
-      <ToastContainer position="top-right" autoClose={5000} />
     </Dialog>
   );
 }

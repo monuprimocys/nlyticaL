@@ -8,10 +8,12 @@ import { RiArrowLeftWideFill } from "react-icons/ri";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Card from "./Card";
-import { useHomeScreenApi } from "@/app/store/api/useHomeScreenApi";
+import { useHomeScreenApi } from "@/app/storeApp/api/useHomeScreenApi";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function CausalSection8() {
   const sliderRef = useRef(null); // Create a ref for the slider
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   // Slick slider settings with breakpoints
   const settings = {
@@ -100,7 +102,11 @@ function CausalSection8() {
             onClick={() => sliderRef.current.slickPrev()} // Trigger previous slide on click
           />
         </div>
-        <div className="flex justify-center items-center  xl:hidden  relative  right-3 text-[#0046AE7D]">
+        <div
+          className={`flex justify-center items-center  xl:hidden  relative  right-3  ${
+            isDarkMode ? "  bg-white" : " text-[#0046AE7D] "
+          }`}
+        >
           <RiArrowRightWideFill
             size={30}
             className="cursor-pointer hover:text-[#0046AE]"

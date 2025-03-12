@@ -1,11 +1,11 @@
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import React, { useState } from "react";
 import "./style.css";
-import { useDeleteAccountMutation } from "@/app/store/api/auth/deleteuseraccount";
+import { useDeleteAccountMutation } from "@/app/storeApp/api/auth/deleteuseraccount";
 import Cookies from "js-cookie";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 
 function DeleteAccountModal() {
   const modalData = useAppSelector((state) => state.modals.DeleteAccount);
@@ -49,6 +49,14 @@ function DeleteAccountModal() {
         Cookies.remove("mobile");
         Cookies.remove("login_type");
         Cookies.remove("first_name");
+        Cookies.remove("detail_id");
+        Cookies.remove("from_user_id");
+        Cookies.remove("plane_name");
+        Cookies.remove("reviewid");
+        Cookies.remove("sponcer_id");
+        Cookies.remove("subscriber_user");
+        Cookies.remove("FormSubmited");
+        Cookies.remove("login_token");
         window.location.href = "/";
         dispatch(showModal("loginModal"));
       } else {

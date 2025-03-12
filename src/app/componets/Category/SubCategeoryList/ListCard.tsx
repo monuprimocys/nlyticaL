@@ -7,12 +7,12 @@ import featureicon from "../../../../../public/assets/Image/cardsection5iconfeac
 import locationicon from "../../../../../public/assets/Image/locationicon.png";
 import { MdOutlineStar } from "react-icons/md";
 import { IoIosStarHalf } from "react-icons/io";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import Cookies from "js-cookie";
-import { useServicelikeMutation } from "@/app/store/api/servicelike";
+import { useServicelikeMutation } from "@/app/storeApp/api/servicelike";
 import { useDispatch, useSelector } from "react-redux";
-import { showModal } from "@/app/store/Slice/modalSlice";
-import { setLikeStatus } from "@/app/store/Slice/category/likeStatusSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import { setLikeStatus } from "@/app/storeApp/Slice/category/likeStatusSlice";
 import "./style.css"; // Ensure the styles are correctly applied
 import { useAppSelector } from "@/app/hooks/hooks";
 
@@ -39,30 +39,35 @@ function ListCard({
   const [islike] = useServicelikeMutation();
 
   console.log(" my like  service: ", localLikeStatus);
-  const handleLike = useCallback(() => {
-    if (!user_id) {
-      dispatch(showModal("loginModal"));
-      return;
-    }
-
-    const action = localLikeStatus === 1 ? "dislike" : "like";
-
-    islike({ user_id, service_id, action }).then((response) => {
-      if (response?.data?.status) {
-        const newLikeStatus = action === "like" ? 1 : 0;
-        setLocalLikeStatus(newLikeStatus);
-        dispatch(setLikeStatus({ service_id, likeStatus: newLikeStatus }));
-
-        toast.success(
-          action === "like"
-            ? "Service liked successfully!"
-            : "Service disliked!"
-        );
-      } else {
-        toast.error("Failed to update the service's like status.");
+  const handleLike = useCallback(
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!user_id) {
+        dispatch(showModal("loginModal"));
+        return;
       }
-    });
-  }, [user_id, localLikeStatus, service_id, islike, dispatch]);
+
+      const action = localLikeStatus === 1 ? "dislike" : "like";
+
+      islike({ user_id, service_id, action }).then((response) => {
+        if (response?.data?.status) {
+          const newLikeStatus = action === "like" ? 1 : 0;
+          setLocalLikeStatus(newLikeStatus);
+          dispatch(setLikeStatus({ service_id, likeStatus: newLikeStatus }));
+
+          if (action === "like") {
+            toast.success("Service liked successfully!");
+          } else {
+            toast.error("Service disliked!");
+          }
+        } else {
+          toast.error("Failed to update the service's like status.");
+        }
+      });
+    },
+    [user_id, localLikeStatus, service_id, islike, dispatch]
+  );
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
@@ -74,7 +79,7 @@ function ListCard({
       onClick={onclicknavigate}
     >
       {/* Image Section */}
-      <div className="w-[50%] md:w-[30%] md:h-[15rem] sm:h-auto relative">
+      <div className="w-[60%] md:w-[30%] md:h-[15rem] sm:h-auto relative">
         <div
           className="h-full w-full rounded-lg"
           style={{
@@ -84,26 +89,26 @@ function ListCard({
           }}
         />
         <div className="absolute left-0 top-4 w-fit bg-[#0046AE] rounded-r-md px-1 md:px-2 pb-1">
-          <button className="text-white font-poppins text-[12px] md:text-sm">
+          <button className="text-white font-poppins text-[9px] md:text-sm">
             {category}
           </button>
         </div>
 
         <div
-          className="absolute top-1 bg-[#FFFFFF3D] right-[-0.6rem] md:right-3 group w-12 h-12 rounded-full flex justify-center items-center cursor-pointer transition-all ease-in-out duration-300 transform hover:scale-110"
+          className="absolute top-1 bg-[#FFFFFF3D] right-[-0.6rem] md:right-3 group w-9 h-9 md:w-10 md:h-10 rounded-full flex justify-center items-center cursor-pointer transition-all ease-in-out duration-300 transform hover:scale-110"
           onClick={handleLike}
         >
           {localLikeStatus === 1 ? (
-            <GoHeartFill className="md:w-6 md:h-6 w-5 h-5 text-[#FF2929]" />
+            <GoHeartFill className="md:w-5 md:h-5 w-4 h-4 text-[#FF2929]" />
           ) : (
-            <GoHeart className="md:w-6 md:h-6 w-5 h-5 text-black transition-colors duration-200" />
+            <GoHeart className="md:w-5 md:h-5 w-4 h-4 text-black transition-colors duration-200" />
           )}
         </div>
       </div>
 
       {/* Content Section */}
       <div className="w-full md:w-[70%] h-full flex justify-center items-center flex-col py-3 md:py-0 sm:rounded-xl relative">
-        {featured === "Featured" && (
+        {featured === "sponosor " && (
           <div className="absolute right-1 md:right-5 top-[-0.6rem] md:top-4 w-fit bg-[#0046AE] px-2 py-1 rounded-lg flex items-center gap-1">
             <Image
               src={featureicon}
@@ -208,7 +213,7 @@ function ListCard({
           {/* Button */}
           <div className="w-full justify-start items-start flex">
             <div
-              className={` w-full border-2 border-[#0046AE] px-2 md:px-8 py-2 md:py-3 rounded-xl flex justify-center items-center group relative overflow-hidden cursor-pointer   ${
+              className={`   w-[50%] border-2 border-[#0046AE] px-2 md:px-8 py-2 md:py-3 rounded-xl flex justify-center items-center group relative overflow-hidden cursor-pointer   ${
                 isDarkMode ? "  bg-[#0046AE2B]" : " "
               }
           }`}

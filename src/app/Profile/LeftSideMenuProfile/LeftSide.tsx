@@ -14,11 +14,12 @@ import share from "../../../../public/assets/Image/share.png";
 import feedback from "../../../../public/assets/Image/feednack.png";
 import logouticon from "../../../../public/assets/Image/logout.png";
 import { useDispatch, useSelector } from "react-redux";
-import { setActiveComponent } from "@/app/store/Slice/activeComponentSlice";
+import { setActiveComponent } from "@/app/storeApp/Slice/activeComponentSlice";
 import { AiOutlineClose } from "react-icons/ai";
-import { showModal } from "@/app/store/Slice/modalSlice";
-import { setDarkMode } from "@/app/store/Slice/darkModeSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import { setDarkMode } from "@/app/storeApp/Slice/darkModeSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
+import { RWebShare } from "react-web-share";
 
 function LeftSide() {
   const [isOpen, setIsOpen] = useState(false);
@@ -147,7 +148,7 @@ function LeftSide() {
             <div className="flex items-center justify-center gap-2">
               <GoHeart className="font-poppins h-6 w-6" />
               <h5 className="font-poppins text-[18px] font-normal ">
-                Favorites
+                Favorites 
               </h5>
             </div>
             <MdOutlineKeyboardArrowRight className="text-xl " />
@@ -343,21 +344,37 @@ function LeftSide() {
                 ? "dark:bg-[#212121] dark:text-white shadow-lg"
                 : "bg-white text-[#212121] shadow-lg"
             }`}
-            onClick={() => dispatch(showModal("ShareAppModal"))}
+            onClick={() => {
+              // Handle sharing logic directly inside onClick, not by returning JSX
+              if (navigator.share) {
+                navigator
+                  .share({
+                    text: "nlytical",
+                    url: "http://192.168.0.28:3000/",
+                    title: "Flamingos",
+                  })
+                  .then(() => {
+                    console.log("Shared successfully!");
+                  })
+                  .catch((error) => {
+                    console.error("Error sharing:", error);
+                  });
+              } else {
+                console.log("Web share not supported.");
+              }
+            }}
           >
             <div className="flex items-center justify-center gap-2">
               <Image
                 className={`h-6 w-6 object-cover ${
                   isDarkMode ? "bg-circle-icon" : ""
-                }
-                
-                `}
+                }`}
                 src={share}
                 alt="Profile icon"
               />
-              <div className="">
+              <div>
                 <h5
-                  className={`font-poppins text-[18px] font-normal   ${
+                  className={`font-poppins text-[18px] font-normal ${
                     isDarkMode ? "dark:text-[#FFFFFF]" : " bg-white "
                   }`}
                 >
@@ -367,7 +384,7 @@ function LeftSide() {
             </div>
             <div>
               <MdOutlineKeyboardArrowRight
-                className={`font-poppins text-[18px] font-normal   ${
+                className={`font-poppins text-[18px] font-normal ${
                   isDarkMode ? "dark:text-[#FFFFFF]" : " bg-white "
                 }`}
               />
@@ -399,7 +416,7 @@ function LeftSide() {
                     isDarkMode ? "dark:text-[#FFFFFF]" : " bg-white "
                   }`}
                 >
-                  App Feedback
+                  App Feedback 
                 </h5>
               </div>
             </div>

@@ -3,7 +3,7 @@
 import React from "react";
 import addprofile from "../../../../../public/assets/Image/addcontactbusiness.png";
 import Image from "next/image";
-import { showModal } from "@/app/store/Slice/modalSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/app/hooks/hooks";
 

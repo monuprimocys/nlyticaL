@@ -43,14 +43,14 @@ function ServiceListBreadCome() {
 
           {/* Current Pathname */}
           <h2 className="text-white text-lg font-normal font-poppins">
-            listing
+            Stores
           </h2>
         </div>
 
         {/* Right Section */}
         <div className="cursor-pointer">
           <h2 className="text-white text-lg font-normal font-poppins">
-            listing
+            Stores
           </h2>
         </div>
       </div>

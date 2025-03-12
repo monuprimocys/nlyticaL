@@ -11,8 +11,10 @@ function SubcategoryBreadCome() {
   const router = useRouter();
 
   const category_name = useAppSelector(
-    (state) => state.category.selectedCategory.category_name
+    (state) => state.categoryListing.selectedCategoryListing.category_name
   );
+
+  console.log(" my category name is ", category_name);
 
   return (
     <div
@@ -35,7 +37,7 @@ function SubcategoryBreadCome() {
                 router.push("/");
               }}
             >
-              Home
+              Home    
             </h2>
             <Image
               src={Arrowicon}
@@ -46,7 +48,7 @@ function SubcategoryBreadCome() {
             />
           </div>
           <h2
-            className="text-white text-lg font-normal font-poppins"
+            className="text-[#FFD428] text-lg font-normal font-poppins"
             onClick={() => {
               router.push("/category");
             }}
@@ -69,7 +71,7 @@ function SubcategoryBreadCome() {
         </div>
 
         {/* Right Section */}
-        <div className="cursor-pointer">
+        <div className="cursor-pointer  hidden md:block">
           <h2 className="text-white text-lg font-normal font-poppins">
             Subcategory
           </h2>

@@ -5,7 +5,7 @@ import iconcircle from "../../../../../../public/assets/Image/bookinghourscircle
 import Image from "next/image";
 import redicon from "../../../../../../public/assets/Image/closetimeiconred.png";
 import { useAppSelector } from "@/app/hooks/hooks";
-import { updateServiceField } from "@/app/store/Slice/serviceSlice";
+import { updateServiceField } from "@/app/storeApp/Slice/serviceSlice";
 import { useDispatch } from "react-redux";
 
 const CloseDay: React.FC = () => {

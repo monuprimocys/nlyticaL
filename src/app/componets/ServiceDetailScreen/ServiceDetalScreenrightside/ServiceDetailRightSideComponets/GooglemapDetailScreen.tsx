@@ -1,141 +1,120 @@
 "use client";
 import { useAppSelector } from "@/app/hooks/hooks";
-import React, { useEffect, useState, useRef } from "react";
-import locationicon from "../../../../../../public/assets/Image/locationicondetail.png";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import locationicon from "../../../../../../public/assets/Image/locationicondetail.png";
+import { useGoogleMaps } from "@/app/hooks/useGoogleMaps";
+import location from "../../../../../../public/assets/Image/locationicondetail1.png";
+import { useServiceDetailApi } from "@/app/storeApp/api/ServiceDetailScreenApi/useServiceDetailApi";
 
-const GooglemapDetailScreen: React.FC = () => {
+const GoogleMapDetailScreen: React.FC = () => {
   const googleMapRef = useRef<HTMLDivElement | null>(null);
-  const [googleLoaded, setGoogleLoaded] = useState(false);
   const [address, setAddress] = useState("");
-  const ServiceDetailData = useAppSelector(
-    (state) => state.serviceDetail.serviceDetail
-  );
-  console.log("serviceDetailData #", ServiceDetailData);
+  const googleLoaded = useGoogleMaps();
+  const lastSegment = sessionStorage.getItem("serviceId");
 
-  // Use ServiceDetailData or fall back to staticData
-  const lat = parseFloat(ServiceDetailData?.lat);
-  const lon = parseFloat(ServiceDetailData?.lon);
+  // Fetch service details
+  const { data, isLoading } = useServiceDetailApi(lastSegment);
 
-  // Fallback coordinates if lat/lon are invalid
-  const fallbackLat = 37.7749; // San Francisco, for example
-  const fallbackLon = -122.4194; // San Francisco, for example
+  // Extract lat/lon safely
+  const lat = data?.serviceDetail?.lat
+    ? parseFloat(data.serviceDetail.lat)
+    : null;
+  const lon = data?.serviceDetail?.lon
+    ? parseFloat(data.serviceDetail.lon)
+    : null;
 
-  // Determine whether the provided coordinates are valid
-  const validLat = !isNaN(lat) ? lat : fallbackLat;
-  const validLon = !isNaN(lon) ? lon : fallbackLon;
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
-  // Function to get address from lat/lon using Google Maps Geocoding API
-  const getAddressFromCoordinates = (lat: number, lon: number) => {
+  // Function to get address from coordinates
+  const getAddressFromCoordinates = (latitude: number, longitude: number) => {
+    if (!window.google || !window.google.maps) {
+      console.error("Google Maps API not loaded.");
+      return;
+    }
+
     const geocoder = new window.google.maps.Geocoder();
-    const latLng = new window.google.maps.LatLng(lat, lon);
+    const latLng = new window.google.maps.LatLng(latitude, longitude);
 
     geocoder.geocode({ location: latLng }, (results, status) => {
-      if (status === "OK" && results) {
-        if (results[0]) {
-          console.log("Address:", results[0].formatted_address);
-          setAddress(results[0].formatted_address); // Set address state
-        } else {
-          console.error("No results found");
-        }
+      if (status === "OK" && results?.[0]) {
+        setAddress(results[0].formatted_address);
       } else {
-        console.error("Geocoder failed due to: " + status);
+        console.error("Geocoder failed:", status);
       }
     });
   };
 
-  // Loading Google Maps script if not already loaded
-  useEffect(() => {
-    const loadGoogleMaps = () => {
-      if (!window.google) {
-        const script = document.createElement("script");
-        script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAMZ4GbRFYSevy7tMaiH5s0JmMBBXc0qBA`;
-        script.async = true;
-        script.defer = true;
-
-        script.onload = () => {
-          setGoogleLoaded(true);
-        };
-
-        script.onerror = () => {
-          console.error(
-            "Failed to load Google Maps script. Check your API key or network connection."
-          );
-        };
-
-        document.body.appendChild(script);
-      } else {
-        setGoogleLoaded(true);
-      }
-    };
-
-    loadGoogleMaps();
-  }, []);
-
-  // Once Google Maps is loaded, initialize the map and marker
-  useEffect(() => {
-    if (googleLoaded && window.google && googleMapRef.current) {
-      const googleMap = new window.google.maps.Map(googleMapRef.current, {
-        center: { lat: validLat, lng: validLon },
-        zoom: 13,
-        mapTypeId: window.google.maps.MapTypeId.ROADMAP,
-      });
-
-      const marker = new window.google.maps.Marker({
-        position: { lat: validLat, lng: validLon },
-        map: googleMap,
-        icon: {
-          url: "https://cdn-icons-png.flaticon.com/512/1001/1001022.png",
-          scaledSize: new window.google.maps.Size(50, 50),
-        },
-      });
-
-      const infoWindow = new window.google.maps.InfoWindow({
-        content: `
-          <div style="font-family: Arial, sans-serif; font-size: 14px;">
-            <img src="${ServiceDetailData.service_images[0]}" alt="Property Image" style="width: 100%; border-radius: 8px;" />
-          </div>
-        `,
-      });
-
-      // Open info window when marker is clicked
-      marker.addListener("click", () => {
-        infoWindow.open(googleMap, marker);
-      });
-
-      // Log the address based on lat/lon
-      getAddressFromCoordinates(validLat, validLon);
+  // Initialize Google Map
+  const initMap = () => {
+    if (
+      !window.google ||
+      !window.google.maps ||
+      !googleMapRef.current ||
+      lat === null ||
+      lon === null
+    ) {
+      console.error("Google Maps API not available or invalid lat/lon.");
+      return;
     }
-  }, [googleLoaded, validLat, validLon]);
 
-  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+    const map = new window.google.maps.Map(googleMapRef.current, {
+      center: { lat, lng: lon },
+      zoom: 13,
+      mapTypeId: window.google.maps.MapTypeId.ROADMAP,
+    });
+
+    const marker = new window.google.maps.Marker({
+      position: { lat, lng: lon },
+      map: map,
+      icon: {
+        url: location,
+        scaledSize: new window.google.maps.Size(10, 10),
+      },
+    });
+
+    marker.addListener("click", () => {
+      window.open(`https://www.google.com/maps?q=${lat},${lon}`, "_blank");
+    });
+
+    getAddressFromCoordinates(lat, lon);
+  };
+
+  // Initialize the map when Google API is loaded and lat/lon are available
+  useEffect(() => {
+    if (googleLoaded && lat !== null && lon !== null) {
+      initMap();
+    }
+  }, [googleLoaded, lat, lon]);
 
   return (
     <div className="items-center justify-center w-full p-4 h-full rounded-lg photoservicedetailborderandshado">
       {/* Heading */}
       <div
-        className={`text-lg font-medium items-start font-poppins    ${
+        className={`text-lg font-medium items-start font-poppins ${
           isDarkMode ? "text-[#ffffff]" : "text-[#3E5155]"
         }`}
       >
         Map
       </div>
-      {/* Google map location according to lat lon */}
+
+      {/* Address Display */}
       <div className="w-full flex gap-2 h-full">
         <Image
           src={locationicon}
           alt="Location Icon"
-          className={`w-6 h-6  ${isDarkMode ? "bg-circle-icon" : ""}`}
+          className={`w-6 h-6 ${isDarkMode ? "bg-circle-icon" : ""}`}
         />
         <h1
-          className={`text-sm font-medium  font-poppins pt-[2px]  ${
+          className={`text-sm font-medium font-poppins pt-[2px] ${
             isDarkMode ? "text-[#ffffff]" : "text-black"
           }`}
         >
-          {address}
+          {address || "Fetching address..."}
         </h1>
       </div>
 
+      {/* Map Container */}
       <div
         ref={googleMapRef}
         style={{
@@ -143,10 +122,12 @@ const GooglemapDetailScreen: React.FC = () => {
           height: "400px",
           borderRadius: "8px",
         }}
-        className=" mt-3"
-      />
+        className="mt-3"
+      >
+        {isLoading ? <p>Loading map...</p> : null}
+      </div>
     </div>
   );
 };
 
-export default GooglemapDetailScreen;
+export default GoogleMapDetailScreen;

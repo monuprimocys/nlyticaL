@@ -1,18 +1,24 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import SponsorStoresCard from "./SponsorStoresCard";
 import Heading from "../../Heading/Heading";
 import "./cardStyle.css";
 import Image from "next/image";
 import btnicon from "../../../../../public/assets/Image/btn.png";
-import { useHomeScreenApi } from "@/app/store/api/useHomeScreenApi";
-import { useHomeScreenSettingApi } from "@/app/store/api/useHomeScreenSettingApi";
+import { useHomeScreenApi } from "@/app/storeApp/api/useHomeScreenApi";
+import { useHomeScreenSettingApi } from "@/app/storeApp/api/useHomeScreenSettingApi";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/app/hooks/hooks";
 
 function SponsorStores() {
   const { data, isLoading, refetch } = useHomeScreenApi();
   const router = useRouter();
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
+  useEffect(() => {
+    refetch();
+  }, [data, refetch]);
 
   const carddata = data?.sponser_store.services;
 
@@ -25,7 +31,7 @@ function SponsorStores() {
   }
 
   return (
-    <div className="w-full h-auto mt-[6rem] ">
+    <div className="w-full h-auto  mt-[4rem] md:mt-[6rem] ">
       <div className="w-[90%] sm:w-[85%] md:w-[90%] 2xl:w-[70%] mx-auto   ">
         <div className=" w-full xl:pt-[1.8rem]">
           <Heading
@@ -33,7 +39,7 @@ function SponsorStores() {
             highlightedTitle={data?.sponser_store.title}
           />
         </div>
-        <div className=" grid-cols-1 grid xl:grid-cols-2  mt-[5rem]   gap-4 w-full">
+        <div className=" grid-cols-1 grid xl:grid-cols-2   mt-[3rem] md:mt-[5rem]   gap-4 w-full">
           {carddata?.map((item, index) => (
             <SponsorStoresCard key={index} data={item} />
           ))}
@@ -47,7 +53,11 @@ function SponsorStores() {
             }}
           >
             <button
-              className="text-[#0046AE] font-poppins w-[200px] h-[50px] px-[30px] py-[12px] rounded-xl bg-white border-2 border-[#0046AE] flex items-center justify-between transition duration-300 ease-in-out transform   focus:outline-none"
+              className={` font-poppins w-[200px] h-[50px] px-[30px] py-[12px] rounded-xl  border-2  flex items-center justify-between transition duration-300 ease-in-out transform   focus:outline-none  ${
+                isDarkMode
+                  ? "text-white   bg-[#212121] border-[#181818]"
+                  : "text-[#0046AE] bg-white border-[#0046AE]"
+              }`}
               id="bordercolorbtn"
             >
               Explore More

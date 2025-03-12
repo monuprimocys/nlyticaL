@@ -1,24 +1,36 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import addprofile from "../../../../../public/assets/Image/addphotobusiness.png";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/app/store/Slice/modalSlice";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
-
+import { useUpdateService } from "@/app/storeApp/api/useUpdateService";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
+import Cookies from "js-cookie";
 function AddPhotos() {
   const dispatch = useDispatch();
 
-    const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
-  
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+  const vendor_id = Cookies.get("user_id");
+  const service_id = Cookies.get("service_id");
+
+  const [updateService, { data, isLoading, error }] =
+    useUpdateServiceMutation();
+
+  const handalmodalopne = () => {
+    if (vendor_id && service_id) {
+      updateService({ vendor_id, service_id }); // API call on button click
+    }
+    dispatch(showModal("BusinessImagesModal"));
+  };
+
   return (
     <div className="  flex  flex-col gap-2 cursor-pointer ">
       <div
         className="w-[6.3rem]  h-[6.3rem] rounded-lg  flex justify-center items-center  bg-[#C5FFCD]  "
-        onClick={() => {
-          dispatch(showModal("BusinessImagesModal"));
-        }}
+        onClick={handalmodalopne}
       >
         <Image
           src={addprofile}

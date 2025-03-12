@@ -5,11 +5,11 @@ import "react-phone-input-2/lib/high-res.css";
 import PhoneInput from "react-phone-input-2";
 import "./style.css";
 import callicon from "../../../../public/assets/Image/callSinup.png";
-import { useRegisterAccountMutation } from "../../store/api/auth/newuser-registeraccount";
+import { useRegisterAccountMutation } from "../../storeApp/api/auth/newuser-registeraccount";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
-import { toast } from "react-hot-toast";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
-import { setUserRegistration } from "@/app/store/Slice/RegistrationSlice";
+import { toast } from "react-toastify";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
+import { setUserRegistration } from "@/app/storeApp/Slice/RegistrationSlice";
 import Cookies from "js-cookie";
 
 // Define the types for phone input box state
@@ -89,7 +89,7 @@ function RegisterWithMobilenumber() {
             className="text-sm font-medium text-[#000000]"
             htmlFor="mobile"
           >
-            Mobile Number
+            Mobile Number 
           </label>
           <div className="relative mt-2">
             <PhoneInput

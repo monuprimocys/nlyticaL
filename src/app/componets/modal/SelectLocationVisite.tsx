@@ -1,10 +1,15 @@
 "use client";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { RxCross2 } from "react-icons/rx";
+import ListingLocation from "../Listing/LeftSide/ListingLocation";
 
-function SelectLocationVisite() {
+function SelectLocationVisite({data}) {
+
+ const dta =  data
+ console.log(" my slected data ", dta);
+
   const modalOpen = useAppSelector(
     (state) => state.modals.SelectLocationVisite
   );
@@ -13,6 +18,8 @@ function SelectLocationVisite() {
 
   // Handle modal close (dispatch action to hide modal)
   const close = () => dispatch(hideModal("SelectLocationVisite"));
+
+  
 
   return (
     <Dialog open={modalOpen} onClose={close} as="div" className="z-50">
@@ -34,11 +41,8 @@ function SelectLocationVisite() {
               </div>
             </div>
 
-            <div className="relative mt-8 flex items-center">
-              <input
-                className="font-poppins  w-full rounded-md   bg-[#f5f6f7] py-4 pl-3 pr-[3rem] text-[#00162e] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
-                placeholder="Serach location"
-              />
+            <div className="relative py-6 flex items-center">
+              <ListingLocation />
             </div>
           </DialogPanel>
         </div>

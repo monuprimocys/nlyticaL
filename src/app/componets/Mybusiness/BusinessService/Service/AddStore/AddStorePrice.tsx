@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { TextField } from "@mui/material";
 import { useAppSelector } from "@/app/hooks/hooks";
-import { setStorePrice } from "@/app/store/Slice/AddStore";
+import { setStorePrice } from "@/app/storeApp/Slice/AddStore";
 import toast from "react-hot-toast";
 
 interface BusinessNameProps {

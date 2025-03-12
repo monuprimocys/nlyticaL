@@ -5,7 +5,7 @@ import Image from "next/image";
 import { TextField, InputAdornment } from "@mui/material";
 import search from "../../../../../public/assets/Image/search-normal.png";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchQuery } from "@/app/store/Slice/Listing/searchSlice";
+import { setSearchQuery } from "@/app/storeApp/Slice/Listing/searchSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 const SearchboxListing = () => {
@@ -30,7 +30,7 @@ const SearchboxListing = () => {
       <TextField
         fullWidth
         variant="outlined"
-        placeholder="Listing Search"
+        placeholder="Listing Search  "
         value={searchQuery} // Bind the input value to Redux state
         onChange={handleInputChange} // Handle the change in the input field
         InputProps={{

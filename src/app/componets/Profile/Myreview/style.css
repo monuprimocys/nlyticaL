@@ -6,3 +6,8 @@
 .btnbordercolor {
   border: 0.76px solid #0046ae;
 }
+
+.borderxcolorwithshado {
+  box-shadow: 0px 2px 10px 0px #0000001f;
+  border-bottom: 1px solid #dbdbdb;
+}

@@ -18,7 +18,7 @@ function Section9() {
 
         {/* card  */}
 
-        <div className=" w-full grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 lg:grid-cols-3    pb-[14px]  gap-10 md:gap-6 mt-10">
+        <div className=" w-full  relative     grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 lg:grid-cols-3    pb-[14px]  gap-10 md:gap-6 mt-10">
           <SameTypeCard />
           <Card2 />
           <Card3 />

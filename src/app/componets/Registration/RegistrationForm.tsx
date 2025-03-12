@@ -9,11 +9,11 @@ import "react-phone-input-2/lib/high-res.css";
 import PhoneInput from "react-phone-input-2";
 import "./style.css";
 import callicon from "../../../../public/assets/Image/callSinup.png";
-import { useRegisterAccountMutation } from "../../store/api/auth/newuser-registeraccount";
-import { setUserRegistration } from "@/app/store/Slice/RegistrationSlice";
+import { useRegisterAccountMutation } from "../../storeApp/api/auth/newuser-registeraccount";
+import { setUserRegistration } from "@/app/storeApp/Slice/RegistrationSlice";
 import { useAppDispatch } from "@/app/hooks/hooks";
-import { ToastContainer, toast } from "react-toastify";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
+import {  toast } from "react-toastify";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 import Cookies from "js-cookie";
 
 // Define the types for phone input box state
@@ -109,10 +109,15 @@ function RegistrationForm() {
     try {
       const response = await registerAccount(registrationData).unwrap();
 
+
+      console.log(" my api responce values ",response)
+
       Cookies.set("login_type", response.login_type);
 
       // Dispatch user registration state
       dispatch(setUserRegistration(response));
+     Cookies.set("user_id",response.user_id)
+      
 
       // Display success message
       toast.success(
@@ -120,7 +125,7 @@ function RegistrationForm() {
       );
 
       console.log("Registration successful!", response);
-      dispatch(showModal("RegisterModalVerifyOtpModal"));
+      dispatch(showModal("RegisterWithMobilenumberVerifyOtpModal"));
       dispatch(hideModal("RegisterModal"));
     } catch (err) {
       toast.error(
@@ -318,9 +323,7 @@ function RegistrationForm() {
         </div>
       </form>
 
-      <div className=" w-full ">
-        <ToastContainer position="top-right" autoClose={5000} />
-      </div>
+      
     </div>
   );
 }

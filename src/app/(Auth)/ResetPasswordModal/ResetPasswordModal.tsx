@@ -5,7 +5,7 @@ import Image from "next/image";
 import loginbgimage from "../../../../public/assets/Image/loginbgimage.png";
 import logo from "../../../../public/assets/Image/logo.png";
 import { useAppSelector } from "@/app/hooks/hooks";
-import { hideModal, showModal } from "@/app/store/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useDispatch } from "react-redux";
 import ResetPasswordForm from "@/app/componets/ResetPassword/ResetPasswordForm";
 
@@ -46,7 +46,7 @@ export default function ResetPasswordModal() {
               <ResetPasswordForm />
               <div className="flex items-center justify-center pb-6 mt-4">
                 <p className="text-sm text-gray-500 font-poppins">
-                  Don&apos;t have an account?{" "}
+                  Don&apos;t have an account?{" "} 
                   <span
                     className="font-medium text-blue-600 cursor-pointer font-poppins"
                     onClick={() => {

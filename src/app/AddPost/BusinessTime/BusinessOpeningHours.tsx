@@ -11,7 +11,7 @@ import {
   setSelectedDays,
   setStartTime,
   setEndTime,
-} from "@/app/store/Slice/AddpostSelectedIDandvalues/businessSlice";
+} from "@/app/storeApp/Slice/AddpostSelectedIDandvalues/businessSlice";
 import dayjs from "dayjs";
 import { useAppSelector } from "@/app/hooks/hooks";
 
@@ -21,8 +21,7 @@ const BusinessOpeningHours: React.FC = () => {
     (state) => state.businessHours
   );
 
-  console.log("Start Time from Redux:", startTime); // Debugging start time
-  console.log("End Time from Redux:", endTime); // Debugging end time
+  console.log(" my opne time ", endTime);
 
   // State to manage the opening/closing of the TimePickers
   const [openStartTimePicker, setOpenStartTimePicker] = useState(false);
@@ -52,7 +51,6 @@ const BusinessOpeningHours: React.FC = () => {
   const handleStartTimeChange = (value: dayjs.Dayjs | null) => {
     if (value) {
       const formattedTime = value.format("hh:mm A");
-      console.log("Formatted Start Time:", formattedTime); // Debugging formatted start time
       dispatch(setStartTime(formattedTime)); // Update start time in the Redux store
     } else {
       dispatch(setStartTime(null)); // Clear the start time if no time is selected
@@ -64,7 +62,6 @@ const BusinessOpeningHours: React.FC = () => {
   const handleEndTimeChange = (value: dayjs.Dayjs | null) => {
     if (value) {
       const formattedTime = value.format("hh:mm A");
-      console.log("Formatted End Time:", formattedTime); // Debugging formatted end time
       dispatch(setEndTime(formattedTime)); // Update end time in the Redux store
     } else {
       dispatch(setEndTime(null)); // Clear the end time if no time is selected
@@ -97,11 +94,7 @@ const BusinessOpeningHours: React.FC = () => {
   }, []);
 
   // Log the selected days and times whenever they change
-  useEffect(() => {
-    console.log("Selected Days from Redux:", selectedDays);
-    console.log("Start Time from Redux:", startTime);
-    console.log("End Time from Redux:", endTime);
-  }, [selectedDays, startTime, endTime]);
+  useEffect(() => {}, [selectedDays, startTime, endTime]);
 
   return (
     <div className="flex w-full flex-col items-center space-y-6">
@@ -161,7 +154,6 @@ const BusinessOpeningHours: React.FC = () => {
                   open={openStartTimePicker} // Control whether the picker is open
                   onClose={() => setOpenStartTimePicker(false)} // Close the picker when the user clicks outside
                   sx={{ width: "100%" }}
-                  views={["hours"]}
                 />
               </DemoContainer>
             </LocalizationProvider>
@@ -182,7 +174,6 @@ const BusinessOpeningHours: React.FC = () => {
                   open={openEndTimePicker} // Control whether the picker is open
                   onClose={() => setOpenEndTimePicker(false)} // Close the picker when the user clicks outside
                   sx={{ width: "100%" }}
-                  views={["hours"]}
                 />
               </DemoContainer>
             </LocalizationProvider>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import crossicon from "../../../public/assets/Image/crossicon.png";
-import { hideModal } from "../store/Slice/modalSlice";
+import { hideModal } from "../storeApp/Slice/modalSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
 function ModalLable() {

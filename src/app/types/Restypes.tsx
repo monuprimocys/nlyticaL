@@ -689,25 +689,22 @@ export interface Datum {
   status: number;
 }
 
-
 export interface HomeGetCountrieslistRes {
-  status:        boolean;
-  message:       string;
+  status: boolean;
+  message: string;
   countriesList: string[];
 }
 
-
 export interface HomeGetCountrieslisCategorytRes {
-  status:         boolean;
-  message:        string;
+  status: boolean;
+  message: string;
   categoriesList: CategoriesList[];
 }
 
 export interface CategoriesList {
-  id:            number;
+  id: number;
   category_name: string;
 }
-
 
 // ++++++++================================================== messssage chta ++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -823,4 +820,135 @@ export interface ServiceDetail {
   vendor_email: string;
   vendor_image: string;
   isLike: number;
+}
+
+// types.ts
+export interface User {
+  id: number;
+  second_id: number;
+  first_name: string;
+  last_name: string;
+  profile_pic: string;
+  last_message: string;
+  last_seen: string;
+  is_online: number; // 1 for online, 0 for offline
+  unread_message: number;
+  user_role: string;
+  time: string; // Last active time
+  is_block: number; // 1 for blocked, 0 for not blocked
+}
+
+export interface GetbudgetcountRes {
+  status: boolean;
+  message: string;
+  data: Datum[];
+}
+
+export interface Datum {
+  id: number;
+  days: string;
+  price: number;
+}
+
+export interface GegetcampaignAll {
+  status: boolean;
+  message: string;
+  campaignData: CampaignDatum[];
+}
+
+export interface CampaignDatum {
+  id: number;
+  vendor_id: number;
+  service_id: number;
+  campaign_name: string;
+  address: Address;
+  lat: string;
+  lon: string;
+  area_distance: string;
+  created_at: Date;
+  updated_at: Date;
+}
+
+export enum Address {
+  NeighborhoodInAhmedabadGujarat = "Neighborhood in Ahmedabad, Gujarat",
+}
+
+// types.ts
+
+export interface StoreAttachment {
+  url: string;
+}
+
+export interface StoreImage {
+  url: string;
+}
+
+export interface CardData {
+  id: number;
+  category: string;
+  mobile: string;
+  price: string;
+  store_attachments: StoreAttachment[];
+  store_description: string;
+  store_images: StoreImage[];
+  store_name: string;
+}
+
+// Business Reviews
+
+export interface BusinessReviewRes {
+  status: boolean;
+  message: string;
+  service_details: ServiceDetails;
+  userReviews: UserReview[];
+}
+
+export interface ServiceDetails {
+  service_name: string;
+  service_description: string;
+  service_images: string[];
+  totalAvgReview: string;
+  totalReviewCount: number;
+}
+
+export interface UserReview {
+  id: number;
+  service_id: number;
+  user_id: number;
+  review_star: string;
+  review_message: string;
+  created_at: Date;
+  first_name: string;
+  last_name: string;
+  image: string;
+}
+
+//  update review
+
+export interface UpdateReviewList {
+  status: boolean;
+  message: string;
+  reviewdata: Reviewdata;
+}
+
+export interface Reviewdata {
+  review_id: number;
+  user_id: number;
+  service_id: number;
+  review_star: string;
+  review_message: string;
+}
+
+//  store sub categories list
+
+export interface StoreSubCategoriyList {
+  status: boolean;
+  message: string;
+  totalSubCategoryCount: number;
+  subCategoryData: SubCategoryDatum[];
+}
+
+export interface SubCategoryDatum {
+  id: number;
+  subcategory_name: string;
 }

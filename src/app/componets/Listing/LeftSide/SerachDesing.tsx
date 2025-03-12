@@ -7,15 +7,12 @@ import "../../Listing/style.css";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 import { useEffect } from "react";
-import { useFilterMutation } from "@/app/store/api/filter";
-import { updateFilterData } from "@/app/store/Slice/category/filterSlice";
+import { useFilterMutation } from "@/app/storeApp/api/filter";
+import { updateFilterData } from "@/app/storeApp/Slice/category/filterSlice";
 import { useDispatch } from "react-redux";
-import CategoryDropdwonListing from "./CategoryDropdwonListing";
-import SubCategoryListingDropdwon from "./SubCategoryListingDropdwon";
 import PriceListing from "./PriceListing";
 import TypesListing from "./TypesListing";
 import RatingListing from "./RatingListing";
-import ListingLocation from "./ListingLocation";
 import LocationCategorySubCategoryDropdwon from "./LocationCategorySubCategoryDropdwon";
 import SerchboxLIsting from "./SerchboxLIsting";
 
@@ -32,7 +29,7 @@ function SerachDesing() {
   );
   const state = statelocation ? statelocation.split(",")[0] : "";
 
-  console.log("my filter slice values are", filterslice);
+  console.log("my filter slice values are", state);
 
   useEffect(() => {
     dispatch(
@@ -84,7 +81,7 @@ function SerachDesing() {
     <div className={`w-full h-auto grid gap-6 grid-cols-1  `}>
       {/* Search Box */}
       <div className="relative flex items-center">
-      <SerchboxLIsting />
+        <SerchboxLIsting />
       </div>
       <div className="w-full h-auto grid gap-6 grid-cols-1 md:grid-cols-2 xl:grid-cols-1">
         {/* Location Search */}

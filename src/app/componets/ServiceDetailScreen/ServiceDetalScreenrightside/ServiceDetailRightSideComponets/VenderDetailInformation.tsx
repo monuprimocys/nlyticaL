@@ -1,16 +1,48 @@
 "use client";
 
-import { useAppSelector } from "@/app/hooks/hooks";
-import React from "react";
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
+import React, { useEffect } from "react";
 import verfiyicon from "../../../../../../public/assets/Image/verfiy.png";
 import Image from "next/image";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import Cookies from "js-cookie";
+import { usePathname } from "next/navigation";
+import { useServiceDetailApi } from "@/app/storeApp/api/ServiceDetailScreenApi/useServiceDetailApi";
 
 function VenderDetailInformation() {
+  const lastSegment =  sessionStorage.getItem("serviceId")
+
+  // Store service ID in cookies
+  useEffect(() => {
+    Cookies.set("detail_id", lastSegment);
+  }, [lastSegment]);
+
+  const dispatch = useAppDispatch();
+
+  // Fetch service details
+  const { data, error, isLoading, refetch } = useServiceDetailApi(lastSegment);
+
+  console.log(
+    " my details cren  detail from emaaployeee",
+    data?.serviceDetail.employee_strength
+  );
+
   const ServiceDetailData = useAppSelector(
     (state) => state.serviceDetail.vendorDetails
   );
   const listing = useAppSelector((state) => state.serviceDetail);
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
+  const listlenght = listing.serviceDetail.total_stores_count;
+
+  console.log(" my list vbalues from detail service detail", listlenght);
+
+  const handallist = () => {
+    if (listlenght > 0) {
+      dispatch(showModal("ServiceDetailScreenFiltterModal"));
+    }
+  };
+
   return (
     <div
       className={`p-4 rounded-lg    ${
@@ -54,9 +86,12 @@ function VenderDetailInformation() {
           </div>
 
           <div className="text-sm text-[#757575] mt-1">
-            <span className=" text-[#0046AE]  font-poppins">
+            <span
+              className=" text-[#0046AE]  font-poppins  cursor-pointer"
+              onClick={handallist}
+            >
               {" "}
-              {listing.serviceDetail.total_stores_count} Listings
+              {listing.serviceDetail.total_stores_count} Services
             </span>
             <span
               className={` ml-2 font-poppins  ${
@@ -68,6 +103,16 @@ function VenderDetailInformation() {
             </span>
           </div>
         </div>
+      </div>
+      {/* number of empply  */}
+      <div className=" w-full pt-3 flex justify-start items-center">
+        <p
+          className={`text-lg font-medium font-poppins  mb-4  ${
+            isDarkMode ? "text-[#ffffff]" : "text-[#3E5155]"
+          }`}
+        >
+          Number of Employees: {data?.serviceDetail.employee_strength}
+        </p>
       </div>
     </div>
   );

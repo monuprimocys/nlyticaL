@@ -1,5 +1,5 @@
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { updateStoreName } from "@/app/store/Slice/UpdateStoreSlice";
+import { updateStoreName } from "@/app/storeApp/Slice/UpdateStoreSlice";
 import { TextField } from "@mui/material";
 
 const UpdateStoreName: React.FC = () => {

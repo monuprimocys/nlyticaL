@@ -6,7 +6,7 @@ import { CiSearch } from "react-icons/ci"; // Define types for Google Maps
 import {
   setSearchLocationCategory,
   clearSearchLocationCategory,
-} from "@/app/store/Slice/category/SerachLocationSlice";
+} from "@/app/storeApp/Slice/category/SerachLocationSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 
 declare global {

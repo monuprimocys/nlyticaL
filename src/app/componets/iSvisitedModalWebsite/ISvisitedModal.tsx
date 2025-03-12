@@ -1,10 +1,10 @@
 "use client";
 import { useAppSelector } from "@/app/hooks/hooks";
-import { hideModal } from "@/app/store/Slice/modalSlice";
+import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import crossicon from "../../../../../../public/assets/Image/crossicon.png";
-import "../../businesscss.css";
+import "../../bussinescss.css";
 import infocircle from "../../../../../../public/assets/Image/info-circle.png";
 import { useDispatch } from "react-redux";
 

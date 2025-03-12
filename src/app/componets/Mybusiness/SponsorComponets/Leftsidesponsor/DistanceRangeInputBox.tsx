@@ -3,7 +3,7 @@ import "./Sponsorleftside.css";
 import distance from "../../../../../../public/assets/Image/distance.png";
 import Image from "next/image";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { setDistance } from "@/app/store/Slice/distanceSlice";
+import { setDistance } from "@/app/storeApp/Slice/distanceSlice";
 
 function DistanceRangeInputBox() {
   const dispatch = useAppDispatch();

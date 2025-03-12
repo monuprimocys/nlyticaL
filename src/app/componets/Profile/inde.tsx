@@ -4,8 +4,8 @@ import "./style.css";
 import "react-phone-input-2/lib/high-res.css";
 import PhoneInput from "react-phone-input-2";
 import Cookies from "js-cookie";
-import { useProfileMutation } from "@/app/store/api/auth/getuserprofile";
-import { useUpdateProfileMutation } from "@/app/store/api/auth/ProfileUpdate";
+import { useProfileMutation } from "@/app/storeApp/api/auth/getuserprofile";
+import { useUpdateProfileMutation } from "@/app/storeApp/api/auth/ProfileUpdate";
 import Image from "next/image";
 
 const ProfileForm: React.FC = () => {

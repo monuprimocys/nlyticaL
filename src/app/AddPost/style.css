@@ -7,7 +7,7 @@
   box-shadow: 0px 2px 10px 0px #0000001f;
 }
 
-.linearcolor {
+.linearcolor12 {
   background: linear-gradient(270deg, #0046ae 1.29%, #001d48 100%);
 }
 
@@ -138,8 +138,207 @@
 }
 
 /* In your CSS or stylesheet */
-.input-important {
-  position: absolute !important;
-  left: 33px !important;
-  top: 29px !important;
+/* Apply styles for mobile screens */
+@media (max-width: 767px) {
+  .input-important {
+    position: absolute !important;
+    left: 1px !important;
+    top: 10px !important;
+  }
+}
+
+/* Apply styles for medium and larger screens */
+@media (min-width: 768px) {
+  .input-important {
+    position: absolute !important;
+    left: 33px !important;
+    top: 29px !important;
+  }
+}
+
+/*  meadia queriy  */
+
+@media (min-width: 2000px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -17rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 400px) and (max-width: 460px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -10rem !important;
+    top: 50px !important;
+  }
+}
+@media (min-width: 1100px) and (max-width: 1138px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -26rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 1140px) and (max-width: 1168px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -27.5rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1239px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -29rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 1240px) and (max-width: 1300px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -30rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 1400px) and (max-width: 1460px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -11rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 1460px) and (max-width: 1500px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -11.8rem !important;
+    top: 70px !important;
+  }
+}
+
+ 
+@media (min-width: 1500px) and (max-width: 1600px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -9rem !important;
+    top: 70px !important;
+  }
+}
+
+
+@media (min-width: 1600px) and (max-width: 1700px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -10rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 1700px) and (max-width: 1800px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -10.8rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 1800px) and (max-width: 1900px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -10.8rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 2000px) and (max-width: 2031px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -12.8rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 2031px) and (max-width: 2050px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -12.8rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 2050px) and (max-width: 2100px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -13.2rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 2100px) and (max-width: 2130px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -13.5rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 2130px) and (max-width: 2155px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -14rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 2155px) and (max-width: 2200px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -14rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 2200px) and (max-width: 2250px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -14.8rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 2250px) and (max-width: 2300px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -14.8rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 2300px) and (max-width: 2350px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -15.5rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 2350px) and (max-width: 2400px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -16rem !important;
+    top: 70px !important;
+  }
+}
+
+@media (min-width: 2400px) and (max-width: 2450px) {
+  .responsivedesingicon {
+    position: absolute !important;
+    left: -16.5rem !important;
+    top: 70px !important;
+  }
 }
