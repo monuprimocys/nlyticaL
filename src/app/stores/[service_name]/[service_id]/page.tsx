@@ -76,26 +76,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       },
     };
   } catch (error) {
-    console.error("Metadata fetch error:", error);
-
+    console.error("Error fetching metadata:", error);
     return {
-      title: `Service - ${decodedServiceId}`,
-      description: `Details about service ${params.service_name} with ID ${decodedServiceId}.`,
-      openGraph: {
-        images: [
-          {
-            url: defaultImage,
-            secureUrl: defaultImage,
-            width: 1200,
-            height: 630,
-            alt: "Default Service Image",
-          },
-        ],
-      },
-      twitter: {
-        card: "summary_large_image",
-        images: [defaultImage],
-      },
+      title: "Error",
+      description: "An error occurred while fetching the service details.",
+      robots: "noindex, nofollow",
     };
   }
 }
