@@ -42,9 +42,10 @@ export async function generateMetadata({
       "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg";
     const defaultURL = "https://nlyticalapp.com/";
 
-    const imageUrl = serviceDetail.cover_image?.startsWith("http")
-      ? serviceDetail.cover_image
-      : defaultImage;
+    const imageUrl =
+      serviceDetail.cover_image && serviceDetail.cover_image.startsWith("http")
+        ? serviceDetail.cover_image
+        : defaultImage;
 
     return {
       title: serviceDetail.meta_title || defaultTitle,
@@ -76,12 +77,7 @@ export async function generateMetadata({
         title: serviceDetail.meta_title || defaultTitle,
         description: serviceDetail.meta_description || defaultDescription,
         creator: "@primocys",
-        images: [
-          {
-            url: "https://nlytical.theprimocys.com/assets/images/cover_images/1742291605_mysa.jpg",
-            alt: serviceDetail.meta_title || "Service Image",
-          },
-        ],
+        image: imageUrl, // Twitter requires this as a direct string
       },
     };
   } catch (error) {
@@ -92,7 +88,8 @@ export async function generateMetadata({
       openGraph: {
         images: [
           {
-            url: "https://nlytical.theprimocys.com/assets/images/cover_images/1742291605_mysa.jpg",
+            url: defaultImage,
+            secureUrl: defaultImage,
             width: 1200,
             height: 630,
             alt: "Default Service Image",
@@ -100,12 +97,7 @@ export async function generateMetadata({
         ],
       },
       twitter: {
-        images: [
-          {
-            url: "https://nlytical.theprimocys.com/assets/images/cover_images/1742291605_mysa.jpg",
-            alt: "Default Service Image",
-          },
-        ],
+        image: defaultImage, // Twitter requires a single image URL
       },
     };
   }
