@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import addprofile from "../../../../../public/assets/Image/addphotobusiness.png";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 import { useUpdateService } from "@/app/storeApp/api/useUpdateService";
 import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
@@ -19,11 +19,18 @@ function AddPhotos() {
   const [updateService, { data, isLoading, error }] =
     useUpdateServiceMutation();
 
+  const is_store = Cookies.get("is_store");
+
   const handalmodalopne = () => {
-    if (vendor_id && service_id) {
-      updateService({ vendor_id, service_id }); // API call on button click
+    if (Number(is_store) === 0) {
+      dispatch(showModal("CheackStoreAdd"));
+      dispatch(hideModal("BusinessImagesModal"));
+    } else {
+      if (vendor_id && service_id) {
+        updateService({ vendor_id, service_id }); // API call on button click
+      }
+      dispatch(showModal("BusinessImagesModal"));
     }
-    dispatch(showModal("BusinessImagesModal"));
   };
 
   return (

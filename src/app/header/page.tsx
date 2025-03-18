@@ -68,6 +68,7 @@ import CompleteBusinessModal from "../componets/Mybusiness/BusinessTools/ModalBu
 import CompleteAddressModal from "../AddPost/BusinessDetail/BusinessDetailForm/CompleteAddressModal";
 import ImageModalMessage from "../componets/message/MessageBox/ImageModalMessage";
 import ImageModalRightSide from "../componets/message/MessageBox/ImageModalRightSide";
+import CheackStoreAdd from "../bussines/CheackStoreAdd";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -308,6 +309,10 @@ function Header() {
 
   const isImageModalRightSideVisibility = useAppSelector(
     (state) => state.modals.ImageModalRightSide
+  );
+
+  const isCheackStoreAddVisibility = useAppSelector(
+    (state) => state.modals.CheackStoreAdd
   );
 
   const handleMenuToggle = () => {
@@ -1004,6 +1009,7 @@ function Header() {
       {isSponcerModalAfterAddVisibility && <SponcerModalAfterAdd />}
       {isImageModalMessageVisibility && <ImageModalMessage />}
       {isImageModalRightSideVisibility && <ImageModalRightSide />}
+      {isCheackStoreAddVisibility && <CheackStoreAdd />}
     </header>
   );
 }

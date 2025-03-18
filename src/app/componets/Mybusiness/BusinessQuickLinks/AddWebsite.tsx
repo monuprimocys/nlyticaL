@@ -1,22 +1,43 @@
 "use client";
 
-
 import React from "react";
 import addprofile from "../../../../../public/assets/Image/websitebusiness.png";
 import Image from "next/image";
-import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/app/hooks/hooks";
-
+import Cookies from "js-cookie";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
 
 function AddWebsite() {
   const dispatch = useDispatch();
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
-  return (
-    <div className="  flex  flex-col gap-2 cursor-pointer "  onClick={() => {
+  const vendor_id = Cookies.get("user_id");
+  const service_id = Cookies.get("service_id");
+
+  const [updateService, { data, isLoading, error }] =
+    useUpdateServiceMutation();
+
+  const is_store = Cookies.get("is_store");
+
+  const handalmodalopne = () => {
+    if (Number(is_store) === 0) {
+      dispatch(showModal("CheackStoreAdd"));
+      dispatch(hideModal("BusinessWebsiteModal"));
+    } else {
+      if (vendor_id && service_id) {
+        updateService({ vendor_id, service_id }); // API call on button click
+      }
       dispatch(showModal("BusinessWebsiteModal"));
-    }}>
+    }
+  };
+
+  return (
+    <div
+      className="  flex  flex-col gap-2 cursor-pointer "
+      onClick={handalmodalopne}
+    >
       <div className="w-[6.3rem]  h-[6.3rem] rounded-lg  flex justify-center items-center  bg-[#FFDCFD]  ">
         <Image
           src={addprofile}

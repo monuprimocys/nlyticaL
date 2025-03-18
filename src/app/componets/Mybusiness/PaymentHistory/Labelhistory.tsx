@@ -6,9 +6,10 @@ import tollsimage from "../../../../../public/assets/Image/payment.png";
 import Image from "next/image";
 import Arrowleftside from "../../../../../public/assets/Image/arrow-left.png";
 import { useRouter } from "next/navigation";
-import { useAppSelector } from "@/app/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
 import Cookies from "js-cookie";
 import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 
 function Labelhistory() {
   const router = useRouter();
@@ -28,8 +29,15 @@ function Labelhistory() {
   }, [vendor_id, service_id, updateService]);
 
   const service_name = updateservicedata?.service.service_name;
+  const is_store = Cookies.get("is_store");
+
+  const disptach = useAppDispatch();
 
   const handleCardClick = () => {
+    if (Number(is_store) === 0) {
+      disptach(showModal("CheackStoreAdd"));
+    }
+
     if (!service_name) {
       console.error("Invalid serviceId or serviceName");
       return;
@@ -38,7 +46,7 @@ function Labelhistory() {
     const serviceSlug = service_name.toLowerCase().replace(/\s+/g, "-"); // Convert name to URL slug
 
     // Navigate to the encoded route
-    router.push(`/bussines/paymenthistory/${serviceSlug}`);
+    router.push(`/bussines/services/${serviceSlug}`);
   };
   return (
     <div

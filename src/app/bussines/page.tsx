@@ -12,7 +12,6 @@ import { setDarkMode } from "../storeApp/Slice/darkModeSlice";
 import SponsorLable from "../componets/Mybusiness/SponsorComponets/SponsorLable";
 import { useUpdateServiceMutation } from "../storeApp/api/updateServiceApi";
 import Cookies from "js-cookie";
-import PaymentHistory from "./paymenthistory/[paymenttype]/page";
 import Labelhistory from "../componets/Mybusiness/PaymentHistory/Labelhistory";
 function Mybusiness() {
   const dispatch = useAppDispatch();

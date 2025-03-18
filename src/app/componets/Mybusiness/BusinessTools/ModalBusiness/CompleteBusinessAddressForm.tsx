@@ -29,6 +29,10 @@ function CompleteBusinessAddressForm() {
     data?.service.address
   );
 
+  useEffect(() => {
+    localStorage.setItem("locationupdate", data?.service.address || "");
+  }, [data]);
+
   const Addressfromapiresponce = data?.service;
 
   console.log("Addressfromapiresponce", Addressfromapiresponce);

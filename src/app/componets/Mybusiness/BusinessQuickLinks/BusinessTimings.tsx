@@ -3,20 +3,40 @@
 import React from "react";
 import addprofile from "../../../../../public/assets/Image/businesstime.png";
 import Image from "next/image";
-import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/app/hooks/hooks";
+import Cookies from "js-cookie";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
 
 function BusinessTimings() {
   const dispatch = useDispatch();
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
+  const vendor_id = Cookies.get("user_id");
+  const service_id = Cookies.get("service_id");
+
+  const [updateService, { data, isLoading, error }] =
+    useUpdateServiceMutation();
+
+  const is_store = Cookies.get("is_store");
+
+  const handalmodalopne = () => {
+    if (Number(is_store) === 0) {
+      dispatch(showModal("CheackStoreAdd"));
+      dispatch(hideModal("BusinessTimingsModal"));
+    } else {
+      if (vendor_id && service_id) {
+        updateService({ vendor_id, service_id }); // API call on button click
+      }
+      dispatch(showModal("BusinessTimingsModal"));
+    }
+  };
+
   return (
     <div
       className="  flex  flex-col gap-2 cursor-pointer "
-      onClick={() => {
-        dispatch(showModal("BusinessTimingsModal"));
-      }}
+      onClick={handalmodalopne}
     >
       <div className=" w-[6.3rem]  h-[6.3rem] rounded-lg  flex justify-center items-center  bg-[#E6DCFF]  ">
         <Image

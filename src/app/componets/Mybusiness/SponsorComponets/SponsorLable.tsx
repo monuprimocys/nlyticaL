@@ -19,6 +19,18 @@ function SponsorLable() {
 
   console.log(" my  api responce data is", data?.campaignData);
 
+  const disptach = useAppDispatch();
+
+  const is_store = Cookies.get("is_store");
+
+  const handleCardClick = () => {
+    if (Number(is_store) === 0) {
+      disptach(showModal("CheackStoreAdd"));
+    } else {
+      router.push(`/bussines/Sponsor`);
+    }
+  };
+
   const dispatch = useAppDispatch();
   return (
     <div
@@ -51,7 +63,7 @@ function SponsorLable() {
           // Show "Sponsor Now" button if sponcer_id is 0
           <div
             className="w-full flex md:justify-end justify-center items-center"
-            onClick={() => router.push("/bussines/Sponsor")}
+            onClick={handleCardClick}
           >
             <button className="py-3 px-6 text-white rounded-md font-poppins bg-[#0046AE]">
               Sponsor Now

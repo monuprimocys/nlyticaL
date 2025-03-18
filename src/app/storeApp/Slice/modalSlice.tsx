@@ -52,7 +52,8 @@ interface ModalState {
   SponcerModalAfterAdd: boolean;
   VisitedModalfistime: boolean;
   ImageModalMessage: boolean;
-  ImageModalRightSide:boolean;
+  ImageModalRightSide: boolean;
+  CheackStoreAdd: boolean;
 }
 
 const initialState: ModalState = {
@@ -107,7 +108,8 @@ const initialState: ModalState = {
   SponcerModalAfterAdd: false,
   VisitedModalfistime: false,
   ImageModalMessage: false,
-  ImageModalRightSide:false
+  ImageModalRightSide: false,
+  CheackStoreAdd: false,
 };
 
 const modalSlice = createSlice({

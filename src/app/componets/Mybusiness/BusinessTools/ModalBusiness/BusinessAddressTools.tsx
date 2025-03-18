@@ -8,10 +8,33 @@ import { useDispatch } from "react-redux";
 import { showModal } from "@/app/storeApp/Slice/modalSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 import { useState, useEffect } from "react";
+import Cookies from "js-cookie";
+import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
 
 function BusinessAddressTools() {
   const dispatch = useDispatch();
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+
+  const vendor_id = Cookies.get("user_id");
+  const service_id = Cookies.get("service_id");
+  const [updateService, { data, isLoading, error }] =
+    useUpdateServiceMutation();
+
+  useEffect(() => {
+    if (vendor_id && service_id) {
+      // Make sure both vendor_id and service_id are available before calling the mutation
+      updateService({ vendor_id, service_id });
+    }
+  }, [vendor_id, service_id, updateService]);
+
+  console.log(
+    " my api responce  values from add ress modal ",
+    data?.service.address
+  );
+
+  useEffect(() => {
+    localStorage.setItem("locationupdate", data?.service.address || "");
+  }, [data]);
 
   const [storevalues, setStoreValues] = useState<string | null>(
     localStorage.getItem("locationupdate")

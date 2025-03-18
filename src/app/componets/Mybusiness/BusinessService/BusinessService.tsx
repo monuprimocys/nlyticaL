@@ -6,12 +6,12 @@ import tollsimage from "../../../../../public/assets/Image/teamworkbusiness.png"
 import Image from "next/image";
 import Arrowleftside from "../../../../../public/assets/Image/arrow-left.png";
 import { useRouter } from "next/navigation";
-import { useAppSelector } from "@/app/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
 import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
 import Cookies from "js-cookie";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 
 function BusinessService() {
-
   const router = useRouter();
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   const vendor_id = Cookies.get("user_id");
@@ -29,8 +29,15 @@ function BusinessService() {
   }, [vendor_id, service_id, updateService]);
 
   const service_name = updateservicedata?.service.service_name;
+  const is_store = Cookies.get("is_store");
+
+  const disptach = useAppDispatch();
 
   const handleCardClick = () => {
+    if (Number(is_store) === 0) {
+      disptach(showModal("CheackStoreAdd"));
+    }
+
     if (!service_name) {
       console.error("Invalid serviceId or serviceName");
       return;

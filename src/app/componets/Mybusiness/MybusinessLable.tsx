@@ -6,9 +6,13 @@ import Cookies from "js-cookie";
 import { useTotalPercentage } from "@/app/storeApp/api/useTotalPercentage";
 import { useAppSelector } from "@/app/hooks/hooks";
 import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
+import { useDispatch } from "react-redux";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 
 function MybusinessLable() {
   const router = useRouter();
+
+  const disptach = useDispatch();
 
   const vendor_id = Cookies.get("user_id");
 
@@ -51,7 +55,13 @@ function MybusinessLable() {
 
   const service_name = updateservicedata?.service.service_name;
 
+  const is_store = Cookies.get("is_store");
+
   const handleCardClick = () => {
+    if (Number(is_store) === 0) {
+      disptach(showModal("CheackStoreAdd"));
+    }
+
     if (!service_name) {
       console.error("Invalid serviceId or serviceName");
       return;
