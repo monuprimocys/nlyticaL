@@ -118,7 +118,7 @@ const LocationSearchHomeScreen: React.FC = () => {
           <Image
             src={location}
             alt="Location Icon"
-            className="h-[1.5rem] w-[1.5rem] object-cover"
+            className="h-[1.1rem] w-[1.1rem] object-cover"
           />
         </span>
 

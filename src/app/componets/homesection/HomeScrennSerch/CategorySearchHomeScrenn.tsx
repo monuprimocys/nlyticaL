@@ -125,7 +125,7 @@ const CategorySearchHomeScreen: React.FC = () => {
     sessionStorage.setItem("Category_Name", value);
     sessionStorage.setItem("Category_ID", id);
     sessionStorage.removeItem("subcategory_name");
-    sessionStorage.removeItem("subcategories_id")
+    sessionStorage.removeItem("subcategories_id");
 
     router.push("/store");
   };
@@ -170,7 +170,7 @@ const CategorySearchHomeScreen: React.FC = () => {
           <Image
             src={searchnormalicon}
             alt="Search Icon"
-            className="h-[1rem] w-[1.5rem] object-cover"
+            className="h-[1.1rem] w-[1.1rem] object-cover"
           />
         </span>
         <input

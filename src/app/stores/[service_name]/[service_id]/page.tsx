@@ -35,54 +35,47 @@ export async function generateMetadata({
     const data = await response.json();
     const serviceDetail = data.serviceDetail;
 
+    // Fallback values
+    const defaultTitle = `Service - ${decodedServiceId}`;
+    const defaultDescription = `Explore the details of ${params.service_name} with ID ${decodedServiceId}.`;
+    const defaultImage =
+      "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg";
+    const defaultURL = "https://nlyticalapp.com/";
+
+
+
+    console.log(" my meta data valyues fromn dynamic @@@@@", serviceDetail.cover_image)
+
     return {
-      title: serviceDetail.meta_title || `Service - ${decodedServiceId}`,
-      description:
-        serviceDetail.meta_description ||
-        `Details about service ${params.service_name} with ID ${decodedServiceId}.`,
+      title: serviceDetail.meta_title || defaultTitle,
+      description: serviceDetail.meta_description || defaultDescription,
       robots: "max-image-preview:large",
       alternates: {
-        canonical: "https://nlyticalapp.com/",
+        canonical: defaultURL,
       },
       openGraph: {
         locale: "en_US",
         siteName: "Primocys | Expert Mobile App Development Company in the USA",
         type: "website",
-
-        title:
-          serviceDetail.meta_title ||
-          "Expert Mobile App Development Company in the USA | Primocys",
-        description:
-          serviceDetail.meta_description ||
-          "As a leading mobile app development company, Primocys offers top-quality mobile app development services for iOS, Android, and cross-platform apps.",
-        url: "https://nlyticalapp.com/",
+        title: serviceDetail.meta_title || defaultTitle,
+        description: serviceDetail.meta_description || defaultDescription,
+        url: defaultURL,
         images: [
           {
-            url:
-              serviceDetail.cover_image ||
-              "https://nlytical.theprimocys.com/assets/images/cov…1356.promenade-beautiful-city-park_1127-3534.avif",
-            secureUrl:
-              serviceDetail.cover_image ||
-              "https://nlytical.theprimocys.com/assets/images/cov…1356.promenade-beautiful-city-park_1127-3534.avif",
+            url: serviceDetail.cover_image || defaultImage,
+            secureUrl: serviceDetail.cover_image || defaultImage,
             width: 1200,
-            height: 600,
+            height: 630, // Standard OG image size
           },
         ],
       },
       twitter: {
         card: "summary_large_image",
         site: "@primocys",
-        title:
-          serviceDetail.meta_title ||
-          "Expert Mobile App Development Company in the USA | Primocys",
-        description:
-          serviceDetail.meta_description ||
-          "As a leading mobile app development company, Primocys offers top-quality mobile app development services for iOS, Android, and cross-platform apps.",
+        title: serviceDetail.meta_title || defaultTitle,
+        description: serviceDetail.meta_description || defaultDescription,
         creator: "@primocys",
-        images: [
-          serviceDetail.cover_image ||
-            "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg",
-        ],
+        images: [serviceDetail.cover_image || defaultImage],
       },
     };
   } catch (error) {
