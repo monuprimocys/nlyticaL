@@ -39,17 +39,17 @@ const LocationSearchHomeScreen: React.FC = () => {
     useLatLon ? latitude : undefined,
     useLatLon ? longitude : undefined
   );
-
   useEffect(() => {
-    const storedLocation = sessionStorage.getItem("recentLocation");
+    let storedLocation = sessionStorage.getItem("recentLocation");
 
-    console.log("my extractedCity:", extractedCity);
-
-    if (!storedLocation) {
-      sessionStorage.setItem("recentLocation", extractedCity || "Patna");
+    if (!storedLocation && extractedCity) {
+      sessionStorage.setItem("recentLocation", extractedCity);
+      storedLocation = extractedCity; // Use extractedCity for the first time
     }
 
-    setSearchValue(storedLocation || extractedCity || "Patna");
+    setSearchValue(storedLocation || "Patna"); // Use storedLocation if exists, else "Patna"
+
+    console.log("Stored location:", sessionStorage.getItem("recentLocation"));
   }, [extractedCity]);
 
   useEffect(() => {
