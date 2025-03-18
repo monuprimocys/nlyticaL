@@ -81,8 +81,6 @@ export async function generateMetadata({
           {
             url: serviceDetail.cover_image || defaultImage,
             alt: serviceDetail.meta_title || "Service Image",
-            width: 1200,
-            height: 630, // Standard OG image size
           },
         ],
       },
