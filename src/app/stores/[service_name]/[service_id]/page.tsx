@@ -51,8 +51,14 @@ export async function generateMetadata({
       }
     }
 
+    const meta_titlevalues = serviceDetail.meta_title
+      ? `${serviceDetail.meta_title} | Nlytical`
+      : "Service Page | Nlytical";
+
+    console.log(" my  api  respoce from meta data ", meta_titlevalues);
+
     return {
-      title: serviceDetail.meta_title || defaultTitle,
+      title: meta_titlevalues || defaultTitle,
       description: serviceDetail.meta_description || defaultDescription,
       robots: "index, follow",
       alternates: {
@@ -62,7 +68,7 @@ export async function generateMetadata({
         locale: "en_US",
         siteName: "Primocys | Expert Mobile App Development Company in the USA",
         type: "website",
-        title: serviceDetail.meta_title || defaultTitle,
+        title: meta_titlevalues || defaultTitle,
         description: serviceDetail.meta_description || defaultDescription,
         url: defaultURL,
         images: [
@@ -71,14 +77,14 @@ export async function generateMetadata({
             secureUrl: imageUrl,
             width: 1200,
             height: 630,
-            alt: serviceDetail.meta_title || "Service Image",
+            alt: meta_titlevalues || "Service Image",
           },
         ],
       },
       twitter: {
         card: "summary_large_image",
         site: "@primocys",
-        title: serviceDetail.meta_title || defaultTitle,
+        title: meta_titlevalues || defaultTitle,
         description: serviceDetail.meta_description || defaultDescription,
         creator: "@primocys",
         images: [imageUrl],
