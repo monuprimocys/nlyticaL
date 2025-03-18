@@ -52,7 +52,9 @@ export async function generateMetadata(): Promise<Metadata> {
     const seoData = seoResponse.data;
     const seoDetail = seoData?.data["1"] || {};
 
-    const defaultTitle = seoDetail.title || "Service Page";
+    const defaultTitle = seoDetail.title
+      ? `${seoDetail.title} | Nlytical`
+      : "Service Page | Nlytical";
     const defaultDescription =
       seoDetail.body || "Explore various services and details.";
     const defaultImage =
@@ -94,7 +96,7 @@ export async function generateMetadata(): Promise<Metadata> {
   } catch (error) {
     console.error("Error fetching metadata:", error);
     return {
-      title: "Error",
+      title: "Error | Nlytical",
       description: "An error occurred while fetching the service details.",
       robots: "noindex, nofollow",
     };
