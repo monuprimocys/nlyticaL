@@ -1,64 +1,75 @@
-"use client";
+import React from "react";
+import { Metadata } from "next";
+import AllComponetsHomeScrenn from "./componets/homesection/AllComponetsHomeScrenn";
 
-import HomeHeroSection from "./componets/homesection/HomeHeroSection";
-import HomeSectionSerachBox from "./componets/homesection/HomeSectionSerachBox";
-import Section4 from "./componets/homesection/Section4";
-import Services from "./componets/homesection/ServicesSection3/Services";
-import Section6 from "./componets/homesection/Section6";
-import Section7 from "./componets/homesection/Section7";
-import Section8 from "./componets/homesection/Section8/Section8";
-import Section9 from "./componets/homesection/Section9/Section9";
-import SponsorStores from "./componets/homesection/SponsorStores/SponsorStores";
-import NewCities from "./componets/homesection/NewCities/NewCities";
-import { setDarkMode } from "./storeApp/Slice/darkModeSlice";
-import { useAppDispatch, useAppSelector } from "./hooks/hooks";
-import { useEffect, useState } from "react";
-import { fetchMetadata } from "./utils/fetchMetadata";
+// Fetch metadata on the server
+export async function generateMetadata(): Promise<Metadata> {
+  const seoApiUrl = "https://nlytical.theprimocys.com/api/get-homeseo";
 
-export default function Home() {
-  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
+  try {
+    // Fetch SEO data
+    const seoResponse = await fetch(seoApiUrl, { method: "GET" });
+    const seoData = await seoResponse.json();
+    const seoDetail = seoData.data["1"] || {};
 
-  const dispatch = useAppDispatch();
+    // Default values
+    const defaultTitle = seoDetail.title || "Service Page";
+    const defaultDescription =
+      seoDetail.body || "Explore various services and details.";
+    const defaultImage =
+      seoDetail.image ||
+      "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg";
+    const defaultURL = "https://nlyticalapp.com/service";
 
-  // Ensuring dark mode state is loaded from localStorage on initial load
-  useEffect(() => {
-    const savedMode = localStorage.getItem("darkMode") === "true";
-    if (savedMode !== isDarkMode) {
-      dispatch(setDarkMode(savedMode));
-    }
-    document.documentElement.classList.toggle("dark", savedMode);
-  }, [dispatch, isDarkMode]);
+    return {
+      title: defaultTitle,
+      description: defaultDescription,
+      robots: "index, follow",
+      alternates: {
+        canonical: defaultURL,
+      },
+      openGraph: {
+        locale: "en_US",
+        siteName: "Primocys | Expert Mobile App Development Company in the USA",
+        type: "website",
+        title: defaultTitle,
+        description: defaultDescription,
+        url: defaultURL,
+        images: [
+          {
+            url: defaultImage,
+            secureUrl: defaultImage,
+            width: 1200,
+            height: 630,
+            alt: "Service Image",
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        site: "@primocys",
+        title: defaultTitle,
+        description: defaultDescription,
+        creator: "@primocys",
+        images: [defaultImage],
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching metadata:", error);
+    return {
+      title: "Error",
+      description: "An error occurred while fetching the service details.",
+      robots: "noindex, nofollow",
+    };
+  }
+}
 
-  const [metadata, setMetadata] = useState({
-    title: "",
-    description: "",
-    image: "",
-  });
-
-  useEffect(() => {
-    async function loadMetadata() {
-      const data = await fetchMetadata("https://www.youtube.com/results?search_query=how+to+add+live+++preview+in+website");
-      setMetadata(data);
-    }
-    loadMetadata();
-  }, []);
-
+function Page() {
   return (
-    <div
-      className={` h-auto w-full    ${
-        isDarkMode ? " bg-[#181818]" : "  bg-white"
-      }  `}
-    >
-      <HomeHeroSection />
-      <HomeSectionSerachBox />
-      <Services />
-      <Section4 />
-      <SponsorStores />
-      <NewCities />
-      <Section6 />
-      <Section7 />
-      <Section8 />
-      <Section9 />
+    <div className="w-full h-auto">
+      <AllComponetsHomeScrenn />
     </div>
   );
 }
+
+export default Page;
