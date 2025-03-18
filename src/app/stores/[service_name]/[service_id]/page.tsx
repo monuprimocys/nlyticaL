@@ -17,40 +17,35 @@ function decodeBase64(value: string): string {
 }
 
 // Fetch metadata on the server
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const decodedServiceId = decodeBase64(params.service_id);
+  const apiUrl = "https://nlytical.theprimocys.com/api/get-servicedetail";
 
   try {
-    const response = await fetch(
-      "https://nlytical.theprimocys.com/api/get-servicedetail",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ service_id: decodedServiceId }),
-      }
-    );
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ service_id: decodedServiceId }),
+    });
 
     const data = await response.json();
     const serviceDetail = data.serviceDetail || {};
 
-    // Fallback values
+    // Default values
     const defaultTitle = `Service - ${decodedServiceId}`;
     const defaultDescription = `Explore the details of ${params.service_name} with ID ${decodedServiceId}.`;
-    const defaultImage =
-      "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg";
-    const defaultURL = "https://nlyticalapp.com/";
+    const defaultImage = "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg";
+    const defaultURL = `https://nlyticalapp.com/service/${decodedServiceId}`;
 
-    const imageUrl =
-      serviceDetail.cover_image && serviceDetail.cover_image.startsWith("http")
-        ? serviceDetail.cover_image
-        : defaultImage;
+    // Ensure cover image is properly formatted
+    const imageUrl = serviceDetail.cover_image?.startsWith("http")
+      ? serviceDetail.cover_image
+      : defaultImage;
 
     return {
       title: serviceDetail.meta_title || defaultTitle,
       description: serviceDetail.meta_description || defaultDescription,
-      robots: "max-image-preview:large",
+      robots: "index, follow",
       alternates: {
         canonical: defaultURL,
       },
@@ -66,7 +61,7 @@ export async function generateMetadata({
             url: imageUrl,
             secureUrl: imageUrl,
             width: 1200,
-            height: 630, // Standard OG image size
+            height: 630,
             alt: serviceDetail.meta_title || "Service Image",
           },
         ],
@@ -77,14 +72,13 @@ export async function generateMetadata({
         title: serviceDetail.meta_title || defaultTitle,
         description: serviceDetail.meta_description || defaultDescription,
         creator: "@primocys",
-        images: [imageUrl], // Twitter requires this as a direct string
+        images: [imageUrl],
       },
     };
   } catch (error) {
     console.error("Metadata fetch error:", error);
-    const defaultImage =
-      "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg";
 
+    const defaultImage = "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg";
     return {
       title: `Service - ${decodedServiceId}`,
       description: `Details about service ${params.service_name} with ID ${decodedServiceId}.`,
@@ -100,7 +94,8 @@ export async function generateMetadata({
         ],
       },
       twitter: {
-        images: [defaultImage], // Twitter requires this as a direct string
+        card: "summary_large_image",
+        images: [defaultImage],
       },
     };
   }
@@ -111,10 +106,7 @@ function Page({ params }: PageProps) {
 
   return (
     <div className="w-full h-auto">
-      <StoresDetail
-        serviceName={params.service_name}
-        serviceId={decodedServiceId}
-      />
+      <StoresDetail serviceName={params.service_name} serviceId={decodedServiceId} />
     </div>
   );
 }
