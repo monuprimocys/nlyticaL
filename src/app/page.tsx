@@ -1,18 +1,57 @@
 import React from "react";
+import axios from "axios";
 import { Metadata } from "next";
 import AllComponetsHomeScrenn from "./componets/homesection/AllComponetsHomeScrenn";
 
-// Fetch metadata on the server
-export async function generateMetadata(): Promise<Metadata> {
-  const seoApiUrl = "https://nlytical.theprimocys.com/api/get-homeseo";
+const seoApiUrl = "https://nlytical.theprimocys.com/api/get-homeseo";
+
+// Function to fetch metadata
+export async function fetchMetadata(url: string) {
+  const localStorageKey = `metadata_${encodeURIComponent(url)}`;
 
   try {
-    // Fetch SEO data
-    const seoResponse = await fetch(seoApiUrl, { method: "GET" });
-    const seoData = await seoResponse.json();
-    const seoDetail = seoData.data["1"] || {};
+    // Check localStorage first
+    if (typeof window !== "undefined") {
+      const cachedData = localStorage.getItem(localStorageKey);
+      if (cachedData) {
+        console.log("Loaded from localStorage:", JSON.parse(cachedData));
+        return JSON.parse(cachedData);
+      }
+    }
 
-    // Default values
+    // Fetch from API if not cached
+    const response = await axios.get("https://api.microlink.io", {
+      params: { url },
+    });
+
+    const data = response.data.data;
+    console.log("Fetched from API:", data);
+
+    const metadata = {
+      title: data.title || "",
+      description: data.description || "",
+      image: data.image?.url || data.logo?.url || "",
+    };
+
+    // Save to localStorage if in browser environment
+    if (typeof window !== "undefined") {
+      localStorage.setItem(localStorageKey, JSON.stringify(metadata));
+    }
+
+    return metadata;
+  } catch (error) {
+    console.error("Error fetching metadata:", error);
+    return { title: "", description: "", image: "" };
+  }
+}
+
+// Fetch metadata on the server
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const seoResponse = await axios.get(seoApiUrl);
+    const seoData = seoResponse.data;
+    const seoDetail = seoData?.data["1"] || {};
+
     const defaultTitle = seoDetail.title || "Service Page";
     const defaultDescription =
       seoDetail.body || "Explore various services and details.";
@@ -25,9 +64,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: defaultTitle,
       description: defaultDescription,
       robots: "index, follow",
-      alternates: {
-        canonical: defaultURL,
-      },
+      alternates: { canonical: defaultURL },
       openGraph: {
         locale: "en_US",
         siteName: "Primocys | Expert Mobile App Development Company in the USA",
