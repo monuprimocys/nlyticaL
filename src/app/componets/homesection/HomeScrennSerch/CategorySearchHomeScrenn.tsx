@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { MdOutlineStar } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { setSelectedCategoryListing } from "@/app/storeApp/Slice/Listing/CategoryLIstingSlice";
+import { decodeString, encodeString } from "@/app/utils/enocodeAndDecode";
 
 interface Category {
   id: number;
@@ -154,6 +155,26 @@ const CategorySearchHomeScreen: React.FC = () => {
 
   console.log(" my filter values ", filteredServices);
 
+  const handleCardClick = (serviceId, serviceName) => {
+    if (!serviceId || !serviceName) {
+      console.error("Invalid serviceId or serviceName");
+      return;
+    }
+
+    const encodedServiceId = encodeString(String(serviceId)); // Ensure serviceId is a string
+    const serviceSlug = serviceName.toLowerCase().replace(/\s+/g, "-"); // Convert name to URL slug
+
+    console.log("Encoded Service ID:", encodedServiceId);
+
+    // Navigate to the encoded route
+    router.push(`/stores/${serviceSlug}/${encodedServiceId}`);
+
+    serviceId = decodeString(encodedServiceId);
+
+    // Store in sessionStorage for later use
+    sessionStorage.setItem("serviceId", serviceId);
+  };
+
   return (
     <div className="w-full flex flex-col gap-1 relative">
       <label
@@ -280,7 +301,7 @@ const CategorySearchHomeScreen: React.FC = () => {
                     key={service.service_id}
                     className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-gray-200"
                     onClick={() =>
-                      router.push(`/ServiceDetail/${service.service_id}`)
+                      handleCardClick(service.service_id, service.service_name)
                     }
                   >
                     {service.service_images.length > 0 && (

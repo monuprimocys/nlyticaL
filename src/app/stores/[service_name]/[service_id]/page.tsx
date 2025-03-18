@@ -33,7 +33,7 @@ export async function generateMetadata({
     );
 
     const data = await response.json();
-    const serviceDetail = data.serviceDetail;
+    const serviceDetail = data.serviceDetail || {};
 
     // Fallback values
     const defaultTitle = `Service - ${decodedServiceId}`;
@@ -42,10 +42,7 @@ export async function generateMetadata({
       "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg";
     const defaultURL = "https://nlyticalapp.com/";
 
-    console.log(
-      "my meta data values from dynamic @@@@@",
-      serviceDetail.cover_image
-    );
+    const imageUrl = serviceDetail.cover_image || defaultImage;
 
     return {
       title: serviceDetail.meta_title || defaultTitle,
@@ -63,8 +60,8 @@ export async function generateMetadata({
         url: defaultURL,
         images: [
           {
-            url: serviceDetail.cover_image || defaultImage,
-            secureUrl: serviceDetail.cover_image || defaultImage,
+            url: imageUrl.startsWith("http") ? imageUrl : defaultImage,
+            secureUrl: imageUrl.startsWith("http") ? imageUrl : defaultImage,
             width: 1200,
             height: 630, // Standard OG image size
             alt: serviceDetail.meta_title || "Service Image",
@@ -79,7 +76,7 @@ export async function generateMetadata({
         creator: "@primocys",
         images: [
           {
-            url: serviceDetail.cover_image || defaultImage,
+            url: imageUrl.startsWith("http") ? imageUrl : defaultImage,
             alt: serviceDetail.meta_title || "Service Image",
           },
         ],
