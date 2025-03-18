@@ -42,9 +42,10 @@ export async function generateMetadata({
       "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg";
     const defaultURL = "https://nlyticalapp.com/";
 
-
-
-    console.log(" my meta data valyues fromn dynamic @@@@@", serviceDetail.cover_image)
+    console.log(
+      "my meta data values from dynamic @@@@@",
+      serviceDetail.cover_image
+    );
 
     return {
       title: serviceDetail.meta_title || defaultTitle,
@@ -66,6 +67,7 @@ export async function generateMetadata({
             secureUrl: serviceDetail.cover_image || defaultImage,
             width: 1200,
             height: 630, // Standard OG image size
+            alt: serviceDetail.meta_title || "Service Image",
           },
         ],
       },
@@ -75,7 +77,14 @@ export async function generateMetadata({
         title: serviceDetail.meta_title || defaultTitle,
         description: serviceDetail.meta_description || defaultDescription,
         creator: "@primocys",
-        images: [serviceDetail.cover_image || defaultImage],
+        images: [
+          {
+            url: serviceDetail.cover_image || defaultImage,
+            alt: serviceDetail.meta_title || "Service Image",
+            width: 1200,
+            height: 630, // Standard OG image size
+          },
+        ],
       },
     };
   } catch (error) {
