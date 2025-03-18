@@ -15,15 +15,18 @@ const PriceListing: React.FC = () => {
 
   useEffect(() => {
     refetch();
-  }, [data, refetch]);
+  }, [refetch]); // Avoid unnecessary re-renders
+
+  // Extract currency symbol dynamically
+  const extractCurrencySymbol = (value: string | undefined): string => {
+    return value ? value.replace(/[\d,.]/g, "").trim() || "¥" : "¥";
+  };
+
+  const currencySymbol = extractCurrencySymbol(data?.min_price || "$");
 
   // Ensure minPrice and maxPrice are numbers
-  const minPrice = data?.min_price
-    ? Number(data.min_price.replace(/[¥,]/g, ""))
-    : 0;
-  const maxPrice = data?.max_price
-    ? Number(data.max_price.replace(/[¥,]/g, ""))
-    : 1000;
+  const minPrice = data?.min_price ? Number(data.min_price.replace(/[^\d]/g, "")) : 0;
+  const maxPrice = data?.max_price ? Number(data.max_price.replace(/[^\d]/g, "")) : 1000;
 
   // Handle price change
   const updatePrice = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -73,15 +76,17 @@ const PriceListing: React.FC = () => {
               isDarkMode ? "text-white" : "text-[#0000004F]"
             }`}
           >
-            ¥{minPrice}
+            {currencySymbol}{minPrice}
           </span>
-          <span className="text-[#0046AE] font-poppins">¥{price}</span>
+          <span className="text-[#0046AE] font-poppins">
+            {currencySymbol}{price}
+          </span>
           <span
             className={`font-poppins ${
               isDarkMode ? "text-white" : "text-[#0000004F]"
             }`}
           >
-            ¥{maxPrice}
+            {currencySymbol}{maxPrice}
           </span>
         </div>
       </div>
