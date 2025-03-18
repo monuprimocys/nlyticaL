@@ -77,11 +77,14 @@ export async function generateMetadata({
         title: serviceDetail.meta_title || defaultTitle,
         description: serviceDetail.meta_description || defaultDescription,
         creator: "@primocys",
-        image: imageUrl, // Twitter requires this as a direct string
+        images: [imageUrl], // Twitter requires this as a direct string
       },
     };
   } catch (error) {
     console.error("Metadata fetch error:", error);
+    const defaultImage =
+      "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg";
+
     return {
       title: `Service - ${decodedServiceId}`,
       description: `Details about service ${params.service_name} with ID ${decodedServiceId}.`,
@@ -97,7 +100,7 @@ export async function generateMetadata({
         ],
       },
       twitter: {
-        image: defaultImage, // Twitter requires a single image URL
+        images: [defaultImage], // Twitter requires this as a direct string
       },
     };
   }
