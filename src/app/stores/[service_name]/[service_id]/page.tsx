@@ -42,7 +42,9 @@ export async function generateMetadata({
       "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg";
     const defaultURL = "https://nlyticalapp.com/";
 
-    const imageUrl = serviceDetail.cover_image || defaultImage;
+    const imageUrl = serviceDetail.cover_image?.startsWith("http")
+      ? serviceDetail.cover_image
+      : defaultImage;
 
     return {
       title: serviceDetail.meta_title || defaultTitle,
@@ -60,8 +62,8 @@ export async function generateMetadata({
         url: defaultURL,
         images: [
           {
-            url: imageUrl.startsWith("http") ? imageUrl : defaultImage,
-            secureUrl: imageUrl.startsWith("http") ? imageUrl : defaultImage,
+            url: imageUrl,
+            secureUrl: imageUrl,
             width: 1200,
             height: 630, // Standard OG image size
             alt: serviceDetail.meta_title || "Service Image",
@@ -76,7 +78,7 @@ export async function generateMetadata({
         creator: "@primocys",
         images: [
           {
-            url: imageUrl.startsWith("http") ? imageUrl : defaultImage,
+            url: imageUrl,
             alt: serviceDetail.meta_title || "Service Image",
           },
         ],
@@ -87,6 +89,24 @@ export async function generateMetadata({
     return {
       title: `Service - ${decodedServiceId}`,
       description: `Details about service ${params.service_name} with ID ${decodedServiceId}.`,
+      openGraph: {
+        images: [
+          {
+            url: "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg",
+            width: 1200,
+            height: 630,
+            alt: "Default Service Image",
+          },
+        ],
+      },
+      twitter: {
+        images: [
+          {
+            url: "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg",
+            alt: "Default Service Image",
+          },
+        ],
+      },
     };
   }
 }
