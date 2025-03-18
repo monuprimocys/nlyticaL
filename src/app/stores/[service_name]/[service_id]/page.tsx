@@ -17,7 +17,9 @@ function decodeBase64(value: string): string {
 }
 
 // Fetch metadata on the server
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const decodedServiceId = decodeBase64(params.service_id);
   const apiUrl = "https://nlytical.theprimocys.com/api/get-servicedetail";
 
@@ -34,13 +36,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     // Default values
     const defaultTitle = `Service - ${decodedServiceId}`;
     const defaultDescription = `Explore the details of ${params.service_name} with ID ${decodedServiceId}.`;
-    const defaultImage = "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg";
+    const defaultImage =
+      "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg";
     const defaultURL = `https://nlyticalapp.com/service/${decodedServiceId}`;
 
     // Ensure cover image is properly formatted and absolute
-    const imageUrl = serviceDetail.cover_image?.startsWith("http")
-      ? new URL(serviceDetail.cover_image).href
-      : defaultImage;
+    let imageUrl = defaultImage;
+    if (serviceDetail.cover_image) {
+      try {
+        const url = new URL(serviceDetail.cover_image, defaultImage);
+        imageUrl = url.href;
+      } catch (error) {
+        console.error("Invalid cover image URL:", error);
+      }
+    }
 
     return {
       title: serviceDetail.meta_title || defaultTitle,
@@ -90,7 +99,10 @@ function Page({ params }: PageProps) {
 
   return (
     <div className="w-full h-auto">
-      <StoresDetail serviceName={params.service_name} serviceId={decodedServiceId} />
+      <StoresDetail
+        serviceName={params.service_name}
+        serviceId={decodedServiceId}
+      />
     </div>
   );
 }
