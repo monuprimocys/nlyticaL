@@ -78,7 +78,7 @@ export async function generateMetadata({
         creator: "@primocys",
         images: [
           {
-            url: imageUrl,
+            url: "https://nlytical.theprimocys.com/assets/images/cover_images/1742291605_mysa.jpg",
             alt: serviceDetail.meta_title || "Service Image",
           },
         ],
@@ -92,7 +92,7 @@ export async function generateMetadata({
       openGraph: {
         images: [
           {
-            url: "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg",
+            url: "https://nlytical.theprimocys.com/assets/images/cover_images/1742291605_mysa.jpg",
             width: 1200,
             height: 630,
             alt: "Default Service Image",
@@ -102,7 +102,7 @@ export async function generateMetadata({
       twitter: {
         images: [
           {
-            url: "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg",
+            url: "https://nlytical.theprimocys.com/assets/images/cover_images/1742291605_mysa.jpg",
             alt: "Default Service Image",
           },
         ],
