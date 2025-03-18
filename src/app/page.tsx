@@ -52,6 +52,9 @@ export async function generateMetadata(): Promise<Metadata> {
     const seoData = seoResponse.data;
     const seoDetail = seoData?.data["1"] || {};
 
+
+    console.log(" my @@@@@@@@@@@@@@@@@", seoDetail.image)
+
     const defaultTitle = seoDetail.title
       ? `${seoDetail.title} | Nlytical`
       : "Service Page | Nlytical";
