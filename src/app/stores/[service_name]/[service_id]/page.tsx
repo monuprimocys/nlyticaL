@@ -37,9 +37,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const defaultImage = "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg";
     const defaultURL = `https://nlyticalapp.com/service/${decodedServiceId}`;
 
-    // Ensure cover image is properly formatted
+    // Ensure cover image is properly formatted and absolute
     const imageUrl = serviceDetail.cover_image?.startsWith("http")
-      ? serviceDetail.cover_image
+      ? new URL(serviceDetail.cover_image).href
       : defaultImage;
 
     return {
@@ -78,7 +78,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   } catch (error) {
     console.error("Metadata fetch error:", error);
 
-    const defaultImage = "https://nlyticalapp.com/wp-content/uploads/2025/02/Primocys_social_og_img.jpg";
     return {
       title: `Service - ${decodedServiceId}`,
       description: `Details about service ${params.service_name} with ID ${decodedServiceId}.`,
