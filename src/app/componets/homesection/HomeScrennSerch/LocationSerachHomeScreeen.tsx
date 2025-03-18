@@ -109,7 +109,7 @@ const LocationSearchHomeScreen: React.FC = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-1 relative">
+    <div className="w-full flex flex-col gap-1 relative    bg-black">
       <label
         className={`font-poppins text-sm font-semibold ${
           isDarkMode ? "text-white" : "text-black"
