@@ -120,7 +120,7 @@ function PaymentPayPal() {
             createOrder={(data, actions) => {
               return actions.order.create({
                 purchase_units: [
-                  { amount: { value: planPriceInUSD.toFixed(2) } },
+                  { amount: { value: price } },
                 ],
               });
             }}
