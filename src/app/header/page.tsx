@@ -319,6 +319,10 @@ function Header() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleCloseMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768) {
@@ -788,35 +792,40 @@ function Header() {
               {/* Navigation Links */}
               <ul className="font-poppins text-sm text-black">
                 <li className="py-4 font-normal">
-                  <Link href="/">Home</Link>
+                  <Link href="/" onClick={handleCloseMenu}>
+                    Home
+                  </Link>
                 </li>
                 <hr />
-
                 <li className="py-4 font-normal">
-                  <Link href="/store">Stores</Link>
+                  <Link href="/store" onClick={handleCloseMenu}>
+                    Stores
+                  </Link>
                 </li>
                 <hr />
 
-                <div
-                  className={` ${
-                    isOpen
-                      ? "pointer-events-auto mt-[9rem] translate-y-0 opacity-100 transition-all duration-300 ease-out"
-                      : "pointer-events-none transition-all duration-300 ease-out"
-                  }`}
-                >
-                  <li className="py-4 font-normal">
-                    <Link href="/about">About</Link>
-                  </li>
-                  <hr />
-                  <li className="py-4 font-normal">
-                    <Link href="/Subscribe">Subscribe</Link>
-                  </li>
-                  <hr />
-                  <li className="py-4 font-normal">
-                    <Link href="/contactus">Contact Us</Link>
-                  </li>
-                  <hr />
-                </div>
+                {isMenuOpen && (
+                  <div className="pointer-events-auto  translate-y-0 opacity-100 transition-all duration-300 ease-out">
+                    <li className="py-4 font-normal">
+                      <Link href="/about" onClick={handleCloseMenu}>
+                        About
+                      </Link>
+                    </li>
+                    <hr />
+                    <li className="py-4 font-normal">
+                      <Link href="/Subscribe" onClick={handleCloseMenu}>
+                        Subscribe
+                      </Link>
+                    </li>
+                    <hr />
+                    <li className="py-4 font-normal">
+                      <Link href="/contactus" onClick={handleCloseMenu}>
+                        Contact Us
+                      </Link>
+                    </li>
+                    <hr />
+                  </div>
+                )}
               </ul>
 
               <div className="mt-4 flex w-full items-center justify-between">
@@ -836,18 +845,19 @@ function Header() {
                     </button>
                   </div>
                 )}
-
-                <div
-                  className="flex cursor-pointer items-center justify-center rounded-lg border-2 border-[#0046AE] px-3 py-2 hover:bg-slate-200 small:px-[9px] xl:hidden"
-                  onClick={() => {
-                    dispatch(showModal("loginModal"));
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  <button className="font-poppins text-xs font-[500] text-[#0046AE]">
-                    Sign In
-                  </button>
-                </div>
+                {!user_id && (
+                  <div
+                    className="flex cursor-pointer items-center justify-center rounded-lg border-2 border-[#0046AE] px-3 py-2 hover:bg-slate-200 small:px-[9px] xl:hidden"
+                    onClick={() => {
+                      dispatch(showModal("loginModal"));
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    <button className="font-poppins text-xs font-[500] text-[#0046AE]">
+                      Sign In
+                    </button>
+                  </div>
+                )}
 
                 <div className="flex items-start justify-start">
                   {/* Language Icon Button */}
@@ -857,7 +867,7 @@ function Header() {
                     className="z-10 inline-flex flex-shrink-0 items-center py-2.5 text-center text-sm font-medium text-black"
                     type="button"
                   >
-                    <div className="h-6 w-6 text-black">
+                    <div className="h-6 w-6 mt-[-0.2rem] text-black">
                       <Image
                         src={languageicon}
                         alt="Language Icon"

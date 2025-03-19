@@ -50,7 +50,7 @@ function Section4() {
         <div className="w-full md:w-[48%] xl:w-[30%] h-[35rem] flex flex-col justify-between gap-6 cursor-pointer">
           {/* First Box */}
           <div
-            className="h-[50%] rounded-[3rem] mb-6 md:mb-0"
+            className="h-[50%] rounded-[3rem]  bg-black  mt-4 md:mt-0 mb-6 md:mb-0"
             style={{
               backgroundImage: `url(${data?.cards[1].image})`, // Fixed usage of secomdcolume.src
               backgroundSize: "cover",

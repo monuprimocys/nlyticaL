@@ -46,7 +46,7 @@ function ServiceReviewDetailScreen() {
 
       {/* Review List */}
       <div className="w-full flex flex-col gap-6 pt-4">
-        <div className=" w-full flex justify-between   items-center">
+        <div className=" w-full flex md:flex-row  flex-col md:justify-between   items-center">
           {/* Star Rating Section */}
           <div className=" flex  flex-col gap-6">
             <h4
@@ -74,8 +74,8 @@ function ServiceReviewDetailScreen() {
             </div>
           </div>
           {/* Rating */}
-          <div className=" pt-8  flex justify-start items-center gap-6">
-            <div className="w-14 h-14 rounded-lg bg-[#0046AE] flex justify-center items-center cursor-pointer">
+          <div className="  mt-8 md:mt-14  flex justify-start items-center gap-6">
+            <div className="w-12 h-12 rounded-lg bg-[#0046AE] flex justify-center items-center cursor-pointer">
               <p className="font-medium text-white font-poppins text-lg">
                 {" "}
                 {reviewsDatastar.totalAvgReview}{" "}
@@ -86,7 +86,7 @@ function ServiceReviewDetailScreen() {
                 isDarkMode ? "text-white" : "text-black"
               }`}
             >
-              {reviewsDatastar.totalReviewCount} ratings
+              {reviewsDatastar.totalReviewCount} ratings 
             </div>
           </div>
         </div>
