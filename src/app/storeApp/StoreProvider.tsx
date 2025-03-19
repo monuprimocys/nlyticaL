@@ -17,7 +17,7 @@ const StoreProvider = ({ children }: { children: ReactNode }) => {
         strategy="lazyOnload"
         src={`https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`}
       />
-      <GoogleOAuthProvider clientId="1000174940582-4b02g5ujtfh5cf5ojtl1e21vu658988t.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId="434256650617-qko9mmr93lga9q3j71g54hf95g8m1o86.apps.googleusercontent.com">
         <QueryClientProvider client={queryClient}>
           <Provider store={store}>{children}</Provider>
         </QueryClientProvider>
