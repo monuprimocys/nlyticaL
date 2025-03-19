@@ -350,7 +350,7 @@ function LeftSide() {
                 navigator
                   .share({
                     text: "nlytical",
-                    url: "http://192.168.0.28:3000/",
+                    url: "https://nlyticalapp.com/",
                     title: "Flamingos",
                   })
                   .then(() => {
