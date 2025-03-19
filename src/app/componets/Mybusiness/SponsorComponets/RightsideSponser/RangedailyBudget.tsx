@@ -7,57 +7,47 @@ import { useDispatch } from "react-redux";
 function RangedailyBudget() {
   const startdate = useAppSelector((state) => state.startDateSponsor.startDate);
   const enddate = useAppSelector((state) => state.endDateSponsor.endDate);
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   const dispatch = useDispatch();
+  const { data } = useGetDailyBuget();
 
-  // Convert both start and end date to Date objects
+  // Convert start and end date to Date objects
   const start = new Date(startdate);
   let end = new Date(enddate);
 
-  // Check if end date is invalid or not selected
   if (isNaN(end.getTime())) {
-    // Default end date to current date if not selected
-    end = new Date();
+    end = new Date(); // Default end date to today if not selected
   }
 
-  // Calculate the difference in time (in milliseconds)
+  // Calculate total days
   const timeDifference = end - start;
+  const totalDays = Math.max(timeDifference / (1000 * 3600 * 24), 1); // Minimum 1 day
 
-  // Convert time difference from milliseconds to days
-  const totalDays = Math.max(timeDifference / (1000 * 3600 * 24), 1); // Ensure minimum is 1 day
-
-  console.log("My total days:", totalDays);
-
-  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
-
-  const { data } = useGetDailyBuget();
-
-  // State to manage the selected range value
+  // State for range value
   const [rangeValue, setRangeValue] = useState(totalDays);
 
-  // Get the price for the selected range (based on rangeValue or totalDays)
-  const selectedPrice = data
-    ? data.data[Math.min(rangeValue - 1, 29)]?.price
-    : 0;
+  // Calculate selected price based on range value
+  const selectedPrice = data?.data?.[Math.min(rangeValue - 1, 29)]?.price || 0;
 
+  // Sync rangeValue with totalDays when it changes
   useEffect(() => {
-    // Sync range value with total days when the total days changes
     setRangeValue(totalDays);
   }, [totalDays]);
 
-  console.log(" my total days:@@@@@@@@@@@@@", selectedPrice);
-
+  // Dispatch selectedPrice when it changes
   useEffect(() => {
-    // Sync range value with total days when the total days changes
-    setRangeValue(totalDays);
-
-    // Dispatch the selectedPrice to Redux store
     dispatch(setSelectedPrice(selectedPrice));
-  }, [totalDays, selectedPrice, dispatch]);
+  }, [selectedPrice, dispatch]);
+
+  // Handle range change
+  const handleRangeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // setRangeValue(Number(event.target.value));
+  };
 
   return (
-    <div className=" mx-auto flex flex-col">
-      {/* Range button */}
+    <div className="mx-auto flex flex-col">
+      {/* Range Input */}
       <div
         className={`rounded-lg mt-5 w-full ${
           isDarkMode ? "bg-transparent" : "bg-white"
@@ -72,7 +62,7 @@ function RangedailyBudget() {
             1 Day
           </span>
           <span id="currentPrice" className="text-[#0046AE] font-poppins">
-            {totalDays} Day {/* Display the total days */}
+            {rangeValue} Day
           </span>
           <span
             className={`font-poppins ${
@@ -86,9 +76,10 @@ function RangedailyBudget() {
           type="range"
           id="area_distance"
           className="w-full accent-[#0046AE] cursor-pointer"
-          min="1" // Minimum Day
-          max="30" // Maximum Day
-          value={rangeValue} // Set the range input value from state
+          min="1"
+          max="30"
+          value={rangeValue}
+          onChange={handleRangeChange} // Fix read-only issue
         />
         <div className="flex justify-between">
           <span
@@ -96,17 +87,17 @@ function RangedailyBudget() {
               isDarkMode ? "text-white" : "text-[#0000004F]"
             }`}
           >
-            {data?.data[0].price} {/* Price for 1 day */}
+            {data?.data?.[0]?.price || 0} {/* Price for 1 day */}
           </span>
           <span id="currentPrice" className="text-[#0046AE] font-poppins">
-            {selectedPrice} {/* Display the selected price */}
+            {selectedPrice}
           </span>
           <span
             className={`font-poppins ${
               isDarkMode ? "text-white" : "text-[#0000004F]"
             }`}
           >
-            {data?.data[29].price} {/* Price for 30 days */}
+            {data?.data?.[29]?.price || 0} {/* Price for 30 days */}
           </span>
         </div>
       </div>

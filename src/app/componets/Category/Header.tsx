@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { usePathname } from "next/navigation"; // Import from next/navigation
+import { usePathname, useRouter } from "next/navigation"; // Import from next/navigation
 import bgimage from "../../../../public/assets/Image/CategoryHeaderbg.png";
 import Arrowicon from "../../../../public/assets/Image/currentrouteArrow.png";
 import Image from "next/image";
@@ -9,6 +9,8 @@ import Image from "next/image";
 function Header() {
   const pathname = usePathname();
   const segments = pathname.split("/");
+
+  const router = useRouter();
 
   return (
     <div
@@ -25,7 +27,10 @@ function Header() {
 
         <div className="flex items-center space-x-2  cursor-pointer">
           {/* Breadcrumb */}
-          <div className="flex items-center space-x-2">
+          <div
+            className="flex items-center space-x-2"
+            onClick={() => router.push("/")}
+          >
             <h2 className="text-[#FFD428] text-lg font-normal font-poppins">
               Home
             </h2>

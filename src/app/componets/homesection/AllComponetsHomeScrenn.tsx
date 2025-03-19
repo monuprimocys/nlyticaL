@@ -13,6 +13,8 @@ import Section6 from "./Section6";
 import Section7 from "./Section7";
 import Section8 from "./Section8/Section8";
 import Section9 from "./Section9/Section9";
+import { useHomeScreenApi } from "@/app/storeApp/api/useHomeScreenApi";
+import AvatarWithSpinner from "../Loading/AvatarWithSpinner";
 
 function AllComponetsHomeScrenn() {
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
@@ -27,6 +29,17 @@ function AllComponetsHomeScrenn() {
     }
     document.documentElement.classList.toggle("dark", savedMode);
   }, [dispatch, isDarkMode]);
+
+  const { isLoading } = useHomeScreenApi();
+
+  if (isLoading) {
+    return (
+      <div className="w-full flex justify-center items-center h-screen">
+        <AvatarWithSpinner />
+      </div>
+    );
+  }
+
   return (
     <div
       className={` h-auto w-full    ${

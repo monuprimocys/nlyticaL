@@ -705,7 +705,7 @@ function Header() {
                 </div>
                 {isServiceFormSubmit !== "1" && (
                   <div
-                    className="flex hidden cursor-pointer items-center justify-center rounded-lg border-2 border-[#0046AE] px-6 py-2 hover:bg-slate-200 md:block"
+                    className="flex hidden cursor-pointer items-center justify-center rounded-lg border-2 bg-[#0046AE] border-[#0046AE] px-6 py-2  md:block"
                     onClick={() => {
                       if (user_id && subscriber_user === "1") {
                         dispatch(showModal("AddPostModal"));
@@ -714,7 +714,7 @@ function Header() {
                       }
                     }}
                   >
-                    <button className="font-poppins font-[500] text-[#0046AE]">
+                    <button className="font-poppins font-[500] text-white  ">
                       Add Store
                     </button>
                   </div>
@@ -822,7 +822,7 @@ function Header() {
               <div className="mt-4 flex w-full items-center justify-between">
                 {isServiceFormSubmit !== "1" && (
                   <div
-                    className="flex cursor-pointer items-center justify-center rounded-lg border-2 border-[#0046AE] px-2 py-2 hover:bg-slate-200 small:px-[5px] xl:hidden"
+                    className="flex cursor-pointer items-center justify-center rounded-lg  bg-[#0046AE] border-2 border-[#0046AE] px-2 py-2 small:px-[5px] xl:hidden"
                     onClick={() => {
                       if (user_id) {
                         dispatch(showModal("AddPostModal"));
@@ -831,7 +831,7 @@ function Header() {
                       }
                     }}
                   >
-                    <button className="font-poppins text-xs font-[500] text-[#0046AE]">
+                    <button className="font-poppins text-xs font-[500] text-[#FFFFFF]">
                       Add Store
                     </button>
                   </div>

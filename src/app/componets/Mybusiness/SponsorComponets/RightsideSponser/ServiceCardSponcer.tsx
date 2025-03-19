@@ -23,7 +23,7 @@ function ServiceCardSponcer() {
 
   useEffect(() => {
     refetch();
-  }, [refetch, data, error, isLoading]);
+  }, []);
 
 
   // // Static data

@@ -58,19 +58,9 @@ function Section4() {
               backgroundRepeat: "no-repeat",
             }}
           >
-            <div className="w-full h-full section4box2 rounded-[3rem] flex justify-center items-center relative">
-              <div className="  flex flex-col gap-2 justify-center items-center">
-                <h4 className="text-lg font-medium text-white font-poppins  line-clamp-1">
-                  {data?.cards[1].title}
-                </h4>
-                <p className=" font-poppins text-white line-clamp-1 ">
-                  {" "}
-                  {data?.cards[1].subcategory_name}
-                </p>
-              </div>
-
+             <div className="w-full h-full section4linearbgcolor   rounded-[3rem] flex  relative">
               {/* Bottom Circle */}
-              <div className="absolute bottom-[-1.5rem] right-[45%] w-[5rem] h-[5rem] rounded-full shadow-lg bg-white p-2 cursor-pointer">
+              <div className="absolute top-[-1.5rem] right-[0%] w-[5rem] h-[5rem] rounded-full shadow-lg bg-white p-2 cursor-pointer">
                 <div className="w-full h-full rounded-full bg-[#0046AE] flex justify-center items-center">
                   <Image
                     className="w-[2rem] h-[2rem]"
@@ -78,6 +68,16 @@ function Section4() {
                     alt="arrow"
                   />
                 </div>
+              </div>
+
+              <div className="  flex flex-col gap-2  justify-end p-6 w-full items-center px-2">
+                <h4 className="text-lg font-medium text-white font-poppins  line-clamp-1">
+                  {data?.cards[1].title}
+                </h4>
+                <p className=" font-poppins text-white line-clamp-1 ">
+                  {" "}
+                  {data?.cards[1].subcategory_name}
+                </p>
               </div>
             </div>
           </div>
@@ -92,19 +92,9 @@ function Section4() {
               backgroundRepeat: "no-repeat",
             }}
           >
-            <div className="w-full h-full section4box2 rounded-[3rem] flex justify-center items-center relative">
-              <div className="  flex flex-col gap-2 justify-center items-center">
-                <h4 className="text-lg font-medium text-white font-poppins  line-clamp-1">
-                  {data?.cards[2].title}
-                </h4>
-                <p className=" font-poppins text-white line-clamp-1 ">
-                  {" "}
-                  {data?.cards[2].subcategory_name}
-                </p>
-              </div>
-
+            <div className="w-full h-full section4linearbgcolor   rounded-[3rem] flex  relative">
               {/* Bottom Circle */}
-              <div className="absolute bottom-[-1.5rem] right-[45%] w-[5rem] h-[5rem] rounded-full shadow-lg bg-white p-2 cursor-pointer">
+              <div className="absolute top-[-1.5rem] right-[0%] w-[5rem] h-[5rem] rounded-full shadow-lg bg-white p-2 cursor-pointer">
                 <div className="w-full h-full rounded-full bg-[#0046AE] flex justify-center items-center">
                   <Image
                     className="w-[2rem] h-[2rem]"
@@ -112,6 +102,16 @@ function Section4() {
                     alt="arrow"
                   />
                 </div>
+              </div>
+
+              <div className="  flex flex-col gap-2  justify-end p-6 w-full items-center px-2">
+                <h4 className="text-lg font-medium text-white font-poppins  line-clamp-1">
+                  {data?.cards[2].title}
+                </h4>
+                <p className=" font-poppins text-white line-clamp-1 ">
+                  {" "}
+                  {data?.cards[2].subcategory_name}
+                </p>
               </div>
             </div>
           </div>
@@ -128,7 +128,7 @@ function Section4() {
           }}
         >
           {/* Top Right Circle */}
-          <div className="absolute top-1/2 right-[-0.5rem] w-[5rem] h-[5rem] rounded-full shadow-lg bg-white p-2 cursor-pointer">
+          <div className="absolute top-0 right-[-0.5rem] w-[5rem] h-[5rem] rounded-full shadow-lg bg-white p-2 cursor-pointer">
             <div className="w-full h-full rounded-full bg-[#0046AE] flex justify-center items-center">
               <Image
                 className="w-[2rem] h-[2rem]"

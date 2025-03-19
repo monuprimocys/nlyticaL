@@ -15,16 +15,14 @@ function NewCitiesCard({ data }) {
   console.log(" my  card is dark id ", data);
 
   const handleClick = () => {
-    sessionStorage.setItem("city", data.city);
-    sessionStorage.setItem("lat", data.lat);
-    sessionStorage.setItem("lng", data.lon);
+    sessionStorage.setItem("recentLocation", data.city);
     router.push("/store");
   };
 
   return (
     <div
-      className={`w-full flex cursor-pointer relative gap-6 rounded-lg h-auto p-4 shadow-lg transition-transform hover:scale-105 ${
-        isDarkMode ? "bg-[#212121] text-white" : "text-black"
+      className={`w-[22rem] flex cursor-pointer relative gap-6 rounded-lg h-auto p-4 shadow-lg transition-transform hover:scale-105 ${
+        isDarkMode ? "bg-[#212121] text-white" : "text-black  "
       }`}
       id="shadow-radius"
       onClick={handleClick} // Add onClick handler here

@@ -3,7 +3,6 @@ import React from "react";
 import Startdatebudget from "./Startdatebudget";
 import EndDateBudget from "./EndDateBudget";
 import DailyBudget from "./DailyBudget";
-import PriceDetailsSponcer from "./PriceDetailsSponcer";
 
 function BudgetDetail() {
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);

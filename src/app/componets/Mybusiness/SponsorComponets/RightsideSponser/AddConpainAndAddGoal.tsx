@@ -155,7 +155,7 @@ function AddConpainAndAddGoal() {
               .unwrap()
               .then((goalResponse) => {
                 console.log(
-                  "Campaign goal added successfully:",
+                  "Campaign goal added successfully:@@@@@@@@@@@@@@@@@@@@@@@@",
                   goalResponse.campaign_details
                 );
 
@@ -163,7 +163,7 @@ function AddConpainAndAddGoal() {
                 dispatch(
                   setGoalData({
                     goalId: goalResponse?.goal?.id,
-                    campaignId: goalResponse?.goal?.campaign_id,
+                    campaignId: goalResponse.campaign_details.id,
                     startDate: goalResponse?.goal?.start_date,
                     endDate: goalResponse?.goal?.end_date,
                     totalDays: goalResponse?.goal?.total_days,
@@ -173,6 +173,35 @@ function AddConpainAndAddGoal() {
                     area_distance: goalResponse.campaign_details.area_distance,
                   })
                 );
+
+                sessionStorage.setItem("goalId", goalResponse?.goal?.id);
+                sessionStorage.setItem(
+                  "campaignId",
+                  goalResponse.campaign_details.id
+                );
+                sessionStorage.setItem(
+                  "startDate",
+                  goalResponse?.goal?.start_date
+                );
+                sessionStorage.setItem("endDate", goalResponse?.goal?.end_date);
+                sessionStorage.setItem(
+                  "totalDays",
+                  goalResponse?.goal?.total_days
+                );
+                sessionStorage.setItem("price", goalResponse?.goal?.price);
+                sessionStorage.setItem(
+                  "campaign_name",
+                  goalResponse.campaign_details.campaign_name
+                );
+                sessionStorage.setItem(
+                  "address",
+                  goalResponse.campaign_details.address
+                );
+                sessionStorage.setItem(
+                  "area_distance",
+                  goalResponse.campaign_details.area_distance
+                );
+
                 Cookies.set("sponcer_id", goalResponse?.goal?.id);
                 sessionStorage.setItem("planPrice", goalResponse?.goal?.price);
 
@@ -211,7 +240,7 @@ function AddConpainAndAddGoal() {
         onClick={handleButtonClick}
         disabled={isLoading}
       >
-        {isLoading ? "Loading..." : "Continue  "}
+        {isLoading ? "Loading..." : "Continue   "}
       </button>
       <ToastContainer position="top-right" autoClose={5000} />
     </div>

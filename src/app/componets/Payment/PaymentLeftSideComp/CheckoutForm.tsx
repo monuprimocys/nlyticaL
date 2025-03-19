@@ -55,7 +55,7 @@ const CheckoutForm = () => {
             {isLoading ? (
               <ClipLoader color="white" size={35} />
             ) : (
-              `Pay now ${planPrice} `
+              `Pay  now ${planPrice} `
             )}
           </span>
         </button>

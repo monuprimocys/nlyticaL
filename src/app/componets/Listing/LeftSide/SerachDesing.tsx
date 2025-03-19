@@ -103,13 +103,13 @@ function SerachDesing() {
         </div>
 
         {/* type */}
-        <div
+        {/* <div
           className={` w-full rounded-lg  ${
             isDarkMode ? " bg-[#212121]" : "border-color"
           }`}
         >
           <TypesListing />
-        </div>
+        </div> */}
 
         {/* Rating */}
         <div

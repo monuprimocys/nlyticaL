@@ -7,7 +7,7 @@ import Rightside from "./RightsideSponser/Rightside";
 
 function CombineLeftSideAndRightSide() {
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
- 
+
   return (
     <div
       className={`mx-auto 2xl:w-[55%] xl:w-[80%] w-[90%] mt-[3rem]     gap-6    flex  lg:flex-row  flex-col ${

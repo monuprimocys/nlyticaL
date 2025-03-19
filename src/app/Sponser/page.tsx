@@ -4,9 +4,18 @@ import React from "react";
 import { useHomeScreenApi } from "../storeApp/api/useHomeScreenApi";
 import SponsorStoresCard from "../componets/homesection/SponsorStores/SponsorStoresCard";
 import Header from "../componets/Category/Header";
+import AvatarWithSpinner from "../componets/Loading/AvatarWithSpinner";
 
 function Page() {
   const { data, isLoading, refetch } = useHomeScreenApi();
+
+  if (isLoading) {
+    return (
+      <div className=" w-full h-full flex justify-center items-center">
+        <AvatarWithSpinner />
+      </div>
+    );
+  }
 
   const carddata = data?.sponser_store.services;
   return (

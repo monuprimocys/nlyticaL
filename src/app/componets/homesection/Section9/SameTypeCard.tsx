@@ -3,13 +3,13 @@ import { useServicePlane } from "@/app/storeApp/api/useserviceplane";
 import bgvectoreimage from "../../../../../public/assets/Image/bg-s.png";
 import React, { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
-import { FaRegCircleCheck } from "react-icons/fa6";
 import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
 import Cookies from "js-cookie";
 import { showModal } from "@/app/storeApp/Slice/modalSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "./style.css";
+import parse from "html-react-parser";
 
 function SameTypeCard() {
   const { data, isLoading, refetch } = useServicePlane();
@@ -72,8 +72,13 @@ function SameTypeCard() {
     return () => clearInterval(interval);
   }, [planeName]);
 
+  console.log(
+    " my  api responce  from geting subcription plan ",
+    data?.subscriptionDetail[0]
+  );
+
   return (
-    <div className="w-full   h-[28rem] relative   cursor-pointer">
+    <div className="w-full  h-fit relative   cursor-pointer">
       {/* Content (with white background color) */}
       <div
         className={`w-full  min-h-full   z-10 shadow rounded-xl  ${
@@ -95,67 +100,50 @@ function SameTypeCard() {
             "linearcolor  "
           } `}
         >
-          <div className="w-full flex justify-start items-start gap-4 flex-col p-6">
+          <div className="w-full flex flex-col gap-4 p-6">
             <div className="flex flex-col gap-4">
               <h2 className="text-[#0046AE] font-medium font-poppins text-2xl">
                 {data?.subscriptionDetail[0].plan_name}
               </h2>
-              <p
-                className={` font-poppins text-lg line-clamp-1   ${
-                  isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
+            </div>
+            {/* Price Detail */}
+            <div className="flex">
+              <h2
+                className={`text-xl font-medium font-poppins ${
+                  isDarkMode ? "text-white" : "text-black"
                 }`}
               >
-                {data?.subscriptionDetail[0].description}
-              </p>
+                <span className="font-semibold text-3xl relative bottom-[1px]">
+                  {data?.subscriptionDetail?.[0]?.price}
+                </span>
+                <span className="text-[#0046AE] font-semibold text-[16px]">
+                  / PER MONTH
+                </span>
+              </h2>
             </div>
 
-            {/* price detail */}
-            <div className="flex">
-              <div>
-                <h2
-                  className={`text-[#000000] font-medium font-poppins text-xl   ${
-                    isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
-                  }`}
-                >
-                  <span className="font-poppins font-semibold text-3xl relative bottom-[1px]">
-                    {data?.subscriptionDetail[0].price}
-                  </span>
-                  <span className="text-[#0046AE] font-poppins font-semibold text-[16px]">
-                    / PER MONTH
-                  </span>
-                </h2>
-              </div>
-            </div>
-            <div className=" w-full  h-[1px] bg-opacity-[15%] rounded-xl bg-black"></div>
-            {/* listing */}
-            <div className="flex flex-col gap-2">
-              <ul className="flex flex-col gap-4">
-                {data?.subscriptionDetail?.[0]?.plan_services?.map(
-                  (service, index) => (
-                    <li className="flex gap-2 items-center" key={index}>
-                      <div className="w-5 h-5">
-                        {service.status === 1 ? (
-                          <FaCheckCircle className="w-full h-full text-[#0046AE]" />
-                        ) : (
-                          <FaRegCircleCheck
-                            className={`w-full h-full  ${
-                              isDarkMode ? " text-white" : ""
-                            }`}
-                          />
-                        )}
-                      </div>
-                      <p
-                        className={` font-poppins text-[16px]   ${
-                          isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
-                        }`}
-                      >
-                        {service.plan_services}
-                      </p>
-                    </li>
-                  )
-                )}
-              </ul>
-            </div>
+            {/* Separator Line */}
+            <div className="w-full h-[1px] bg-black bg-opacity-15 rounded-xl"></div>
+
+            {/* Subscription List */}
+            <ul className="flex flex-col gap-4">
+              {parse(data?.subscriptionDetail?.[0]?.description || "").map(
+                (item, index) => (
+                  <li className="flex gap-2 items-center" key={index}>
+                    <div className="w-5 h-5">
+                      <FaCheckCircle className="w-full h-full text-[#0046AE]" />
+                    </div>
+                    <p
+                      className={`text-[16px] font-poppins ${
+                        isDarkMode ? "text-white" : "text-black"
+                      }`}
+                    >
+                      {item}
+                    </p>
+                  </li>
+                )
+              )}
+            </ul>
           </div>
 
           {/* btn */}

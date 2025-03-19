@@ -8,8 +8,9 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/app/hooks/hooks";
 import Cookies from "js-cookie";
 import { showModal } from "@/app/storeApp/Slice/modalSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "./style.css";
+import parse from "html-react-parser";
 
 function SameTypeCard() {
   const { data, isLoading, refetch } = useServicePlane();
@@ -73,7 +74,7 @@ function SameTypeCard() {
   }, [planeName]);
 
   return (
-    <div className="w-full   h-[28rem] relative   cursor-pointer">
+    <div className="w-full   h-fit relative   cursor-pointer">
       {/* Content (with white background color) */}
       <div
         className={`w-full  min-h-full   z-10 shadow rounded-xl  ${
@@ -100,13 +101,6 @@ function SameTypeCard() {
               <h2 className="text-[#0046AE] font-medium font-poppins text-2xl">
                 {data?.subscriptionDetail[2].plan_name}
               </h2>
-              <p
-                className={` font-poppins text-lg line-clamp-1   ${
-                  isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
-                }`}
-              >
-                {data?.subscriptionDetail[2].description}
-              </p>
             </div>
 
             {/* price detail */}
@@ -130,26 +124,18 @@ function SameTypeCard() {
             {/* listing */}
             <div className="flex flex-col gap-2">
               <ul className="flex flex-col gap-4">
-                {data?.subscriptionDetail?.[2]?.plan_services?.map(
-                  (service, index) => (
+                {parse(data?.subscriptionDetail?.[2]?.description || "").map(
+                  (item, index) => (
                     <li className="flex gap-2 items-center" key={index}>
                       <div className="w-5 h-5">
-                        {service.status === 1 ? (
-                          <FaCheckCircle className="w-full h-full text-[#0046AE]" />
-                        ) : (
-                          <FaRegCircleCheck
-                            className={`w-full h-full  ${
-                              isDarkMode ? " text-white" : ""
-                            }`}
-                          />
-                        )}
+                        <FaCheckCircle className="w-full h-full text-[#0046AE]" />
                       </div>
                       <p
-                        className={` font-poppins text-[16px]   ${
-                          isDarkMode ? "text-[#ffffff]" : "text-[#000000]"
+                        className={`text-[16px] font-poppins ${
+                          isDarkMode ? "text-white" : "text-black"
                         }`}
                       >
-                        {service.plan_services}
+                        {item}
                       </p>
                     </li>
                   )
@@ -176,7 +162,6 @@ function SameTypeCard() {
           </div>
         </div>
       </div>
-      <ToastContainer position="top-right" autoClose={5000} />
     </div>
   );
 }

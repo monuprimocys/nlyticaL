@@ -83,9 +83,15 @@ function SponsorStoresCard({ data }) {
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
+  const is_featured = data.is_featured;
+
+  const Review = data.totalReviewCount;
+
+  console.log("my card is dark id @@@@@@@@@@@@@@@@@@@ ", Review);
+
   return (
     <div
-      className={`w-full h-auto  rounded-lg   flex flex-row  gap-2  ${
+      className={`w-full h-auto  rounded-lg  cursor-pointer  flex flex-row  gap-2  ${
         isDarkMode ? "bg-[#212121] " : "bg-[#ffffff] "
       }`}
       id="border-color"
@@ -116,24 +122,28 @@ function SponsorStoresCard({ data }) {
           {/*  sponcer  */}
 
           <div className=" w-full flex justify-between items-center">
-            <div className=" w-fit bg-[#0046AE] px-2 py-1 rounded-lg flex items-center gap-1">
-              <Image
-                src={featureicon}
-                alt="feature icon"
-                className="object-contain w-4 h-4"
-              />
-              <button className="text-white font-poppins  text-[12px]  md:text-sm">
-                Sponsor
-              </button>
-            </div>
+            {is_featured == 1 ? (
+              <div className=" w-fit bg-[#0046AE] px-2 py-1 rounded-lg flex items-center gap-1">
+                <Image
+                  src={featureicon}
+                  alt="feature icon"
+                  className="object-contain w-4 h-4"
+                />
+                <button className="text-white font-poppins  text-[12px]  md:text-sm">
+                  Sponsor
+                </button>
+              </div>
+            ) : null}
             <div
-              className="group   flex h-12 w-12 transform cursor-pointer items-center justify-center rounded-full bg-[#FFFFFF3D] transition-all duration-300 ease-in-out hover:scale-110"
+              className={`group   flex h-10 w-10 transform cursor-pointer items-center justify-center rounded-full  transition-all duration-300 ease-in-out hover:scale-110   ${
+                isDarkMode ? "bg-[#FFFFFF3D]" : " bg-[#0046AE17]"
+              }`}
               onClick={handleLikeToggle}
             >
               {isLiked ? (
-                <GoHeartFill className="h-6 w-6 text-[#FF2929]" />
+                <GoHeartFill className="h-5 w-5 text-[#FF2929]" />
               ) : (
-                <GoHeart className="h-6 w-6 text-black transition-colors duration-200" />
+                <GoHeart className="h-5 w-5 text-black transition-colors duration-200" />
               )}
             </div>
           </div>
@@ -190,7 +200,7 @@ function SponsorStoresCard({ data }) {
                     isDarkMode ? "text-white" : "text-[#636363]"
                   }`}
                 >
-                  ({data.totalReviewCoun} Review)
+                  ({Review} Review)
                 </p>
               </div>
             </div>
