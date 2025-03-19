@@ -108,16 +108,7 @@ function VenderDetailInformation() {
           </div>
         </div>
       </div>
-      {/* number of empply  */}
-      <div className=" w-full pt-3 flex justify-start items-center">
-        <p
-          className={`text-lg font-medium font-poppins  mb-4  ${
-            isDarkMode ? "text-[#ffffff]" : "text-[#3E5155]"
-          }`}
-        >
-          Number of Employees: {data?.serviceDetail.employee_strength}
-        </p>
-      </div>
+     
     </div>
   );
 }

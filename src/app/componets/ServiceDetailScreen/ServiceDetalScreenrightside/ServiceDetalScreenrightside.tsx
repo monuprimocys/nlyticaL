@@ -6,12 +6,16 @@ import Websiteurl from "./ServiceDetailRightSideComponets/Websiteurl";
 import SocilMediicon from "./ServiceDetailRightSideComponets/SocilMediicon";
 import BusinessHoursDetail from "./ServiceDetailRightSideComponets/BusinessHoursDetail";
 import VideoSectionDetsilScrenn from "./ServiceDetailRightSideComponets/VideoSectionDetsilScrenn";
+import EmployyeCount from "./ServiceDetailRightSideComponets/EmployyeCount";
+import StoreDescription from "./ServiceDetailRightSideComponets/StoreDescription";
+import StoreTittlt from "./ServiceDetailRightSideComponets/StoreTittlt";
 
 function ServiceDetalScreenrightside() {
   return (
     <div className=" w-full flex flex-col gap-6">
       <VenderDetail />
       <VenderDetailInformation />
+      <EmployyeCount />
       <GooglemapDetailScreen />
       <Websiteurl />
       <VideoSectionDetsilScrenn />
