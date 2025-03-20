@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import profileImage from "../../../../public/assets/Image/profileicon.png";
 import "react-phone-input-2/lib/high-res.css";
 import PhoneInput from "react-phone-input-2";
-import callicon from "../../../../public/assets/Image/callSinup.png";
 import { FiPlus } from "react-icons/fi";
 import { useAppSelector } from "@/app/hooks/hooks";
 import Cookies from "js-cookie";
@@ -16,6 +15,8 @@ import emailicon from "../../../../public/assets/Image/emailiconformailsendfoote
 import { useDispatch } from "react-redux";
 import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { useServiceDetailApi } from "@/app/storeApp/api/ServiceDetailScreenApi/useServiceDetailApi";
+import verifyCheckIcon from "../../../../public/assets/Image/verfiy.png";
+import { useCheackUserNameExit } from "@/app/storeApp/api/auth/useCheackUserNameExit";
 
 function FormValues() {
   const slicevalues = useAppSelector((state) => state.registration);
@@ -64,15 +65,21 @@ function FormValues() {
     }
   }, [user_id, triggerUpdateProfile]);
 
-  console.log("  my updated profile  api returned", data?.message);
+  console.log(
+    "  my updated profile  api returned@@@@@@@@@@@@@@@@@@@@@@@@@",
+    data?.status
+  );
+
+  const statusCode = sessionStorage.getItem("statusCode");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (data?.status === false) {
-      toast.error(data?.message);
+    if (!statusCode) {
+      toast.error("Username already exists.");
       return;
     }
+
     // All required fields must be filled, including the image
     if (!firstName || !lastName || !email || !username) {
       toast.error("All fields are required");
@@ -99,16 +106,52 @@ function FormValues() {
       Cookies.set("is_store", response.data?.is_store);
       Cookies.set("store_approval", response.data?.store_approval);
 
+      if (response.data?.status) {
+        toast.success("Profile updated successfully");
+      }
       // If there’s a status or any specific field to check, you can access it here
-      if (response.success) {
+      if (response.data?.status === true) {
+        disptach(hideModal("RegisterWithMobailNumberOtpVerify"));
       } else {
+        toast.error("Email already exists");
       }
 
-      disptach(hideModal("RegisterWithMobailNumberOtpVerify"));
       refetch();
-      // Optionally reload the page if the update was successful
-      // window.location.reload();
     } catch (error) {}
+  };
+
+  const [status, setStatus] = useState(null); // null (default), true (exists), false (available)
+  const [message, setMessage] = useState("");
+  const checkUsernameMutation = useCheackUserNameExit();
+
+  sessionStorage.setItem("statusCode", status || "");
+
+  console.log(" my status values ", status);
+
+  const handleChangeusername = async (e) => {
+    const newUsername = e.target.value;
+    setUsername(newUsername);
+
+    if (newUsername.trim() === "") {
+      setStatus(null);
+      setMessage("");
+      return;
+    }
+
+    try {
+      const response = await checkUsernameMutation.mutateAsync(newUsername);
+
+      sessionStorage.setItem("username", response?.username);
+
+      setStatus(response.status);
+      setMessage(
+        response.status ? "Username is available." : " Username already exists."
+      );
+    } catch (error) {
+      console.error("Error checking username:", error);
+      setStatus(null);
+      setMessage("Something went wrong. Try again.");
+    }
   };
 
   return (
@@ -149,13 +192,12 @@ function FormValues() {
       </div>
 
       <form onSubmit={handleSubmit} className=" flex  flex-col  gap-6">
-        <div>
+        <div className="mb-5">
           <label
             className="text-sm font-medium text-[#000000]"
             htmlFor="username"
           >
-            UserName
-            <span className="text-[#F21818] pl-[2px]">*</span>
+            Username
           </label>
           <div className="relative mt-2 flex items-center">
             <input
@@ -163,18 +205,39 @@ function FormValues() {
               id="username"
               name="username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full rounded-md border font-poppins inputboxborder pr-[3rem] bg-white py-4 pl-3 text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
-              placeholder="Enter username"
+              onChange={handleChangeusername}
+              autoComplete="new-password"
+              className={`w-full rounded-md border input.autocomplete_off   font-poppins pr-[3rem] bg-white py-4 pl-3 text-[#000000] placeholder-gray-500 focus:outline-none 
+            ${
+              status === false
+                ? "border-red-500 " // Username exists → Red border
+                : status === true
+                ? "border-green-500 " // Username available → Green border
+                : "border-gray-300 " // Default (no input)
+            }`}
+              placeholder="Enter Username"
             />
-            <span className="absolute right-2 flex h-[3rem] w-[3rem] items-center justify-center rounded-full bg-[#B4B4B414]">
+
+            {/* Profile/Verification Icon */}
+            <span className="absolute   font-poppins  right-2 flex h-[3rem] w-[3rem] items-center justify-center rounded-full bg-[#B4B4B414]">
               <Image
-                src={profileImage || avatar}
-                alt="Profile Icon"
+                src={status === true ? verifyCheckIcon : profileImage}
+                alt="Status Icon"
                 className="h-[1.3rem] w-[1.3rem] object-cover"
               />
             </span>
           </div>
+
+          {/* Show message below input */}
+          {message && (
+            <p
+              className={`mt-1 text-sm  font-poppin ${
+                status === false ? "text-red-500" : "text-green-500"
+              }`}
+            >
+              {message}
+            </p>
+          )}
         </div>
         <div>
           <label
@@ -266,7 +329,7 @@ function FormValues() {
           />
           <span className="absolute right-2 top-1/2 transform -translate-y-1/2 flex h-[3rem] w-[3rem] items-center justify-center rounded-full bg-[#B4B4B414]">
             <Image
-              src={callicon}
+              src={verifyCheckIcon}
               alt="Phone Icon"
               className="h-[1.3rem] w-[1.3rem] object-cover"
             />

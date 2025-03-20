@@ -20,7 +20,7 @@ import {
   loginFailure,
 } from "../../storeApp/Slice/LoginSlice";
 import { useLoginUserMutation } from "@/app/storeApp/api/auth/user-login";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddSocilLoginGoogle from "@/app/componets/AddSocilLoginGoogle";
 
 export default function LoginModal() {
@@ -83,6 +83,31 @@ export default function LoginModal() {
   };
 
   const isDarkMode = useAppSelector((state) => state.darkMode);
+
+  useEffect(() => {
+    const inputs = document.querySelectorAll("input");
+
+    // Set readonly attribute initially
+    inputs.forEach((input) => {
+      input.setAttribute("readonly", true);
+    });
+
+    // Remove readonly attribute on click
+    const handleClick = (event) => {
+      event.target.removeAttribute("readonly");
+    };
+
+    inputs.forEach((input) => {
+      input.addEventListener("click", handleClick);
+    });
+
+    // Cleanup event listeners when component unmounts
+    return () => {
+      inputs.forEach((input) => {
+        input.removeEventListener("click", handleClick);
+      });
+    };
+  }, []);
 
   return (
     <Dialog open={modalData} onClose={handleModalClose}>
