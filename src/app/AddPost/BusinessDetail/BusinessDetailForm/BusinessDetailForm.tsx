@@ -93,10 +93,7 @@ function BusinessDetailForm() {
     video_thumbnail: "",
   };
 
-
-  console.log(" my add post data from slice values ", addPostData)
-
-
+  console.log(" my add post data from slice values ", addPostData);
 
   // Validation function
   const validateFields = () => {
@@ -130,24 +127,24 @@ function BusinessDetailForm() {
       return false;
     }
 
-    if (!ids) {
-      toast.error("Please select a sub-category");
-      return false;
-    }
+    // if (!ids) {
+    //   toast.error("Please select a sub-category");
+    //   return false;
+    // }
 
     if (!published_month) {
       toast.error("Please select a published_month");
       return false;
     }
 
-    if (!addPostData.employee_strength) {
-      toast.error("Please select employee ");
-      return false;
-    }
-    if (!addPostData.video_url) {
-      toast.error("Please select video_url ");
-      return false;
-    }
+    // if (!addPostData.employee_strength) {
+    //   toast.error("Please select employee ");
+    //   return false;
+    // }
+    // if (!addPostData.video_url) {
+    //   toast.error("Please select video_url ");
+    //   return false;
+    // }
 
     return true;
   };
