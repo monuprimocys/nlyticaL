@@ -12,7 +12,7 @@ import BusinessName from "./BusinessName";
 import BusinessDescription from "./BusinessDescription";
 import BusinessAddress from "./BusinessAddress";
 import Cookies from "js-cookie";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import UploadCoverImage from "./UploadCoverImage";
 import dayjs from "dayjs";
 import VideoUrlAddPost from "./VideoUrlAddPost";
@@ -92,6 +92,11 @@ function BusinessDetailForm() {
     video: "",
     video_thumbnail: "",
   };
+
+
+  console.log(" my add post data from slice values ", addPostData)
+
+
 
   // Validation function
   const validateFields = () => {

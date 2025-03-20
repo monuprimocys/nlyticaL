@@ -106,14 +106,14 @@ function FormValues() {
       Cookies.set("is_store", response.data?.is_store);
       Cookies.set("store_approval", response.data?.store_approval);
 
-      if (response.data?.status) {
+      if(response.data?.status){
         toast.success("Profile updated successfully");
       }
       // If there’s a status or any specific field to check, you can access it here
       if (response.data?.status === true) {
         disptach(hideModal("RegisterWithMobailNumberOtpVerify"));
       } else {
-        toast.error("Email already exists");
+        toast.error( "Email already exists");
       }
 
       refetch();

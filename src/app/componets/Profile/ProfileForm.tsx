@@ -139,6 +139,16 @@ const ProfileForm: React.FC = () => {
     // Send the form data to the API
     const response = await triggerUpdateProfile(formData);
 
+    console.log(" my api responce values ", response.data?.message);
+
+    if (response.data?.status !== true) {
+      toast.error("something went wrong");
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+      return;
+    }
+
     if (response?.data?.status) {
       setProfileData((prevData) => ({
         ...prevData,
@@ -148,7 +158,7 @@ const ProfileForm: React.FC = () => {
 
     toast.success(response.data?.message);
     triggerUpdateProfile({ user_id });
-    // window.location.reload();
+    window.location.reload();
   };
 
   const router = useRouter();
