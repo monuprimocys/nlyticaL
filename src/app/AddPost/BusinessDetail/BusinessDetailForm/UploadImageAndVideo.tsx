@@ -65,7 +65,7 @@ function UploadImageAndVideo() {
           }`}
           htmlFor="address"
         >
-          Service Image/Video
+          Store Image/Video
           <span className=" text-[#F21818] pl-[1px]">*</span>
         </label>
 

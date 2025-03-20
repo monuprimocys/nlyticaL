@@ -183,16 +183,16 @@ function BusinessDetailForm() {
                 <BusinessAddress />
                 <CategoryDropdown />
                 <SubCategoryDropdwon />
+                <MonthYear />
               </div>
               {/* right side */}
-              <div className="grid h-fit w-full  gap-10">
+              <div className="grid h-fit w-full  gap-6">
                 <UploadCoverImage />
                 <UploadImageAndVideo />
                 <div className="flex h-fit flex-col gap-6">
                   {/* <FeaturedService /> */}
                   <VideoUrlAddPost />
                   <NoofEmployees />
-                  <MonthYear />
                 </div>
               </div>
             </div>

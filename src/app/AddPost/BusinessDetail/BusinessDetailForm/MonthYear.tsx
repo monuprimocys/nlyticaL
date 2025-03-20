@@ -26,7 +26,7 @@ const MonthYear: React.FC<MonthYearProps> = ({ required }) => {
 
 
   return (
-    <div className="flex flex-col gap-2 relative xl:top-[2.4rem]">
+    <div className="flex flex-col gap-2 relative ">
       <label
         htmlFor="month"
         className={`font-poppins ${isDarkMode ? "text-white" : "text-black"}`}

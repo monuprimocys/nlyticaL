@@ -14,7 +14,6 @@ function UploadCoverImage() {
 
   const storesliceImage = useAppSelector((state) => state.AddPost.cover_image);
 
-
   const handleFileClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -96,7 +95,7 @@ function UploadCoverImage() {
               className="h-6 w-6 object-cover"
             />
             <p className="font-poppins text-[#B4B4B4]">
-              Service Cover image singal image
+              Store cover image single image{" "}
             </p>
           </div>
         </div>
