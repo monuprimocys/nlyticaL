@@ -15,6 +15,7 @@ import Section8 from "./Section8/Section8";
 import Section9 from "./Section9/Section9";
 import { useHomeScreenApi } from "@/app/storeApp/api/useHomeScreenApi";
 import AvatarWithSpinner from "../Loading/AvatarWithSpinner";
+import LanguageUpdater from "../Language/LanguageUpdater";
 
 function AllComponetsHomeScrenn() {
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
@@ -56,6 +57,7 @@ function AllComponetsHomeScrenn() {
       <Section7 />
       <Section8 />
       <Section9 />
+      <LanguageUpdater/>
     </div>
   );
 }

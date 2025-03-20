@@ -5,10 +5,13 @@ import { useAppSelector } from "@/app/hooks/hooks";
 import serachicon from "../../../../public/assets/Image/search-normal1.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import useTranslation from "@/app/hooks/useTranslation";
 function HomeSectionSerachBox() {
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   const router = useRouter();
+
+  const { getTranslation } = useTranslation();
 
   return (
     <div className="relative h-auto w-full">
@@ -23,7 +26,7 @@ function HomeSectionSerachBox() {
         <div className="mx-auto flex w-[95%] flex-col items-start justify-start gap-6">
           <div>
             <h3 className="font-poppins text-lg font-medium text-[#0046AE] xl:text-2xl">
-              Search your services
+              {getTranslation("Search your services ", "Search your services ")}
             </h3>
           </div>
 

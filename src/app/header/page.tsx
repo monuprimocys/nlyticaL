@@ -69,6 +69,7 @@ import CompleteAddressModal from "../AddPost/BusinessDetail/BusinessDetailForm/C
 import ImageModalMessage from "../componets/message/MessageBox/ImageModalMessage";
 import ImageModalRightSide from "../componets/message/MessageBox/ImageModalRightSide";
 import CheackStoreAdd from "../bussines/CheackStoreAdd";
+import Dropdwonlangugae from "../componets/Language/Dropdwonlangugae";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -580,116 +581,7 @@ function Header() {
               {/* Dropdown for language */}
               <div className="mx-auto flex w-fit max-w-sm items-end justify-end   hidden md:block">
                 <div className="flex items-center justify-between">
-                  {/* Language Icon Button */}
-                  <button
-                    id="states-button"
-                    data-dropdown-toggle="dropdown-states"
-                    className="z-10 inline-flex flex-shrink-0 items-center py-2.5 text-center text-sm font-medium text-black"
-                    type="button"
-                  >
-                    <div className="h-6 w-6 text-black">
-                      <Image
-                        src={languageicon}
-                        alt="Language Icon"
-                        width={24}
-                        height={24}
-                        className={`   ${isDarkMode ? "bg-circle-icon" : ""}`}
-                      />
-                    </div>
-                  </button>
-
-                  {/* Language Selector */}
-                  <div
-                    className="group relative cursor-pointer p-2 sm:p-3"
-                    onMouseEnter={() => setIsOpenLanguage(true)}
-                    onMouseLeave={() => setIsOpenLanguage(false)}
-                  >
-                    <div className="flex items-center justify-center gap-2">
-                      <p
-                        className={`font-poppins relative z-10    ${
-                          isDarkMode ? "text-[#FFFFFFCC]" : "text-black"
-                        }`}
-                      >
-                        {selectedLanguage}
-                      </p>
-                      <div className="h-5 w-5">
-                        <Image
-                          src={dropdwonicon}
-                          alt="Dropdown Icon"
-                          width={20}
-                          height={20}
-                          className={`transform ${
-                            isOpenlanguage ? "rotate-180" : ""
-                          }  
-                          
-                           ${isDarkMode ? "bg-circle-icon" : "  bg-white"}
-                          
-                          
-                          `}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Dropdown menu */}
-                    {isOpenlanguage && (
-                      <div
-                        className={`absolute left-[-3rem]   right-[12rem] top-12 z-50   flex w-[10rem] -translate-y-2 transform items-center justify-center rounded border  shadow transition-all duration-300 ease-out ${
-                          isOpenlanguage
-                            ? "pointer-events-auto translate-y-0 opacity-100"
-                            : "pointer-events-none"
-                        }
-
-                        ${
-                          isDarkMode
-                            ? "text-[#FFFFFFCC]  bg-[#212121]"
-                            : "  bg-white"
-                        }
-                        
-                        
-                        `}
-                      >
-                        <ul
-                          className={`  w-full  ${
-                            isDarkMode
-                              ? "text-[#FFFFFFCC]  bg-[#212121]"
-                              : "  bg-white"
-                          }`}
-                        >
-                          <li
-                            className="flex cursor-pointer items-center gap-3 p-3 font-normal"
-                            onClick={() =>
-                              handleLanguageSelection({ language: "English" })
-                            }
-                          >
-                            <p className="font-poppins font-normal">English</p>
-                          </li>
-                          <hr />
-                          <li
-                            className="flex cursor-pointer items-center gap-3 p-3"
-                            onClick={() =>
-                              handleLanguageSelection({ language: "Hindi" })
-                            }
-                          >
-                            <p className="font-poppins font-normal">Hindi</p>
-                          </li>
-                          <hr />
-                          <li
-                            className="flex cursor-pointer items-center gap-3 p-3"
-                            onClick={() =>
-                              handleLanguageSelection({ language: "Gujarati" })
-                            }
-                          >
-                            <p className="font-poppins font-normal">Gujarati</p>
-                          </li>
-                        </ul>
-                      </div>
-                    )}
-
-                    {/* Bottom underline effect */}
-                    <div className="absolute bottom-1 left-0 right-0">
-                      {/* <div className="h-[2px] scale-x-0 rounded-full bg-white transition-all duration-300 group-hover:scale-x-100"></div> */}
-                    </div>
-                  </div>
+                  <Dropdwonlangugae />
                 </div>
               </div>
 

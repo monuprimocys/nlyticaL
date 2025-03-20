@@ -57,7 +57,7 @@ import cardsReducer from "./Slice/cardsSlice";
 import userReducer from "./Slice/userSlicegoogle ";
 import UpdateStoreSubCategoriySliceReducer from "./Slice/UpdateStoreSubCategoriySlice";
 import locationSearchHomeReducer from "./Slice/locationSearchHomeSlice";
-
+import languageReducer from "./Slice/languageSlice";
 
 // All API File
 import { GetAllCategory } from "./api/useGetCategory";
@@ -144,7 +144,7 @@ export const store = configureStore({
     user: userReducer,
     UpdateStoreSubCategoriySlice: UpdateStoreSubCategoriySliceReducer,
     locationSearchHome: locationSearchHomeReducer,
-
+    language: languageReducer,
 
     // All Api Methods
     [GetAllCategory.reducerPath]: GetAllCategory.reducer,

@@ -10,6 +10,7 @@ import { MdOutlineStar } from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 import { setSelectedCategoryListing } from "@/app/storeApp/Slice/Listing/CategoryLIstingSlice";
 import { decodeString, encodeString } from "@/app/utils/enocodeAndDecode";
+import useTranslation from "@/app/hooks/useTranslation";
 
 interface Category {
   id: number;
@@ -175,6 +176,8 @@ const CategorySearchHomeScreen: React.FC = () => {
     sessionStorage.setItem("serviceId", serviceId);
   };
 
+  const { getTranslation } = useTranslation();
+
   return (
     <div className="w-full flex flex-col gap-1 relative">
       <label
@@ -183,7 +186,8 @@ const CategorySearchHomeScreen: React.FC = () => {
         }`}
         htmlFor="category"
       >
-        Search
+        {getTranslation("Search", "Search")}
+        
       </label>
 
       <div className="relative mt-2 flex items-center">

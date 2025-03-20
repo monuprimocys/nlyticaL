@@ -13,6 +13,7 @@ import { useAddNewsemail } from "../storeApp/api/useAddNewsemail";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { setSelectedCategoryListing } from "../storeApp/Slice/Listing/CategoryLIstingSlice";
+import useTranslation from "../hooks/useTranslation";
 
 function Fotter() {
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
@@ -71,6 +72,9 @@ function Fotter() {
       },
     });
   };
+
+  const { getTranslation } = useTranslation();
+
   return (
     <div
       className={`relative w-full pt-10    ${
@@ -85,7 +89,10 @@ function Fotter() {
         <div className="flex flex-col xl:w-[60%] w-full md:pl-10 gap-6 px-3 md:px-0 ">
           <div className="w-full">
             <h2 className="text-xl font-semibold text-white md:text-2xl font-poppins">
-              Stay connected with us for the latest updates and exciting news!
+              {getTranslation(
+                "Stay connected with us for the latest updates and exciting news!",
+                "Stay connected with us for the latest updates and exciting news!"
+              )}
             </h2>
           </div>
           <form
@@ -143,7 +150,7 @@ function Fotter() {
             <div className="flex flex-col items-center md:items-start space-y-6 w-full ">
               <div className="flex flex-col items-center md:items-start gap-y-3">
                 <h3 className="text-2xl font-bold text-[#0046AE] font-poppins">
-                  Use Links
+                  {getTranslation("Use Links ", "Use Links")}
                 </h3>
                 <Image src={line} alt="Line" className="w-16" />
               </div>
@@ -154,7 +161,7 @@ function Fotter() {
                   }`}
                   onClick={() => router.push("/about")}
                 >
-                  About Us
+                  About Us 
                 </p>
 
                 <p
@@ -180,7 +187,7 @@ function Fotter() {
               {/* Heading */}
               <div className="flex flex-col items-center md:items-start gap-y-3">
                 <h3 className="text-2xl font-bold text-[#0046AE] font-poppins">
-                  Categories
+                         {getTranslation("Categories", "Categories")}
                 </h3>
                 <Image src={line} alt="Line" className="w-16" />
               </div>
@@ -364,7 +371,7 @@ function Fotter() {
               {/* Heading */}
               <div className="flex flex-col items-center md:items-start gap-y-3">
                 <h3 className="text-2xl font-bold text-[#0046AE] font-poppins">
-                  Categories
+                {getTranslation("Categories", "Categories")}
                 </h3>
                 <Image src={line} alt="Line" className="w-16" />
               </div>
@@ -423,7 +430,7 @@ function Fotter() {
                 isDarkMode ? "dark:text-[#FFFFFF]" : "text-black"
               }`}
             >
-              Copyright © 2000-2024{" "}
+              Copyright © 2000-2024{" "} 
               <a
                 href="https://primocys.com/"
                 className={`${

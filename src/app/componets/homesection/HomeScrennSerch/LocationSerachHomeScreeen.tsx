@@ -7,6 +7,7 @@ import { setLocation } from "@/app/storeApp/Slice/locationSearchHomeSlice";
 import { useAppSelector } from "@/app/hooks/hooks";
 import Currentlocation from "@/app/AddPost/BusinessDetail/BusinessDetailForm/Currentlocation";
 import detectcurrentlocqationicon from "../../../../../public/assets/Image/search_locat_icon.svg";
+import useTranslation from "@/app/hooks/useTranslation";
 
 const LocationSearchHomeScreen: React.FC = () => {
   const dispatch = useDispatch();
@@ -102,6 +103,8 @@ const LocationSearchHomeScreen: React.FC = () => {
     }
   };
 
+  const { getTranslation } = useTranslation();
+
   return (
     <div className="w-full flex flex-col gap-1 relative    ">
       <label
@@ -110,7 +113,7 @@ const LocationSearchHomeScreen: React.FC = () => {
         }`}
         htmlFor="location"
       >
-        Location
+              {getTranslation("Location", "Location")}
       </label>
 
       <div className="relative mt-2 flex items-center">
@@ -153,7 +156,10 @@ const LocationSearchHomeScreen: React.FC = () => {
                 src={detectcurrentlocqationicon}
                 alt="Detect Location Icon"
               />
-              <p className="font-poppins text-[#0046AE]">Detect Location</p>
+              <p className="font-poppins text-[#0046AE]">
+                {" "}
+                {getTranslation("Detect Location", "Detect Location")}
+              </p>
             </div>
           </div>
 
@@ -169,7 +175,7 @@ const LocationSearchHomeScreen: React.FC = () => {
             ))
           ) : (
             <li className="px-4 py-2 text-gray-500 font-poppins text-center">
-              Location Not Found
+                    {getTranslation("Location Not Found", "Location Not Found")}
             </li>
           )}
         </ul>

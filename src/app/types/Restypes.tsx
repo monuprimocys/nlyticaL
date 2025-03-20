@@ -952,3 +952,33 @@ export interface SubCategoryDatum {
   id: number;
   subcategory_name: string;
 }
+
+
+
+
+
+
+
+
+
+
+
+//  language  module +++++++++++++++++++++++++++++++++++++++
+
+
+
+
+export interface ListAllLanguages {
+  success:   boolean;
+  message:   string;
+  languages: Language[];
+}
+
+export interface Language {
+  language:           string;
+  status:             number;
+  default_status:     number;
+  status_id:          number;
+  country:            string;
+  language_alignment: string;
+}
