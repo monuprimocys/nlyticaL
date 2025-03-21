@@ -64,16 +64,7 @@ function SponsorLable() {
 
         {sponcer_id === "1" ? (
           // Show "Sponsor Now" button if sponcer_id is 0
-          <div
-            className="w-full flex md:justify-end justify-center items-center"
-            onClick={handleCardClick}
-          >
-            <button className="py-3 px-6 text-white rounded-md font-poppins bg-[#0046AE]">
-              Sponsor Now 1212121212
-            </button>
-          </div>
-        ) : (
-          // Show sponsored message if sponcer_id is NOT 0
+
           <div
             className="md:w-[50%]  xl:w-[60%]  2xl:w-[50%] w-full cursor-pointer rounded-xl py-2 bg-[#ACD4F7] flex flex-col gap-2 md:justify-end justify-center items-end px-3"
             onClick={() => {
@@ -81,12 +72,22 @@ function SponsorLable() {
             }}
           >
             <p className="font-poppins text-lg font-normal">
-              Your Store has been sponsored2121212
+              Your Store has been sponsored
             </p>
             <p className="font-poppins text-lg font-semibold text-black">
               From: {data?.campaignData[0]?.goals[0]?.start_date} to{" "}
               {data?.campaignData[0]?.goals[0]?.end_date}
             </p>
+          </div>
+        ) : (
+          // Show sponsored message if sponcer_id is NOT 0
+          <div
+            className="w-full flex md:justify-end justify-center items-center"
+            onClick={handleCardClick}
+          >
+            <button className="py-3 px-6 text-white rounded-md font-poppins bg-[#0046AE]">
+              Sponsor Now
+            </button>
           </div>
         )}
       </div>
