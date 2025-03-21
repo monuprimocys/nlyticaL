@@ -17,14 +17,9 @@ function BusinessTime() {
   const dispatch = useAppDispatch();
   const addPostData = useAppSelector((state) => state.AddPost);
 
-  console.log("my add store slice values", addPostData);
+  console.log("my add store slice values @@##############@@@@@@@@@@@@@@@@@@", addPostData);
 
-  const area = addPostData.area?.replace(",", "");
 
-  const city = addPostData.city?.replace(",", "");
-
-  const state = addPostData.state?.replace(",", "");
-  const country = addPostData.country?.replace(",", "");
 
   const handlePreviousStep = () => {
     if ((addPostData.add_new_post_steps ?? 0) > 1) {
@@ -261,7 +256,7 @@ function BusinessTime() {
       await addService(formData).unwrap();
       toast.success("Service added successfully");
       dispatch(hideModal("AddPostModal"));
-      window.location.reload();
+      // window.location.reload();
       Cookies.set("FormSubmited", "true");
     } catch (err) {}
   };
