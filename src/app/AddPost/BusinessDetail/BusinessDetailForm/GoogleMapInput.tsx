@@ -5,18 +5,20 @@ import { CiSearch } from "react-icons/ci";
 import { setLocation } from "@/app/storeApp/Slice/locationSlice";
 import { useGoogleMaps } from "@/app/hooks/useGoogleMaps";
 import { useAppSelector } from "@/app/hooks/hooks";
+import Cookies from "js-cookie";
 
 const GooglemapInput = () => {
   const dispatch = useDispatch();
   const googleLoaded = useGoogleMaps();
 
+  const location = useAppSelector((state) => {
+    return state.location;
+  });
 
-  const location =  useAppSelector((state)=>{
-    return state.location
-  })
+  const lat = Cookies.get("lat");
+  const lon = Cookies.get("lon");
 
-
-  console.log(" my google location @!@ ", location.selectedLocation)
+  console.log(" my google location @!@ ", location.selectedLocation);
 
   useEffect(() => {
     if (googleLoaded) {
@@ -27,8 +29,11 @@ const GooglemapInput = () => {
   function initAutocomplete() {
     if (!window.google) return;
 
+    const latFromCookie = parseFloat(Cookies.get("lat")) || 23.0225;
+    const lonFromCookie = parseFloat(Cookies.get("lon")) || 72.5714;
+
     const map = new google.maps.Map(document.getElementById("map"), {
-      center: { lat: 23.0225, lng: 72.5714 },
+      center: { lat: latFromCookie, lng: lonFromCookie },
       zoom: 10,
       mapTypeId: "roadmap",
     });
@@ -57,19 +62,10 @@ const GooglemapInput = () => {
       places.forEach((place) => {
         if (!place.geometry || !place.geometry.location) return;
 
-        const icon = {
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25),
-        };
-
         const marker = new google.maps.Marker({
           map,
-          icon,
-          title: place.formatted_address,
           position: place.geometry.location,
+          title: place.formatted_address,
         });
 
         markers.push(marker);
@@ -80,9 +76,7 @@ const GooglemapInput = () => {
           bounds.extend(place.geometry.location);
         }
 
-
-
-        // Dispatch selected location to Redux
+        // Save selected location to Redux & Cookies
         dispatch(
           setLocation({
             name: place.formatted_address,
@@ -92,6 +86,9 @@ const GooglemapInput = () => {
             lng: place.geometry.location.lng(),
           })
         );
+
+        Cookies.set("lat", place.geometry.location.lat(), { expires: 7 });
+        Cookies.set("lon", place.geometry.location.lng(), { expires: 7 });
       });
 
       map.fitBounds(bounds);

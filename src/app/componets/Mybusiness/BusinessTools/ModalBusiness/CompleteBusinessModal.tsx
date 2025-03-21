@@ -28,7 +28,7 @@ function CompleteBusinessModal() {
             <div className="deleteac flex h-auto w-full items-center rounded-xl p-4">
               <div className="flex w-full items-center justify-center">
                 <h3 className="font-poppins text-lg font-medium text-black">
-                  Complete Address  
+                  Complete Address   
                 </h3>
               </div>
 

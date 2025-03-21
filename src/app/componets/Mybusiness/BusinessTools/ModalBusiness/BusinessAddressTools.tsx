@@ -34,6 +34,8 @@ function BusinessAddressTools() {
 
   useEffect(() => {
     localStorage.setItem("locationupdate", data?.service.address || "");
+    Cookies.set("lat", data?.service.lat || "");
+    Cookies.set("lon", data?.service.lon || "");
   }, [data]);
 
   const [storevalues, setStoreValues] = useState<string | null>(
