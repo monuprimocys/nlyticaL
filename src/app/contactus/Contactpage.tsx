@@ -14,10 +14,17 @@ function Contactpage() {
       className={`w-full h-[40rem] md:h-[20rem] 2xl:h-[30rem] bg-bottom flex justify-center items-center rounded-xl bg-cover ${
         isDarkMode ? " " : "text-[#000000]  opacity-100"
       }`}
+      // style={{
+      //   backgroundImage: isDarkMode
+      //     ? "linear-gradient(97.85deg, rgba(43, 69, 108, 0) -0.95%, #2A2A2A 90.59%), url(/assets/Image/contactus.png)"
+      //     : "url(/assets/bg-c.png)", // Ensure correct file naming
+      //   backgroundRepeat: "no-repeat",
+      //   backgroundSize: "cover",
+      //   backgroundPosition: "center",
+      // }}
+
       style={{
-        backgroundImage: isDarkMode
-          ? "linear-gradient(97.85deg, rgba(43, 69, 108, 0) -0.95%, #2A2A2A 90.59%), url(/assets/Image/contactus.png)"
-          : "url(/assets/bg-c.png)", // Ensure correct file naming
+        backgroundImage: `url(${bgimage.src})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
