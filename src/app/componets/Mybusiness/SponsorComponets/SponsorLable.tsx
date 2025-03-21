@@ -59,7 +59,7 @@ function SponsorLable() {
           </div>
         </div>
 
-        {sponcer_id === "0" ? (
+        {sponcer_id === "1" ? (
           // Show "Sponsor Now" button if sponcer_id is 0
           <div
             className="w-full flex md:justify-end justify-center items-center"
