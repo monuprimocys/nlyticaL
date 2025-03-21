@@ -220,6 +220,18 @@ function BusinessTime() {
         formData.append("address", addPostData.address);
       }
 
+      if (addPostData.area) {
+        formData.append("area", addPostData.area);
+      }
+
+      if (addPostData.city) {
+        formData.append("city", addPostData.city);
+      }
+
+      if (addPostData.state) {
+        formData.append("state", addPostData.state);
+      }
+
       // formData.append(
       //   "lat",
       //   String(location.lat || current_address.latitude) || ""
@@ -233,9 +245,6 @@ function BusinessTime() {
       formData.append("close_time", selectedDate.endTime || "");
       formData.append("closed_days", selectedDate.unselectedDays.join(","));
       formData.append("employee_strength", addPostData.employee_strength || "");
-      formData.append("area", address.area || "");
-      formData.append("city", address.cityName || "");
-      formData.append("state", addPostData.state || "");
       formData.append("country", addPostData.country || "");
       formData.append("lat", addPostData.lat || "");
       formData.append("lon", addPostData.lon || "");

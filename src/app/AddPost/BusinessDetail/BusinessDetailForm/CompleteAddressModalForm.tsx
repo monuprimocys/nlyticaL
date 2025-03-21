@@ -5,7 +5,6 @@ import "../../style.css";
 import Image from "next/image";
 import locationicon from "../../../../../public/assets/Image/locationmarkericon.png";
 import { useAppSelector, useAppDispatch } from "@/app/hooks/hooks";
-import { setAddress } from "@/app/storeApp/Slice/AddressSlice";
 import { toast } from "react-toastify";
 import Currentlocation from "./Currentlocation";
 import { hideModal } from "@/app/storeApp/Slice/modalSlice";
@@ -67,51 +66,37 @@ function CompleteAddressModalForm() {
     .slice(-4)
     .join(" ");
 
-  //  in my setAdress slice and counry name and city and state and area
-  const locationParts = defaultCurrentlocation.locationName
-    .split(" ")
-    .slice(-5)
-    .filter((word) => !/\d/.test(word)); // Remove any word containing numbers
-
-  const state = locationParts[locationParts.length - 2] || "";
-  const country = locationParts[locationParts.length - 1] || "";
-
-  console.log(" my  state values", country);
-
-  const address = useAppSelector((state) => state.address);
   const dispatch = useAppDispatch();
 
-  const [house, setHouse] = useState(address.house);
-  const [area, setArea] = useState(address.area);
-  const [landmark, setLandmark] = useState(address.landmark);
-  const [cityName, setCityName] = useState(address.cityName);
+  const AddPost = useAppSelector((state) => state.AddPost);
 
-  const [address12, setaddress12] = useState(address.address);
+  const [address, setAddress] = useState(AddPost.address || "");
+  const [area, setArea] = useState(AddPost.area || "");
+  const [cityName, setCityName] = useState(AddPost.city || "");
+  const [state, setState] = useState(AddPost.state || "");
 
-  // Update Redux store when form changes
   const handleSaveAddress = (e: React.FormEvent) => {
     e.preventDefault();
 
-    dispatch(setAddress({ house, area, landmark, cityName }));
-    //  in  addpost slice add  state and area and city counters values
     dispatch(
       updateAddPostData({
-        state: mystate || state,
-        country: mycountry || country,
-        address: mycurrentlocationAndSelectedLocationIs,
+        address,
+        area,
+        city: cityName,
+        state,
         lon: (lonmycurrentlocationAndSelectedLocationIs ?? "").toString(),
         lat: (latmycurrentlocationAndSelectedLocationIs ?? "").toString(),
       })
     );
-    dispatch(hideModal("CompleteAddressModal"));
-    // Clear the form fields after saving the address
-    setHouse("");
-    setArea("");
-    setLandmark("");
-    setCityName("");
 
+    dispatch(hideModal("CompleteAddressModal"));
     toast.success("Address saved successfully!");
   };
+
+  console.log(
+    " my addresssvalues from lat long ",
+    latmycurrentlocationAndSelectedLocationIs
+  );
 
   return (
     <div className="grid h-auto w-full grid-cols-1 gap-6    ">
@@ -145,129 +130,94 @@ function CompleteAddressModalForm() {
 
       {/* form values */}
       <form className="flex w-full flex-col gap-6" onSubmit={handleSaveAddress}>
-        {/*  addresss */}
+        {/* Address */}
+        <div>
+          <label
+            className="flex gap-[2px] text-sm font-medium text-[#000000]"
+            htmlFor="address"
+          >
+            <span>Address (House No, Building, Street)</span>
+            <span className="h-1 w-1 rounded-full text-red-600">*</span>
+          </label>
+          <input
+            type="text"
+            id="address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            className="inputboxborder w-full  font-poppins mt-2 rounded-md border bg-white py-4 px-3 text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none"
+            placeholder="Enter Full Address"
+            required
+          />
+        </div>
 
-        <div className="">
+        {/* Area */}
+        <div>
           <label
             className="flex gap-[2px] text-sm font-medium text-[#000000]"
             htmlFor="area"
           >
-            <span>Address(House No, Building, Street)</span>{" "}
+            <span>Area</span>
             <span className="h-1 w-1 rounded-full text-red-600">*</span>
           </label>
-
-          <div className="relative mt-2 flex items-center">
-            <input
-              type="text"
-              id="area"
-              name="area"
-              value={area}
-              onChange={(e) => setArea(e.target.value)} // Update local state
-              className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
-              placeholder="Enter Full Address"
-              required={true}
-            />
-          </div>
+          <input
+            type="text"
+            id="area"
+            value={area}
+            onChange={(e) => setArea(e.target.value)}
+            className="inputboxborder w-full   font-poppins mt-2 rounded-md border bg-white py-4 px-3 text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none"
+            placeholder="Enter Area Name"
+            required
+          />
         </div>
 
-        {/* area */}
-        <div className="">
-          <label
-            className="flex gap-[2px] text-sm font-medium text-[#000000]"
-            htmlFor="area"
-          >
-            <span>Area</span>{" "}
-            <span className="h-1 w-1 rounded-full text-red-600">*</span>
-          </label>
-
-          <div className="relative mt-2 flex items-center">
-            <input
-              type="text"
-              id="area"
-              name="area"
-              value={area}
-              onChange={(e) => setArea(e.target.value)} // Update local state
-              className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
-              placeholder="Enter Area Name"
-              required={true}
-            />
-          </div>
-        </div>
-
-        {/* optinonal */}
-        <div className="">
-          <label
-            className="text-sm font-medium text-[#000000]"
-            htmlFor="landmark"
-          >
-            Nearby landmark (optional)
-          </label>
-          <div className="relative mt-2 flex items-center">
-            <input
-              type="text"
-              id="landmark"
-              name="landmark"
-              value={landmark}
-              onChange={(e) => setLandmark(e.target.value)} // Update local state
-              className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
-              placeholder="Enter Nearby Landmark"
-            />
-          </div>
-        </div>
-        {/*  city and state */}
-        <div className=" w-full flex  justify-between gap-4  md:flex-row flex-col">
-          {/* city */}
-          <div className="">
+        {/* City & State */}
+        <div className="w-full flex flex-col md:flex-row gap-4">
+          {/* City */}
+          <div>
             <label
               className="flex gap-[2px] text-sm font-medium text-[#000000]"
-              htmlFor="area"
+              htmlFor="city"
             >
-              <span>City</span>{" "}
+              <span>City</span>
               <span className="h-1 w-1 rounded-full text-red-600">*</span>
             </label>
-
-            <div className="relative mt-2 flex items-center">
-              <input
-                type="text"
-                id="area"
-                name="cityName"
-                value={cityName}
-                onChange={(e) => setCityName(e.target.value)} // Update local state
-                className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
-                placeholder="City"
-                required={true}
-              />
-            </div>
+            <input
+              type="text"
+              id="city"
+              value={cityName}
+              onChange={(e) => setCityName(e.target.value)}
+              className="inputboxborder mt-2 w-full  font-poppins rounded-md border bg-white py-4 px-3 text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none"
+              placeholder="City"
+              required
+            />
           </div>
 
-          {/* State* */}
-          <div className="">
+          {/* State */}
+          <div>
             <label
               className="flex gap-[2px] text-sm font-medium text-[#000000]"
-              htmlFor="house"
+              htmlFor="state"
             >
-              <span>State</span>{" "}
+              <span>State</span>
               <span className="h-1 w-1 rounded-full text-red-600">*</span>
             </label>
-            <div className="relative mt-2 flex items-center">
-              <input
-                type="text"
-                id="house"
-                name="house"
-                value={house}
-                onChange={(e) => setHouse(e.target.value)} // Update local state
-                className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
-                placeholder=" State"
-                required={true}
-              />
-            </div>
+            <input
+              type="text"
+              id="state"
+              value={state}
+              onChange={(e) => setState(e.target.value)}
+              className="inputboxborder w-full rounded-md  font-poppins border mt-2 bg-white py-4 px-3 text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none"
+              placeholder="State"
+              required
+            />
           </div>
         </div>
 
-        <div className="bg mx-auto flex w-[70%] items-center justify-center">
+        {/* Save Button */}
+        <div className="mx-auto flex w-[70%] items-center justify-center">
           <button
             type="submit"
-            className="font-poppins w-full rounded-lg bg-[#0046AE] py-3 text-lg font-normal text-white"
+            className="w-full rounded-lg bg-[#0046AE] py-3 text-lg text-white"
           >
             Save Address
           </button>

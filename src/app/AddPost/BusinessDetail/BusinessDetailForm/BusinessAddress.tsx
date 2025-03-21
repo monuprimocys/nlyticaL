@@ -12,15 +12,7 @@ interface BusinessAddressProps {
 const BusinessAddress: React.FC<BusinessAddressProps> = ({ required }) => {
   const dispatch = useDispatch();
 
-  const address = useAppSelector((state) => state.address);
-
-  const addpostaddress = useAppSelector((state) => state.AddPost.country);
-
-  console.log(" my  address values@!@!@@  ", addpostaddress);
-
-  // Join the address components
-  const joinAddress =
-    ` ${address.area}  ${address.cityName} ${address.house} ${address.landmark}`.trim();
+  const address = useAppSelector((state) => state.AddPost.address);
 
   // Handle address update
   const handleAddressClick = () => {
@@ -37,7 +29,7 @@ const BusinessAddress: React.FC<BusinessAddressProps> = ({ required }) => {
         }`}
         htmlFor="address"
       >
-        Business Address 
+        Business Address
         <span className="text-[#F21818] pl-[1px]">*</span>
       </label>
       <div className="relative mt-2 flex items-center">
@@ -50,7 +42,7 @@ const BusinessAddress: React.FC<BusinessAddressProps> = ({ required }) => {
             isDarkMode ? "border-[#656565]" : "border-[#6565657a]"
           } ${isDarkMode ? "bg-[#333333] text-white" : "bg-white text-black"}`} // Conditional background and text color for TextField
           fullWidth
-          value={joinAddress || ""}
+          value={address || ""}
           onClick={handleAddressClick}
           required={required}
           InputProps={{
