@@ -15,7 +15,7 @@ function SponsorLable() {
   const sponcer_id = Cookies.get("businesspaymentsuccess");
   const { data } = useGetAllCompain();
 
-  console.log(" my  sponce id is ", sponcer_id);
+  console.log(" my  sponce id is sponcer_idsponcer_idsponcer_idsponcer_idsponcer_id ", sponcer_id);
 
   console.log(" my  api responce data is", data?.campaignData);
 

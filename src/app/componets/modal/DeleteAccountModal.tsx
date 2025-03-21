@@ -57,6 +57,7 @@ function DeleteAccountModal() {
         Cookies.remove("subscriber_user");
         Cookies.remove("FormSubmited");
         Cookies.remove("login_token");
+        Cookies.remove("businesspaymentsuccess");
         window.location.href = "/";
         dispatch(showModal("loginModal"));
       } else {

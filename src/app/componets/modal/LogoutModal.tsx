@@ -36,6 +36,7 @@ function LogoutModal() {
     Cookies.remove("sponcer_id");
     Cookies.remove("subscriber_user");
     Cookies.remove("login_token");
+    Cookies.remove("businesspaymentsuccess");
     dispatch(hideModal("LogoutModal"));
     window.location.href = "/";
   };
