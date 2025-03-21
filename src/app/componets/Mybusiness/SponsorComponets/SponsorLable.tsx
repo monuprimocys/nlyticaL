@@ -69,7 +69,7 @@ function SponsorLable() {
             onClick={handleCardClick}
           >
             <button className="py-3 px-6 text-white rounded-md font-poppins bg-[#0046AE]">
-              Sponsor Now
+              Sponsor Now 1212121212
             </button>
           </div>
         ) : (
@@ -81,7 +81,7 @@ function SponsorLable() {
             }}
           >
             <p className="font-poppins text-lg font-normal">
-              Your Store has been sponsored
+              Your Store has been sponsored2121212
             </p>
             <p className="font-poppins text-lg font-semibold text-black">
               From: {data?.campaignData[0]?.goals[0]?.start_date} to{" "}
