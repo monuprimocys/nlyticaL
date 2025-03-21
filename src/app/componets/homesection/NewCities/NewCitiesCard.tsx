@@ -36,7 +36,7 @@ function NewCitiesCard({ data }) {
       </div>
       {/* Inner text */}
       <div className="flex flex-col gap-2 justify-center w-[70%]">
-        <h6 className="font-poppins font-medium text-lg">{data.city}</h6>
+        <h6 className="font-poppins font-medium text-lg pr-2 line-clamp-1">{data.city}</h6>
         <p className="text-[#0046AE] font-poppins font-normal text-sm">
           Explore
         </p>

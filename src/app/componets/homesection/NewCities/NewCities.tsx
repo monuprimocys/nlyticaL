@@ -22,7 +22,7 @@ function NewCities() {
             highlightedTitle={data?.new_cities.title}
           />
         </div>
-        <div className=" w-full flex-wrap  flex justify-center mt-[3rem] items-center">
+        <div className=" w-full flex-wrap  gap-10 flex justify-center mt-[3rem] items-center">
           {carddata?.map((item, index) => (
             <NewCitiesCard key={index} data={item} />
           ))}
