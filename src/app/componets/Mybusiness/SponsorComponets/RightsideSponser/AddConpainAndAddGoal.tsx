@@ -127,7 +127,7 @@ function AddConpainAndAddGoal() {
       formData.append("address", address || "");
       formData.append("lat", latLng.lat || "");
       formData.append("lon", latLng.lng || "");
-      formData.append("area_distance", `1, ${distanceValue.toString() || ""}`);
+      formData.append("area_distance", `1,${distanceValue.toString() || ""}`);
 
       // Step 1: Create the campaign
       addCampaign(formData)
