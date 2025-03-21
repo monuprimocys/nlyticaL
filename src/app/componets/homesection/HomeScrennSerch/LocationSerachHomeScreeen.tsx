@@ -28,18 +28,23 @@ const LocationSearchHomeScreen: React.FC = () => {
 
   console.log("Extracted city:", extractedCity);
 
-  const [searchValue, setSearchValue] = useState<string>("");
   const [recentSearch, setRecentSearch] = useState<string>("");
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [useLatLon, setUseLatLon] = useState<boolean>(false);
+  const [searchValue, setSearchValue] = useState<string>("");
 
-  console.log(" my searchValue values ");
+  console.log(" my searchValue values  ######################", searchValue);
 
   const { data, refetch } = useGetCountryApi(
     searchValue,
     useLatLon ? latitude : undefined,
     useLatLon ? longitude : undefined
   );
+
+  useEffect(() => {
+    refetch();
+  }, [searchValue, latitude, longitude, refetch]);
+
   useEffect(() => {
     let storedLocation = sessionStorage.getItem("recentLocation");
 
@@ -113,7 +118,7 @@ const LocationSearchHomeScreen: React.FC = () => {
         }`}
         htmlFor="location"
       >
-              {getTranslation("Location", "Location")}
+        {getTranslation("Location", "Location")}
       </label>
 
       <div className="relative mt-2 flex items-center">
@@ -175,7 +180,7 @@ const LocationSearchHomeScreen: React.FC = () => {
             ))
           ) : (
             <li className="px-4 py-2 text-gray-500 font-poppins text-center">
-                    {getTranslation("Location Not Found", "Location Not Found")}
+              {getTranslation("Location Not Found", "Location Not Found")}
             </li>
           )}
         </ul>
