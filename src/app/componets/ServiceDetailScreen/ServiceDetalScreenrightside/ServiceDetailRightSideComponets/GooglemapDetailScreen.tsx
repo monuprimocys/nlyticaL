@@ -104,7 +104,7 @@ const GoogleMapDetailScreen: React.FC = () => {
       </div>
 
       {/* Address Display */}
-      <div className="w-full flex gap-2 h-full">
+      <div className="w-full flex gap-2 h-full hidden">
         <Image
           src={locationicon}
           alt="Location Icon"
