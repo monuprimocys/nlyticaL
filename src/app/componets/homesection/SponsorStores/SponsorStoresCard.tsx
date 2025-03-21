@@ -122,7 +122,7 @@ function SponsorStoresCard({ data }) {
           {/*  sponcer  */}
 
           <div className=" w-full flex justify-between items-center">
-            {is_featured == 1 ? (
+            
               <div className=" w-fit bg-[#0046AE] px-2 py-1 rounded-lg flex items-center gap-1">
                 <Image
                   src={featureicon}
@@ -133,7 +133,7 @@ function SponsorStoresCard({ data }) {
                   Sponsor
                 </button>
               </div>
-            ) : null}
+           
             <div
               className={`group   flex h-10 w-10 transform cursor-pointer items-center justify-center rounded-full  transition-all duration-300 ease-in-out hover:scale-110   ${
                 isDarkMode ? "bg-[#FFFFFF3D]" : " bg-[#0046AE17]"

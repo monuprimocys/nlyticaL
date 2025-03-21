@@ -47,7 +47,7 @@ export default function NoofEmployees() {
         }`}
       >
         Number of Employees
-        <span className=" text-[#F21818] pl-[1px]">*</span>
+     
       </label>
       <FormControl style={{ width: "100%" }}>
         <Select

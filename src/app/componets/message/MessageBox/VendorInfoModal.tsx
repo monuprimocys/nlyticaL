@@ -26,6 +26,7 @@ export default function VendorInfoModal() {
   const [to_user, setToUser] = useState<string | null>(
     sessionStorage.getItem("selecteduserid")
   );
+  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -50,8 +51,6 @@ export default function VendorInfoModal() {
     dispatch(hideModal("VendorInfoModal"));
   };
 
-  const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
-
   return (
     <Dialog open={modalData} onClose={handleModalClose}>
       <div className="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-blur-sm overflow-y-auto">
@@ -72,7 +71,7 @@ export default function VendorInfoModal() {
               </div>
             </div>
 
-            <div className="flex items-center gap-4 w-full  " >
+            <div className="flex items-center gap-4 w-full  ">
               {/*  vendor image  */}
               <div className="w-[5rem] h-[4.5rem] rounded-full overflow-hidden flex justify-center items-center">
                 <Image
@@ -112,6 +111,10 @@ export default function VendorInfoModal() {
                       className="text-[#D1D1D1]"
                     />
                   ))}
+
+                  <span className=" text-[#5C5C5C] font-poppins">
+                    ({vendorDetails?.Vendordetails.total_reviews})
+                  </span>
                 </div>
 
                 {/*  location */}
@@ -137,8 +140,8 @@ export default function VendorInfoModal() {
                     <div className=" h-[2rem]  w-[2rem] p-1  rounded-full  bg-slate-200 flex justify-center items-center">
                       <Image
                         src={call}
-                        width={20}
-                        height={20}
+                        width={18}
+                        height={18}
                         alt="location icon"
                       />
                     </div>

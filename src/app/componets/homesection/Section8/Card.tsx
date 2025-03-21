@@ -27,11 +27,11 @@ const Card: React.FC = ({ data }) => {
       {/* CONTENT */}
       <div>
         <p
-          className={`text-sm  font-poppins line-clamp-5 lg:line-clamp-4  ${
+          className={`text-sm  font-poppins line-clamp-5 lg:line-clamp-3  ${
             isDarkMode ? "  text-white" : "text-black"
           }`}
         >
-          {data.review_text}
+          {data.review_text} 
         </p>
       </div>
 

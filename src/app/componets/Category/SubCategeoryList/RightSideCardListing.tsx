@@ -105,6 +105,9 @@ function RightSideCardListing() {
     router.push(`/ServiceDetail/${serviceId}`); // Navigate to dynamic route
   };
 
+
+  
+
   return (
     <div className="w-full h-auto">
       <div className="w-full justify-end items-center flex gap-3 mb-4">

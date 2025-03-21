@@ -12,7 +12,7 @@ function SponsorLable() {
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   const router = useRouter();
 
-  const sponcer_id = Cookies.get("sponcer_id");
+  const sponcer_id = Cookies.get("businesspaymentsuccess");
   const { data } = useGetAllCompain();
 
   console.log(" my  sponce id is ", sponcer_id);

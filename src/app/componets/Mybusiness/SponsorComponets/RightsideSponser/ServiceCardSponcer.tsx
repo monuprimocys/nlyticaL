@@ -14,9 +14,9 @@ import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useServiceDetailApi } from "@/app/storeApp/api/ServiceDetailScreenApi/useServiceDetailApi";
+import { decodeString, encodeString } from "@/app/utils/enocodeAndDecode";
 
 function ServiceCardSponcer() {
- 
   const service_id = Cookies.get("service_id");
 
   const { data, error, isLoading, refetch } = useServiceDetailApi(service_id);
@@ -24,7 +24,6 @@ function ServiceCardSponcer() {
   useEffect(() => {
     refetch();
   }, []);
-
 
   // // Static data
   // const data = {
@@ -87,11 +86,39 @@ function ServiceCardSponcer() {
   //     router.push(`/ServiceDetail/${id}`);
   //   };
 
+  const is_featured = data?.serviceDetail.is_featured;
+
+  const router = useRouter();
+
+  const handleCardClick = (serviceId, serviceName) => {
+    if (!serviceId || !serviceName) {
+      console.error("Invalid serviceId or serviceName");
+      return;
+    }
+
+    const encodedServiceId = encodeString(String(serviceId)); // Ensure serviceId is a string
+    const serviceSlug = serviceName.toLowerCase().replace(/\s+/g, "-"); // Convert name to URL slug
+
+    console.log("Encoded Service ID:", encodedServiceId);
+
+    // Navigate to the encoded route
+    router.push(`/stores/${serviceSlug}/${encodedServiceId}`);
+
+    serviceId = decodeString(encodedServiceId);
+
+    // Store in sessionStorage for later use
+    sessionStorage.setItem("serviceId", serviceId);
+  };
+
   return (
     <div
       className="w-full h-auto rounded-lg bordercolordailybudget p-2 flex flex-row gap-2"
-
-      //   onClick={() => handleCardClick(data.id)}
+      onClick={() =>
+        handleCardClick(
+          data?.serviceDetail.id,
+          data?.serviceDetail.service_name
+        )
+      }
     >
       {/* Image Section */}
       <div className="w-[50%] md:w-[35%] h-auto relative">
@@ -107,7 +134,7 @@ function ServiceCardSponcer() {
         ></div>
         <div className="absolute left-0 top-4 w-fit bg-[#0046AE] rounded-r-md px-1 md:px-2 pb-1">
           <button className="text-white font-poppins text-[12px] md:text-sm">
-            {data?.serviceDetail.service_name} 
+            {data?.serviceDetail.service_name}
           </button>
         </div>
       </div>
@@ -117,16 +144,19 @@ function ServiceCardSponcer() {
         <div className="flex flex-col w-full gap-1 md:gap-2 sm:px-6 px-1">
           {/* sponcer */}
           <div className="w-full flex justify-between items-center">
-            <div className="w-fit bg-[#0046AE] px-2 py-1 rounded-lg flex items-center gap-1">
-              <Image
-                src={featureicon}
-                alt="feature icon"
-                className="object-contain w-4 h-4"
-              />
-              <button className="text-white font-poppins text-[12px] md:text-sm">
-                Sponsor
-              </button>
-            </div>
+            {is_featured === 1 && (
+              <div className="w-fit bg-[#0046AE] px-2 py-1 rounded-lg flex items-center gap-1">
+                <Image
+                  src={featureicon}
+                  alt="feature icon"
+                  className="object-contain w-4 h-4"
+                />
+                <button className="text-white font-poppins text-[12px] md:text-sm">
+                  Sponsor
+                </button>
+              </div>
+            )}
+
             <div
               className="group flex h-12 w-12 transform cursor-pointer items-center justify-center rounded-full bg-[#FFFFFF3D] transition-all duration-300 ease-in-out hover:scale-110"
               onClick={handleLikeToggle}
@@ -148,7 +178,8 @@ function ServiceCardSponcer() {
             ></div>
             <div>
               <h5 className="text-[#636363] font-poppins text-sm font-medium">
-                {data?.vendorDetails.first_name} <span>{data?.vendorDetails.first_name}</span>
+                {data?.vendorDetails.first_name}{" "}
+                <span>{data?.vendorDetails.last_name}</span>
               </h5>
             </div>
           </div>

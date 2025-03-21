@@ -33,7 +33,7 @@ function NumberofEmployees() {
           />
         </div>
         <div className="text-xl font-poppins ">
-          Number of Employees
+          Number of Employees 
         </div>
       </div>
 

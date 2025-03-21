@@ -30,7 +30,7 @@ const SearchboxListing = () => {
       <TextField
         fullWidth
         variant="outlined"
-        placeholder="Listing Search  "
+        placeholder="Store search"
         value={searchQuery} // Bind the input value to Redux state
         onChange={handleInputChange} // Handle the change in the input field
         InputProps={{

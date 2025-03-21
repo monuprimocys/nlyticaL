@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import { useServiceDetailApi } from "@/app/storeApp/api/ServiceDetailScreenApi/useServiceDetailApi";
 import { decodeString } from "@/app/utils/enocodeAndDecode";
 import { HiOutlineUsers } from "react-icons/hi";
+import profiletwo from "../../../../../../public/assets/Image/profile-2user.png";
+import Image from "next/image";
 
 function EmployyeCount() {
   const pathname = usePathname();
@@ -25,15 +27,15 @@ function EmployyeCount() {
 
   return (
     <div
-      className={`p-5 rounded-lg shadow-md border transition-all duration-300 ${
-        isDarkMode ? "bg-[#212121] border-gray-700" : "bg-white border-gray-300"
+      className={`p-3 rounded-lg shadow-md border transition-all duration-300 ${
+        isDarkMode ? "bg-[#212121] border-gray-700" : "bg-white bordercolo"
       }`}
     >
       {/* Header */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         {/* Icon */}
         <div className="bg-transparent  text-black p-3 rounded-full ">
-          <HiOutlineUsers className="text-2xl" />
+          <Image src={profiletwo} alt="icon" width={30} height={30} />
         </div>
 
         {/* Text */}

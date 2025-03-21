@@ -77,11 +77,13 @@ const SubcategoryDropdown: React.FC = () => {
         }`}
       >
         Subcategory
-        <span className="text-[#F21818] pl-[1px]">*</span>
       </label>
 
       {/* Subcategory Input */}
-      <div className="relative mt-2 flex items-center  cursor-pointer" onClick={handleToggle}>
+      <div
+        className="relative mt-2 flex items-center  cursor-pointer"
+        onClick={handleToggle}
+      >
         <input
           type="text"
           id="subcategory"

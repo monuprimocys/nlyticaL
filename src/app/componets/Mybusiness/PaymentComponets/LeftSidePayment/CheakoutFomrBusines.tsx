@@ -27,7 +27,7 @@ const CheakoutFomrBusines = () => {
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "https://nlyticalapp.com/Successpaymentbusiness",
+        return_url: "http://localhost:3000/Successpaymentbusiness",
       },
     });
 

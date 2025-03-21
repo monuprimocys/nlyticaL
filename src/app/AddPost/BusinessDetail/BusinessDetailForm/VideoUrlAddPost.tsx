@@ -22,7 +22,7 @@ function VideoUrlAddPost() {
           }`}
         >
           Enter Video URL
-          <span className="text-[#F21818] pl-[1px]">*</span>
+        
         </label>
 
         <TextField

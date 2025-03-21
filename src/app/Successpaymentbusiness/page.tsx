@@ -35,6 +35,7 @@ function Successpaymentbusiness() {
       .then((data) => {
         // If the API call is successful, show the modal
         dispatch(showModal("Paymentsuccessful"));
+        Cookies.set("businesspaymentsuccess","1");
       })
       .catch((error) => {
         console.error("Error:", error);

@@ -82,6 +82,10 @@ const Section5card = ({ data }) => {
 
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
+  console.log(" my card data detail ", data);
+
+  const is_featured = data.is_featured;
+
   return (
     <div
       className="h-[26rem]   cursor-pointer lg:h-[30rem] overflow-hidden  w-full relative rounded-xl flex flex-col  shadow-md     mb-2    "
@@ -125,14 +129,16 @@ const Section5card = ({ data }) => {
         }`}
       >
         {/* top right */}
-        <div className="absolute right-4 h-auto bg-[#0046AE] top-[-1rem] w-fit px-2 py-1 rounded-lg flex justify-center items-center">
-          <Image
-            src={featureicon}
-            alt="feature icon"
-            className="object-contain w-4 h-4"
-          />
-          <button className="text-white font-poppins text-sm">Sponcer</button>
-        </div>
+        {is_featured == 1 ? (
+          <div className="absolute right-4 h-auto bg-[#0046AE] top-[-1rem] w-fit px-2 py-1 rounded-lg flex justify-center items-center">
+            <Image
+              src={featureicon}
+              alt="feature icon"
+              className="object-contain w-4 h-4"
+            />
+            <button className="text-white font-poppins text-sm">Sponcer</button>
+          </div>
+        ) : null}
 
         <div className="flex flex-col w-full gap-3  xl:px-6 px-4">
           {/* Avatar with detail */}

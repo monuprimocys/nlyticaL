@@ -98,7 +98,7 @@ function VenderDetailInformation() {
               {listing.serviceDetail.total_stores_count} Services
             </span>
             <span
-              className={` ml-2 font-poppins  ${
+              className={` ml-2   font-poppins  ${
                 isDarkMode ? "text-[#ffffff]" : "text-[#929292]"
               }`}
             >
@@ -108,7 +108,6 @@ function VenderDetailInformation() {
           </div>
         </div>
       </div>
-     
     </div>
   );
 }

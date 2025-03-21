@@ -48,7 +48,7 @@ const CategoryDropdownListing: React.FC = () => {
     sessionStorage.removeItem("subcategories_id");
     sessionStorage.removeItem("subcategory_name");
     sessionStorage.removeItem("Category_ID");
-    sessionStorage.removeItem("Category_Name")
+    sessionStorage.removeItem("Category_Name");
   };
 
   return (

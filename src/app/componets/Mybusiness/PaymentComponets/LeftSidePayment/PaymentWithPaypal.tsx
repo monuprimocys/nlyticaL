@@ -13,7 +13,7 @@ function PaymentPayPal() {
 
   const vendor_id = Cookies.get("user_id");
 
-  const serviceid =  Cookies.get("service_id");
+  const serviceid = Cookies.get("service_id");
 
   const goal_id = sessionStorage.getItem("goalId");
   const price = sessionStorage.getItem("price");
@@ -77,7 +77,7 @@ function PaymentPayPal() {
             price: numericPrice,
             payment_mode: "paypal",
             payment_details: paymentDetails,
-            service_id:serviceid
+            service_id: serviceid,
           }),
         }
       );
@@ -85,6 +85,7 @@ function PaymentPayPal() {
       const result = await response.json();
       if (result.success) {
         dispatch(showModal("Paymentsuccessful"));
+        Cookies.set("businesspaymentsuccess", "1");
       }
     } catch (error) {
       console.error("Payment processing error:", error);
