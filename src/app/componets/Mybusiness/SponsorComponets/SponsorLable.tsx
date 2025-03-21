@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { useGetAllCompain } from "@/app/storeApp/api/useGetAllCompain";
-import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 function SponsorLable() {
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
   const router = useRouter();
@@ -26,13 +26,18 @@ function SponsorLable() {
 
   const is_store = Cookies.get("is_store");
 
+  const subscriber_user = Cookies.get("subscriber_user");
   const handleCardClick = () => {
-    if (Number(is_store) === 0) {
-      disptach(showModal("CheackStoreAdd"));
+    if (Number(subscriber_user) === 0) {
+      dispatch(showModal("CheackStoreAdd"));
+      dispatch(hideModal("CheackStoreandPlaneModal"));
+    } else if (Number(subscriber_user) === 1) {
+      dispatch(showModal("CheackStoreandPlaneModal"));
     } else {
-      router.push(`/bussines/Sponsor`);
+      router.push(`/business/Sponsor`);
     }
   };
+  
 
   const dispatch = useAppDispatch();
   return (

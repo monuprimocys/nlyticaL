@@ -19,11 +19,15 @@ function AddContact() {
     useUpdateServiceMutation();
 
   const is_store = Cookies.get("is_store");
+  const subscriber_user = Cookies.get("subscriber_user");
 
   const handalmodalopne = () => {
-    if (Number(is_store) === 0) {
+    if (Number(subscriber_user) === 0) {
       dispatch(showModal("CheackStoreAdd"));
-      dispatch(hideModal("ContactDetailsModal"));
+      dispatch(hideModal("CheackStoreandPlaneModal"));
+    }
+    if (Number(subscriber_user) === 1) {
+      dispatch(showModal("CheackStoreandPlaneModal"));
     } else {
       if (vendor_id && service_id) {
         updateService({ vendor_id, service_id }); // API call on button click
