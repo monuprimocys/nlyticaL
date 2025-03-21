@@ -19,8 +19,9 @@ function AddPhotos() {
   const [updateService, { data, isLoading, error }] =
     useUpdateServiceMutation();
 
-
   const subscriber_user = Cookies.get("subscriber_user");
+
+  const is_store = Cookies.get("is_store");
 
   const handalmodalopne = () => {
     if (Number(subscriber_user) === 0) {
@@ -28,7 +29,7 @@ function AddPhotos() {
       dispatch(hideModal("CheackStoreandPlaneModal"));
       dispatch(hideModal("BusinessImagesModal"));
     }
-    if (Number(subscriber_user) === 1) {
+    if (Number(subscriber_user) === 1 && Number(is_store) === 0) {
       dispatch(showModal("CheackStoreandPlaneModal"));
     } else {
       if (vendor_id && service_id) {

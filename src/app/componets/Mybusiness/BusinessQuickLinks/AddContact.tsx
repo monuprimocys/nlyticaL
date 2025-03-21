@@ -26,7 +26,7 @@ function AddContact() {
       dispatch(showModal("CheackStoreAdd"));
       dispatch(hideModal("CheackStoreandPlaneModal"));
     }
-    if (Number(subscriber_user) === 1) {
+    if (Number(subscriber_user) === 1 && Number(is_store) === 0) {
       dispatch(showModal("CheackStoreandPlaneModal"));
     } else {
       if (vendor_id && service_id) {

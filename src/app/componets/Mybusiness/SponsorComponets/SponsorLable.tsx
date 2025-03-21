@@ -31,13 +31,12 @@ function SponsorLable() {
     if (Number(subscriber_user) === 0) {
       dispatch(showModal("CheackStoreAdd"));
       dispatch(hideModal("CheackStoreandPlaneModal"));
-    } else if (Number(subscriber_user) === 1) {
+    } else if (Number(subscriber_user) === 1 && Number(is_store) === 0) {
       dispatch(showModal("CheackStoreandPlaneModal"));
     } else {
       router.push(`/business/Sponsor`);
     }
   };
-  
 
   const dispatch = useAppDispatch();
   return (

@@ -55,13 +55,17 @@ function ServiceDetailScreenModalImage() {
             </button>
 
             {/* Image Display with Scrolling */}
-            <div className="w-full  h-[550px] overflow-y-auto grid gap-4 px-2 md:px-4 md:grid-cols-3 grid-cols-2 xl:grid-cols-5 py-3">
+            <div
+              className={`w-full h-fit ${
+                serviceImages.length > 15 ? "max-h-[500px] overflow-y-auto" : ""
+              } grid gap-4 px-2 md:px-4 md:grid-cols-3 grid-cols-2 xl:grid-cols-5 py-3`}
+            >
               {/* Iterate over all images */}
               {serviceImages && serviceImages.length > 0 ? (
                 serviceImages.map((image, index) => (
                   <div
                     key={index}
-                    className="w-full mt-4  h-32 rounded-xl cursor-pointer overflow-hidden   "
+                    className="w-full mt-4 h-32 rounded-xl cursor-pointer overflow-hidden"
                     onClick={() => {
                       dispatch(showModal("ServiceDetailScreenImageSubModal"));
                     }}

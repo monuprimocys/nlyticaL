@@ -63,7 +63,7 @@ function MybusinessLable() {
       disptach(showModal("CheackStoreAdd"));
       disptach(hideModal("CheackStoreandPlaneModal"));
     }
-    if (Number(subscriber_user) === 1) {
+    if (Number(subscriber_user) === 1  &&  Number(is_store) === 0) {
       disptach(showModal("CheackStoreandPlaneModal"));
     }
     if (!service_name) {
