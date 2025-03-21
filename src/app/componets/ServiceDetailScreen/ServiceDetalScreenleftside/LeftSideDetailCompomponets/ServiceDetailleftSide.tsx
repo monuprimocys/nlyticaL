@@ -98,7 +98,7 @@ function ServiceDetailleftSide() {
                   isDarkMode ? "text-white" : "text-[#535353]"
                 }`}
               >
-                {store.store_description}
+                {store.store_description} 
               </p>
             </div>
           </div>

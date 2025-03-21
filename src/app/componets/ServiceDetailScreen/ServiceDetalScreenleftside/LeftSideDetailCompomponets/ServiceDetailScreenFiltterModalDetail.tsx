@@ -69,19 +69,16 @@ function ServiceDetailScreenFiltterModalDetail() {
                 <div className="flex flex-col md:flex-row gap-6 w-full ">
                   <div className="w-full py-2 flex flex-col justify-between gap-3">
                     <div className="flex justify-between items-center">
-                      <button className="rounded-lg bg-[#0046AE] text-white px-5 py-[6px] font-poppins">
-                        Hospital
-                      </button>
+                      <div>
+                        <p className="font-poppins  text-lg text-black">
+                          {cardData[0].store_name}
+                        </p>
+                      </div>
                       <p className="font-poppins text-xl font-medium text-black">
                         {cardData[0].price}
                       </p>
                     </div>
 
-                    <div>
-                      <p className="font-poppins text-lg text-black">
-                        {cardData[0].store_name}
-                      </p>
-                    </div>
                     <div>
                       <p className="font-poppins text-sm text-[#535353] line-clamp-3">
                         {cardData[0].store_description}

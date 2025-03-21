@@ -117,7 +117,7 @@ function ServiceDetailScreenFiltterModal() {
                               isDarkMode ? "text-white" : " text-[#0046AE]"
                             }`}
                           >
-                            {store.store_name}
+                            {store.store_name} 
                           </div>
                           {/* Right arrow */}
                           <Image
