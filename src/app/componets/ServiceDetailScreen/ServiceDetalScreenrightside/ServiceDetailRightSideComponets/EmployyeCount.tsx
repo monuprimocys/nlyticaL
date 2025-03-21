@@ -25,6 +25,14 @@ function EmployyeCount() {
   const { data, error, isLoading } = useServiceDetailApi(lastSegment);
   const isDarkMode = useAppSelector((state) => state.darkMode.isDarkMode);
 
+  const count = data?.serviceDetail.employee_strength;
+
+  console.log(" my addddddddddddddddddddd333333333333333333333333", count);
+
+  if (!count) {
+    return null;
+  }
+
   return (
     <div
       className={` px-3 py-1 rounded-lg shadow-md border transition-all duration-300 ${
