@@ -27,7 +27,7 @@ function EmployyeCount() {
 
   return (
     <div
-      className={`p-3 rounded-lg shadow-md border transition-all duration-300 ${
+      className={` px-3 py-1 rounded-lg shadow-md border transition-all duration-300 ${
         isDarkMode ? "bg-[#212121] border-gray-700" : "bg-white bordercolo"
       }`}
     >

@@ -4,7 +4,7 @@ import { hideModal } from "@/app/storeApp/Slice/modalSlice";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import Image from "next/image";
 import crossicon from "../../../../../../../public/assets/Image/crossicon.png";
-import "../../../businesscss.css";  
+import "../../../businesscss.css";
 import UploadStoreImage from "./UploadStoreImage";
 import AddStoreName from "./AddStoreName";
 import AddStoreDescrition from "./AddStoreDescrition";
@@ -87,16 +87,23 @@ function AddStoreModal() {
         progress: undefined,
       });
 
-      // 2. Once the store is added, refetch the store list
-      if (service_id) {
-        const refetchedData = await refetch(); // Refetch the store list to update the data
-        if (refetchedData?.data?.StoreList) {
-          dispatch(setStoreList(refetchedData.data.StoreList)); // Dispatch to Redux store once data is fetched
-        }
-      }
-      refetch();
+      setTimeout(() => {
+        // 2. Once the store is added, refetch the store list
+        if (service_id) {
+          const refetchedData =  refetch(); // Refetch the store list to update the data
 
-      close(); // Close the modal after successful submission
+          console.log(
+            "Refetched data:@@@@@@@@@@@@@@@@@@@@@@",
+            refetchedData.data?.StoreList
+          );
+          if (refetchedData?.data?.StoreList) {
+            dispatch(setStoreList(refetchedData.data.StoreList)); // Dispatch to Redux store once data is fetched
+          }
+        }
+        refetch();
+
+        close(); // Close the modal after successful submission
+      }, 5000);
     } catch (error) {
       console.error("Error saving store or fetching store list:", error);
 

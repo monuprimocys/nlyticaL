@@ -18,6 +18,7 @@ import Cookies from "js-cookie";
 import { useServiceLead } from "@/app/storeApp/api/ServiceDetailScreenApi/useServiceLead";
 import { toast } from "react-toastify";
 import { decodeString } from "@/app/utils/enocodeAndDecode";
+import { showModal } from "@/app/storeApp/Slice/modalSlice";
 
 function SecondSection() {
   const pathname = usePathname();
@@ -52,8 +53,6 @@ function SecondSection() {
   // when clikc on  message btn
   const { data: userdetail, error, isLoading } = useServiceDetailApi(from_id);
 
- 
-
   const searchQuery = useSelector(
     (state: { search: { query: string } }) => state.search.query
   );
@@ -64,7 +63,14 @@ function SecondSection() {
 
   const service_id12 = Cookies.get("service_id");
 
+  const dispatch = useDispatch();
+
   const handleAddChatList = async () => {
+    if (!Cookies.get("user_id")) {
+      dispatch(showModal("loginModal"));
+      return;
+    }
+
     const lastSegment = sessionStorage.getItem("serviceId");
 
     // Check if lastSegment and service_id are the same
