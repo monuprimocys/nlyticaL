@@ -37,7 +37,7 @@ const BusinessAddress: React.FC<BusinessAddressProps> = ({ required }) => {
         }`}
         htmlFor="address"
       >
-        Business Address
+        Business Address 
         <span className="text-[#F21818] pl-[1px]">*</span>
       </label>
       <div className="relative mt-2 flex items-center">

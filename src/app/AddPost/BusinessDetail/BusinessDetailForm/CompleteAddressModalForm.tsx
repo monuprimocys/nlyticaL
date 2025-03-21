@@ -20,19 +20,20 @@ function CompleteAddressModalForm() {
   );
 
   const locationinputnoxvalues = currentlocationvalues.selectedLocation
-  ? currentlocationvalues.selectedLocation
-      .split(" ")
-      .slice(-5)
-      .filter((word) => !/\d/.test(word))
-  : []; // Remove any word containing numbers;
+    ? currentlocationvalues.selectedLocation
+        .split(" ")
+        .slice(-5)
+        .filter((word) => !/\d/.test(word))
+    : []; // Remove any word containing numbers;
 
-// Get second-to-last value for state, and the last value for country
-const mystate = locationinputnoxvalues[locationinputnoxvalues.length - 2] || "";
-const mycountry = locationinputnoxvalues[locationinputnoxvalues.length - 1] || "";
+  // Get second-to-last value for state, and the last value for country
+  const mystate =
+    locationinputnoxvalues[locationinputnoxvalues.length - 2] || "";
+  const mycountry =
+    locationinputnoxvalues[locationinputnoxvalues.length - 1] || "";
 
-console.log("My state value: ", mystate);
-console.log("My country value: ", mycountry);
-
+  console.log("My state value: ", mystate);
+  console.log("My country value: ", mycountry);
 
   const defaultCurrentlocation = useAppSelector(
     (state) => state.currentLocation
@@ -72,8 +73,8 @@ console.log("My country value: ", mycountry);
     .slice(-5)
     .filter((word) => !/\d/.test(word)); // Remove any word containing numbers
 
-  const state = locationParts[locationParts.length-2] || "";
-  const country = locationParts[locationParts.length-1] || ""
+  const state = locationParts[locationParts.length - 2] || "";
+  const country = locationParts[locationParts.length - 1] || "";
 
   console.log(" my  state values", country);
 
@@ -85,7 +86,7 @@ console.log("My country value: ", mycountry);
   const [landmark, setLandmark] = useState(address.landmark);
   const [cityName, setCityName] = useState(address.cityName);
 
-  const myaddpostslicevalues = useAppSelector((state) => state.AddPost);
+  const [address12, setaddress12] = useState(address.address);
 
   // Update Redux store when form changes
   const handleSaveAddress = (e: React.FormEvent) => {
@@ -144,13 +145,14 @@ console.log("My country value: ", mycountry);
 
       {/* form values */}
       <form className="flex w-full flex-col gap-6" onSubmit={handleSaveAddress}>
-        {/* area */}
+        {/*  addresss */}
+
         <div className="">
           <label
             className="flex gap-[2px] text-sm font-medium text-[#000000]"
             htmlFor="area"
           >
-            <span>Area / Sector / Locality</span>{" "}
+            <span>Address(House No, Building, Street)</span>{" "}
             <span className="h-1 w-1 rounded-full text-red-600">*</span>
           </label>
 
@@ -162,18 +164,19 @@ console.log("My country value: ", mycountry);
               value={area}
               onChange={(e) => setArea(e.target.value)} // Update local state
               className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
-              placeholder="Area / Sector / Locality"
+              placeholder="Enter Full Address"
               required={true}
             />
           </div>
         </div>
-        {/* city */}
+
+        {/* area */}
         <div className="">
           <label
             className="flex gap-[2px] text-sm font-medium text-[#000000]"
             htmlFor="area"
           >
-            <span>City</span>{" "}
+            <span>Area</span>{" "}
             <span className="h-1 w-1 rounded-full text-red-600">*</span>
           </label>
 
@@ -181,34 +184,11 @@ console.log("My country value: ", mycountry);
             <input
               type="text"
               id="area"
-              name="cityName"
-              value={cityName}
-              onChange={(e) => setCityName(e.target.value)} // Update local state
+              name="area"
+              value={area}
+              onChange={(e) => setArea(e.target.value)} // Update local state
               className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
-              placeholder="City"
-              required={true}
-            />
-          </div>
-        </div>
-
-        {/* flate number */}
-        <div className="">
-          <label
-            className="flex gap-[2px] text-sm font-medium text-[#000000]"
-            htmlFor="house"
-          >
-            <span>House/Flat/ Block No </span>{" "}
-            <span className="h-1 w-1 rounded-full text-red-600">*</span>
-          </label>
-          <div className="relative mt-2 flex items-center">
-            <input
-              type="text"
-              id="house"
-              name="house"
-              value={house}
-              onChange={(e) => setHouse(e.target.value)} // Update local state
-              className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
-              placeholder="House/Flat/ Block No"
+              placeholder="Enter Area Name"
               required={true}
             />
           </div>
@@ -230,10 +210,60 @@ console.log("My country value: ", mycountry);
               value={landmark}
               onChange={(e) => setLandmark(e.target.value)} // Update local state
               className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
-              placeholder="Nearby landmark"
+              placeholder="Enter Nearby Landmark"
             />
           </div>
         </div>
+        {/*  city and state */}
+        <div className=" w-full flex  justify-between gap-4  md:flex-row flex-col">
+          {/* city */}
+          <div className="">
+            <label
+              className="flex gap-[2px] text-sm font-medium text-[#000000]"
+              htmlFor="area"
+            >
+              <span>City</span>{" "}
+              <span className="h-1 w-1 rounded-full text-red-600">*</span>
+            </label>
+
+            <div className="relative mt-2 flex items-center">
+              <input
+                type="text"
+                id="area"
+                name="cityName"
+                value={cityName}
+                onChange={(e) => setCityName(e.target.value)} // Update local state
+                className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
+                placeholder="City"
+                required={true}
+              />
+            </div>
+          </div>
+
+          {/* State* */}
+          <div className="">
+            <label
+              className="flex gap-[2px] text-sm font-medium text-[#000000]"
+              htmlFor="house"
+            >
+              <span>State</span>{" "}
+              <span className="h-1 w-1 rounded-full text-red-600">*</span>
+            </label>
+            <div className="relative mt-2 flex items-center">
+              <input
+                type="text"
+                id="house"
+                name="house"
+                value={house}
+                onChange={(e) => setHouse(e.target.value)} // Update local state
+                className="font-poppins inputboxborder w-full rounded-md border bg-white py-4 pl-3 pr-[3rem] text-[#000000] placeholder-gray-500 focus:border-[#B5843F66] focus:outline-none focus:ring-[#B5843F66]"
+                placeholder=" State"
+                required={true}
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="bg mx-auto flex w-[70%] items-center justify-center">
           <button
             type="submit"
