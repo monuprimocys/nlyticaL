@@ -54,6 +54,7 @@ interface ModalState {
   ImageModalMessage: boolean;
   ImageModalRightSide: boolean;
   CheackStoreAdd: boolean;
+  CheackStoreandPlaneModal: boolean;
 }
 
 const initialState: ModalState = {
@@ -110,6 +111,7 @@ const initialState: ModalState = {
   ImageModalMessage: false,
   ImageModalRightSide: false,
   CheackStoreAdd: false,
+  CheackStoreandPlaneModal: false,
 };
 
 const modalSlice = createSlice({

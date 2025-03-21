@@ -70,6 +70,7 @@ import ImageModalMessage from "../componets/message/MessageBox/ImageModalMessage
 import ImageModalRightSide from "../componets/message/MessageBox/ImageModalRightSide";
 import CheackStoreAdd from "../bussines/CheackStoreAdd";
 import Dropdwonlangugae from "../componets/Language/Dropdwonlangugae";
+import CheackStoreandPlaneModal from "../bussines/CheackStoreandPlaneModal";
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -314,6 +315,10 @@ function Header() {
 
   const isCheackStoreAddVisibility = useAppSelector(
     (state) => state.modals.CheackStoreAdd
+  );
+
+  const isCheackStoreandPlaneModalVisibility = useAppSelector(
+    (state) => state.modals.CheackStoreandPlaneModal
   );
 
   const handleMenuToggle = () => {
@@ -912,6 +917,7 @@ function Header() {
       {isImageModalMessageVisibility && <ImageModalMessage />}
       {isImageModalRightSideVisibility && <ImageModalRightSide />}
       {isCheackStoreAddVisibility && <CheackStoreAdd />}
+      {isCheackStoreandPlaneModalVisibility && <CheackStoreandPlaneModal />}
     </header>
   );
 }

@@ -7,7 +7,7 @@ import { useTotalPercentage } from "@/app/storeApp/api/useTotalPercentage";
 import { useAppSelector } from "@/app/hooks/hooks";
 import { useUpdateServiceMutation } from "@/app/storeApp/api/updateServiceApi";
 import { useDispatch } from "react-redux";
-import { showModal } from "@/app/storeApp/Slice/modalSlice";
+import { hideModal, showModal } from "@/app/storeApp/Slice/modalSlice";
 
 function MybusinessLable() {
   const router = useRouter();
@@ -56,12 +56,16 @@ function MybusinessLable() {
   const service_name = updateservicedata?.service.service_name;
 
   const is_store = Cookies.get("is_store");
+  const subscriber_user = Cookies.get("subscriber_user");
 
   const handleCardClick = () => {
-    if (Number(is_store) === 0) {
+    if (Number(subscriber_user) === 0) {
       disptach(showModal("CheackStoreAdd"));
+      disptach(hideModal("CheackStoreandPlaneModal"));
     }
-
+    if (Number(subscriber_user) === 1) {
+      disptach(showModal("CheackStoreandPlaneModal"));
+    }
     if (!service_name) {
       console.error("Invalid serviceId or serviceName");
       return;
