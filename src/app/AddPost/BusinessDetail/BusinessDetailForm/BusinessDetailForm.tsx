@@ -117,10 +117,7 @@ function BusinessDetailForm() {
       toast.error("Service description is required");
       return false;
     }
-    if (!joinAddress) {
-      toast.error("Address is required");
-      return false;
-    }
+    
 
     if (!category_id) {
       toast.error("Please select a category");
