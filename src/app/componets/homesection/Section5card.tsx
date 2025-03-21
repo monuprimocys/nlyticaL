@@ -95,7 +95,7 @@ const Section5card = ({ data }) => {
       <div
         className="relative w-full h-[45%] sm:h-[45%] md:h-[50%] rounded-t-xl"
         style={{
-          backgroundImage: `url(${data.service_images[0]})`,
+          backgroundImage: `url(${data.cover_image})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

@@ -102,7 +102,7 @@ function SponsorStoresCard({ data }) {
         <div
           className=" w-full h-full"
           style={{
-            backgroundImage: `url(${data.service_images[0]})`,
+            backgroundImage: `url(${data.cover_image})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             borderRadius: "10px",

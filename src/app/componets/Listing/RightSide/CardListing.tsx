@@ -280,7 +280,7 @@ function CardListing() {
               {currentItems.map((card, index) => (
                 <GridCard
                   key={index}
-                  service_images={{ src: card.service_images[0] }}
+                  service_images={{ src: card.cover_image }}
                   category={card.category_name}
                   avatar={card.image}
                   name={`${card.first_name} ${card.last_name || ""}`}
@@ -307,7 +307,7 @@ function CardListing() {
                   onClick={() => handleCardClick(card.id, card.service_name)}
                 >
                   <ListCard
-                    service_images={{ src: card.service_images[0] }}
+                    service_images={{ src: card.cover_image }}
                     category={card.category_name}
                     avatar={card.image}
                     name={`${card.first_name} ${card.last_name || ""}`}
