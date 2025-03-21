@@ -256,7 +256,7 @@ function BusinessTime() {
       await addService(formData).unwrap();
       toast.success("Service added successfully");
       dispatch(hideModal("AddPostModal"));
-      // window.location.reload();
+      window.location.reload();
       Cookies.set("FormSubmited", "true");
     } catch (err) {}
   };
