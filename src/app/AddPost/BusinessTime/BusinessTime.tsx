@@ -126,10 +126,7 @@ function BusinessTime() {
       toast.error("Service phone is required");
       return false;
     }
-    if (!joinAddress) {
-      toast.error("Address is required");
-      return false;
-    }
+    
     if (!storesliceImage || storesliceImage.length === 0) {
       toast.error("Service image is required");
       return false;
